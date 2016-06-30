@@ -1,0 +1,62 @@
+select bb.* from pms_fp_mst aa 
+  join pms_fp_det bb on aa.id_fp = bb.f_fp
+  where aa.sys_status_aktif='A' and bb.sys_status_aktif='A';
+
+create or replace view v_fp_rangkuman as
+select f_pnwr, max(total_biaya) total_biaya, 
+  IFNULL(sum(nilai_biaya_persen),0) total_nilai_biaya_persen,
+  sum(nilai_biaya) total_nilai_biaya,
+  sum(nilai_potongan_persen) total_nilai_potongan_persen,
+  sum(nilai_potongan) total_nilai_potongan,
+  sum(nilai_hpp) total_nilai_hpp,
+  sum(nilai_ppn) total_nilai_ppn,
+  sum(nilai_akhir) total_nilai_akhir
+from pms_fp_mst aa 
+  join pms_fp_det bb on aa.id_fp = bb.f_fp
+  where aa.sys_status_aktif='A' and bb.sys_status_aktif='A'
+  group by f_pnwr;
+
+
+
+SELECT aa.*, (pnwr_hpp - total_nilai_biaya) sisa FROM `pms_pnwr_mst` aa 
+  left join v_fp_rangkuman bb on aa.id_pnwr = bb.f_pnwr
+
+
+--SELECT group_concat(f_pnwr),tayang_tgl, group_concat(tayang_jam) FROM `pms_pnwr_tayang` WHERE tayang_tgl = '2016-06-22'
+00001/RSAU/SP/06/2016, 00002/RSAU/SP/06/2016, 00003/RSAU/SP/06/2016
+2016-06-22
+0815,0915,1015, 0900,1030,1300, 0915,0930
+
+
+array:2 [
+  0 => array:13 [
+    "f_fp" => "FP2016.00001"
+    "f_pnwr" => "00002/RSAU/SP/06/2016"
+    "total_biaya" => "909091"
+    "nilai_biaya_persen" => "0"
+    "nilai_biaya" => "909091"
+    "nilai_potongan_persen" => "0"
+    "nilai_potongan" => "0"
+    "nilai_hpp" => "909091"
+    "nilai_ppn" => "90909"
+    "nilai_akhir" => "1000000"
+    "sys_user_update" => "ADMIN"
+    "sys_tgl_update" => "2016-06-22 12:44:35"
+    "sys_status_aktif" => "A"
+  ]
+  1 => array:13 [
+    "f_fp" => "FP2016.00001"
+    "f_pnwr" => "00003/RSAU/SP/06/2016"
+    "total_biaya" => "10000000"
+    "nilai_biaya_persen" => "0"
+    "nilai_biaya" => "10000000"
+    "nilai_potongan_persen" => "0"
+    "nilai_potongan" => "0"
+    "nilai_hpp" => "10000000"
+    "nilai_ppn" => "1000000"
+    "nilai_akhir" => "11000000"
+    "sys_user_update" => "ADMIN"
+    "sys_tgl_update" => "2016-06-22 12:44:35"
+    "sys_status_aktif" => "A"
+  ]
+]
