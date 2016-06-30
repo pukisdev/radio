@@ -61,11 +61,12 @@ class realisasiController extends Controller
 
         if($id == 'NONID'){
             // $hasil = modelMst::with('pnwr')->where('sys_status_aktif','A')->where('tayang_tgl',Carbon::today())->paginate(5);
-            $hasil['tanggal'] = Carbon::today();
+            // $hasil['tanggal'] = Carbon::today();
+            $hasil['tanggal'] = Carbon::parse('06/23/2016');
             $hasil['data']  = modelMst::with('pnwr','pnwr.customer')->where('sys_status_aktif','A')->where('tayang_tgl',$hasil['tanggal'])->get();
 
         }else{
-            $hasil['tanggal'] = Carbon::parse($id)->format('m/d/Y');
+            $hasil['tanggal'] = Carbon::parse($id);//->format('m/d/Y');
             $hasil['data'] = modelMst::where('sys_status_aktif','A')->where('tayang_tgl',$hasil['tanggal'])->get(); 
         }
         
@@ -74,15 +75,19 @@ class realisasiController extends Controller
                 // dd($isi->tayang_jam);
                 // $hasil['data'][$index]['jam']   = explode(',',$isi->tayang_jam);
                 foreach (explode(',',$isi->tayang_jam) as $key => $value) {
-                    $jam[] = (int)substr($value,0,2);
+                    $jam[$index][] = (int)substr($value,0,2);
                     // $hasil['data'][$index]['jam'][$key] = substr($value,0,2);
-                    // echo substr($value,0,2)." ";               
+                    // echo $index.' = '.substr($value,0,2)."\\n";               
                 }       
+                $jam[$index] = array_unique($jam[$index]);
                 $hasil['data'][$index]['jam'] = $jam;
                 // dd($hasil['data'][$index]['jam']);
                 // echo '\n';
                 // dd($hasil['data'][$index]);
+                // print_r(array_unique($jam[$index]));
+                // print_r($jam[$index]);
             }
+                // dd($jam);
 
         // dd(DB::getQueryLog());
         // dd($hasil);

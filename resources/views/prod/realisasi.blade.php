@@ -45,9 +45,9 @@
                                             <!-- <th>00</th><th>01</th><th>02</th><th>03</th><th>04</th><th>05</th><th>06</th><th>07</th><th>08</th><th>09</th><th>10</th><th>11</th> -->
                                             <!-- <th>12</th><th>13</th><th>14</th><th>15</th><th>16</th><th>17</th><th>18</th><th>19</th><th>20</th><th>21</th><th>22</th><th>23</th> -->
                                             <!-- <th>05</th><th>07</th><th>08</th><th>09</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th> -->
-                                            <tr ng-repeat="values2 in _jam" class="jam">
-                                              [[ ($index < 10) ? '0'.$index : $index ]]  
-                                            </tr>
+                                            <th ng-repeat="values2 in _jam" class="jam">
+                                              [[ (($index+5) < 10) ? '0'+($index+5) : ($index+5) ]]  
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -57,8 +57,10 @@
                                             <td>[[ values.pnwr.judul_iklan ]]</td>
                                             <!-- <td>[[ values.tayang_tgl ]]</td> -->
                                             <td ng-repeat="values2 in _jam" class="jam">
-                                                <input ng-model="dataModal[$parent.$index].tayang_jam[$index]" ng-if="((values.jam).indexOf(values2+5)>0)" class="form-control input-sm" mask='59' mask-clean='true' restrict="reject">
-
+                                                <input ng-model="dataModal[$parent.$index].tayang_jam[$index]" ng-if="((values.jam[$parent.$index]).indexOf(values2+5)>-1)" class="form-control input-sm" mask='59' mask-clean='true' restrict="reject">
+                                                <!-- [[ values.jam[$parent.$index] + (values2+5) ]]     -->
+                                                <!-- [[ ((values.jam[$parent.$index]).indexOf(values2+5)>0) ]]     -->
+                                                <!-- [[ (jQuery.inArray(values2+5, values.jam[$parent.$index])>-1) ]]     -->
                                                 <!-- [[ ((values.jam).indexOf(values2)>0) ? 'ada' : '' ]] -->
                                             </td>
                                         </tr>
