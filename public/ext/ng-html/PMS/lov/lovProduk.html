@@ -1,0 +1,52 @@
+<div class="modal fade" id="idModalProduk" tabindex="-1" role="dialog" aria-labelledby="myModalProduk" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-tools" style="display:inline-table">
+                    <div class="box-tools" style="display:inline-table">
+                        <div class="input-group">
+                            <input type="text" class="form-control input-sm ng-valid ng-dirty" placeholder="Master Produk" ng-change="searchDBProduk()" ng-model="searchTextProduk" name="table_search" title="" tooltip="" data-original-title="Min character length is 3">
+                            <span class="input-group-addon">Search</span>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <!-- <h4 class="modal-title" id="myModalLabel">[[ form_title ]]</h4> -->
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered pagin-table">
+                    <thead>
+                        <tr>
+                            <th>Pilih</th>
+                            <th>ID Produk</th>
+                            <th>Produk</th>
+                            <th>Durasi</th>
+                            <th>Harga</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr  dir-paginate="values in _dataProduk | itemsPerPage:5" total-items="totalItemsProduk" pagination-id="paginationProduk">
+                            <td>
+                                <button type="button" ng-click="lovProdukSelected('idModalProduk', values)" class="btn btn-success btn-sm" aria-label="Left Align">
+                                  <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                </button>
+                            </td>
+                            <td>[[ values.id_produk ]]</td>
+                            <td>[[ values.nama ]]</td>
+                            <td>[[ values.durasi ]] [[ values.satuan_durasi ]]</td>
+                            <td>[[ values.tarif[0].harga ]] per [[ values.tarif[0].satuan_durasi ]] </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="7">
+                                <p class="pull-left pagination">Menampilkan <strong>[[ tableProduk.CurrentItems ]]</strong> Dari <strong>[[ tableProduk.TotalItems ]]</strong></p>
+                                <dir-pagination-controls pagination-id="paginationProduk" class="pull-right" on-page-change="pageChangedProduk(newPageNumber)" template-url="/ext/ng-html/dirPagination.html" ></dir-pagination-controls>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,46 @@
+<!-- contact.html -->
+    <div class="jumbotron text-center">
+        <h1>Contact Page</h1>
+
+        <p>{{ message }}</p>
+    </div>
+
+     <table class="table table-bordered pagin-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Contact No</th>
+                <th>Position</th>
+                <th><button id="btn-add" class="btn btn-primary btn-xs" ng-click="toggle('add', 0)">Produk Baru</button></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="values in produks">
+                <td>{{  values.id_produk }}</td>
+                <td>{{  values.nama }}</td>
+                <td>{{  values.durasi }}</td>
+                <td>{{  values.satuan_durasi }}</td>
+                <td>{{  values.sys_status_aktif }}</td>
+                <td>
+                    <a class="btn btn-default btn-xs btn-detail" href="contact/{{values.id_produk}}">Edit</a>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <!-- <td colspan="7">
+                    <p class="pull-left pagination">Menampilan <strong>{{  table.CurrentItems }}</strong> Dari <strong>{{  table.TotalItems }}</strong></p>
+                    <dir-pagination-controls class="pull-right" on-page-change="pageChanged(newPageNumber)" template-url="/ext/ng-html/dirPagination.html" ></dir-pagination-controls>
+                </td> -->
+            </tr>
+        </tfoot>
+    </table>
+    <label for="">loopnya </label>
+    <input type="number" ng-model="loopnya" ng-change="buat()">
+        
+    <!-- <div ng-repeat="i in [1,2,10]"> -->
+    <div ng-repeat="i in loopnyaArray">
+      <span>do something1</span>
+    </div>

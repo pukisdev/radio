@@ -1,0 +1,59 @@
+<script>
+    // $('.datePicker').datepicker(
+    //     {format : 'yyyy-mm-dd'}
+    // );
+    $.fn.datepicker.defaults.format = "yyyy-mm-dd   ";
+</script>
+
+<div class="modal fade" id="idModalLibur" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="myModalLabel">[[ form_title ]]</h4>
+            </div>
+            <div class="modal-body">
+                <form name="frmLibur" class="form-horizontal" novalidate="">
+
+                    <div class="form-group error" ng-class="{ 'has-error' : frmLibur.id_tanggal.$invalid && frmLibur.id_tanggal.$touched }">
+                        <label for="inputEmail3" class="col-sm-3 control-label">Tanggal</label>
+                        <div class="col-sm-9">
+                            <div class="input-group date" data-provide="datepicker">
+                            <!-- <p class="input-group"> -->
+                                <!-- <input type="date" class="form-control" placeholder="Tanggal" name="id_tanggal" value="2016-01-10" ng-model="libur.id_tanggal" required  alt-input-formats="altInputFormats"> -->
+                                <input type="text" class="form-control" placeholder="Tanggal" name="id_tanggal" value="2016-01-10" ng-model="libur.id_tanggal" required>
+                                <!-- <input type="text" class="form-control" placeholder="Tanggal" name="id_tanggal" value="[[ id_tanggal  | date : 'yyyy-MM-dd' ]]" ng-model="libur.id_tanggal" required  alt-input-formats="altInputFormats"> -->
+                                <!-- <input type="text" class="form-control" placeholder="Tanggal" uib-datepicker-popup="[[format]]" name="id_tanggal" value="[[ id_tanggal | date : 'yyyy-mm-dd' ]]" ng-model="libur.id_tanggal" required  alt-input-formats="altInputFormats"> -->
+                                <!-- <input type="text" class="form-control" placeholder="Tanggal" uib-datepicker-popup="[[format]]" name="id_tanggal" value="[[ id_tanggal | date : 'yyyy-mm-dd' ]]" ng-model="libur.id_tanggal" required  alt-input-formats="altInputFormats"> -->
+                              <!-- <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" /> -->
+                              <!-- <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                              </span> -->
+                                <div class="input-group-addon">
+                                    <span class="glyphicon glyphicon-th"></span>
+                                </div>
+                            <!-- </p> -->
+                            </div>
+                            <span class="help-inline" ng-messages="frmLibur.id_tanggal.$error" ng-show="frmLibur.id_tanggal.$invalid && frmLibur.id_tanggal.$touched">
+                                <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group error" ng-class="{ 'has-error' : frmLibur.deskripsi.$invalid && frmLibur.deskripsi.$touched }">
+                        <label for="inputEmail3" class="col-sm-3 control-label">Deskripsi</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control has-error" placeholder="Fullname" value="[[deskripsi]]" name="deskripsi" ng-model="libur.deskripsi" ng-minlength="5" required >
+                            <span class="help-inline" ng-messages="frmLibur.deskripsi.$error" ng-show="frmLibur.deskripsi.$invalid && frmLibur.deskripsi.$touched">
+                                <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btn-save" ng-click="save(modalstate, idState)" ng-disabled="frmLibur.$invalid">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,1934 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"ta",
+				"tayang_tgl"
+			],
+			[
+				"find",
+				"findOrFail"
+			],
+			[
+				"model",
+				"modelDet"
+			],
+			[
+				"data",
+				"dataForm"
+			],
+			[
+				"_hpp",
+				"_hppPersen"
+			],
+			[
+				"hpp",
+				"_hppPersen"
+			],
+			[
+				"_poto",
+				"_potonganNilai"
+			],
+			[
+				"_poton",
+				"_potonganPersen"
+			],
+			[
+				"tgl",
+				"tgl_jatuh_tempo"
+			],
+			[
+				"re",
+				"request-"
+			],
+			[
+				"is",
+				"isUndefined"
+			],
+			[
+				"param",
+				"parameter"
+			],
+			[
+				"selec",
+				"selectedItem"
+			],
+			[
+				"da",
+				"dataModalParam"
+			],
+			[
+				"text",
+				"textarea	Tag"
+			],
+			[
+				"para",
+				"parameter"
+			],
+			[
+				"json",
+				"json_encode"
+			],
+			[
+				"_f_",
+				"_f_pnwr"
+			],
+			[
+				"parameter",
+				"parameterOut"
+			],
+			[
+				"sc",
+				"scotchApp"
+			],
+			[
+				"route",
+				"routeParams"
+			],
+			[
+				"f_",
+				"f_produk"
+			],
+			[
+				"nama",
+				"nama_produk"
+			],
+			[
+				"Ca",
+				"Carbon"
+			],
+			[
+				"_taf",
+				"_tarifPPN"
+			],
+			[
+				"total",
+				"total_normal"
+			],
+			[
+				"pms",
+				"pms_customer_mst"
+			],
+			[
+				"req",
+				"reqMst"
+			],
+			[
+				"modal",
+				"modalstate"
+			],
+			[
+				"rep",
+				"response"
+			],
+			[
+				"padd",
+				"padding-top"
+			],
+			[
+				"e",
+				"element"
+			],
+			[
+				"jquery",
+				"jquery-gritter"
+			],
+			[
+				"pro",
+				"produks"
+			],
+			[
+				"Re",
+				"Request"
+			],
+			[
+				"API",
+				"API_URL"
+			],
+			[
+				"vali",
+				"validasi_acc"
+			],
+			[
+				"hara",
+				"harga_final"
+			],
+			[
+				"ran",
+				"random_id"
+			],
+			[
+				"base64_",
+				"base64_encode"
+			],
+			[
+				"jenis",
+				"jenis_bayar"
+			],
+			[
+				"hituga",
+				"hitung_potongan_rp"
+			],
+			[
+				"hitunga",
+				"hitung_potongan_rp"
+			],
+			[
+				"hitung",
+				"hitung_potongan_rp"
+			],
+			[
+				"mod",
+				"modal-body"
+			],
+			[
+				"v_",
+				"v_saldo_cuti"
+			],
+			[
+				"thr",
+				"throttles"
+			],
+			[
+				"reu",
+				"request"
+			],
+			[
+				"value",
+				"value_det"
+			],
+			[
+				"con",
+				"condition"
+			],
+			[
+				"sn_da",
+				"sn_data_comment"
+			],
+			[
+				"for",
+				"foreach	foreach …"
+			],
+			[
+				"m_st",
+				"m_social_network"
+			],
+			[
+				"sub",
+				"subQuery"
+			],
+			[
+				"QTY_",
+				"QTY_HPP"
+			],
+			[
+				"ad",
+				"append"
+			],
+			[
+				"NO_",
+				"NO_PENAWARAN_DET"
+			],
+			[
+				"_",
+				"_FILES"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"contents": "select bb.* from pms_fp_mst aa \n  join pms_fp_det bb on aa.id_fp = bb.f_fp\n  where aa.sys_status_aktif='A' and bb.sys_status_aktif='A';\n\ncreate or replace view v_fp_rangkuman as\nselect f_pnwr, max(total_biaya) total_biaya, \n  IFNULL(sum(nilai_biaya_persen),0) total_nilai_biaya_persen,\n  sum(nilai_biaya) total_nilai_biaya,\n  sum(nilai_potongan_persen) total_nilai_potongan_persen,\n  sum(nilai_potongan) total_nilai_potongan,\n  sum(nilai_hpp) total_nilai_hpp,\n  sum(nilai_ppn) total_nilai_ppn,\n  sum(nilai_akhir) total_nilai_akhir\nfrom pms_fp_mst aa \n  join pms_fp_det bb on aa.id_fp = bb.f_fp\n  where aa.sys_status_aktif='A' and bb.sys_status_aktif='A'\n  group by f_pnwr;\n\n\n\nSELECT aa.*, (pnwr_hpp - total_nilai_biaya) sisa FROM `pms_pnwr_mst` aa \n  left join v_fp_rangkuman bb on aa.id_pnwr = bb.f_pnwr\n\n\n--SELECT group_concat(f_pnwr),tayang_tgl, group_concat(tayang_jam) FROM `pms_pnwr_tayang` WHERE tayang_tgl = '2016-06-22'\n00001/RSAU/SP/06/2016, 00002/RSAU/SP/06/2016, 00003/RSAU/SP/06/2016\n2016-06-22\n0815,0915,1015, 0900,1030,1300, 0915,0930\n\n\narray:2 [\n  0 => array:13 [\n    \"f_fp\" => \"FP2016.00001\"\n    \"f_pnwr\" => \"00002/RSAU/SP/06/2016\"\n    \"total_biaya\" => \"909091\"\n    \"nilai_biaya_persen\" => \"0\"\n    \"nilai_biaya\" => \"909091\"\n    \"nilai_potongan_persen\" => \"0\"\n    \"nilai_potongan\" => \"0\"\n    \"nilai_hpp\" => \"909091\"\n    \"nilai_ppn\" => \"90909\"\n    \"nilai_akhir\" => \"1000000\"\n    \"sys_user_update\" => \"ADMIN\"\n    \"sys_tgl_update\" => \"2016-06-22 12:44:35\"\n    \"sys_status_aktif\" => \"A\"\n  ]\n  1 => array:13 [\n    \"f_fp\" => \"FP2016.00001\"\n    \"f_pnwr\" => \"00003/RSAU/SP/06/2016\"\n    \"total_biaya\" => \"10000000\"\n    \"nilai_biaya_persen\" => \"0\"\n    \"nilai_biaya\" => \"10000000\"\n    \"nilai_potongan_persen\" => \"0\"\n    \"nilai_potongan\" => \"0\"\n    \"nilai_hpp\" => \"10000000\"\n    \"nilai_ppn\" => \"1000000\"\n    \"nilai_akhir\" => \"11000000\"\n    \"sys_user_update\" => \"ADMIN\"\n    \"sys_tgl_update\" => \"2016-06-22 12:44:35\"\n    \"sys_status_aktif\" => \"A\"\n  ]\n]",
+			"settings":
+			{
+				"buffer_size": 1954,
+				"line_ending": "Unix",
+				"name": "select bb.* from pms_fp_mst aa"
+			}
+		},
+		{
+			"file": "app/Http/Controllers/PMS/pnwrTayangController.php",
+			"settings":
+			{
+				"buffer_size": 3969,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/Http/Controllers/PMS/pnwrMstController.php",
+			"settings":
+			{
+				"buffer_size": 7163,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "database/migrations/2016_05_11_142955_pms_fp_mst.php",
+			"settings":
+			{
+				"buffer_size": 1523,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/Http/Models/pms_tgl_libur_mst.php",
+			"settings":
+			{
+				"buffer_size": 419,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/Http/Requests/reqPmsPnwrMst.php",
+			"settings":
+			{
+				"buffer_size": 1773,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/Http/Controllers/PROD/realisasiController.php",
+			"settings":
+			{
+				"buffer_size": 3201,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/Http/Models/pms_pnwr_mst.php",
+			"settings":
+			{
+				"buffer_size": 1989,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/Http/Models/pms_customer_mst.php",
+			"settings":
+			{
+				"buffer_size": 828,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/Http/Models/pms_fp_det.php",
+			"settings":
+			{
+				"buffer_size": 954,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "resources/views/prod/realisasi.blade.php",
+			"settings":
+			{
+				"buffer_size": 5389,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/Http/routes.php",
+			"settings":
+			{
+				"buffer_size": 1828,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "public/ext/ng-html/PMS/form/pnwrTayang.html",
+			"settings":
+			{
+				"buffer_size": 3904,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "public/app/controllers/realisasi.min.js",
+			"settings":
+			{
+				"buffer_size": 7030,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "resources/views/layouts/app-angularjs.blade.php",
+			"settings":
+			{
+				"buffer_size": 8893,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "public/app/controllers/pnwrMst.min.js",
+			"settings":
+			{
+				"buffer_size": 19238,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "resources/views/pms/produk.blade.php",
+			"settings":
+			{
+				"buffer_size": 10500,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"last_filter": "Snippet: ",
+		"selected_items":
+		[
+			[
+				"Snippet: ",
+				"Snippet: rianday2"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"Snippet: cons",
+				"Snippet: function __construct"
+			],
+			[
+				"Snippet: const",
+				"Snippet: constructor"
+			],
+			[
+				"Package Control: ins",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: I",
+				"Package Control: Install Package"
+			],
+			[
+				"pac",
+				"Preferences: Browse Packages"
+			],
+			[
+				"packa",
+				"Package Control: Enable Package"
+			]
+		],
+		"width": 539.0
+	},
+	"console":
+	{
+		"height": 139.0,
+		"history":
+		[
+			"\"Emmet\"",
+			"\"Install Package\" ",
+			"\"Emmet\"",
+			"'Emmet'",
+			"Emmet",
+			"\"Install Package\" ",
+			"git checkout -t origin/python3",
+			"git checkout -t oraigin/python3",
+			"import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PROD",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/layouts",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms"
+	],
+	"file_history":
+	[
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/req_pms_produk_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_fp_mst.php",
+		"/opt/lampp/etc/extra/httpd-vhosts.conf",
+		"/etc/hosts",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/formFPMst.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/app.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_pnwr_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PROD/realisasiController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_pnwr_tayang.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_fp_det.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/fpMst.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/fpMstController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/fpDetController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/config/app.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/fpMst.min.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/customer.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/layouts/app.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/layouts/app-angularjs.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/routes.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/vendor/symfony/routing/Router.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/bootstrap/app.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/PMS/lov/lovPnwr.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/tbl_user.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/customerController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/reqTblUser.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/modalUser.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/userMst.min.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/layouts/app-user.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/vuser.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/userController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/explain.txt",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/pnwrMst.min.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/pnwrMstController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/formPnwrMst.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/lovPnwr.min.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/pnwrTayangController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_11_143840_pms_fp_det.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/keu_bank_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_10_135752_pms_customer_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/PMS/form/pnwrTayang.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/pnwrMst.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/PMS/lov/lovCustomer.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/PMS/form/pnwrMateri.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_customer_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/reqPmsPnwrMateri.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/liburController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/lovProduk.min.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/reqPmsFpMst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/pnwrMateriController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_10_153433_pms_pnwr_materi.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/reqPmsPnwrTayang.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_10_152925_pms_pnwr_tayang.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/templates/gentelella/master/production/form_advanced.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/PMS/lov/lovProduk.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/produk.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/trash_test/script.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/trash_test/contact.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/reqPmsPnwrMst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/trash_test/index.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/trash_test/modal.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/produkController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/modalProduk.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/produk.min.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/tarifController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/reqPmsProdukTarif.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/libur.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/index.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/trash_test/contactDetail.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/welcome.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/home.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/trash_test/style.css",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/trash_test/home.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/trash_test/about.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_produk_tarif.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_produk_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_10_145928_pms_pnwr_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/dirPagination.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/modalTarif.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/modalCustomer.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/.env",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_tgl_libur_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/reqPmsTglLiburMst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/reqPmsCustomerMst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/libur.min.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/messages.html",
+		"/home/rianday/Downloads/angular-currency-mask-master/demo.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/modalLibur.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/modalPnwrMst.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/lib/ui-date-master/demo/index.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/layouts/app.blade.backup.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/produk.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/helpers/myHelper.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/vendor/laravel/framework/src/Illuminate/Database/Connection.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/reqPmsFpDet.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/reqPmsPnwrSpk.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_pnwr_materi.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_pnwr_spk.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_11_142111_pms_pnwr_spk.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/Models/pms_fp_det.php",
+		"/home/rianday/.config/sublime-text-3/Packages/User/rianday2.sublime-snippet",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_10_145331_pms_tgl_libur_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/css/font-awesome.min.css",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/css/google.font.css",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/default/header.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/default/head.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/layouts/default.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_10_135156_pms_produk_tarif.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/config/database.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/Request.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/vendor/laravel/framework/src/Illuminate/Foundation/Http/FormRequest.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/produk.blade.backup.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/lib/angular-1.5.5/dirPagination.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/messages.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/layouts/messages.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Providers/AppServiceProvider.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_08_103339_create_pms_produk_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/helper/myHelper.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/customer.js",
+		"/opt/lampp/htdocs/bigforum/resources/views/voucher/tbl_order.blade.php",
+		"/opt/lampp/htdocs/bigforum/resources/views/voucher/tbl_index.blade.php",
+		"/opt/lampp/htdocs/bigforum/resources/views/voucher/v_index.blade.php",
+		"/opt/lampp/htdocs/bigforum/app/Http/routes.php",
+		"/opt/lampp/htdocs/bigforum/app/Http/Controllers/voucher/AdmVoucherController.php",
+		"/opt/lampp/htdocs/bigforum/resources/views/voucher/includes/f_konfirmasi_pembayaran.blade.php",
+		"/opt/lampp/htdocs/bigforum/resources/views/voucher/includes/f_confirm_chart.blade.php",
+		"/opt/lampp/htdocs/bigforum/resources/views/admin/set-kpi-detail.blade.php",
+		"/opt/lampp/htdocs/bigforum/resources/views/voucher/includes/f_invoice.blade.php"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"00",
+			">\n",
+			"where",
+			"nilai_ppn",
+			"nilai_hpp",
+			"Alamat",
+			"id_customer",
+			"app",
+			"nama",
+			"Nama",
+			"nama",
+			"nama_customer",
+			"id_customer",
+			"Customer",
+			"customer",
+			"ppn",
+			"hpp",
+			"_potongan_persen",
+			"_hpp_nilai",
+			"_hpp_persen",
+			"biaya",
+			"=>",
+			",",
+			"keterangan",
+			"pms_customer_mst",
+			"=",
+			"    = ",
+			"=",
+			"tayang",
+			"modalstate",
+			"Modal",
+			"'data'",
+			"nilai_biaya_persen",
+			"[_index]",
+			"=",
+			"dataForm[$index]",
+			"judul_iklan",
+			"dataForm[$index].",
+			"dataForm[$index]",
+			"scope.dataForm.push",
+			"[j]",
+			"j",
+			"dataForm",
+			"=",
+			"_data",
+			"trDataForm_",
+			"response",
+			"$scope.dataForm[_index]['",
+			"judul_iklan",
+			"        $scope.dataForm[_index]['judul_iklan",
+			"$scope.dataForm[_index]['",
+			"produk_mst",
+			"fp_mst",
+			"ng-model=\"dataForm.",
+			");\n",
+			"keterangan",
+			"ttd",
+			"jenis_faktur",
+			"fp",
+			"f_customer",
+			"ppn",
+			"hpp",
+			"pnwr_hpp",
+			"selectedItem",
+			"produk",
+			"getResultsPageProduk",
+			"searchDBProduk",
+			"tableProduk",
+			"searchTextProduk",
+			"_dataProduk",
+			"subUrlProduk",
+			"totalItemsProduk",
+			"totalItemsTempProduk",
+			"libraryTempProduk",
+			"Produk",
+			"readonly=\"\"",
+			"total_biaya",
+			" width=\"10%\"",
+			"9",
+			"keterangan",
+			"Keterangan",
+			"keterangan",
+			"tarif",
+			"Tarif",
+			"tarif",
+			"f_customer",
+			"tgl_jatuh_tempo",
+			"jenis_faktur",
+			"deskripsi_fp",
+			"tgl_fp",
+			"jenis_bayar",
+			"judul_iklan",
+			"no_po_customer",
+			"id_pnwr",
+			"PnwrMst",
+			"pnwrMst",
+			"pnwr",
+			"tayang_materi",
+			"pnwrMst",
+			"Tayang",
+			"f_pnwr",
+			"id_pnwr",
+			"frmMst",
+			"tayang",
+			"getTayang",
+			"variable",
+			"dataModal[$index]",
+			"_frekuensi",
+			"data-",
+			"params",
+			"_dataScope",
+			"tayang",
+			"data-ng-model",
+			"periode",
+			"frekuensi",
+			"]]",
+			"[[",
+			"]]",
+			"[[",
+			"]]",
+			"[[",
+			"label",
+			"span",
+			"th",
+			"periode",
+			"}}",
+			"{{",
+			"items"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"_data",
+			"subUrl",
+			"totalItems",
+			"totalItemsTemp",
+			"libraryTemp",
+			"]]}",
+			"{[[",
+			"]]}",
+			"{[[",
+			"]]}",
+			"{[[",
+			"reqPmsTglLiburMst",
+			"value.",
+			"references",
+			"default(DB::raw('CURRENT_TIMESTAMP'))",
+			"  $table->",
+			"root",
+			"hris",
+			"/home/rianday/agp/rabu/"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 11,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1954,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1049,
+								1049
+							]
+						],
+						"settings":
+						{
+							"auto_name": "select bb.* from pms_fp_mst aa",
+							"incomplete_sync": null,
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 15,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "app/Http/Controllers/PMS/pnwrTayangController.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3969,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2801,
+								2801
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 420.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 14,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "app/Http/Controllers/PMS/pnwrMstController.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 7163,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1129,
+								1129
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1536.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "database/migrations/2016_05_11_142955_pms_fp_mst.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1523,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "app/Http/Models/pms_tgl_libur_mst.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 419,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "app/Http/Requests/reqPmsPnwrMst.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1773,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								114,
+								114
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "app/Http/Controllers/PROD/realisasiController.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3201,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1419,
+								1419
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "app/Http/Models/pms_pnwr_mst.php",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 1989,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1013,
+								1013
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "app/Http/Models/pms_customer_mst.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 828,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								636,
+								636
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 13,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "app/Http/Models/pms_fp_det.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 954,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								214,
+								214
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "resources/views/prod/realisasi.blade.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5389,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								627,
+								627
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 70.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "app/Http/routes.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1828,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "public/ext/ng-html/PMS/form/pnwrTayang.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3904,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2117,
+								2117
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 11,
+					"type": "text"
+				},
+				{
+					"buffer": 13,
+					"file": "public/app/controllers/realisasi.min.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 7030,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5054,
+								5054
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1767.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 14,
+					"file": "resources/views/layouts/app-angularjs.blade.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8893,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7323,
+								7323
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1656.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 12,
+					"type": "text"
+				},
+				{
+					"buffer": 15,
+					"file": "public/app/controllers/pnwrMst.min.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 19238,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								15614,
+								15614
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 5543.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				},
+				{
+					"buffer": 16,
+					"file": "resources/views/pms/produk.blade.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 10500,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								34,
+								34
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 16,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 21.0
+	},
+	"input":
+	{
+		"height": 29.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.sftp":
+	{
+		"height": 112.0
+	},
+	"pinned_build_system": "",
+	"project": "radio.sublime-project",
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"route",
+				"app/Http/routes.php"
+			],
+			[
+				"req_pro",
+				"app/Http/Requests/req_pms_produk_mst.php"
+			],
+			[
+				"req",
+				"app/Http/Requests/reqPmsPnwrMst.php"
+			],
+			[
+				"pms",
+				"app/Http/Models/pms_tgl_libur_mst.php"
+			],
+			[
+				"pms_fp_",
+				"database/migrations/2016_05_11_142955_pms_fp_mst.php"
+			],
+			[
+				"pms_fp",
+				"app/Http/Models/pms_fp_mst.php"
+			],
+			[
+				"pnwrm",
+				"public/app/controllers/pnwrMst.min.js"
+			],
+			[
+				"app-a",
+				"resources/views/layouts/app-angularjs.blade.php"
+			],
+			[
+				"fphtml",
+				"public/ext/ng-html/formFPMst.html"
+			],
+			[
+				"app.js",
+				"public/app/app.js"
+			],
+			[
+				"pnwr.min",
+				"public/app/controllers/pnwrMst.min.js"
+			],
+			[
+				"realisasicon",
+				"app/Http/Controllers/PROD/realisasiController.php"
+			],
+			[
+				"tayang",
+				"public/ext/ng-html/PMS/form/pnwrTayang.html"
+			],
+			[
+				"fp_det",
+				"app/Http/Models/pms_fp_det.php"
+			],
+			[
+				"fp_ms",
+				"app/Http/Models/pms_fp_mst.php"
+			],
+			[
+				"fp",
+				"app/Http/Models/pms_fp_det.php"
+			],
+			[
+				"pnwrmst",
+				"app/Http/Models/pms_pnwr_mst.php"
+			],
+			[
+				"fp.ba",
+				"resources/views/pms/fpMst.blade.php"
+			],
+			[
+				"pnwrcon",
+				"app/Http/Controllers/PMS/pnwrMstController.php"
+			],
+			[
+				"realiasa",
+				"resources/views/prod/realisasi.blade.php"
+			],
+			[
+				"router",
+				"vendor/symfony/routing/Router.php"
+			],
+			[
+				"app.blad",
+				"resources/views/layouts/app.blade.php"
+			],
+			[
+				"fpmsr",
+				"app/Http/Controllers/PMS/fpMstController.php"
+			],
+			[
+				"app/app",
+				"public/app/app.js"
+			],
+			[
+				"customer.min.js",
+				"public/app/controllers/customer.min.js"
+			],
+			[
+				"produk.",
+				"resources/views/pms/produk.blade.php"
+			],
+			[
+				"customer.bla",
+				"resources/views/pms/customer.blade.php"
+			],
+			[
+				"config/a",
+				"config/app.php"
+			],
+			[
+				"app.p",
+				"bootstrap/app.php"
+			],
+			[
+				"fpdet",
+				"app/Http/Controllers/PMS/fpDetController.php"
+			],
+			[
+				"fpmin",
+				"public/app/controllers/fpMst.min.js"
+			],
+			[
+				"formfp",
+				"public/ext/ng-html/formFPMst.html"
+			],
+			[
+				"fpmst",
+				"app/Http/Controllers/PMS/fpMstController.php"
+			],
+			[
+				"requse",
+				"app/Http/Requests/reqTblUser.php"
+			],
+			[
+				"requser",
+				"app/Http/Requests/reqTblUser.php"
+			],
+			[
+				"app.bla",
+				"resources/views/layouts/app.blade.php"
+			],
+			[
+				"pnw",
+				"public/app/controllers/pnwrMst.min.js"
+			],
+			[
+				"app-angularjs",
+				"resources/views/layouts/app-angularjs.blade.php"
+			],
+			[
+				"/ext/ng-html/modalcustomer.html",
+				"public/ext/ng-html/modalCustomer.html"
+			],
+			[
+				"customercon",
+				"app/Http/Controllers/PMS/customerController.php"
+			],
+			[
+				"pnwr.m",
+				"public/app/controllers/pnwrMst.min.js"
+			],
+			[
+				"pnwr",
+				"public/ext/ng-html/formPnwrMst.html"
+			],
+			[
+				"lov",
+				"public/app/controllers/lovPnwr.min.js"
+			],
+			[
+				"pnwrcontr",
+				"app/Http/Controllers/PMS/pnwrMstController.php"
+			],
+			[
+				"pnwrmin",
+				"public/app/controllers/pnwrMst.min.js"
+			],
+			[
+				"lovpn",
+				"public/app/controllers/lovPnwr.min.js"
+			],
+			[
+				"pnwrmi",
+				"public/app/controllers/pnwrMst.min.js"
+			],
+			[
+				"lovpnwr.min.js",
+				"public/app/controllers/lovPnwr.min.js"
+			],
+			[
+				"pnwr_",
+				"app/Http/Models/pms_pnwr_mst.php"
+			],
+			[
+				"fp_",
+				"app/Http/Models/pms_fp_det.php"
+			],
+			[
+				"form/pnwrtayang.html",
+				"public/ext/ng-html/PMS/form/pnwrTayang.html"
+			],
+			[
+				"pnwrmstcon",
+				"app/Http/Controllers/PMS/pnwrMstController.php"
+			],
+			[
+				"app/controllers/lovproduk.min.js",
+				"public/app/controllers/lovProduk.min.js"
+			],
+			[
+				"/ext/ng-html/pms/lov/lovcustomer.html",
+				"public/ext/ng-html/PMS/lov/lovCustomer.html"
+			],
+			[
+				"pnwrms",
+				"public/ext/ng-html/formPnwrMst.html"
+			],
+			[
+				"ext/ng-html/pms/form/pnwrmateri.html",
+				"public/ext/ng-html/PMS/form/pnwrMateri.html"
+			],
+			[
+				"pwnr",
+				"public/app/controllers/pnwrMst.min.js"
+			],
+			[
+				"pnwr_mst",
+				"app/Http/Models/pms_pnwr_mst.php"
+			],
+			[
+				"pms_custom",
+				"app/Http/Models/pms_customer_mst.php"
+			],
+			[
+				"pms_pn",
+				"app/Http/Models/pms_pnwr_mst.php"
+			],
+			[
+				"fp_mst",
+				"app/Http/Models/pms_fp_mst.php"
+			],
+			[
+				"pnwrtaya",
+				"public/ext/ng-html/PMS/form/pnwrTayang.html"
+			],
+			[
+				"reqmater",
+				"app/Http/Requests/reqPmsPnwrMateri.php"
+			],
+			[
+				"pms_mater",
+				"database/migrations/2016_05_10_153433_pms_pnwr_materi.php"
+			],
+			[
+				"app-",
+				"resources/views/layouts/app-angularjs.blade.php"
+			],
+			[
+				"pnwrmater",
+				"app/Http/Controllers/PMS/pnwrMateriController.php"
+			],
+			[
+				"pmstayang",
+				"app/Http/Models/pms_pnwr_tayang.php"
+			],
+			[
+				"reqpmspnwrtayang",
+				"app/Http/Requests/reqPmsPnwrTayang.php"
+			],
+			[
+				"pnwr_taya",
+				"app/Http/Models/pms_pnwr_tayang.php"
+			],
+			[
+				"pnwr.bla",
+				"resources/views/pms/pnwrMst.blade.php"
+			],
+			[
+				"form_advanced.html",
+				"public/assets/templates/gentelella/master/production/form_advanced.html"
+			],
+			[
+				"prod",
+				"resources/views/pms/produk.blade.php"
+			],
+			[
+				"scr",
+				"public/trash_test/script.js"
+			],
+			[
+				"conta",
+				"public/trash_test/contact.html"
+			],
+			[
+				"lovproduk.min.js",
+				"public/app/controllers/lovProduk.min.js"
+			],
+			[
+				"produk.blad",
+				"resources/views/pms/produk.blade.php"
+			],
+			[
+				"pnwr.blad",
+				"resources/views/pms/pnwrMst.blade.php"
+			],
+			[
+				"app",
+				"public/app/app.js"
+			],
+			[
+				"con",
+				"public/trash_test/contact.html"
+			],
+			[
+				"script",
+				"public/trash_test/script.js"
+			],
+			[
+				"produk",
+				"public/app/controllers/produk.min.js"
+			],
+			[
+				"produk.hml",
+				"public/ext/ng-html/modalProduk.html"
+			],
+			[
+				"produ",
+				"app/Http/Controllers/PMS/produkController.php"
+			],
+			[
+				"tarif",
+				"app/Http/Controllers/PMS/tarifController.php"
+			],
+			[
+				"produkcon",
+				"app/Http/Controllers/PMS/produkController.php"
+			],
+			[
+				"reqtar",
+				"app/Http/Requests/reqPmsProdukTarif.php"
+			],
+			[
+				"reqpnw",
+				"app/Http/Requests/reqPmsPnwrMst.php"
+			],
+			[
+				"pms_pnwr",
+				"app/Http/Models/pms_pnwr_mst.php"
+			],
+			[
+				"pnwr.bl",
+				"resources/views/pms/pnwrMst.blade.php"
+			],
+			[
+				"produk.bla",
+				"resources/views/pms/produk.blade.php"
+			],
+			[
+				"produk.m",
+				"public/app/controllers/produk.min.js"
+			],
+			[
+				"pms_cus",
+				"app/Http/Models/pms_customer_mst.php"
+			],
+			[
+				"index.html",
+				"public/trash_test/index.html"
+			],
+			[
+				"repnwr",
+				"app/Http/Requests/reqPmsPnwrMst.php"
+			],
+			[
+				"produkco",
+				"app/Http/Controllers/PMS/produkController.php"
+			],
+			[
+				"liburc",
+				"app/Http/Controllers/PMS/liburController.php"
+			],
+			[
+				"modelpnwr",
+				"app/Http/Models/pms_pnwr_mst.php"
+			],
+			[
+				"tari",
+				"app/Http/Controllers/PMS/tarifController.php"
+			],
+			[
+				"",
+				"app/Http/Controllers/PMS/produkController.php"
+			],
+			[
+				"lovpor",
+				"public/ext/ng-html/PMS/lov/lovProduk.html"
+			],
+			[
+				"lovp",
+				"public/app/controllers/lovProduk.min.js"
+			],
+			[
+				"liburcon",
+				"app/Http/Controllers/PMS/liburController.php"
+			],
+			[
+				"fopnwr",
+				"public/ext/ng-html/formPnwrMst.html"
+			],
+			[
+				"pnwrco",
+				"app/Http/Controllers/PMS/pnwrMstController.php"
+			],
+			[
+				"pms_",
+				"app/Http/Models/pms_produk_tarif.php"
+			],
+			[
+				"produk_ms",
+				"app/Http/Models/pms_produk_mst.php"
+			],
+			[
+				"tar",
+				"app/Http/Controllers/PMS/tarifController.php"
+			],
+			[
+				"app.",
+				"public/app/app.js"
+			],
+			[
+				"/ext/ng-html/dirpagination.html",
+				"public/ext/ng-html/dirPagination.html"
+			],
+			[
+				"lovcut",
+				"public/ext/ng-html/PMS/lov/lovCustomer.html"
+			],
+			[
+				"modalt",
+				"public/ext/ng-html/modalTarif.html"
+			],
+			[
+				"modal",
+				"public/ext/ng-html/modalCustomer.html"
+			],
+			[
+				"formpn",
+				"public/ext/ng-html/formPnwrMst.html"
+			],
+			[
+				"modalcus",
+				"public/ext/ng-html/modalCustomer.html"
+			],
+			[
+				"libur",
+				"public/app/controllers/libur.min.js"
+			],
+			[
+				"customer.",
+				"resources/views/pms/customer.blade.php"
+			],
+			[
+				"pnwrmstco",
+				"app/Http/Controllers/PMS/pnwrMstController.php"
+			],
+			[
+				"/ext/ng-html/messages.html",
+				"public/ext/ng-html/messages.html"
+			],
+			[
+				"modaproduk",
+				"public/ext/ng-html/modalProduk.html"
+			],
+			[
+				"modalli",
+				"public/ext/ng-html/modalLibur.html"
+			],
+			[
+				"pnwrmst.bl",
+				"resources/views/pms/pnwrMst.blade.php"
+			],
+			[
+				"modalpnw",
+				"public/ext/ng-html/modalPnwrMst.html"
+			],
+			[
+				"app.bl",
+				"resources/views/layouts/app.blade.php"
+			],
+			[
+				"customer.bl",
+				"resources/views/pms/customer.blade.php"
+			],
+			[
+				"libu",
+				"app/Http/Controllers/PMS/liburController.php"
+			],
+			[
+				"reqpmscu",
+				"app/Http/Requests/reqPmsCustomerMst.php"
+			],
+			[
+				"reqpro",
+				"app/Http/Requests/req_pms_produk_mst.php"
+			],
+			[
+				"reqpmspro",
+				"app/Http/Requests/reqPmsProdukTarif.php"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 260.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

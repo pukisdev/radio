@@ -1,0 +1,60 @@
+<!--
+ <div class="modal fade" id="idModalProduk" tabindex="-1" role="dialog" aria-labelledby="myModalProduk" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+ -->
+             <div class="modal-header">
+                <div class="box-tools" style="display:inline-table">
+                    <div class="box-tools" style="display:inline-table">
+                        <div class="input-group">
+                            <input type="text" class="form-control input-sm ng-valid ng-dirty" placeholder="Master Produk" ng-change="searchDB()" ng-model="searchText" name="table_search" title="" tooltip="" data-original-title="Min character length is 3">
+                            <span class="input-group-addon">Search</span>
+                        </div>
+                    </div>
+                </div>
+        
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancel();" ><span aria-hidden="true">×</span></button>
+                <!-- <h4 class="modal-title" id="myModalLabel">[[ form_title ]]</h4> -->
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered pagin-table">
+                    <thead>
+                        <tr>
+                            <th>Pilih</th>
+                            <th>ID PNWR</th>
+                            <th>Customer</th>
+                            <th>Judul</th>
+                            <th>Harga Total</th>
+                            <th>Sisa Faktur</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr  dir-paginate="values in _data | itemsPerPage:5" total-items="totalItems" pagination-id="paginationPnwr">
+                            <td>
+                                <button type="button" ng-click="pilih(values)" class="btn btn-success btn-sm" aria-label="Left Align">
+                                <!-- <button type="button" ng-click="lovProdukSelected('idModalProduk', values)" class="btn btn-success btn-sm" aria-label="Left Align"> -->
+                                  <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                </button>
+                            </td>
+                            <td>[[ values.id_pnwr ]]</td>
+                            <td>[[ values.customer.nama_customer ]]</td>
+                            <td>[[ values.judul_iklan ]]</td>
+                            <td>[[ values.pnwr_total ]] </td>
+                            <td>[[ (values.pnwr_hpp - values.total_nilai_biaya) + ((values.pnwr_hpp - values.total_nilai_biaya)*0.1)  ]] </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="7">
+                                <p class="pull-left pagination">Menampilkan <strong>[[ table.CurrentItems ]]</strong> Dari <strong>[[ table.TotalItems ]]</strong></p>
+                                <dir-pagination-controls pagination-id="paginationPnwr" class="pull-right" on-page-change="pageChanged(newPageNumber)" template-url="/ext/ng-html/dirPagination.html" ></dir-pagination-controls>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+<!--
+        </div>
+    </div>
+</div>
+-->
