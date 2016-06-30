@@ -1,3 +1,5 @@
+test git slave
+
 select bb.* from pms_fp_mst aa 
   join pms_fp_det bb on aa.id_fp = bb.f_fp
   where aa.sys_status_aktif='A' and bb.sys_status_aktif='A';
