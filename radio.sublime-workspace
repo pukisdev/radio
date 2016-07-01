@@ -240,10 +240,10 @@
 	"buffers":
 	[
 		{
-			"contents": "select bb.* from pms_fp_mst aa \n  join pms_fp_det bb on aa.id_fp = bb.f_fp\n  where aa.sys_status_aktif='A' and bb.sys_status_aktif='A';\n\ncreate or replace view v_fp_rangkuman as\nselect f_pnwr, max(total_biaya) total_biaya, \n  IFNULL(sum(nilai_biaya_persen),0) total_nilai_biaya_persen,\n  sum(nilai_biaya) total_nilai_biaya,\n  sum(nilai_potongan_persen) total_nilai_potongan_persen,\n  sum(nilai_potongan) total_nilai_potongan,\n  sum(nilai_hpp) total_nilai_hpp,\n  sum(nilai_ppn) total_nilai_ppn,\n  sum(nilai_akhir) total_nilai_akhir\nfrom pms_fp_mst aa \n  join pms_fp_det bb on aa.id_fp = bb.f_fp\n  where aa.sys_status_aktif='A' and bb.sys_status_aktif='A'\n  group by f_pnwr;\n\n\n\nSELECT aa.*, (pnwr_hpp - total_nilai_biaya) sisa FROM `pms_pnwr_mst` aa \n  left join v_fp_rangkuman bb on aa.id_pnwr = bb.f_pnwr\n\n\n--SELECT group_concat(f_pnwr),tayang_tgl, group_concat(tayang_jam) FROM `pms_pnwr_tayang` WHERE tayang_tgl = '2016-06-22'\n00001/RSAU/SP/06/2016, 00002/RSAU/SP/06/2016, 00003/RSAU/SP/06/2016\n2016-06-22\n0815,0915,1015, 0900,1030,1300, 0915,0930\n\n\narray:2 [\n  0 => array:13 [\n    \"f_fp\" => \"FP2016.00001\"\n    \"f_pnwr\" => \"00002/RSAU/SP/06/2016\"\n    \"total_biaya\" => \"909091\"\n    \"nilai_biaya_persen\" => \"0\"\n    \"nilai_biaya\" => \"909091\"\n    \"nilai_potongan_persen\" => \"0\"\n    \"nilai_potongan\" => \"0\"\n    \"nilai_hpp\" => \"909091\"\n    \"nilai_ppn\" => \"90909\"\n    \"nilai_akhir\" => \"1000000\"\n    \"sys_user_update\" => \"ADMIN\"\n    \"sys_tgl_update\" => \"2016-06-22 12:44:35\"\n    \"sys_status_aktif\" => \"A\"\n  ]\n  1 => array:13 [\n    \"f_fp\" => \"FP2016.00001\"\n    \"f_pnwr\" => \"00003/RSAU/SP/06/2016\"\n    \"total_biaya\" => \"10000000\"\n    \"nilai_biaya_persen\" => \"0\"\n    \"nilai_biaya\" => \"10000000\"\n    \"nilai_potongan_persen\" => \"0\"\n    \"nilai_potongan\" => \"0\"\n    \"nilai_hpp\" => \"10000000\"\n    \"nilai_ppn\" => \"1000000\"\n    \"nilai_akhir\" => \"11000000\"\n    \"sys_user_update\" => \"ADMIN\"\n    \"sys_tgl_update\" => \"2016-06-22 12:44:35\"\n    \"sys_status_aktif\" => \"A\"\n  ]\n]",
+			"file": "app/Http/query.txt",
 			"settings":
 			{
-				"buffer_size": 1954,
+				"buffer_size": 1970,
 				"line_ending": "Unix",
 				"name": "select bb.* from pms_fp_mst aa"
 			}
@@ -292,7 +292,7 @@
 			"file": "app/Http/Controllers/PROD/realisasiController.php",
 			"settings":
 			{
-				"buffer_size": 3201,
+				"buffer_size": 3477,
 				"line_ending": "Unix"
 			}
 		},
@@ -324,23 +324,7 @@
 			"file": "resources/views/prod/realisasi.blade.php",
 			"settings":
 			{
-				"buffer_size": 5389,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/Http/routes.php",
-			"settings":
-			{
-				"buffer_size": 1828,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "public/ext/ng-html/PMS/form/pnwrTayang.html",
-			"settings":
-			{
-				"buffer_size": 3904,
+				"buffer_size": 6094,
 				"line_ending": "Unix"
 			}
 		},
@@ -348,7 +332,7 @@
 			"file": "public/app/controllers/realisasi.min.js",
 			"settings":
 			{
-				"buffer_size": 7030,
+				"buffer_size": 7118,
 				"line_ending": "Unix"
 			}
 		},
@@ -464,6 +448,8 @@
 	],
 	"file_history":
 	[
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/PMS/form/pnwrTayang.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/routes.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/req_pms_produk_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_fp_mst.php",
 		"/opt/lampp/etc/extra/httpd-vhosts.conf",
@@ -482,7 +468,6 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/customer.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/layouts/app.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/layouts/app-angularjs.blade.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/routes.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/vendor/symfony/routing/Router.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/bootstrap/app.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/PMS/lov/lovPnwr.html",
@@ -503,7 +488,6 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_11_143840_pms_fp_det.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/keu_bank_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_10_135752_pms_customer_mst.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/PMS/form/pnwrTayang.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/pnwrMst.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/PMS/lov/lovCustomer.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/PMS/form/pnwrMateri.html",
@@ -610,6 +594,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"7",
+			"r",
+			"d",
 			"00",
 			">\n",
 			"where",
@@ -734,10 +721,7 @@
 			"label",
 			"span",
 			"th",
-			"periode",
-			"}}",
-			"{{",
-			"items"
+			"periode"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -774,29 +758,32 @@
 	"groups":
 	[
 		{
-			"selected": 11,
+			"selected": 10,
 			"sheets":
 			[
 				{
 					"buffer": 0,
+					"file": "app/Http/query.txt",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1954,
+						"buffer_size": 1970,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1049,
-								1049
+								14,
+								14
 							]
 						],
 						"settings":
 						{
 							"auto_name": "select bb.* from pms_fp_mst aa",
 							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
 							"syntax": "Packages/Text/Plain text.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
@@ -805,7 +792,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 15,
+					"stack_index": 8,
 					"type": "text"
 				},
 				{
@@ -835,10 +822,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 420.0,
+						"translation.y": 431.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 14,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
@@ -871,7 +858,7 @@
 						"translation.y": 1536.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 11,
 					"type": "text"
 				},
 				{
@@ -904,7 +891,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 10,
 					"type": "text"
 				},
 				{
@@ -935,7 +922,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 9,
 					"type": "text"
 				},
 				{
@@ -951,8 +938,8 @@
 						"selection":
 						[
 							[
-								114,
-								114
+								298,
+								298
 							]
 						],
 						"settings":
@@ -968,7 +955,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
@@ -977,15 +964,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3201,
+						"buffer_size": 3477,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1419,
-								1419
+								2665,
+								2665
 							]
 						],
 						"settings":
@@ -998,7 +985,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 548.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
@@ -1065,7 +1052,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 13,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
@@ -1097,7 +1084,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
@@ -1106,15 +1093,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5389,
+						"buffer_size": 6094,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								627,
-								627
+								4121,
+								4121
 							]
 						],
 						"settings":
@@ -1126,93 +1113,28 @@
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
-						"translation.x": 0.0,
-						"translation.y": 70.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 11,
-					"file": "app/Http/routes.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1828,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.x": 317.0,
+						"translation.y": 486.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 12,
-					"file": "public/ext/ng-html/PMS/form/pnwrTayang.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3904,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2117,
-								2117
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 11,
-					"type": "text"
-				},
-				{
-					"buffer": 13,
+					"buffer": 11,
 					"file": "public/app/controllers/realisasi.min.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 7030,
+						"buffer_size": 7118,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5054,
-								5054
+								2753,
+								2753
 							]
 						],
 						"settings":
@@ -1225,14 +1147,14 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1767.0,
+						"translation.y": 561.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 14,
+					"buffer": 12,
 					"file": "resources/views/layouts/app-angularjs.blade.php",
 					"semi_transient": false,
 					"settings":
@@ -1261,11 +1183,11 @@
 						"translation.y": 1656.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 12,
+					"stack_index": 13,
 					"type": "text"
 				},
 				{
-					"buffer": 15,
+					"buffer": 13,
 					"file": "public/app/controllers/pnwrMst.min.js",
 					"semi_transient": false,
 					"settings":
@@ -1294,11 +1216,11 @@
 						"translation.y": 5543.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 10,
+					"stack_index": 12,
 					"type": "text"
 				},
 				{
-					"buffer": 16,
+					"buffer": 14,
 					"file": "resources/views/pms/produk.blade.php",
 					"semi_transient": false,
 					"settings":
@@ -1327,7 +1249,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 16,
+					"stack_index": 14,
 					"type": "text"
 				}
 			]
@@ -1386,6 +1308,18 @@
 		"selected_items":
 		[
 			[
+				"tayang",
+				"app/Http/Controllers/PMS/pnwrTayangController.php"
+			],
+			[
+				"prod/realisasi",
+				"resources/views/prod/realisasi.blade.php"
+			],
+			[
+				"realisasicontrol",
+				"app/Http/Controllers/PROD/realisasiController.php"
+			],
+			[
 				"route",
 				"app/Http/routes.php"
 			],
@@ -1432,10 +1366,6 @@
 			[
 				"realisasicon",
 				"app/Http/Controllers/PROD/realisasiController.php"
-			],
-			[
-				"tayang",
-				"public/ext/ng-html/PMS/form/pnwrTayang.html"
 			],
 			[
 				"fp_det",
@@ -1888,14 +1818,6 @@
 			[
 				"reqpmscu",
 				"app/Http/Requests/reqPmsCustomerMst.php"
-			],
-			[
-				"reqpro",
-				"app/Http/Requests/req_pms_produk_mst.php"
-			],
-			[
-				"reqpmspro",
-				"app/Http/Requests/reqPmsProdukTarif.php"
 			]
 		],
 		"width": 0.0
