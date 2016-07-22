@@ -24,6 +24,7 @@ Route::get('/', function () {
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
+Route::get('/token', 'Auth\TokenController@getToken');
 
 Route::group(['prefix'=>'check'], function(){
 	Route::get('pms/pnwrMst', 'PMS\pnwrMstController@getForFaktur');
