@@ -56,7 +56,6 @@ class realisasiController extends Controller
     {
         //
         DB::enableQueryLog();
-
         // $hasil = new Object();
 
         if($id == 'NONID'){
@@ -69,6 +68,7 @@ class realisasiController extends Controller
             $hasil['tanggal'] = Carbon::parse($id);//->format('m/d/Y');
             $hasil['data'] = modelMst::where('sys_status_aktif','A')->where('tayang_tgl',$hasil['tanggal'])->get(); 
         }
+        //dd(DB::getQueryLog());
         
         if(!empty($hasil['data']))
             foreach($hasil['data'] as $index=>$isi){
@@ -79,18 +79,16 @@ class realisasiController extends Controller
                     // $hasil['data'][$index]['jam'][$key] = substr($value,0,2);
                     // echo $index.' = '.substr($value,0,2)."\\n";               
                 }       
-                $jam[$index] = array_unique($jam[$index]);
+                // $jam[$index] = array_unique($jam[$index]);
                 $hasil['data'][$index]['jam'] = $jam;
-                // dd($hasil['data'][$index]['jam']);
                 // echo '\n';
                 // dd($hasil['data'][$index]);
                 // print_r(array_unique($jam[$index]));
                 // print_r($jam[$index]);
             }
+        // dd($hasil['data']);
                 // dd($jam);
 
-        // dd(DB::getQueryLog());
-        // dd($hasil);
         return Response($hasil);
     }
 

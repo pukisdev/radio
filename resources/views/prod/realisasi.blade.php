@@ -56,8 +56,15 @@
                                             <td ng-repeat="values2 in _jam" class="jam">
                                                 <!-- <input ng-model="dataModal[$parent.$index].tayang_jam[$index]" ng-if="((values.jam[$parent.$index]).indexOf(values2+5)>-1)" class="form-control input-sm" mask='59' mask-clean='true' restrict="reject"> -->
                                                 <!-- <input ng-model="dataModal[$parent.$index].tayang_jam[$index]" ng-if="((values.jam[$parent.$index]).indexOf(values2+5)>-1)" class="form-control input-sm" mask='59' mask-clean='true' restrict="reject"> -->
-                                                <input ng-model="tayang_realisasi[$parent.$index]" ng-change="save(tayang_realisasi)" ng-if="((values.jam[$parent.$index]).indexOf(values2+5)>-1)" class="form-control input-sm" mask='59' mask-clean='true' restrict="reject">
-                                                [[ values.jam[$parent.$index] +'/'+ (values2+5) + '#' + $parent.$index ]]    
+                                                <!-- <span ng-repeat="values.jam in _frekuensi"> -->
+                                                    <span ng-if="angular.isArray(values.jam[$parent.$index])"> 
+                                                    </span>
+                                                    [[ angular.isArray([]) ]] 
+                                                    [[ angular.isString(values.jam[$parent.$index]) ]] 
+                                                    <input ng-model="tayang_realisasi[$parent.$index]" ng-change="save(tayang_realisasi)" ng-if="((values.jam[$parent.$index]).indexOf(values2+5)>-1)" class="form-control input-sm" mask='59' mask-clean='true' restrict="reject">
+                                                <!-- </span> -->
+                                                [[ values.jam[$parent.$index] +'/'+ (values2+5) + '#' + $parent.$index + '\\' + (values.jam[$parent.$index]).indexOf(values2+5) ]]   
+                                                <!-- [[ values.jam[$parent.$index].forEach(function(i) { count[i] = (count[i]||0)+1;  }); ]]  -->
                                                 <!-- [[ ((values.jam[$parent.$index]).indexOf(values2+5)>0) ]]     -->
                                                 <!-- [[ (jQuery.inArray(values2+5, values.jam[$parent.$index])>-1) ]]     -->
                                                 <!-- [[ ((values.jam).indexOf(values2)>0) ? 'ada' : '' ]] -->
