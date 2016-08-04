@@ -161,7 +161,7 @@
     <script src="<?= asset('app/lib/angular-1.5.5/dirPagination.js') ?>"></script>
     <script src="<?= asset('ext/rte-angular-master/src/rte/rte.js') ?>"></script>
     <!-- <script src="<?= asset('app/lib/datatables/media/js/dataTables.bootstrap.min.js') ?>" ></script> -->
-    <!-- <script src="<?= asset('ext/jquery-gritter/js/jquery.gritter.min.js') ?>"></script> -->
+    <script src="<?= asset('ext/jquery-gritter/js/jquery.gritter.min.js') ?>"></script>
     <!-- <script src="<?= asset('ext/textAngular-1.5.0/dist/textAngular.min.js') ?>"></script> -->
     <!-- <script src="<?= asset('ext/tinymce/js/tinymce/tinymce.min.js') ?>"></script> -->
     <!-- <script src="<?= asset('ext/ui-tinymce-master/dist/tinymce.min.js') ?>"></script> -->
