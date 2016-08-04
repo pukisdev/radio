@@ -48,22 +48,24 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="values in _data">
+                                        <tr ng-repeat="values in _data" ng-init="sectionIndex = $index">
                                             <!-- <td>[[ values.f_pnwr ]]</td> -->
                                             <td>[[ values.pnwr.customer.nama_customer ]]</td>
                                             <td>[[ values.pnwr.judul_iklan ]]</td>
                                             <!-- <td>[[ values.tayang_tgl ]]</td> -->
-                                            <td ng-repeat="values2 in _jam" class="jam">
+                                            <td ng-repeat="values3 in _jam" class="jam">
                                                 <!-- <input ng-model="dataModal[$parent.$index].tayang_jam[$index]" ng-if="((values.jam[$parent.$index]).indexOf(values2+5)>-1)" class="form-control input-sm" mask='59' mask-clean='true' restrict="reject"> -->
                                                 <!-- <input ng-model="dataModal[$parent.$index].tayang_jam[$index]" ng-if="((values.jam[$parent.$index]).indexOf(values2+5)>-1)" class="form-control input-sm" mask='59' mask-clean='true' restrict="reject"> -->
                                                 <!-- <span ng-repeat="values.jam in _frekuensi"> -->
-                                                    <span ng-if="angular.isArray(values.jam[$parent.$index])"> 
-                                                    </span>
-                                                    [[ angular.isArray([]) ]] 
-                                                    [[ angular.isString(values.jam[$parent.$index]) ]] 
-                                                    <input ng-model="tayang_realisasi[$parent.$index]" ng-change="save(tayang_realisasi)" ng-if="((values.jam[$parent.$index]).indexOf(values2+5)>-1)" class="form-control input-sm" mask='59' mask-clean='true' restrict="reject">
+                                                    <!-- <span ng-if="angular.isArray([values.jam[$parent.$index]])"> ok</span> -->
+                                                    <!-- [[ angular.isArray([]) ]]  -->
+                                                    <!-- [[ angular.isString(values.jam[$parent.$index]) ]]  -->
+                                                <input ng-model="tayang_realisasi[sectionIndex][$index]" ng-change="save(tayang_realisasi, $parent.$index)" ng-if="((values.jam[$parent.$index]).indexOf(values3+5)>-1)" class="form-control input-sm"><!-- mask='59' mask-clean='true' restrict="reject">-->
                                                 <!-- </span> -->
-                                                [[ values.jam[$parent.$index] +'/'+ (values2+5) + '#' + $parent.$index + '\\' + (values.jam[$parent.$index]).indexOf(values2+5) ]]   
+                                                <!--
+                                                [[ items.splice(index, 1) ]]
+                                                [[ values.jam[$parent.$index]+ ' #$ ' + sectionIndex +'/'+ (values3+5) + '#' + $parent.$index + '\\' + (values.jam[$parent.$index]).indexOf(values3+5) ]]   
+                                                -->
                                                 <!-- [[ values.jam[$parent.$index].forEach(function(i) { count[i] = (count[i]||0)+1;  }); ]]  -->
                                                 <!-- [[ ((values.jam[$parent.$index]).indexOf(values2+5)>0) ]]     -->
                                                 <!-- [[ (jQuery.inArray(values2+5, values.jam[$parent.$index])>-1) ]]     -->
@@ -75,7 +77,8 @@
                             </div>
                             <div class="pull-right">
                                 <button type="button" class="btn btn-default" ng-click="toggle('cancel',null)">Cancel</button>
-                                <button type="button" class="btn btn-primary" id="btn-save" ng-click="save(_data, _tanggal)" ng-disabled="frmMst.$invalid">Save changes</button>
+                                <button type="button" class="btn btn-primary" id="btn-save" ng-click="save(tayang_realisasi)" ng-disabled="frmMst.$invalid">Save changes</button>
+                                <!-- <button type="button" class="btn btn-primary" id="btn-save" ng-click="save(_data, _tanggal)" ng-disabled="frmMst.$invalid">Save changes</button> -->
                                 <!-- <p class="pull-left pagination">Menampilan <strong>[[ table.CurrentItems ]]</strong> Dari <strong>[[ table.TotalItems ]]</strong></p> -->
                                 <!-- <dir-pagination-controls class="pull-right" on-page-change="pageChanged(newPageNumber)" template-url="/ext/ng-html/dirPagination.html" ></dir-pagination-controls> -->
                             </div>
