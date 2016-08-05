@@ -3,6 +3,7 @@
 {!! Html::script('js/jquery-2.1.4.min.js') !!}
 {!! Html::script('components/bootstrap/js/bootstrap.min.js') !!}
 {!! Html::script('components/angular-1.4.4/angular.min.js') !!}
+{!! Html::script('ext/jquery-gritter/js/jquery.gritter.min.js') !!}
 
 <script>
 	var sampleApp = angular.module('sampleApp', []);

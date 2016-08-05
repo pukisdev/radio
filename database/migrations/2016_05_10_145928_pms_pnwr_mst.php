@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-use Carbon\Carbon
+use Carbon\Carbon;
 
 class PmsPnwrMst extends Migration
 {
