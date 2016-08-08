@@ -249,10 +249,50 @@
 			}
 		},
 		{
+			"file": "public/app/controllers/realisasi.min.js",
+			"settings":
+			{
+				"buffer_size": 7360,
+				"line_ending": "Unix"
+			}
+		},
+		{
 			"file": "app/Http/Controllers/PROD/realisasiController.php",
 			"settings":
 			{
-				"buffer_size": 3432,
+				"buffer_size": 3461,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "public/app/controllers/pnwrMst.min.js",
+			"settings":
+			{
+				"buffer_size": 19238,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": ".env",
+			"settings":
+			{
+				"buffer_size": 598,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/Http/Controllers/Auth/TokenController.php",
+			"settings":
+			{
+				"buffer_size": 603,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "resources/views/prod/realisasi.blade.php",
+			"settings":
+			{
+				"buffer_size": 7691,
 				"line_ending": "Unix"
 			}
 		},
@@ -263,129 +303,6 @@
 				"buffer_size": 18499,
 				"line_ending": "Unix",
 				"name": "Collection {#314"
-			}
-		},
-		{
-			"file": "resources/views/prod/realisasi.blade.php",
-			"settings":
-			{
-				"buffer_size": 6619,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "public/app/controllers/realisasi.min.js",
-			"settings":
-			{
-				"buffer_size": 7177,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/Http/Models/pms_customer_mst.php",
-			"settings":
-			{
-				"buffer_size": 828,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/Http/Controllers/Auth/TokenController.php",
-			"settings":
-			{
-				"buffer_size": 577,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "resources/views/pms/customer.blade.php",
-			"settings":
-			{
-				"buffer_size": 4391,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "resources/views/pms/fpMst.blade.php",
-			"settings":
-			{
-				"buffer_size": 5488,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "public/app/controllers/customer.min.js",
-			"settings":
-			{
-				"buffer_size": 5996,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "public/ext/ng-html/modalProduk.html",
-			"settings":
-			{
-				"buffer_size": 3981,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "public/ext/ng-html/PMS/lov/lovCustomer.html",
-			"settings":
-			{
-				"buffer_size": 2877,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "public/ext/ng-html/formFPMst.html",
-			"settings":
-			{
-				"buffer_size": 25136,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "public/ext/ng-html/messages.html",
-			"settings":
-			{
-				"buffer_size": 625,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/Http/routes.php",
-			"settings":
-			{
-				"buffer_size": 1883,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "resources/views/layouts/app-angularjs.blade.php",
-			"settings":
-			{
-				"buffer_size": 8893,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "  \nvar app = angular\n      .module('appRoot', ['ngMessages','angularUtils.directives.dirPagination', 'ngRoute', 'currencyMask', 'ngMask', 'ui.bootstrap','rte-angular'])\n      .constant('API_URL', 'http://radio.green/')\n      .config(function($routeProvider, $interpolateProvider){ \n      // .config(function($interpolateProvider){ \n          $interpolateProvider.startSymbol('[[').endSymbol(']]');\n      })\n      .directive('loading', ['$http',function($http){\n          return {\n            restrict: 'A',\n            link : function(scope, element, attrs){\n              scope.isLoading = function(){\n                return $http.pendingRequests.length > 0;\n              };\n\n              scope.$watch(scope.isLoading, function(value){\n                if(value){\n                  element.show(); \n                } else{\n                  element.hide();\n                }\n              })\n            }\n          }\n        }]);\n\n// app.config(function($routeProvider, $interpolateProvider){ \n//   $interpolateProvider.startSymbol('[[').endSymbol(']]');\n// });\n\n// app.controller('dataFormController', function($scope, $http, API_URL) {\napp.controller('dataFormController', function($scope, $http, $uibModal, $log, API_URL) {\n  $scope.parseInt = parseInt;\n  $scope.libraryTemp = {};\n	$scope.dataForm = {};\n  $scope.totalItemsTemp = {};\n  $scope.totalItems = 0;\n  $scope.subUrl = 'pms/pnwrMst';\n  $modalName ='idModalMst';\n\n    //retrieve employees listing from API\n    getResultsPage(1);\n\n    //show modal form\n    $scope.toggle = function(modalstate, id){\n      $scope.modalstate = modalstate; \n\n      switch(modalstate){\n        case 'add' :\n          $scope.form_title = 'Tambah Data';\n          $scope.dataForm = null;\n        break;\n        case 'edit' :\n          $scope.form_title = 'Edit Data';\n          $scope.idState = id;\n          // $http.get(API_URL + $scope.subUrl+\"/\" + id)\n          $http({\n            'method'  : \"GET\",\n            'url'     : API_URL + $scope.subUrl+\"/edit\",\n            'params'  : {\"_id\" : id} ,\n            'headers' : {'Content-Type': 'application/x-www-form-urlencoded'}\n          }).success(function(response){\n              // console.log(response);\n              $scope.dataForm = response;\n              $scope.dataForm['f_produk'] = response.produk['id_produk'];\n              $scope.dataForm['nama_produk'] = response.produk['nama'];\n              $scope.dataForm['durasi'] = response.produk['durasi'];\n              $scope.dataForm['f_customer'] = response.customer['id_customer'];\n              $scope.dataForm['nama_customer'] = response.customer['nama_customer'];\n            });\n        break;\n        default:\n        break;\n      }\n      $scope.formTampil = true;\n      // $('#'+$modalName).show('slow');\n      // $('#'+$modalName).modal('show');\n    }\n\n    $scope.save = function(modalstate, id){\n      var _url = API_URL + $scope.subUrl;\n      var _method = (modalstate === 'edit') ? 'PUT' : 'POST';\n\n      // if(modalstate ==='edit') _url += '/'+id;\n      if(modalstate ==='edit') _url += '/1234';\n\n      // console.log(id);\n      $http({\n        'method'  : _method,\n        'url'     : _url,\n        'data'    : $.param($scope.dataForm),\n        'headers' : {'Content-Type': 'application/x-www-form-urlencoded'}\n      }).success(function(response){\n        console.log(response);\n        // if(modalstate === 'edit') {\n        //   $scope._data = apiModifyTable($scope._data, response.id_pnwr, response);\n        // }\n        // else {\n        //   $scope._data.push(response);\n        // }\n\n        $scope.toggle(modalstate,id)\n        \n        // $scope.formTampil = false;  \n        // $('#'+$modalName).modal('hide');\n        $.gritter.add({\n              title: 'Application',\n              text: 'Data Berhasil Disimpan',\n              fade_out_speed: 5000\n          });\n      }).error(function(error){\n        console.log(error);\n      });\n\n    }\n\n    $scope.confirmDelete = function(_data, _index){\n      var isConfirmDelete = confirm('Anda yakin mau menghapus data ini?');\n      if(isConfirmDelete){\n        $http({\n          'method'  : 'DELETE',\n          // 'url'     : API_URL+$scope.subUrl+'/'+_data.id_pnwr,\n          'url'     : API_URL+$scope.subUrl+'/delete',\n          'params'  : {\"_id\" : _data.id_pnwr} \n        }).success(function(response){\n          $scope._data.splice(_index,1);\n          $.gritter.add({\n                title: 'Application',\n                text: 'Data Berhasil Dihapus',\n                fade_out_speed: 5000\n            });\n        }).error(function(response){\n          console.log(response);\n          $.gritter.add({\n                title: 'Application',\n                text: 'Data Gagal Dihapus',\n                fade_out_speed: 5000\n            });\n        });\n      }\n    }\n  \n    $scope.searchDB = function(){\n        if($scope.searchText.length >= 1){\n          // console.log($scope.libraryTemp);\n          if($.isEmptyObject($scope.libraryTemp)){\n                $scope.libraryTemp = $scope._data;\n                $scope.totalItemsTemp = $scope.totalItems;\n                $scope._data = {};\n          }\n          getResultsPage(1);\n        }else{\n          // console.log('masuk');\n            if(!$.isEmptyObject($scope.libraryTemp)){\n                $scope._data = $scope.libraryTemp ;\n                $scope.totalItems = $scope.totalItemsTemp;\n                $scope.libraryTemp = {};\n            }\n        }\n    }\n\n    $scope.pageChanged = function(newPage) {\n      getResultsPage(newPage);\n    };\n/*\n\n*/\n  function getResultsPage(pageNumber) {\n      if(! $.isEmptyObject($scope.libraryTemp)){\n        $http({\n          'method'  : 'GET',\n          'url'   : API_URL+$scope.subUrl+'?search='+$scope.searchText+'&page='+pageNumber \n        }).success(function(response){\n          // console.log(response);\n          $scope._data     = response.data;\n          $scope.totalItems   = response.total;\n          $scope.table = { TotalItems : response.total, CurrentItems : response.to };\n        }).error(function(response){\n            console.log(response);\n        });\n      }else{\n        $http({\n          'method'  : 'GET',\n          'url'   : API_URL+$scope.subUrl+'?page='+pageNumber \n        }).success(function(response){\n          // console.log(response);\n          $scope._data     = response.data;\n          $scope.totalItems   = response.total;\n          $scope.table = { TotalItems : response.total, CurrentItems : response.to };\n        }).error(function(response){\n          console.log(response);\n        });\n      }\n  }\n\n  $scope.lovSelected = function(idModal, _element){\n    \n    if($.isEmptyObject($scope.dataForm)){\n      $scope.dataForm = {};\n    }\n\n    angular.forEach(_element, function (item,key) {\n      // console.log(key + '||' +key.indexOf('id'));\n      key = (key.indexOf('id') > -1) ? 'f_'+key.substr(3) : key;\n      $scope.dataForm[key] = item;\n    });\n    \n    $('#'+idModal).modal('hide');\n  }\n\n  $scope.showModal = function (idModal){\n    $('#'+idModal).modal('show');\n    // $('#idModulProduk').modal('show')\n    // getResultsPageCustomer(1);\n\n    // console.log('test : '+idModal);\n  }\n\n  $scope.lovProdukSelected = function(idModal, _element){\n    if($.isEmptyObject($scope.dataForm)){\n      $scope.dataForm = {};\n    }\n\n    // console.log(_element.nama);\n    $scope.dataForm['nama_produk'] = _element.nama;\n    $scope.dataForm['f_produk'] = _element.id_produk; \n    // $scope.dataForm['f_tarif'] = _element.tarif[0].id_tarif; \n    $scope.dataForm['tarif'] = _element.tarif[0].harga; \n    $scope.dataForm['durasi'] = _element.durasi; \n    // $scope.dataForm['tarif_normal'] = _element.tarif[0].harga; \n    $('#'+idModal).modal('hide');\n    $scope.total_normal();\n  }\n\n  $scope.nilai_rp_diskon = function(){\n    _potongan     = ($scope.dataForm['tarif_diskon'] > 0) ? (_tarifNormal * $scope.dataForm['tarif_diskon'] / 100) : 0;  \n    $scope.dataForm['tarif_potongan'] = _potongan ; \n    $scope.total_normal();\n  }\n\n  $scope.total_normal = function(){\n    _tarifNormal  = $scope.dataForm['frekuensi'] * $scope.dataForm['periode'] * $scope.dataForm['tarif'] ; \n    // _potongan     = ($scope.dataForm['tarif_potongan'] > 0 ) ?  $scope.dataForm['tarif_potongan'] : 0;  \n    _potongan     = ($scope.dataForm['tarif_diskon'] > 0) ? (_tarifNormal * $scope.dataForm['tarif_diskon'] / 100) : (($scope.dataForm['tarif_potongan'] > 0 ) ?  $scope.dataForm['tarif_potongan'] : 0);  \n    _hpp          = _tarifNormal - _potongan;  \n    _tarifPPN     = _hpp * 0.1;  \n    _totalNormal  = _hpp + _tarifPPN;  \n    _totalTayang  = $scope.dataForm['frekuensi'] * $scope.dataForm['periode'];\n\n    $scope.dataForm['tarif_normal'] = _tarifNormal ; \n    $scope.dataForm['tarif_potongan'] = _potongan ; \n    $scope.dataForm['tarif_hpp'] = _hpp ; \n    $scope.dataForm['tarif_ppn'] = _tarifPPN ; \n    $scope.dataForm['tarif_total'] = _totalNormal ; \n    $scope.dataForm['total_tayang'] = _totalTayang ; \n  }\n\n  $scope.totalDeal = function(){\n    _totalDeal  = $scope.dataForm['pnwr_total'];\n    _hppDeal    = _totalDeal / 1.1;\n    _ppnDeal    = _totalDeal - _hppDeal;\n    // console.log('hpp : '+_ppnDeal);\n\n    $scope.dataForm['pnwr_hpp'] = _hppDeal;\n    $scope.dataForm['pnwr_ppn'] = _ppnDeal;\n  }\n\n  // $scope.items = ['item1', 'item2', 'item3'];\n\n  // $scope.params = {}\n  // $scope.params = { periode : function() { return $scope.dataForm['periode'] }, frekuensi : function () { return $scope.dataForm['frekuensi']}};\n  $scope.openTayang = function () {\n    $scope.params = { _periode : $scope.dataForm['periode'] , _frekuensi : $scope.dataForm['frekuensi'], _f_pnwr : $scope.dataForm['id_pnwr']  };\n    // console.log($scope.dataForm['periode']);\n    // console.log($scope.dataForm);\n    // console.log($scope.params['periode']);\n    var modalInstance = $uibModal.open({\n      animation: true,\n      templateUrl: '/ext/ng-html/PMS/form/pnwrTayang.html',\n      controller: //function($scope,  $uibModalInstance, parameter)\n                  'ModalInstanceCtrl',\n                  // {\n                  //   $scope.params = parameter;\n                  //   console.log($scope.params);  \n                  // },\n  //     // size: size,\n      size: 'lg',\n      resolve: {\n        parameter : function(){\n          return $scope.params;\n          // return $scope.params;\n          // return { periode : function() { return $scope.dataForm['periode'] }, frekuensi : function () { return $scope.dataForm['frekuensi'] } };\n        }, \n        // parameterOut : function(){\n        //   return $scope.dataModal; \n        // } \n        // periode    : function () {\n        //   return $scope.dataForm['periode'];\n        // },\n        // frekuensi  : function () {\n        //   return $scope.dataForm['frekuensi'];\n        // },\n      }\n    });\n    modalInstance.result.then(function (selectedItem) {\n      // $scope.selected = selectedItem;\n    }, function () {\n      $log.info('Modal dismissed at: ' + new Date());\n    });\n\n\n  }\n\n  $scope.openMateri = function () {\n    $scope.params = { _f_pnwr : $scope.dataForm['id_pnwr']  };\n    var modalInstance = $uibModal.open({\n      animation: true,\n      templateUrl: '/ext/ng-html/PMS/form/pnwrMateri.html',\n      controller: 'ModalCtrlMateri',\n      size: 'lg',\n      resolve: {\n        parameter : function(){\n          return $scope.params;\n        }, \n      }\n    });\n    modalInstance.result.then(function (selectedItem) {\n      // $scope.selected = selectedItem;\n    }, function () {\n      $log.info('Modal dismissed at: ' + new Date());\n    });\n  }\n});\n\napp.directive('formPnwrMst', function (){\n    return{\n        restirct    : 'A',\n        templateUrl : '/ext/ng-html/formPnwrMst.html',\n    };\n});\n\napp.directive('lovCustomer', function (){\n    return{\n        restirct    : 'A',\n        templateUrl : '/ext/ng-html/PMS/lov/lovCustomer.html',\n    };\n});\n\napp.directive('lovProduk', function (){\n    return{\n        restirct    : 'A',\n        templateUrl : '/ext/ng-html/PMS/lov/lovProduk.html',\n    };\n});\n\n// app.directive('lovModal', function() {\n//     return {\n//         restrict: 'E',\n//         templateUrl: '/ext/ng-html/PMS/form/pnwrTayang.html',\n//         controller: function ($scope) {\n//           $scope.selected = {\n//             item: $scope.items[0] \n//           };\n//         }\n//     };\n// });\n\n// // app.controller('lovTayangController', function($scope, $http, API_URL) {\n// app.controller('lovTayangController', function($scope, $uibModal, $log){\n//   $scope.items = ['item1', 'item2', 'item3'];\n\n//   $scope.open = function (size) {\n//     console.log('masuk');\n//     var modalInstance = $uibModal.open({\n//       // animation: $scope.animationsEnabled,\n//       templateUrl: '/ext/ng-html/PMS/form/pnwrTayang.html',\n//       controller: 'ModalInstanceCtrl',\n//       // size: size,\n//       size: 'lg',\n//       resolve: {\n//         items: function () {\n//           return $scope.items;\n//         }\n//       }\n//     });\n\n//     modalInstance.result.then(function (selectedItem) {\n//       $scope.selected = selectedItem;\n//     }, function () {\n//       $log.info('Modal dismissed at: ' + new Date());\n//     });\n//   };\n// });\n\n\n// app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, $rootScope, params, periode, frekuensi) {\napp.controller('ModalInstanceCtrl', function ($scope, $http, $uibModalInstance, parameter, API_URL) {\n  $scope.dataModal = {}\n  $scope.parameter = parameter;\n  $scope.subUrl = 'pms/pnwrTayang';\n\n\n  // $scope.parameterOut = parameterOut;\n  // console.log($scope.params);\n  // alert('kenape nih?');\n  $scope._periode = Array.apply(0, Array($scope.parameter['_periode'])).map(function(val, i) { return i; });\n  $scope._frekuensi = Array.apply(0, Array($scope.parameter['_frekuensi'])).map(function(val, i) { return i; });\n  $scope.dataModal['f_pnwr'] = $scope.parameter['_f_pnwr'];\n  // $scope.dataModal = {\n  //   item: $scope.items[0]\n  // };\n  getTayang();\n\n\n  $scope.simpan = function (modalstate, id) {\n    // console.log(JSON.stringify({$scope.dataModal[0]},{$scope.dataModal[0]}, $scope.dataModal['f_pnwr']));\n    // _test = {$scope.dataModal[0], $scope.dataModal[1], $scope.dataModal['f_pnwr']};\n    // console.log(new Object($scope.dataModal));\n    console.log($.param($scope.dataModal));\n    // console.log(_test);\n\n    _url = API_URL + $scope.subUrl;\n    _method = (modalstate === 'edit') ? 'PUT' : 'POST';\n\n    // if(modalstate ==='edit') _url += '/'+id;\n\n    // _data = $.param($scope.dataModal);\n  \n    // if( typeof _data === 'undefined' || _data === null ){\n    //     // console.log($.param({$scope.dataModal}));\n    //     $scope.dataModal = new Object($scope.dataModal);\n    // }\n\n\n    $http({\n      'method'  : _method,\n      'url'     : _url,\n      'data'    : $.param($scope.dataModal), //( typeof _data === 'undefined' || _data === null ) ?  null : _data,\n      'headers' : {'Content-Type': 'application/x-www-form-urlencoded'}\n    }).success(function(response){\n        for(isi in response){\n          response[isi]['tayang_tgl'] =  new Date(response[isi]['tayang_tgl']);\n          $scope.dataModal[isi]       = response[isi];\n        }\n        $scope.dataModal['f_pnwr']     = $scope.parameter['f_pnwr'];\n\n      // console.log(response);\n      // if(modalstate === 'edit') {\n      //   $scope._data = apiModifyTable($scope._data, response.id_pnwr, response);\n      // }\n      // else {\n      //   $scope._data.push(response);\n      // }\n\n      // $scope.toggle(modalstate,id)\n      \n      // $scope.formTampil = false;  \n      // $('#'+$modalName).modal('hide');\n      $.gritter.add({\n            title: 'Application',\n            text: 'Data Berhasil Disimpan',\n            fade_out_speed: 5000\n      });\n\n      // getTayang();\n        // $uibModalInstance.close(null);\n    }).error(function(error){\n      console.log(error);\n    });\n\n  }\n\n  $scope.cancel = function () {\n    $uibModalInstance.dismiss('cancel');\n  };\n\n  function getTayang() {\n        $http({\n          'method'  : 'GET',\n          'url'     : API_URL+$scope.subUrl+'/edit',\n          'params'  : {\"_id\" : $scope.parameter['_f_pnwr']} \n        }).success(function(response){\n          // console.log($scope.dataModal);\n          // $scope.dataModal = {};\n          // if(! $.isEmptyObject(response)){\n            for(isi in response){\n              response[isi]['tayang_tgl'] =  new Date(response[isi]['tayang_tgl']);\n              $scope.dataModal[isi]       = response[isi];\n            }\n\n            // $scope.dataModal           = response;\n            $scope.dataModal['f_pnwr']    = $scope.parameter['_f_pnwr'];\n\n            // console.log($scope.parameter['_f_pnwr']);\n          // }\n        }).error(function(response){\n          console.log(response);\n        });\n  }\n\n});\n\napp.controller('ModalCtrlMateri', function ($scope, $http, $sce, $uibModalInstance, parameter, API_URL) {\n  $scope.dataModal = {}\n  $scope.dataModalParam = {}\n  $scope.parameter = parameter;\n  $scope.subUrl = 'pms/pnwrMateri';\n  // $scope.modalstate = 'new';\n\n  $scope.dataModal['f_pnwr'] = $scope.parameter['_f_pnwr'];\n\n  getMateri();\n\n  $scope.simpan = function () {\n    $scope.dataModalParam = angular.copy($scope.dataModal);\n    // if($scope.modalstate === 'edit')\n    $scope.dataModalParam['materi_tayang'] = $scope.dataModal['materi_tayang'].toString();\n     \n    // console.log($scope.dataModalParam);\n    $http({\n      'method'  : 'POST',\n      'url'     : API_URL + $scope.subUrl,\n      'data'    : $.param($scope.dataModalParam), \n      'headers' : {'Content-Type': 'application/x-www-form-urlencoded'}\n    }).success(function(response){\n        // $scope.dataModal['f_pnwr']     = $scope.parameter['f_pnwr'];\n        $.gritter.add({\n              title: 'Application',\n              text: 'Data Berhasil Disimpan',\n              fade_out_speed: 5000\n        });\n        // $uibModalInstance.close(null);\n\n   }).error(function(error){\n      console.log(error);\n    });\n\n  }\n\n  $scope.cancel = function () {\n    $uibModalInstance.dismiss('cancel');\n  };\n\n  function getMateri() {\n        $http({\n          'method'  : 'GET',\n          'url'     : API_URL+$scope.subUrl+'/rianday',\n          'params'  : {\"_id\" : $scope.parameter['_f_pnwr']} \n        }).success(function(response){\n            // console.log(response);\n            // for(isi in response){\n            //   response[isi]['tayang_tgl'] =  new Date(response[isi]['tayang_tgl']);\n            //   $scope.dataModal[isi]       = response[isi];\n            // }\n            // if(!$.isEmptyObject(response)){\n              $scope.dataModal['materi_tayang'] =  $sce.trustAsHtml(response.materi_tayang);\n              $scope.dataModal['f_pnwr']    = $scope.parameter['_f_pnwr'];\n              // $scope.modalstate = 'edit';\n            // } else {\n              // $scope.dataModal = {}\n              // $scope.modalstate = 'new';\n            // }\n\n        }).error(function(response){\n          console.log(response);\n        });\n  }\n\n});\n\nfunction apiModifyTable(originalData,id,response){\n    angular.forEach(originalData, function (item,key) {\n      // console.log(item.id_pnwr +' \\\\ '+key+' / '+id);\n        if(item.id_pnwr == id){\n            originalData[key] = response;\n        }\n    });\n    return originalData;\n}",
-			"file": "public/app/controllers/pnwrMst.min.js",
-			"file_size": 19238,
-			"file_write_time": 131110281355610769,
-			"settings":
-			{
-				"buffer_size": 19238,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "resources/views/pms/produk.blade.php",
-			"settings":
-			{
-				"buffer_size": 10500,
-				"line_ending": "Unix"
 			}
 		}
 	],
@@ -484,10 +401,27 @@
 	],
 	"file_history":
 	[
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/.env",
+		"/usr/share/nginx/html/index.html",
+		"/opt/lampp/htdocs/campur/firebase/index.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PROD/realisasiController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/pnwrMst.min.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/produk.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/layouts/app-angularjs.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/routes.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/messages.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/formFPMst.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/PMS/lov/lovCustomer.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/customer.min.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/fpMst.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/customer.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/Auth/TokenController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/realisasi.min.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_customer_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/prod/realisasi.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/gentalella/head.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/produk.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/ng-customer.min.js",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/prod/realisasi.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/customerController.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/modalCustomer.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_11_142955_pms_fp_mst.php",
@@ -497,29 +431,22 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_tgl_libur_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/pnwrMstController.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/pnwrTayangController.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/realisasi.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/composer.json",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/Auth/AuthController.php",
 		"/opt/lampp/etc/httpd.conf",
 		"/opt/lampp/etc/php.ini",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/PMS/form/pnwrTayang.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/routes.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/req_pms_produk_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_fp_mst.php",
 		"/opt/lampp/etc/extra/httpd-vhosts.conf",
 		"/etc/hosts",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/formFPMst.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/app.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_pnwr_mst.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PROD/realisasiController.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_pnwr_tayang.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/fpMst.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/fpMstController.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/fpDetController.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/fpMst.min.js",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/customer.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/layouts/app.blade.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/layouts/app-angularjs.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/vendor/symfony/routing/Router.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/bootstrap/app.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/PMS/lov/lovPnwr.html",
@@ -531,16 +458,13 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/vuser.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/userController.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/explain.txt",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/pnwrMst.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/formPnwrMst.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/lovPnwr.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_11_143840_pms_fp_det.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/keu_bank_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_10_135752_pms_customer_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/pnwrMst.blade.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/PMS/lov/lovCustomer.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/PMS/form/pnwrMateri.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_customer_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/reqPmsPnwrMateri.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/liburController.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/lovProduk.min.js",
@@ -551,7 +475,6 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_10_152925_pms_pnwr_tayang.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/templates/gentelella/master/production/form_advanced.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/PMS/lov/lovProduk.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/produk.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/trash_test/script.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/trash_test/contact.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/trash_test/index.html",
@@ -573,11 +496,9 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_10_145928_pms_pnwr_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/dirPagination.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/modalTarif.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/.env",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/reqPmsTglLiburMst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/reqPmsCustomerMst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/libur.min.js",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/messages.html",
 		"/home/rianday/Downloads/angular-currency-mask-master/demo.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/modalLibur.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/modalPnwrMst.html",
@@ -607,11 +528,7 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/produk.blade.backup.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/lib/angular-1.5.5/dirPagination.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/messages.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/layouts/messages.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Providers/AppServiceProvider.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_08_103339_create_pms_produk_mst.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/helper/myHelper.js",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/customer.js"
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/layouts/messages.html"
 	],
 	"find":
 	{
@@ -630,6 +547,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"date",
+			"$parent.$index",
+			"values",
 			"tayang_realisasi",
 			"virtual",
 			"vhost",
@@ -754,10 +674,7 @@
 			"data-ng-model",
 			"periode",
 			"frekuensi",
-			"]]",
-			"[[",
-			"]]",
-			"[["
+			"]]"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -794,7 +711,7 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -828,24 +745,154 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 17,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "app/Http/Controllers/PROD/realisasiController.php",
+					"file": "public/app/controllers/realisasi.min.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3432,
+						"buffer_size": 7360,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2702,
-								2702
+								3225,
+								3225
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 837.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "app/Http/Controllers/PROD/realisasiController.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3461,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3254,
+								3254
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": -0.0,
+						"translation.y": 1105.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "public/app/controllers/pnwrMst.min.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 19238,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								10948,
+								10948
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3692.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": ".env",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 598,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								140,
+								140
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "app/Http/Controllers/Auth/TokenController.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 603,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								563,
+								563
 							]
 						],
 						"settings":
@@ -858,14 +905,47 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 672.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "resources/views/prod/realisasi.blade.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 7691,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3331,
+								3331
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 128.0,
+						"translation.y": 475.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 3,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 7,
 					"semi_transient": false,
 					"settings":
 					{
@@ -884,506 +964,17 @@
 						{
 							"auto_name": "Collection {#314",
 							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
 							"syntax": "Packages/Text/Plain text.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 7628.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "resources/views/prod/realisasi.blade.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 6619,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4452,
-								4452
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 305.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "public/app/controllers/realisasi.min.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 7177,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5227,
-								5227
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 2.0,
-						"translation.y": 1873.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "app/Http/Models/pms_customer_mst.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 828,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								828,
-								828
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "app/Http/Controllers/Auth/TokenController.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 577,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								577,
-								577
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 10,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "resources/views/pms/customer.blade.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4391,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4391,
-								4391
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 11,
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "resources/views/pms/fpMst.blade.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5488,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5011,
-								5011
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 499.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "public/app/controllers/customer.min.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5996,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								404,
-								404
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 7308.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 10,
-					"file": "public/ext/ng-html/modalProduk.html",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 3981,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 55.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 11,
-					"file": "public/ext/ng-html/PMS/lov/lovCustomer.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2877,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								932,
-								932
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 12,
-					"type": "text"
-				},
-				{
-					"buffer": 12,
-					"file": "public/ext/ng-html/formFPMst.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 25136,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								22528,
-								22528
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 486.0,
-						"translation.y": 2883.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 16,
-					"type": "text"
-				},
-				{
-					"buffer": 13,
-					"file": "public/ext/ng-html/messages.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 625,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/HTML/HTML.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 15,
-					"type": "text"
-				},
-				{
-					"buffer": 14,
-					"file": "app/Http/routes.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1883,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								724,
-								724
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 81.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 9,
-					"type": "text"
-				},
-				{
-					"buffer": 15,
-					"file": "resources/views/layouts/app-angularjs.blade.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 8893,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								7203,
-								7203
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1612.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 8,
-					"type": "text"
-				},
-				{
-					"buffer": 16,
-					"file": "public/app/controllers/pnwrMst.min.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 19238,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								7976,
-								7976
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2875.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 14,
-					"type": "text"
-				},
-				{
-					"buffer": 17,
-					"file": "resources/views/pms/produk.blade.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 10500,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								34,
-								34
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 13,
 					"type": "text"
 				}
 			]
@@ -1442,12 +1033,28 @@
 		"selected_items":
 		[
 			[
-				"prod/realisasi",
+				"realisasi",
+				"app/Http/Controllers/PROD/realisasiController.php"
+			],
+			[
+				"pwnr",
+				"public/app/controllers/pnwrMst.min.js"
+			],
+			[
+				".env",
+				".env"
+			],
+			[
+				"realisas",
 				"resources/views/prod/realisasi.blade.php"
 			],
 			[
 				"realisa",
-				"app/Http/Controllers/PROD/realisasiController.php"
+				"public/app/controllers/realisasi.min.js"
+			],
+			[
+				"prod/realisasi",
+				"resources/views/prod/realisasi.blade.php"
 			],
 			[
 				"customer.",
@@ -1730,10 +1337,6 @@
 				"public/ext/ng-html/PMS/form/pnwrMateri.html"
 			],
 			[
-				"pwnr",
-				"public/app/controllers/pnwrMst.min.js"
-			],
-			[
 				"pnwr_mst",
 				"app/Http/Models/pms_pnwr_mst.php"
 			],
@@ -1940,18 +1543,6 @@
 			[
 				"modalt",
 				"public/ext/ng-html/modalTarif.html"
-			],
-			[
-				"modal",
-				"public/ext/ng-html/modalCustomer.html"
-			],
-			[
-				"formpn",
-				"public/ext/ng-html/formPnwrMst.html"
-			],
-			[
-				"modalcus",
-				"public/ext/ng-html/modalCustomer.html"
 			]
 		],
 		"width": 0.0
