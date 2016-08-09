@@ -17,7 +17,7 @@ class pms_pnwr_mst extends Model
 									'frekuensi', 'total_tayang', 'jenis_bayar', 'tarif_normal',
 									'tarif_diskon', 'tarif_potongan', 'tarif_hpp','tarif_ppn','tarif_total',
 									// 'pnwr_harga_dasar','pnwr_diskon','pnwr_potongan', 'pnwr_total',
-									'pnwr_hpp','pnwr_ppn','pnwr_total','pnwr_status','keterangan',
+									'pnwr_hpp','pnwr_ppn','pnwr_total','pnwr_status','keterangan', 'f_spks',
 									'sys_user_update', 'sys_tgl_update', 'sys_status_aktif');
 
 
@@ -72,4 +72,15 @@ class pms_pnwr_mst extends Model
 	// {
 	//     $this->belongsTo('App\Http\Models\pms_tarif_mst','f_tarif','id_tarif');
 	// }
+
+
+	/**
+	 * @function spks dibuat dan dikembangkan oleh rianday.
+	 * @depok
+	 * @return true
+	 */
+	public function spks()
+	{
+	    return $this->belongTo('App\Http\Models\hkm\hkm_spks_mst','f_spks','id_spks');
+	}
 }
