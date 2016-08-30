@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\Http\Models\pms_pnwr_tayang as modelMst;
+use App\Http\Models\pms\pms_pnwr_tayang as modelMst;
 use App\Http\Requests\reqPmsPnwrTayang as reqMst;
 use Carbon;
 use DB;

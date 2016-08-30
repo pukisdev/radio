@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\Http\Models\pms_fp_det as modelMst;
+use App\Http\Models\pms\pms_fp_det as modelMst;
 use App\Http\Requests\reqPmsFpDet as reqMst;
 use Carbon;
 use DB;

@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-use App\Http\Models\pms_produk_mst as modelMst;
+use App\Http\Models\pms\pms_produk_mst as modelMst;
 
 class req_pms_produk_mst extends Request
 {

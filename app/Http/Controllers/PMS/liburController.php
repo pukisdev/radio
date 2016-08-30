@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\Http\Models\pms_tgl_libur_mst;
+use App\Http\Models\pms\pms_tgl_libur_mst;
 use App\Http\Requests\reqPmsTglLiburMst;
 use Carbon;
 use DB;

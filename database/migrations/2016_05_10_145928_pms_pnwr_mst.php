@@ -43,7 +43,7 @@ class PmsPnwrMst extends Migration
             $table->mediumInteger('pnwr_ppn',false,true);
             $table->mediumInteger('pnwr_total',false,true);
             $table->enum('pnwr_status', ['proses', 'order', 'batal']);
-            $table->string('f_pnwr',32)->nullable();
+            $table->string('f_spks',32)->nullable();
             $table->string('keterangan',512);
             $table->string('sys_user_update',32);
             $table->timestamp('sys_tgl_update')->default(DB::raw('CURRENT_TIMESTAMP'));

@@ -36,6 +36,7 @@ Route::group(['prefix'=>'mst'], function(){
 	Route::get('pms/customer', 'PMS\customerController@_index');
 	Route::get('pms/pnwrMst', 'PMS\pnwrMstController@_index');
 	Route::get('pms/fpMst', 'PMS\fpMstController@_index');
+	Route::get('hkm/spks', 'HKM\spksController@_index');
 });
 
 Route::group(['prefix'=>'pms'], function(){
@@ -48,11 +49,26 @@ Route::group(['prefix'=>'pms'], function(){
 	Route::resource('pnwrMateri', 'PMS\pnwrMateriController');
 	Route::resource('fpMst', 'PMS\fpMstController');
 	Route::resource('fpDet', 'PMS\fpDetController');
+	Route::put('pnwrMst/spks/{pnwrMst}', 'PMS\pnwrMstController@_saveSpks');
+	// Route::get('order/spks', 'PMS\')
 });
+
+Route::group(['prefix'=>'hkm'], function(){
+	Route::resource('spks', 'HKM\spksController');
+	Route::get('spks/{spks}/apv', 'HKM\spksController@_getDefaultApv');
+	Route::put('spks/{spks}/apv', 'HKM\spksController@_setApv');
+	Route::get('spks/files/{dir}/{fileName}', 'HKM\spksController@_getFiles');
+	Route::delete('spks/files/{id_spks}/{dir}/{fileName}', 'HKM\spksController@_delFiles');
+});
+
 
 Route::group(['prefix'=>'prod'], function(){
 	Route::resource('realisasi', 'PROD\realisasiController');
 });
+
+// Route::group(['prefix'=>'files'], function(){
+// 	Route::get('hkm/{fileName}', 'HKM\spksController@_getFiles');
+// });
 
 
 

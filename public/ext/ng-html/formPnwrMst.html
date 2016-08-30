@@ -121,14 +121,16 @@
                         </div>
 
                         <div class="form-group error" ng-class="{ 'has-error' : frmMst.tgl_penawaran.$invalid && frmMst.tgl_penawaran.$touched }">
-                            <label for="inputEmail3" class="col-sm-3 control-label">Tanggal </label>
+                            <label for="inputEmail3" class="col-sm-3 control-label">Tanggal Penawaran</label>
                             <div class="col-sm-9">
-                                <div class="input-group date" data-provide="datepicker">
-                                    <input type="text" class="form-control has-error" placeholder="Tanggal Penawaran" value="[[tgl_penawaran]]" name="tgl_penawaran" ng-model="dataForm.tgl_penawaran" ng-minlength="5" required >
-                                    <div class="input-group-addon">
+                                <!-- <div class="input-group date" data-provide="datepicker"> -->
+                                    <input type="date" class="form-control has-error" placeholder="Tanggal Faktur" name="tgl_penawaran" ng-model="dataForm.tgl_penawaran" required>
+                                    <!-- <input type="date" class="form-control has-error" placeholder="Tanggal Faktur" name="tgl_jatuh_tempo" ng-model="dataForm.tgl_jatuh_tempo" > -->
+                                    <!-- <input type="text" class="form-control has-error" placeholder="Tanggal Penawaran" value="[[tgl_penawaran]]" name="tgl_penawaran" ng-model="dataForm.tgl_penawaran" ng-minlength="5" required > -->
+                                    <!-- <div class="input-group-addon">
                                         <span class="glyphicon glyphicon-th"></span>
-                                    </div>
-                                </div>
+                                    </div> -->
+                                <!-- </div> -->
                                 <span class="help-inline" ng-messages="frmMst.tgl_penawaran.$error" ng-show="frmMst.tgl_penawaran.$invalid && frmMst.tgl_penawaran.$touched">
                                     <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
                                 </span>
@@ -378,10 +380,27 @@
                                 </span>
                             </div>
                         </div>
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.alias_spks.$invalid && frmMst.alias_spks.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Spks</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input type="hidden" class="form-control has-error" placeholder="Kode spks" name="f_spks" ng-model="dataForm.f_spks" readonly>
+                                    <input type="text" class="form-control has-error" placeholder="SPKS" name="alias_spks"  ng-model="dataForm.alias_spks" readonly>
+                                    <span class="input-group-btn">
+                                        <!-- <button class="btn btn-default" type="button" ng-click="showModal('idModalSpks');">...</button> -->
+                                        <button class="btn btn-default" type="button" ng-click="lovSpks()">...</button>
+                                        <button class="btn btn-default" type="button" ng-click="dataForm.f_spks = null; dataForm.alias_spks = null;"><i class="fa fa-refresh"></i></button>
+                                    </span>
+                                </div>
+                                <span class="help-inline" ng-messages="frmMst.alias_spks.$error" ng-show="frmMst.alias_spks.$invalid && frmMst.alias_spks.$touched">
+                                    <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                </span>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-12">
                         <div class="pull-right">
-                            <button type="button" class="btn btn-default" ng-click="formTampil=false">Cancel</button>
+                            <button type="button" class="btn btn-default" ng-click="toggle('cancel')">Cancel</button>
                             <button type="button" class="btn btn-primary" id="btn-save" ng-click="save(modalstate, idState)" ng-disabled="frmMst.$invalid">Save changes</button>
                         </div>
                     </div>

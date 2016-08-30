@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\Http\Models\pms_pnwr_mst as modelMst;
+use App\Http\Models\pms\pms_pnwr_mst as modelMst;
 use App\Http\Requests\reqPmsPnwrMst as reqMst;
 use Carbon;
 use DB;
@@ -24,7 +24,14 @@ class pnwrMstController extends Controller
     {
         // DB::enableQueryLog();    
         // dd($request->all());
-        $query = modelMst::with('customer')->where('sys_status_aktif','A');
+        $query = modelMst::with([
+            'customer',
+            'spks'=>function($query){
+                $query->where('sys_status_aktif','A');
+                // $query->whereNotNull('spks');     
+                // $query->where('id_customer','=','f_customer');  
+            }, 'customer.spks'
+        ]);
         // dd(explode(",", $request->get('not_in')));
 
         if($request->get('not_in') and !empty($request->get('not_in'))){
@@ -34,6 +41,8 @@ class pnwrMstController extends Controller
         if($request->get('f_customer')){
             $query->where('f_customer', $request->get('f_customer'));
         }
+
+        $query->where('sys_status_aktif','A');
 
         if($request->get('search')){
             $items = $query->where("judul_iklan", "LIKE", "%".$request->get('search')."%")->paginate(5);      
@@ -65,9 +74,10 @@ class pnwrMstController extends Controller
      */
     public function store(reqMst $request, modelMst $model)
     {
-
+        // dd($request);
         $request->offsetUnset("nama_customer");
         $request->offsetUnset("nama_produk");
+        $request->offsetSet("tgl_penawaran", Carbon::parse($request->tgl_penawaran));
         // dd($request->all());
         $request->merge(array(
             'id_pnwr' => $this->generate_id(),
@@ -77,7 +87,8 @@ class pnwrMstController extends Controller
 
         $model->create($request->all());
         // dd($request->all());   
-        return $model->find($request->id_customer);
+        // return $model->find($request->id_pnwr);
+        return response(['id_pnwr' => $request->id_pnwr]);
     }
 
     /**
@@ -91,7 +102,10 @@ class pnwrMstController extends Controller
     {
         // dd($request->all());    
         // $items = modelMst::with('customer', 'produk')->find($id);
-        $items = modelMst::with('customer', 'produk')->find($request->_id);
+        $items = modelMst::with(['customer', 'produk', 'spks'=>function($query){
+                                                            $query->where('sys_status_aktif','A');
+                                                            // $query->whereNotNull('spks');     
+                                                        }])->find($request->_id);
         
         // dd($items);
         return response($items);
@@ -121,12 +135,14 @@ class pnwrMstController extends Controller
     // public function update(modelMst $pnwrMst, reqMst $request)
     public function update(reqMst $request, $id )
     {
+        // dd($request->all());
         // DB::enableQueryLog();    
         // $id = $request->id_pnwr;
         $request->offsetUnset("nama_customer");
         $request->offsetUnset("nama_produk");
         $request->offsetUnset("customer");
         $request->offsetUnset("produk");
+        $request->offsetSet("tgl_penawaran", Carbon::parse($request->tgl_penawaran));
         // $request->offsetUnset("id_pnwr");
         // $request->offsetUnset("$$hashKey");
         // dd($id);
@@ -138,12 +154,14 @@ class pnwrMstController extends Controller
         // $pnwrMst->findOrFail($request->id_pnwr);
         // $pnwrMst->where('id_pnwr',$request->id_pnwr)->get();
         // return response(modelMst::find(($id)));
+        // $pnwrMst = (!empty($id) and $id !== '1234') ?  modelMst::findOrFail($id) : modelMst::findOrFail($request->id_pnwr);
         $pnwrMst = modelMst::findOrFail($request->id_pnwr);
         if($pnwrMst)
             $pnwrMst->fill($request->all())->save();
         // dd(DB::getQueryLog());   
 
-        return response($pnwrMst->find($request->id_pnwr));
+        // return response($pnwrMst->find($request->id_pnwr));
+        return response(['id_pnwr'=>$request->id_pnwr]);
     }
 
     /**
@@ -171,6 +189,19 @@ class pnwrMstController extends Controller
         return view('pms/pnwrMst');
     }
 
+
+    /**
+     * @function _saveSpks dibuat dan dikembangkan oleh rianday.
+     * @depok
+     * @return true
+     */
+    public function _saveSpks(Request $request, $id)
+    {
+        // dd($request->all());
+        // DB::enableQueryLog();
+        modelMst::where('id_pnwr', $request->id_pnwr)->update(['f_spks'=>$request->f_spks]);
+        // dd(DB::getQueryLog());
+    }
     /**
      * @function generate_id dibuat dan dikembangkan oleh rianday.
      * @depok
@@ -226,5 +257,18 @@ class pnwrMstController extends Controller
         return response($items);        
     }
 
+
+    /**
+     * @function getForSpks dibuat dan dikembangkan oleh rianday.
+     * @depok
+     * @return true
+     */
+    public function getForSpks(Request $request)
+    {
+        $query = modelMst::with('spks');
+            $items = $query->paginate(5);
+        return response($items);        
+        
+    }
 
 }

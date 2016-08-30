@@ -4,6 +4,42 @@
 		"selected_items":
 		[
 			[
+				"sys_user",
+				"sys_user_updated"
+			],
+			[
+				"model",
+				"modelMst"
+			],
+			[
+				"nam",
+				"nama_customer"
+			],
+			[
+				"form",
+				"formdata"
+			],
+			[
+				"file_",
+				"file_upld"
+			],
+			[
+				"sdm_jabatan",
+				"sdm_jabatan_pegawai_trx"
+			],
+			[
+				"f_sta",
+				"f_status_kawin"
+			],
+			[
+				"fore",
+				"foreign"
+			],
+			[
+				"sdm_status",
+				"sdm_status_kerja_mst"
+			],
+			[
 				"hkm",
 				"hkm_spks_apv"
 			],
@@ -34,10 +70,6 @@
 			[
 				"find",
 				"findOrFail"
-			],
-			[
-				"model",
-				"modelDet"
 			],
 			[
 				"data",
@@ -276,23 +308,15 @@
 			"file": "public/app/controllers/spks.min.js",
 			"settings":
 			{
-				"buffer_size": 6503,
+				"buffer_size": 12257,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "public/app/controllers/pnwrMst.min.js",
+			"file": "app/Http/Controllers/PMS/pnwrMstController.php",
 			"settings":
 			{
-				"buffer_size": 19238,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/Http/Controllers/PROD/realisasiController.php",
-			"settings":
-			{
-				"buffer_size": 5558,
+				"buffer_size": 7708,
 				"line_ending": "Unix"
 			}
 		},
@@ -300,58 +324,48 @@
 			"file": "app/Http/Controllers/HKM/spksController.php",
 			"settings":
 			{
-				"buffer_size": 3357,
+				"buffer_size": 8845,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "database/migrations/2016_08_08_143530_hkm.php",
+			"file": "public/ext/ng-html/formPnwrMst.html",
 			"settings":
 			{
-				"buffer_size": 2306,
+				"buffer_size": 33916,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "database/migrations/2016_05_11_142111_pms_pnwr_spk.php",
+			"file": "resources/views/pms/pnwrMst.blade.php",
 			"settings":
 			{
-				"buffer_size": 1228,
+				"buffer_size": 8033,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "resources/views/prod/realisasi.blade.php",
+			"file": "public/app/controllers/pnwrMst.min.js",
 			"settings":
 			{
-				"buffer_size": 8125,
+				"buffer_size": 20430,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "public/app/controllers/customer.min.js",
+			"file": "public/app/controllers/lovSpks.min.js",
 			"settings":
 			{
-				"buffer_size": 5721,
+				"buffer_size": 2804,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"contents": "array:3 [\n  0 => array:4 [\n    8 => \"10\"\n    9 => \"45\"\n    10 => \"55\"\n    \"pnwr\" => \"00001/RSAU/SP/06/2016\"\n  ]\n  1 => array:4 [\n    9 => \"30\"\n    10 => \"15\"\n    13 => \"25\"\n    \"pnwr\" => \"00002/RSAU/SP/06/2016\"\n  ]\n  2 => array:3 [\n    9 => \"45\"\n    12 => \"20\"\n    \"pnwr\" => \"00003/RSAU/SP/06/2016\"\n  ]\n]",
+			"file": "public/ext/ng-html/hkm/lov/lovSpks.html",
 			"settings":
 			{
-				"buffer_size": 304,
-				"line_ending": "Unix",
-				"name": "array:3 ["
-			}
-		},
-		{
-			"contents": "Collection {#314\n  #items: array:3 [\n    0 => pms_pnwr_tayang {#303\n      +alias: \"\"\n      #table: \"pms_pnwr_tayang\"\n      #primaryKey: null\n      +incrementing: false\n      +timestamps: false\n      #fillable: array:7 [\n        0 => \"f_pnwr\"\n        1 => \"tayang_tgl\"\n        2 => \"tayang_jam\"\n        3 => \"tayang_realisasi\"\n        4 => \"sys_user_update\"\n        5 => \"sys_tgl_update\"\n        6 => \"sys_status_aktif\"\n      ]\n      #connection: null\n      #perPage: 15\n      #attributes: array:8 [\n        \"f_pnwr\" => \"00001/RSAU/SP/06/2016\"\n        \"tayang_tgl\" => \"2016-06-23\"\n        \"tayang_jam\" => \"0815,0915,1015\"\n        \"tayang_realisasi\" => null\n        \"sys_user_update\" => \"Admin\"\n        \"sys_tgl_update\" => \"2016-06-22 21:15:44\"\n        \"sys_status_aktif\" => \"A\"\n        \"jam\" => array:1 [\n          0 => array:3 [\n            0 => 8\n            1 => 9\n            2 => 10\n          ]\n        ]\n      ]\n      #original: array:7 [\n        \"f_pnwr\" => \"00001/RSAU/SP/06/2016\"\n        \"tayang_tgl\" => \"2016-06-23\"\n        \"tayang_jam\" => \"0815,0915,1015\"\n        \"tayang_realisasi\" => null\n        \"sys_user_update\" => \"Admin\"\n        \"sys_tgl_update\" => \"2016-06-22 21:15:44\"\n        \"sys_status_aktif\" => \"A\"\n      ]\n      #relations: array:1 [\n        \"pnwr\" => pms_pnwr_mst {#310\n          +alias: \"\"\n          #table: \"pms_pnwr_mst\"\n          #primaryKey: \"id_pnwr\"\n          +incrementing: false\n          +timestamps: false\n          #fillable: array:30 [\n            0 => \"id_pnwr\"\n            1 => \"no_po_customer\"\n            2 => \"f_customer\"\n            3 => \"judul_iklan\"\n            4 => \"kepada\"\n            5 => \"f_ae\"\n            6 => \"f_produk\"\n            7 => \"tarif\"\n            8 => \"tgl_penawaran\"\n            9 => \"durasi\"\n            10 => \"periode\"\n            11 => \"tgl_awal\"\n            12 => \"tgl_akhir\"\n            13 => \"frekuensi\"\n            14 => \"total_tayang\"\n            15 => \"jenis_bayar\"\n            16 => \"tarif_normal\"\n            17 => \"tarif_diskon\"\n            18 => \"tarif_potongan\"\n            19 => \"tarif_hpp\"\n            20 => \"tarif_ppn\"\n            21 => \"tarif_total\"\n            22 => \"pnwr_hpp\"\n            23 => \"pnwr_ppn\"\n            24 => \"pnwr_total\"\n            25 => \"pnwr_status\"\n            26 => \"keterangan\"\n            27 => \"sys_user_update\"\n            28 => \"sys_tgl_update\"\n            29 => \"sys_status_aktif\"\n          ]\n          #connection: null\n          #perPage: 15\n          #attributes: array:30 [\n            \"id_pnwr\" => \"00001/RSAU/SP/06/2016\"\n            \"no_po_customer\" => \"po tes\"\n            \"f_customer\" => \"CST-00001\"\n            \"judul_iklan\" => \"judul test 123\"\n            \"kepada\" => \"kepada test\"\n            \"f_ae\" => \"ae test\"\n            \"f_produk\" => \"BRG-00006\"\n            \"tarif\" => 500000\n            \"tgl_penawaran\" => \"2016-06-30 00:00:00\"\n            \"durasi\" => \"60\"\n            \"periode\" => 2\n            \"tgl_awal\" => \"0000-00-00\"\n            \"tgl_akhir\" => \"0000-00-00\"\n            \"frekuensi\" => 3\n            \"total_tayang\" => 6\n            \"jenis_bayar\" => \"TUNAI\"\n            \"tarif_normal\" => 3000000\n            \"tarif_diskon\" => 10\n            \"tarif_potongan\" => 300000\n            \"tarif_hpp\" => 2700000\n            \"tarif_ppn\" => 270000\n            \"tarif_total\" => 2970000\n            \"pnwr_hpp\" => 2272727\n            \"pnwr_ppn\" => 227273\n            \"pnwr_total\" => 2500000\n            \"pnwr_status\" => \"batal\"\n            \"keterangan\" => \"keterangan test\"\n            \"sys_user_update\" => \"ADMIN\"\n            \"sys_tgl_update\" => \"2016-05-24 15:05:43\"\n            \"sys_status_aktif\" => \"A\"\n          ]\n          #original: array:30 [\n            \"id_pnwr\" => \"00001/RSAU/SP/06/2016\"\n            \"no_po_customer\" => \"po tes\"\n            \"f_customer\" => \"CST-00001\"\n            \"judul_iklan\" => \"judul test 123\"\n            \"kepada\" => \"kepada test\"\n            \"f_ae\" => \"ae test\"\n            \"f_produk\" => \"BRG-00006\"\n            \"tarif\" => 500000\n            \"tgl_penawaran\" => \"2016-06-30 00:00:00\"\n            \"durasi\" => \"60\"\n            \"periode\" => 2\n            \"tgl_awal\" => \"0000-00-00\"\n            \"tgl_akhir\" => \"0000-00-00\"\n            \"frekuensi\" => 3\n            \"total_tayang\" => 6\n            \"jenis_bayar\" => \"TUNAI\"\n            \"tarif_normal\" => 3000000\n            \"tarif_diskon\" => 10\n            \"tarif_potongan\" => 300000\n            \"tarif_hpp\" => 2700000\n            \"tarif_ppn\" => 270000\n            \"tarif_total\" => 2970000\n            \"pnwr_hpp\" => 2272727\n            \"pnwr_ppn\" => 227273\n            \"pnwr_total\" => 2500000\n            \"pnwr_status\" => \"batal\"\n            \"keterangan\" => \"keterangan test\"\n            \"sys_user_update\" => \"ADMIN\"\n            \"sys_tgl_update\" => \"2016-05-24 15:05:43\"\n            \"sys_status_aktif\" => \"A\"\n          ]\n          #relations: array:1 [\n            \"customer\" => pms_customer_mst {#315\n              +alias: \"\"\n              #table: \"pms_customer_mst\"\n              #primaryKey: \"id_customer\"\n              +incrementing: false\n              +timestamps: false\n              #fillable: array:5 [\n                0 => \"id_customer\"\n                1 => \"nama_customer\"\n                2 => \"sys_user_update\"\n                3 => \"sys_tgl_update\"\n                4 => \"sys_status_aktif\"\n              ]\n              #connection: null\n              #perPage: 15\n              #attributes: array:5 [\n                \"id_customer\" => \"CST-00001\"\n                \"nama_customer\" => \"PT. Rianday Sukses Bersama\"\n                \"sys_user_update\" => \"ADMIN\"\n                \"sys_tgl_update\" => \"2016-05-24 14:47:56\"\n                \"sys_status_aktif\" => \"A\"\n              ]\n              #original: array:5 [\n                \"id_customer\" => \"CST-00001\"\n                \"nama_customer\" => \"PT. Rianday Sukses Bersama\"\n                \"sys_user_update\" => \"ADMIN\"\n                \"sys_tgl_update\" => \"2016-05-24 14:47:56\"\n                \"sys_status_aktif\" => \"A\"\n              ]\n              #relations: []\n              #hidden: []\n              #visible: []\n              #appends: []\n              #guarded: array:1 [\n                0 => \"*\"\n              ]\n              #dates: []\n              #dateFormat: null\n              #casts: []\n              #touches: []\n              #observables: []\n              #with: []\n              #morphClass: null\n              +exists: true\n              +wasRecentlyCreated: false\n            }\n          ]\n          #hidden: []\n          #visible: []\n          #appends: []\n          #guarded: array:1 [\n            0 => \"*\"\n          ]\n          #dates: []\n          #dateFormat: null\n          #casts: []\n          #touches: []\n          #observables: []\n          #with: []\n          #morphClass: null\n          +exists: true\n          +wasRecentlyCreated: false\n        }\n      ]\n      #hidden: []\n      #visible: []\n      #appends: []\n      #guarded: array:1 [\n        0 => \"*\"\n      ]\n      #dates: []\n      #dateFormat: null\n      #casts: []\n      #touches: []\n      #observables: []\n      #with: []\n      #morphClass: null\n      +exists: true\n      +wasRecentlyCreated: false\n    }\n    1 => pms_pnwr_tayang {#304\n      +alias: \"\"\n      #table: \"pms_pnwr_tayang\"\n      #primaryKey: null\n      +incrementing: false\n      +timestamps: false\n      #fillable: array:7 [\n        0 => \"f_pnwr\"\n        1 => \"tayang_tgl\"\n        2 => \"tayang_jam\"\n        3 => \"tayang_realisasi\"\n        4 => \"sys_user_update\"\n        5 => \"sys_tgl_update\"\n        6 => \"sys_status_aktif\"\n      ]\n      #connection: null\n      #perPage: 15\n      #attributes: array:8 [\n        \"f_pnwr\" => \"00002/RSAU/SP/06/2016\"\n        \"tayang_tgl\" => \"2016-06-23\"\n        \"tayang_jam\" => \"0900,1030,1300\"\n        \"tayang_realisasi\" => null\n        \"sys_user_update\" => \"Admin\"\n        \"sys_tgl_update\" => \"2016-06-22 21:16:00\"\n        \"sys_status_aktif\" => \"A\"\n        \"jam\" => array:2 [\n          0 => array:3 [\n            0 => 8\n            1 => 9\n            2 => 10\n          ]\n          1 => array:3 [\n            0 => 9\n            1 => 10\n            2 => 13\n          ]\n        ]\n      ]\n      #original: array:7 [\n        \"f_pnwr\" => \"00002/RSAU/SP/06/2016\"\n        \"tayang_tgl\" => \"2016-06-23\"\n        \"tayang_jam\" => \"0900,1030,1300\"\n        \"tayang_realisasi\" => null\n        \"sys_user_update\" => \"Admin\"\n        \"sys_tgl_update\" => \"2016-06-22 21:16:00\"\n        \"sys_status_aktif\" => \"A\"\n      ]\n      #relations: array:1 [\n        \"pnwr\" => pms_pnwr_mst {#311\n          +alias: \"\"\n          #table: \"pms_pnwr_mst\"\n          #primaryKey: \"id_pnwr\"\n          +incrementing: false\n          +timestamps: false\n          #fillable: array:30 [\n            0 => \"id_pnwr\"\n            1 => \"no_po_customer\"\n            2 => \"f_customer\"\n            3 => \"judul_iklan\"\n            4 => \"kepada\"\n            5 => \"f_ae\"\n            6 => \"f_produk\"\n            7 => \"tarif\"\n            8 => \"tgl_penawaran\"\n            9 => \"durasi\"\n            10 => \"periode\"\n            11 => \"tgl_awal\"\n            12 => \"tgl_akhir\"\n            13 => \"frekuensi\"\n            14 => \"total_tayang\"\n            15 => \"jenis_bayar\"\n            16 => \"tarif_normal\"\n            17 => \"tarif_diskon\"\n            18 => \"tarif_potongan\"\n            19 => \"tarif_hpp\"\n            20 => \"tarif_ppn\"\n            21 => \"tarif_total\"\n            22 => \"pnwr_hpp\"\n            23 => \"pnwr_ppn\"\n            24 => \"pnwr_total\"\n            25 => \"pnwr_status\"\n            26 => \"keterangan\"\n            27 => \"sys_user_update\"\n            28 => \"sys_tgl_update\"\n            29 => \"sys_status_aktif\"\n          ]\n          #connection: null\n          #perPage: 15\n          #attributes: array:30 [\n            \"id_pnwr\" => \"00002/RSAU/SP/06/2016\"\n            \"no_po_customer\" => \"po tes\"\n            \"f_customer\" => \"CST-00001\"\n            \"judul_iklan\" => \"judul iklan\"\n            \"kepada\" => \"kepada test\"\n            \"f_ae\" => \"ae test\"\n            \"f_produk\" => \"BRG-00006\"\n            \"tarif\" => 500000\n            \"tgl_penawaran\" => \"2016-06-30 00:00:00\"\n            \"durasi\" => \"60\"\n            \"periode\" => 2\n            \"tgl_awal\" => \"0000-00-00\"\n            \"tgl_akhir\" => \"0000-00-00\"\n            \"frekuensi\" => 3\n            \"total_tayang\" => 6\n            \"jenis_bayar\" => \"TUNAI\"\n            \"tarif_normal\" => 3000000\n            \"tarif_diskon\" => 10\n            \"tarif_potongan\" => 300000\n            \"tarif_hpp\" => 2700000\n            \"tarif_ppn\" => 270000\n            \"tarif_total\" => 2970000\n            \"pnwr_hpp\" => 909091\n            \"pnwr_ppn\" => 90909\n            \"pnwr_total\" => 1000000\n            \"pnwr_status\" => \"pending\"\n            \"keterangan\" => \"keterangan test\"\n            \"sys_user_update\" => \"ADMIN\"\n            \"sys_tgl_update\" => \"2016-05-24 14:47:56\"\n            \"sys_status_aktif\" => \"A\"\n          ]\n          #original: array:30 [\n            \"id_pnwr\" => \"00002/RSAU/SP/06/2016\"\n            \"no_po_customer\" => \"po tes\"\n            \"f_customer\" => \"CST-00001\"\n            \"judul_iklan\" => \"judul iklan\"\n            \"kepada\" => \"kepada test\"\n            \"f_ae\" => \"ae test\"\n            \"f_produk\" => \"BRG-00006\"\n            \"tarif\" => 500000\n            \"tgl_penawaran\" => \"2016-06-30 00:00:00\"\n            \"durasi\" => \"60\"\n            \"periode\" => 2\n            \"tgl_awal\" => \"0000-00-00\"\n            \"tgl_akhir\" => \"0000-00-00\"\n            \"frekuensi\" => 3\n            \"total_tayang\" => 6\n            \"jenis_bayar\" => \"TUNAI\"\n            \"tarif_normal\" => 3000000\n            \"tarif_diskon\" => 10\n            \"tarif_potongan\" => 300000\n            \"tarif_hpp\" => 2700000\n            \"tarif_ppn\" => 270000\n            \"tarif_total\" => 2970000\n            \"pnwr_hpp\" => 909091\n            \"pnwr_ppn\" => 90909\n            \"pnwr_total\" => 1000000\n            \"pnwr_status\" => \"pending\"\n            \"keterangan\" => \"keterangan test\"\n            \"sys_user_update\" => \"ADMIN\"\n            \"sys_tgl_update\" => \"2016-05-24 14:47:56\"\n            \"sys_status_aktif\" => \"A\"\n          ]\n          #relations: array:1 [\n            \"customer\" => pms_customer_mst {#315}\n          ]\n          #hidden: []\n          #visible: []\n          #appends: []\n          #guarded: array:1 [\n            0 => \"*\"\n          ]\n          #dates: []\n          #dateFormat: null\n          #casts: []\n          #touches: []\n          #observables: []\n          #with: []\n          #morphClass: null\n          +exists: true\n          +wasRecentlyCreated: false\n        }\n      ]\n      #hidden: []\n      #visible: []\n      #appends: []\n      #guarded: array:1 [\n        0 => \"*\"\n      ]\n      #dates: []\n      #dateFormat: null\n      #casts: []\n      #touches: []\n      #observables: []\n      #with: []\n      #morphClass: null\n      +exists: true\n      +wasRecentlyCreated: false\n    }\n    2 => pms_pnwr_tayang {#305\n      +alias: \"\"\n      #table: \"pms_pnwr_tayang\"\n      #primaryKey: null\n      +incrementing: false\n      +timestamps: false\n      #fillable: array:7 [\n        0 => \"f_pnwr\"\n        1 => \"tayang_tgl\"\n        2 => \"tayang_jam\"\n        3 => \"tayang_realisasi\"\n        4 => \"sys_user_update\"\n        5 => \"sys_tgl_update\"\n        6 => \"sys_status_aktif\"\n      ]\n      #connection: null\n      #perPage: 15\n      #attributes: array:8 [\n        \"f_pnwr\" => \"00003/RSAU/SP/06/2016\"\n        \"tayang_tgl\" => \"2016-06-23\"\n        \"tayang_jam\" => \"0915,0930\"\n        \"tayang_realisasi\" => null\n        \"sys_user_update\" => \"Admin\"\n        \"sys_tgl_update\" => \"2016-06-22 21:16:22\"\n        \"sys_status_aktif\" => \"A\"\n        \"jam\" => array:3 [\n          0 => array:3 [\n            0 => 8\n            1 => 9\n            2 => 10\n          ]\n          1 => array:3 [\n            0 => 9\n            1 => 10\n            2 => 13\n          ]\n          2 => array:2 [\n            0 => 9\n            1 => 9\n          ]\n        ]\n      ]\n      #original: array:7 [\n        \"f_pnwr\" => \"00003/RSAU/SP/06/2016\"\n        \"tayang_tgl\" => \"2016-06-23\"\n        \"tayang_jam\" => \"0915,0930\"\n        \"tayang_realisasi\" => null\n        \"sys_user_update\" => \"Admin\"\n        \"sys_tgl_update\" => \"2016-06-22 21:16:22\"\n        \"sys_status_aktif\" => \"A\"\n      ]\n      #relations: array:1 [\n        \"pnwr\" => pms_pnwr_mst {#312\n          +alias: \"\"\n          #table: \"pms_pnwr_mst\"\n          #primaryKey: \"id_pnwr\"\n          +incrementing: false\n          +timestamps: false\n          #fillable: array:30 [\n            0 => \"id_pnwr\"\n            1 => \"no_po_customer\"\n            2 => \"f_customer\"\n            3 => \"judul_iklan\"\n            4 => \"kepada\"\n            5 => \"f_ae\"\n            6 => \"f_produk\"\n            7 => \"tarif\"\n            8 => \"tgl_penawaran\"\n            9 => \"durasi\"\n            10 => \"periode\"\n            11 => \"tgl_awal\"\n            12 => \"tgl_akhir\"\n            13 => \"frekuensi\"\n            14 => \"total_tayang\"\n            15 => \"jenis_bayar\"\n            16 => \"tarif_normal\"\n            17 => \"tarif_diskon\"\n            18 => \"tarif_potongan\"\n            19 => \"tarif_hpp\"\n            20 => \"tarif_ppn\"\n            21 => \"tarif_total\"\n            22 => \"pnwr_hpp\"\n            23 => \"pnwr_ppn\"\n            24 => \"pnwr_total\"\n            25 => \"pnwr_status\"\n            26 => \"keterangan\"\n            27 => \"sys_user_update\"\n            28 => \"sys_tgl_update\"\n            29 => \"sys_status_aktif\"\n          ]\n          #connection: null\n          #perPage: 15\n          #attributes: array:30 [\n            \"id_pnwr\" => \"00003/RSAU/SP/06/2016\"\n            \"no_po_customer\" => \"po-po-pi\"\n            \"f_customer\" => \"CST-00001\"\n            \"judul_iklan\" => \"iklan ke 3\"\n            \"kepada\" => \"riandai\"\n            \"f_ae\" => \"ae eo\"\n            \"f_produk\" => \"BRG-00006\"\n            \"tarif\" => 500000\n            \"tgl_penawaran\" => \"2016-06-14 00:00:00\"\n            \"durasi\" => \"60\"\n            \"periode\" => 4\n            \"tgl_awal\" => \"0000-00-00\"\n            \"tgl_akhir\" => \"0000-00-00\"\n            \"frekuensi\" => 2\n            \"total_tayang\" => 8\n            \"jenis_bayar\" => \"TUNAI\"\n            \"tarif_normal\" => 4000000\n            \"tarif_diskon\" => 0\n            \"tarif_potongan\" => 0\n            \"tarif_hpp\" => 4000000\n            \"tarif_ppn\" => 400000\n            \"tarif_total\" => 4400000\n            \"pnwr_hpp\" => 10000000\n            \"pnwr_ppn\" => 1000000\n            \"pnwr_total\" => 11000000\n            \"pnwr_status\" => \"proses\"\n            \"keterangan\" => \"ketaranaga\"\n            \"sys_user_update\" => \"ADMIN\"\n            \"sys_tgl_update\" => \"2016-05-24 14:47:56\"\n            \"sys_status_aktif\" => \"A\"\n          ]\n          #original: array:30 [\n            \"id_pnwr\" => \"00003/RSAU/SP/06/2016\"\n            \"no_po_customer\" => \"po-po-pi\"\n            \"f_customer\" => \"CST-00001\"\n            \"judul_iklan\" => \"iklan ke 3\"\n            \"kepada\" => \"riandai\"\n            \"f_ae\" => \"ae eo\"\n            \"f_produk\" => \"BRG-00006\"\n            \"tarif\" => 500000\n            \"tgl_penawaran\" => \"2016-06-14 00:00:00\"\n            \"durasi\" => \"60\"\n            \"periode\" => 4\n            \"tgl_awal\" => \"0000-00-00\"\n            \"tgl_akhir\" => \"0000-00-00\"\n            \"frekuensi\" => 2\n            \"total_tayang\" => 8\n            \"jenis_bayar\" => \"TUNAI\"\n            \"tarif_normal\" => 4000000\n            \"tarif_diskon\" => 0\n            \"tarif_potongan\" => 0\n            \"tarif_hpp\" => 4000000\n            \"tarif_ppn\" => 400000\n            \"tarif_total\" => 4400000\n            \"pnwr_hpp\" => 10000000\n            \"pnwr_ppn\" => 1000000\n            \"pnwr_total\" => 11000000\n            \"pnwr_status\" => \"proses\"\n            \"keterangan\" => \"ketaranaga\"\n            \"sys_user_update\" => \"ADMIN\"\n            \"sys_tgl_update\" => \"2016-05-24 14:47:56\"\n            \"sys_status_aktif\" => \"A\"\n          ]\n          #relations: array:1 [\n            \"customer\" => pms_customer_mst {#315}\n          ]\n          #hidden: []\n          #visible: []\n          #appends: []\n          #guarded: array:1 [\n            0 => \"*\"\n          ]\n          #dates: []\n          #dateFormat: null\n          #casts: []\n          #touches: []\n          #observables: []\n          #with: []\n          #morphClass: null\n          +exists: true\n          +wasRecentlyCreated: false\n        }\n      ]\n      #hidden: []\n      #visible: []\n      #appends: []\n      #guarded: array:1 [\n        0 => \"*\"\n      ]\n      #dates: []\n      #dateFormat: null\n      #casts: []\n      #touches: []\n      #observables: []\n      #with: []\n      #morphClass: null\n      +exists: true\n      +wasRecentlyCreated: false\n    }\n  ]\n}\n\n\n\n9000021939120",
-			"settings":
-			{
-				"buffer_size": 18499,
-				"line_ending": "Unix",
-				"name": "Collection {#314"
+				"buffer_size": 3340,
+				"line_ending": "Unix"
 			}
 		}
 	],
@@ -433,69 +447,137 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/Auth",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/HKM",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/hkm",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/sdm",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/hkm",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/templates",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/templates/gentelella",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/bootstrap",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/PMS",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/PMS/form",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/PMS/lov",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/layouts",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/default"
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/hkm",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/hkm",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/hkm/spks",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/storage/app",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/storage/app/public",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/storage/app/public/draft",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/storage/app/public/spks"
 	],
 	"file_history":
 	[
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms/pms_pnwr_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms/pms_customer_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/hkm/spks/tblSpks.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/formFPMst.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/fpMst.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/sdm/sdm_pegawai_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/hkm/hkm_spks_apv.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/layouts/app-angularjs.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/layouts/app.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/hkm/formSpks.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/lovSpks.min.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/fpMstController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/routes.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/fpMst.min.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_10_145928_pms_pnwr_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/lib/angular-1.5.5/angular-sanitize.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/pnwrMstController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/sdm/2016_08_10_040050_sdm.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/hkm/hkm_spks_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/hkm/reqHkmSpksApv.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/realisasi.min.js",
+		"/opt/lampp/etc/extra/httpd-vhosts.conf",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/templates/gentelella/master/production/form_upload.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/hkm/reqHkmSpksDet.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_08_08_143530_hkm.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/reqHkmsSpksMst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/reqHkmSpksMst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/PMS/form/pnwrTayang.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/config/app.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/seeds/masterSys.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/sys/sys_negara_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/sys/sys_kategori_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/sys/sys_kota_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms/pms_tgl_libur_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms/pms_produk_tarif.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms/pms_produk_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms/pms_pnwr_tayang.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms/pms_fp_det.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms/pms_fp_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms/pms_pnwr_materi.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms/pms_pnwr_spk.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/req_pms_produk_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/reqPmsTglLiburMst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/reqPmsProdukTarif.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/reqPmsPnwrMst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/produkController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/reqPmsCustomerMst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/reqPmsFpMst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PROD/realisasiController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/customerController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/fpDetController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/liburController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/pnwrMateriController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/pnwrTayangController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/tarifController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/pnwrMst.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/pnwrMst.min.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2014_10_12_000000_create_users_table.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/sys/2016_08_10_033928_sys.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/spks.min.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/PMS/lov/lovCustomer.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/lovCustomer.min.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/HKM/spksController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/sys/sys_status_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/sys/sys_type_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/Auth/AuthController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/User.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_08_10_040050_sdm.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_08_10_033928_sys.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/hkm/reqHkmSpksMst.php",
+		"/opt/lampp/logs/error_log",
+		"/opt/lampp/logs/php_error_log",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/rte-angular-master/src/rte/rte.css",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/formPnwrMst.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_pnwr_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/customer.min.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/prod/realisasi.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_pnwr_materi.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_customer_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_11_142111_pms_pnwr_spk.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/.env",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/Auth/TokenController.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/pnwrTayangController.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/pnwrMstController.php",
 		"/usr/share/nginx/html/index.html",
 		"/opt/lampp/htdocs/campur/firebase/index.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PROD/realisasiController.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/produk.blade.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/layouts/app-angularjs.blade.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/routes.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/messages.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/formFPMst.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/PMS/lov/lovCustomer.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/customer.min.js",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/fpMst.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/customer.blade.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/realisasi.min.js",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_customer_mst.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/prod/realisasi.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/gentalella/head.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/produk.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/ng-customer.min.js",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/customerController.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/modalCustomer.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_11_142955_pms_fp_mst.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/config/app.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_fp_det.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/reqPmsPnwrMst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_tgl_libur_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/composer.json",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/Auth/AuthController.php",
 		"/opt/lampp/etc/httpd.conf",
 		"/opt/lampp/etc/php.ini",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/PMS/form/pnwrTayang.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/req_pms_produk_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_fp_mst.php",
-		"/opt/lampp/etc/extra/httpd-vhosts.conf",
 		"/etc/hosts",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/app.js",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_pnwr_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_pnwr_tayang.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/fpMstController.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/fpDetController.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/fpMst.min.js",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/layouts/app.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/vendor/symfony/routing/Router.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/bootstrap/app.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/PMS/lov/lovPnwr.html",
@@ -507,18 +589,13 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/vuser.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/userController.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/explain.txt",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/formPnwrMst.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/lovPnwr.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_11_143840_pms_fp_det.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/keu_bank_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_10_135752_pms_customer_mst.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/pnwrMst.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/PMS/form/pnwrMateri.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/reqPmsPnwrMateri.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/liburController.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/lovProduk.min.js",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/reqPmsFpMst.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/pnwrMateriController.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_10_153433_pms_pnwr_materi.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/reqPmsPnwrTayang.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_10_152925_pms_pnwr_tayang.php",
@@ -527,57 +604,7 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/trash_test/script.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/trash_test/contact.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/trash_test/index.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/trash_test/modal.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/produkController.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/modalProduk.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/tarifController.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/reqPmsProdukTarif.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/libur.blade.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/index.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/trash_test/contactDetail.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/welcome.blade.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/home.blade.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/trash_test/style.css",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/trash_test/home.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/trash_test/about.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_produk_tarif.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_produk_mst.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_10_145928_pms_pnwr_mst.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/dirPagination.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/modalTarif.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/reqPmsTglLiburMst.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/reqPmsCustomerMst.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/libur.min.js",
-		"/home/rianday/Downloads/angular-currency-mask-master/demo.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/modalLibur.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/modalPnwrMst.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/lib/ui-date-master/demo/index.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/layouts/app.blade.backup.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/produk.js",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/helpers/myHelper.js",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/vendor/laravel/framework/src/Illuminate/Database/Connection.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/reqPmsFpDet.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/reqPmsPnwrSpk.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_pnwr_materi.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_pnwr_spk.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_11_142111_pms_pnwr_spk.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/Models/pms_fp_det.php",
-		"/home/rianday/.config/sublime-text-3/Packages/User/rianday2.sublime-snippet",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_10_145331_pms_tgl_libur_mst.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/css/font-awesome.min.css",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/css/google.font.css",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/default/header.blade.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/default/head.blade.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/layouts/default.blade.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_10_135156_pms_produk_tarif.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/config/database.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/Request.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/vendor/laravel/framework/src/Illuminate/Foundation/Http/FormRequest.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/produk.blade.backup.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/lib/angular-1.5.5/dirPagination.js",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/messages.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/layouts/messages.html"
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/trash_test/modal.html"
 	],
 	"find":
 	{
@@ -596,6 +623,95 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"nama_",
+			"span",
+			"show",
+			"lovCustomer",
+			"customer",
+			"Customer",
+			"customer",
+			"Customer",
+			"customer",
+			"Customer",
+			"customer",
+			"Spks",
+			"spks",
+			"Spks",
+			"Customer",
+			"control",
+			"Customer",
+			"customer",
+			"Customer",
+			"keterangan",
+			"Keterangan",
+			"keterangan",
+			"nama_customer",
+			"tgl_awal",
+			"id",
+			"button",
+			" [];",
+			"<rte",
+			"rte",
+			"response.data",
+			"resp",
+			"response",
+			"nip_apv",
+			"files",
+			"Files",
+			"files",
+			"draft",
+			"id_baru",
+			"files",
+			"draft",
+			"draf",
+			"karyawan",
+			"nip",
+			"'sys_user_created',16",
+			"pms",
+			"pnwr_mst",
+			"hkm",
+			"draft",
+			"sce",
+			"resp.data",
+			".data",
+			"/",
+			"resp",
+			"mandatori[$index]",
+			"mandatori",
+			"keterangan",
+			"judul_iklan",
+			" colspan=\"5\"",
+			"pnwr",
+			"	// /**\n	//  * @function pnwr dibuat dan dikembangkan oleh rianday.\n	//  * @depok\n	//  * @return true\n	//  */\n	// public function pnwr()\n	// {\n	//     $this->hasMany('App\\Http\\Models\\pms\\pms_pnwr_mst','f_spks','id_spks');\n	// }\n",
+			"fp_det",
+			"frmMst.files",
+			"frmMst.draft",
+			"pms",
+			"|MIME_type",
+			"image",
+			"username",
+			"filex",
+			"file",
+			"reqMst",
+			"fa-",
+			"sdm_status_kerja_mst",
+			"toggle",
+			"_dataCustomer",
+			"showModal(",
+			"formTampil",
+			"netto",
+			"Netto",
+			"netto",
+			"Netto",
+			"netto",
+			"deskripsi_fp",
+			"tgl_fp",
+			"f_customer",
+			"id_fp",
+			"Nomor Faktur",
+			"\n/*",
+			"id_customer",
+			"generate_id",
 			"+5",
 			"index+5",
 			"jam",
@@ -634,96 +750,7 @@
 			"_potongan_persen",
 			"_hpp_nilai",
 			"_hpp_persen",
-			"biaya",
-			"=>",
-			",",
-			"keterangan",
-			"pms_customer_mst",
-			"=",
-			"    = ",
-			"=",
-			"tayang",
-			"modalstate",
-			"Modal",
-			"'data'",
-			"nilai_biaya_persen",
-			"[_index]",
-			"=",
-			"dataForm[$index]",
-			"judul_iklan",
-			"dataForm[$index].",
-			"dataForm[$index]",
-			"scope.dataForm.push",
-			"[j]",
-			"j",
-			"dataForm",
-			"=",
-			"_data",
-			"trDataForm_",
-			"response",
-			"$scope.dataForm[_index]['",
-			"judul_iklan",
-			"        $scope.dataForm[_index]['judul_iklan",
-			"$scope.dataForm[_index]['",
-			"produk_mst",
-			"fp_mst",
-			"ng-model=\"dataForm.",
-			");\n",
-			"keterangan",
-			"ttd",
-			"jenis_faktur",
-			"fp",
-			"f_customer",
-			"ppn",
-			"hpp",
-			"pnwr_hpp",
-			"selectedItem",
-			"produk",
-			"getResultsPageProduk",
-			"searchDBProduk",
-			"tableProduk",
-			"searchTextProduk",
-			"_dataProduk",
-			"subUrlProduk",
-			"totalItemsProduk",
-			"totalItemsTempProduk",
-			"libraryTempProduk",
-			"Produk",
-			"readonly=\"\"",
-			"total_biaya",
-			" width=\"10%\"",
-			"9",
-			"keterangan",
-			"Keterangan",
-			"keterangan",
-			"tarif",
-			"Tarif",
-			"tarif",
-			"f_customer",
-			"tgl_jatuh_tempo",
-			"jenis_faktur",
-			"deskripsi_fp",
-			"tgl_fp",
-			"jenis_bayar",
-			"judul_iklan",
-			"no_po_customer",
-			"id_pnwr",
-			"PnwrMst",
-			"pnwrMst",
-			"pnwr",
-			"tayang_materi",
-			"pnwrMst",
-			"Tayang",
-			"f_pnwr",
-			"id_pnwr",
-			"frmMst",
-			"tayang",
-			"getTayang",
-			"variable",
-			"dataModal[$index]",
-			"_frekuensi",
-			"data-",
-			"params"
+			"biaya"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -760,7 +787,7 @@
 	"groups":
 	[
 		{
-			"selected": 6,
+			"selected": 3,
 			"sheets":
 			[
 				{
@@ -776,8 +803,8 @@
 						"selection":
 						[
 							[
-								14,
-								14
+								441,
+								441
 							]
 						],
 						"settings":
@@ -794,7 +821,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 10,
+					"stack_index": 8,
 					"type": "text"
 				},
 				{
@@ -803,15 +830,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6503,
+						"buffer_size": 12257,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								958,
-								958
+								11783,
+								11783
 							]
 						],
 						"settings":
@@ -824,60 +851,27 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "public/app/controllers/pnwrMst.min.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 19238,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								15916,
-								15916
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 5543.0,
+						"translation.y": 1213.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 7,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "app/Http/Controllers/PROD/realisasiController.php",
+					"buffer": 2,
+					"file": "app/Http/Controllers/PMS/pnwrMstController.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5558,
+						"buffer_size": 7708,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5353,
-								5353
+								755,
+								755
 							]
 						],
 						"settings":
@@ -890,93 +884,27 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 584.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "app/Http/Controllers/HKM/spksController.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3357,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								155,
-								155
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "database/migrations/2016_08_08_143530_hkm.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2306,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1097,
-								1097
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 65.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
-					"file": "database/migrations/2016_05_11_142111_pms_pnwr_spk.php",
-					"semi_transient": true,
+					"buffer": 3,
+					"file": "app/Http/Controllers/HKM/spksController.php",
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1228,
+						"buffer_size": 8845,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								1020,
+								1020
 							]
 						],
 						"settings":
@@ -989,27 +917,60 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 198.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 7,
-					"file": "resources/views/prod/realisasi.blade.php",
+					"buffer": 4,
+					"file": "public/ext/ng-html/formPnwrMst.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 8125,
+						"buffer_size": 33916,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4479,
-								4479
+								32758,
+								32758
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4659.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "resources/views/pms/pnwrMst.blade.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8033,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7990,
+								7990
 							]
 						],
 						"settings":
@@ -1021,28 +982,28 @@
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
-						"translation.x": 260.0,
-						"translation.y": 400.0,
+						"translation.x": 0.0,
+						"translation.y": 399.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 8,
-					"file": "public/app/controllers/customer.min.js",
+					"buffer": 6,
+					"file": "public/app/controllers/pnwrMst.min.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5721,
+						"buffer_size": 20430,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5721,
-								5721
+								1006,
+								1006
 							]
 						],
 						"settings":
@@ -1058,71 +1019,73 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
-					"buffer": 9,
+					"buffer": 7,
+					"file": "public/app/controllers/lovSpks.min.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 304,
+						"buffer_size": 2804,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								304,
-								304
+								2427,
+								2427
 							]
 						],
 						"settings":
 						{
-							"auto_name": "array:3 [",
-							"incomplete_sync": null,
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 8,
-					"type": "text"
-				},
-				{
-					"buffer": 10,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 18499,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								18486,
-								18486
-							]
-						],
-						"settings":
-						{
-							"auto_name": "Collection {#314",
 							"incomplete_sync": null,
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 7308.0,
+						"translation.y": 418.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "public/ext/ng-html/hkm/lov/lovSpks.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3340,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2400,
+								2400
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 6.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
 					"type": "text"
 				}
 			]
@@ -1181,6 +1144,254 @@
 		"selected_items":
 		[
 			[
+				"pnwr.min",
+				"public/app/controllers/pnwrMst.min.js"
+			],
+			[
+				"spks.bla",
+				"resources/views/hkm/spks/tblSpks.blade.php"
+			],
+			[
+				"lovspks.min.js",
+				"public/app/controllers/lovSpks.min.js"
+			],
+			[
+				"spksbla",
+				"resources/views/hkm/spks/tblSpks.blade.php"
+			],
+			[
+				"spks.min.js",
+				"public/app/controllers/spks.min.js"
+			],
+			[
+				"pnwr.html",
+				"public/ext/ng-html/formPnwrMst.html"
+			],
+			[
+				"fpcon",
+				"app/Http/Controllers/PMS/fpMstController.php"
+			],
+			[
+				"customer_",
+				"app/Http/Models/pms/pms_customer_mst.php"
+			],
+			[
+				"pnwr_",
+				"app/Http/Models/pms/pms_pnwr_mst.php"
+			],
+			[
+				"pnwrms",
+				"public/app/controllers/pnwrMst.min.js"
+			],
+			[
+				"pnwrb",
+				"resources/views/pms/pnwrMst.blade.php"
+			],
+			[
+				"route",
+				"app/Http/routes.php"
+			],
+			[
+				"pnwrmstcon",
+				"app/Http/Controllers/PMS/pnwrMstController.php"
+			],
+			[
+				"pnwr.mi",
+				"public/app/controllers/pnwrMst.min.js"
+			],
+			[
+				"pnwr",
+				"public/ext/ng-html/formPnwrMst.html"
+			],
+			[
+				"app.bl",
+				"resources/views/layouts/app-angularjs.blade.php"
+			],
+			[
+				"app.bla",
+				"resources/views/layouts/app.blade.php"
+			],
+			[
+				"pnwrmin",
+				"public/app/controllers/pnwrMst.min.js"
+			],
+			[
+				"app/lib/angular-1.5.5/san",
+				"public/app/lib/angular-1.5.5/angular-sanitize.js"
+			],
+			[
+				"app-an",
+				"resources/views/layouts/app-angularjs.blade.php"
+			],
+			[
+				"fp.html",
+				"public/ext/ng-html/formFPMst.html"
+			],
+			[
+				"sdm_",
+				"app/Http/Models/sdm/sdm_pegawai_mst.php"
+			],
+			[
+				"hkm/hkm_spks_apv",
+				"app/Http/Models/hkm/hkm_spks_apv.php"
+			],
+			[
+				"pnwrcon",
+				"app/Http/Controllers/PMS/pnwrMstController.php"
+			],
+			[
+				"fpmin",
+				"public/app/controllers/fpMst.min.js"
+			],
+			[
+				"migrasdm",
+				"database/migrations/sdm/2016_08_10_040050_sdm.php"
+			],
+			[
+				"formfpmst",
+				"public/ext/ng-html/formFPMst.html"
+			],
+			[
+				"fp",
+				"resources/views/pms/fpMst.blade.php"
+			],
+			[
+				"fpcontro",
+				"app/Http/Controllers/PMS/fpMstController.php"
+			],
+			[
+				"fpms",
+				"public/app/controllers/fpMst.min.js"
+			],
+			[
+				"pnwr_m",
+				"app/Http/Models/pms/pms_pnwr_mst.php"
+			],
+			[
+				"fpcontroll",
+				"app/Http/Controllers/PMS/fpMstController.php"
+			],
+			[
+				"hkm/hkm_spks_mst",
+				"app/Http/Models/hkm/hkm_spks_mst.php"
+			],
+			[
+				"pms/pms_customer_mst",
+				"app/Http/Models/pms/pms_customer_mst.php"
+			],
+			[
+				"hkm",
+				"app/Http/Models/hkm/hkm_spks_apv.php"
+			],
+			[
+				"hkm_spks_mst",
+				"app/Http/Models/hkm/hkm_spks_mst.php"
+			],
+			[
+				"hkm/reqhkmspksmst",
+				"app/Http/Requests/hkm/reqHkmSpksMst.php"
+			],
+			[
+				"pnwrcontro",
+				"app/Http/Controllers/PMS/pnwrMstController.php"
+			],
+			[
+				"hkmspks",
+				"app/Http/Requests/hkm/reqHkmSpksMst.php"
+			],
+			[
+				"pnwrco",
+				"app/Http/Controllers/PMS/pnwrMstController.php"
+			],
+			[
+				"min.js",
+				"public/app/controllers/realisasi.min.js"
+			],
+			[
+				"tayang.",
+				"public/ext/ng-html/PMS/form/pnwrTayang.html"
+			],
+			[
+				"app.",
+				"config/app.php"
+			],
+			[
+				"hkm/spks",
+				"app/Http/Controllers/HKM/spksController.php"
+			],
+			[
+				"production/form_upload.html",
+				"public/assets/templates/gentelella/master/production/form_upload.html"
+			],
+			[
+				"/ext/ng-html/hkm/formspks.html",
+				"public/ext/ng-html/hkm/formSpks.html"
+			],
+			[
+				"app/controllers/spks.min.js",
+				"public/app/controllers/spks.min.js"
+			],
+			[
+				"realis",
+				"public/app/controllers/realisasi.min.js"
+			],
+			[
+				"authcon",
+				"app/Http/Controllers/Auth/AuthController.php"
+			],
+			[
+				"lovcu",
+				"public/app/controllers/lovCustomer.min.js"
+			],
+			[
+				"formfp",
+				"public/ext/ng-html/formFPMst.html"
+			],
+			[
+				"lovcust",
+				"public/ext/ng-html/PMS/lov/lovCustomer.html"
+			],
+			[
+				"app/controllers/lovcustomer.min.js",
+				"public/app/controllers/lovCustomer.min.js"
+			],
+			[
+				"pnwr.bl",
+				"resources/views/pms/pnwrMst.blade.php"
+			],
+			[
+				"pnwr.m",
+				"public/app/controllers/pnwrMst.min.js"
+			],
+			[
+				"rte-angular",
+				"public/ext/rte-angular-master/src/rte/rte.css"
+			],
+			[
+				"app/controllers/fpmst.min.js",
+				"public/app/controllers/fpMst.min.js"
+			],
+			[
+				"fp.min",
+				"public/app/controllers/fpMst.min.js"
+			],
+			[
+				"spks",
+				"resources/views/hkm/spks/tblSpks.blade.php"
+			],
+			[
+				"spks_m",
+				"app/Http/Models/hkm/hkm_spks_mst.php"
+			],
+			[
+				"",
+				"app/Http/routes.php"
+			],
+			[
+				"pms_pnwr",
+				"app/Http/Models/pms_pnwr_mst.php"
+			],
+			[
 				"customer",
 				"app/Http/Controllers/PMS/customerController.php"
 			],
@@ -1191,10 +1402,6 @@
 			[
 				"pnwrta",
 				"app/Http/Controllers/PMS/pnwrTayangController.php"
-			],
-			[
-				"pnwrcon",
-				"app/Http/Controllers/PMS/pnwrMstController.php"
 			],
 			[
 				"realisasi",
@@ -1237,20 +1444,12 @@
 				"public/app/controllers/produk.min.js"
 			],
 			[
-				"route",
-				"app/Http/routes.php"
-			],
-			[
 				"lovco",
 				"public/ext/ng-html/PMS/lov/lovCustomer.html"
 			],
 			[
 				"/ext/ng-html/messages.html",
 				"public/ext/ng-html/messages.html"
-			],
-			[
-				"formfpmst",
-				"public/ext/ng-html/formFPMst.html"
 			],
 			[
 				"pnwrm",
@@ -1267,10 +1466,6 @@
 			[
 				"customcon",
 				"app/Http/Controllers/PMS/customerController.php"
-			],
-			[
-				"app.",
-				"config/app.php"
 			],
 			[
 				"customercontrol",
@@ -1321,10 +1516,6 @@
 				"public/app/app.js"
 			],
 			[
-				"pnwr.min",
-				"public/app/controllers/pnwrMst.min.js"
-			],
-			[
 				"realisasicon",
 				"app/Http/Controllers/PROD/realisasiController.php"
 			],
@@ -1335,10 +1526,6 @@
 			[
 				"fp_ms",
 				"app/Http/Models/pms_fp_mst.php"
-			],
-			[
-				"fp",
-				"app/Http/Models/pms_fp_det.php"
 			],
 			[
 				"pnwrmst",
@@ -1393,24 +1580,12 @@
 				"app/Http/Controllers/PMS/fpDetController.php"
 			],
 			[
-				"fpmin",
-				"public/app/controllers/fpMst.min.js"
-			],
-			[
-				"formfp",
-				"public/ext/ng-html/formFPMst.html"
-			],
-			[
 				"requse",
 				"app/Http/Requests/reqTblUser.php"
 			],
 			[
 				"requser",
 				"app/Http/Requests/reqTblUser.php"
-			],
-			[
-				"app.bla",
-				"resources/views/layouts/app.blade.php"
 			],
 			[
 				"pnw",
@@ -1429,24 +1604,12 @@
 				"app/Http/Controllers/PMS/customerController.php"
 			],
 			[
-				"pnwr.m",
-				"public/app/controllers/pnwrMst.min.js"
-			],
-			[
-				"pnwr",
-				"public/ext/ng-html/formPnwrMst.html"
-			],
-			[
 				"lov",
 				"public/app/controllers/lovPnwr.min.js"
 			],
 			[
 				"pnwrcontr",
 				"app/Http/Controllers/PMS/pnwrMstController.php"
-			],
-			[
-				"pnwrmin",
-				"public/app/controllers/pnwrMst.min.js"
 			],
 			[
 				"lovpn",
@@ -1461,10 +1624,6 @@
 				"public/app/controllers/lovPnwr.min.js"
 			],
 			[
-				"pnwr_",
-				"app/Http/Models/pms_pnwr_mst.php"
-			],
-			[
 				"fp_",
 				"app/Http/Models/pms_fp_det.php"
 			],
@@ -1473,20 +1632,12 @@
 				"public/ext/ng-html/PMS/form/pnwrTayang.html"
 			],
 			[
-				"pnwrmstcon",
-				"app/Http/Controllers/PMS/pnwrMstController.php"
-			],
-			[
 				"app/controllers/lovproduk.min.js",
 				"public/app/controllers/lovProduk.min.js"
 			],
 			[
 				"/ext/ng-html/pms/lov/lovcustomer.html",
 				"public/ext/ng-html/PMS/lov/lovCustomer.html"
-			],
-			[
-				"pnwrms",
-				"public/ext/ng-html/formPnwrMst.html"
 			],
 			[
 				"ext/ng-html/pms/form/pnwrmateri.html",
@@ -1503,194 +1654,6 @@
 			[
 				"pms_pn",
 				"app/Http/Models/pms_pnwr_mst.php"
-			],
-			[
-				"fp_mst",
-				"app/Http/Models/pms_fp_mst.php"
-			],
-			[
-				"pnwrtaya",
-				"public/ext/ng-html/PMS/form/pnwrTayang.html"
-			],
-			[
-				"reqmater",
-				"app/Http/Requests/reqPmsPnwrMateri.php"
-			],
-			[
-				"pms_mater",
-				"database/migrations/2016_05_10_153433_pms_pnwr_materi.php"
-			],
-			[
-				"app-",
-				"resources/views/layouts/app-angularjs.blade.php"
-			],
-			[
-				"pnwrmater",
-				"app/Http/Controllers/PMS/pnwrMateriController.php"
-			],
-			[
-				"pmstayang",
-				"app/Http/Models/pms_pnwr_tayang.php"
-			],
-			[
-				"reqpmspnwrtayang",
-				"app/Http/Requests/reqPmsPnwrTayang.php"
-			],
-			[
-				"pnwr_taya",
-				"app/Http/Models/pms_pnwr_tayang.php"
-			],
-			[
-				"pnwr.bla",
-				"resources/views/pms/pnwrMst.blade.php"
-			],
-			[
-				"form_advanced.html",
-				"public/assets/templates/gentelella/master/production/form_advanced.html"
-			],
-			[
-				"prod",
-				"resources/views/pms/produk.blade.php"
-			],
-			[
-				"scr",
-				"public/trash_test/script.js"
-			],
-			[
-				"conta",
-				"public/trash_test/contact.html"
-			],
-			[
-				"lovproduk.min.js",
-				"public/app/controllers/lovProduk.min.js"
-			],
-			[
-				"produk.blad",
-				"resources/views/pms/produk.blade.php"
-			],
-			[
-				"pnwr.blad",
-				"resources/views/pms/pnwrMst.blade.php"
-			],
-			[
-				"app",
-				"public/app/app.js"
-			],
-			[
-				"con",
-				"public/trash_test/contact.html"
-			],
-			[
-				"script",
-				"public/trash_test/script.js"
-			],
-			[
-				"produk.hml",
-				"public/ext/ng-html/modalProduk.html"
-			],
-			[
-				"produ",
-				"app/Http/Controllers/PMS/produkController.php"
-			],
-			[
-				"tarif",
-				"app/Http/Controllers/PMS/tarifController.php"
-			],
-			[
-				"produkcon",
-				"app/Http/Controllers/PMS/produkController.php"
-			],
-			[
-				"reqtar",
-				"app/Http/Requests/reqPmsProdukTarif.php"
-			],
-			[
-				"reqpnw",
-				"app/Http/Requests/reqPmsPnwrMst.php"
-			],
-			[
-				"pms_pnwr",
-				"app/Http/Models/pms_pnwr_mst.php"
-			],
-			[
-				"pnwr.bl",
-				"resources/views/pms/pnwrMst.blade.php"
-			],
-			[
-				"produk.bla",
-				"resources/views/pms/produk.blade.php"
-			],
-			[
-				"produk.m",
-				"public/app/controllers/produk.min.js"
-			],
-			[
-				"pms_cus",
-				"app/Http/Models/pms_customer_mst.php"
-			],
-			[
-				"index.html",
-				"public/trash_test/index.html"
-			],
-			[
-				"repnwr",
-				"app/Http/Requests/reqPmsPnwrMst.php"
-			],
-			[
-				"produkco",
-				"app/Http/Controllers/PMS/produkController.php"
-			],
-			[
-				"liburc",
-				"app/Http/Controllers/PMS/liburController.php"
-			],
-			[
-				"modelpnwr",
-				"app/Http/Models/pms_pnwr_mst.php"
-			],
-			[
-				"tari",
-				"app/Http/Controllers/PMS/tarifController.php"
-			],
-			[
-				"",
-				"app/Http/Controllers/PMS/produkController.php"
-			],
-			[
-				"lovpor",
-				"public/ext/ng-html/PMS/lov/lovProduk.html"
-			],
-			[
-				"lovp",
-				"public/app/controllers/lovProduk.min.js"
-			],
-			[
-				"liburcon",
-				"app/Http/Controllers/PMS/liburController.php"
-			],
-			[
-				"fopnwr",
-				"public/ext/ng-html/formPnwrMst.html"
-			],
-			[
-				"pnwrco",
-				"app/Http/Controllers/PMS/pnwrMstController.php"
-			],
-			[
-				"pms_",
-				"app/Http/Models/pms_produk_tarif.php"
-			],
-			[
-				"produk_ms",
-				"app/Http/Models/pms_produk_mst.php"
-			],
-			[
-				"tar",
-				"app/Http/Controllers/PMS/tarifController.php"
-			],
-			[
-				"/ext/ng-html/dirpagination.html",
-				"public/ext/ng-html/dirPagination.html"
 			]
 		],
 		"width": 0.0
@@ -1721,7 +1684,7 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 310.0,
+	"side_bar_width": 333.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

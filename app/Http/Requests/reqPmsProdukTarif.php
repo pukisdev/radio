@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-use App\Http\Models\pms_produk_tarif as modelMst;
+use App\Http\Models\pms\pms_produk_tarif as modelMst;
 
 class reqPmsProdukTarif extends Request
 {

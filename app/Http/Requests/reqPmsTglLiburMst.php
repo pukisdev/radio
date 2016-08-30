@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-use App\Http\Models\pms_tgl_libur_mst as modelMst;
+use App\Http\Models\pms\pms_tgl_libur_mst as modelMst;
 
 class reqPmsTglLiburMst extends Request
 {

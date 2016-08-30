@@ -14,7 +14,8 @@ class Hkm extends Migration
     {
         Schema::create('hkm_spks_mst', function (Blueprint $table) {
             //
-            $table->string('id_spks',16)->primary();
+            $table->string('id_spks',64)->primary();
+            $table->string('alias_spks',64);
             $table->string('f_customer', 16);
             $table->string('nama',64);
             $table->date('tgl_awal')->nullable();
@@ -32,7 +33,7 @@ class Hkm extends Migration
 
         Schema::create('hkm_spks_apv', function (Blueprint $table) {
             //
-            $table->string('f_spks',16);
+            $table->string('f_spks',64);
             $table->string('apv_nip', 16);
             $table->enum('apv_status',['Y','T'])->nullable();
             $table->date('apv_tgl')->nullable();

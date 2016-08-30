@@ -16,7 +16,7 @@
                             <div class="row">
                                 <div class="col-lg-12 margin-tb">
                                     <div class="pull-left">
-                                        <h2>Master Customer</h2>
+                                        <h2>Penawaran Order Iklan</h2>
                                     </div>
                                     <div class="pull-right" style="padding-top:30px">
                                         <div class="box-tools" style="display:inline-table">
@@ -38,7 +38,7 @@
                                             <th>Judul Iklan</th>
                                             <th>Tanggal</th>
                                             <th>Netto</th>
-                                            <th>Status</th>
+                                            <th>Spks</th>
                                             <th><button id="btn-add" class="btn btn-primary btn-xs" ng-click="toggle('add', 0)">Penawaran Baru</button></th>
                                         </tr>
                                     </thead>
@@ -48,9 +48,36 @@
                                             <td>[[ values.id_pnwr ]]</td>
                                             <td>[[ values.customer.nama_customer ]]</td>
                                             <td>[[ values.judul_iklan ]]</td>
-                                            <td>[[ values.tgl_penawaran ]]</td>
-                                            <td >[[ values.pnwr_total ]]</td>
-                                            <td>[[ values.sys_status_aktif ]]</td>
+                                            <td>[[ values.tgl_penawaran.substring(0, 10) ]]</td>
+                                            <td>[[ values.pnwr_total | currency : 'Rp.' ]]</td>
+                                            <!-- <td>[[ values.sys_status_aktif ]]</td> -->
+                                            <td width="23%">
+                                                <div ng-if="!values.f_spks" class="form-group error" ng-class="{ 'has-error' : frmMst.listSpks.$invalid && frmMst.listSpks.$touched }">
+                                                    <div class="input-group">
+                                                        <span class="input-group-btn">
+                                                            <button class="btn btn-default" type="button" ng-click="simpanSpks(values.id_pnwr, $index);" ><i class="fa fa-save"></i></button>
+                                                        </span>
+                                                        <input type="hidden" class="form-control has-error" name="f_spks" ng-model="dataForm[$index].f_spks" required readonly>
+                                                        <input type="text" class="form-control has-error" placeholder="Spks" name="alias_spks" ng-model="dataForm[$index].alias_spks" required readonly>
+                                                        <span class="input-group-btn">
+                                                            <button class="btn btn-default" type="button" ng-click="lovSpks(values.f_customer, $index);" ><i class="fa fa-edit"></i></button>
+                                                            <button class="btn btn-default" type="button" ng-click="dataForm[$index].alias_spks = null; dataForm[$index].f_spks = null; " ><i class="fa fa-refresh"></i></button>
+                                                        </span>
+<!--
+                                                         <select class="form-control" placeholder="Jenis Bayar" name="listSpks" ng-model="param" required> 
+                                                            <option ng-repeat="listSpks in _data[$index].customer.spks" value="[[listSpks.id_spks+','+listSpks.spks]]">[[ listSpks.alias_spks ]]</option>
+                                                        </select>
+                                                        <select class="form-control" name="listSpks" ng-options="_option as _option.alias_spks for _option in _data[$index].customer.spks" ng-model="listSpks" ng-change="getFilesSpks(listSpks);" required> 
+                                                        </select>
+ -->
+
+                                                    </div>
+                                                    <span class="help-inline" ng-messages="frmMst.listSpks.$error" ng-show="frmMst.listSpks.$invalid && frmMst.listSpks.$touched">
+                                                        <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                                    </span>
+                                                </div>
+                                                <button ng-if="values.f_spks" class="btn btn-info btn-xs" ng-click="getFilesSpks(values.spks.spks)">[[ values.spks.alias_spks ]]</button>
+                                            </td>
                                             <td>
                                                 <button class="btn btn-default btn-xs btn-detail" ng-click="toggle('edit', values.id_pnwr)">Edit</button>
                                                 <button class="btn btn-danger btn-xs btn-delete" ng-click="confirmDelete(values, $index)">Delete</button>
@@ -84,6 +111,9 @@
         <div class="col-md-12" ng-controller="lovCustomerController">
             <div lov-customer></div>
         </div>
+        <!-- <div class="col-md-12" ng-controller="lovSpksController"> -->
+            <!-- <div lov-spks></div> -->
+        <!-- </div> -->
         <!-- <div class="col-md-12" ng-controller="lovTayangController"> -->
             <lov-modal></lov-modal>
         <!-- </div> -->
@@ -93,4 +123,5 @@
 <script src="<?= asset('app/controllers/pnwrMst.min.js') ?>"></script>
 <script src="<?= asset('app/controllers/lovProduk.min.js') ?>"></script>
 <script src="<?= asset('app/controllers/lovCustomer.min.js') ?>"></script>
+<script src="<?= asset('app/controllers/lovSpks.min.js') ?>"></script>
 @endsection
