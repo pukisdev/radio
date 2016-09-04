@@ -168,7 +168,7 @@ class Sdm extends Migration
             $table->foreign('f_status_kerja')->references('id_status_kerja')->on('sdm_status_kerja_mst');
             $table->foreign('f_status_kawin')->references('id_status_kawin')->on('sdm_status_kawin_mst');
             $table->foreign('f_agama')->references('id_agama')->on('sdm_agama_mst');
-            $table->foreign('f_kewarganegaraan')->references('id_negara')->on('sys_negara_mst');
+            // $table->foreign('f_kewarganegaraan')->references('id_negara')->on('sys_negara_mst');
             $table->foreign('f_bank')->references('id_bank')->on('sdm_bank_mst');
         });
 

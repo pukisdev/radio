@@ -55,7 +55,7 @@ class PmsPnwrMst extends Migration
             // $table->foreign('f_ae')->references('id_ae')->on('pms_ae_mst');
             $table->foreign('f_produk')->references('id_produk')->on('pms_produk_mst');
             // $table->foreign('f_tarif')->references('id_tarif')->on('pms_produk_tarif');
-            $table->foreign('f_spks')->references('id_spks')->on('hkm_spks_mst');
+            // $table->foreign('f_spks')->references('id_spks')->on('hkm_spks_mst');
         });    
     }
 
