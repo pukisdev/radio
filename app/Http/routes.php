@@ -15,22 +15,25 @@
 // 		return view('pms/produk');
 // });
 
-Route::get('/', function () {
-    return view('welcome');
-    // return view('pms/produk');
-    // return view('pms/index');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+//     // return view('pms/produk');
+//     // return view('pms/index');
+// });
 
 Route::auth();
-
-Route::get('/home', 'HomeController@index');
 Route::get('/token', 'Auth\TokenController@getToken');
 
-Route::group(['prefix'=>'check'], function(){
-	Route::get('pms/pnwrMst', 'PMS\pnwrMstController@getForFaktur');
+Route::group(['middleware'=>['menus']], function(){
+	Route::get('/home', 'sites\snController@index');
+	Route::get('/', 'sites\snController@index');
 });
 
-Route::group(['prefix'=>'mst'], function(){
+Route::group(['middleware'=>['menus']], function(){
+	Route::get('/{jenis}/{module}/menu', 'sites\menuController@index');
+});
+
+Route::group(['prefix'=>'mst', 'middleware'=>['menus']], function(){ //show view
 	Route::get('pms/produk', 'PMS\produkController@_index');
 	Route::get('pms/libur', 'PMS\liburController@_index');
 	Route::get('pms/customer', 'PMS\customerController@_index');
@@ -39,7 +42,7 @@ Route::group(['prefix'=>'mst'], function(){
 	Route::get('hkm/spks', 'HKM\spksController@_index');
 });
 
-Route::group(['prefix'=>'pms'], function(){
+Route::group(['prefix'=>'pms'], function(){ //return dalam bentuk json
 	Route::resource('produk', 'PMS\produkController');
 	Route::resource('tarif', 'PMS\tarifController');
 	Route::resource('libur', 'PMS\liburController');
@@ -66,6 +69,9 @@ Route::group(['prefix'=>'prod'], function(){
 	Route::resource('realisasi', 'PROD\realisasiController');
 });
 
+Route::group(['prefix'=>'check'], function(){
+	Route::get('pms/pnwrMst', 'PMS\pnwrMstController@getForFaktur');
+});
 // Route::group(['prefix'=>'files'], function(){
 // 	Route::get('hkm/{fileName}', 'HKM\spksController@_getFiles');
 // });

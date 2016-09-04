@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"page",
+				"pageNumber"
+			],
+			[
+				"select",
+				"selectedItem"
+			],
+			[
 				"sys_user",
 				"sys_user_updated"
 			],
@@ -305,10 +313,10 @@
 			}
 		},
 		{
-			"file": "public/app/controllers/spks.min.js",
+			"file": "app/Http/Controllers/sites/menuController.php",
 			"settings":
 			{
-				"buffer_size": 12257,
+				"buffer_size": 707,
 				"line_ending": "Unix"
 			}
 		},
@@ -316,55 +324,23 @@
 			"file": "app/Http/Controllers/PMS/pnwrMstController.php",
 			"settings":
 			{
-				"buffer_size": 7708,
+				"buffer_size": 8890,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "app/Http/Controllers/HKM/spksController.php",
+			"file": "app/Http/Models/sys/sys_app_mst.php",
 			"settings":
 			{
-				"buffer_size": 8845,
+				"buffer_size": 233,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "public/ext/ng-html/formPnwrMst.html",
+			"file": "app/Http/routes.php",
 			"settings":
 			{
-				"buffer_size": 33916,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "resources/views/pms/pnwrMst.blade.php",
-			"settings":
-			{
-				"buffer_size": 8033,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "public/app/controllers/pnwrMst.min.js",
-			"settings":
-			{
-				"buffer_size": 20430,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "public/app/controllers/lovSpks.min.js",
-			"settings":
-			{
-				"buffer_size": 2804,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "public/ext/ng-html/hkm/lov/lovSpks.html",
-			"settings":
-			{
-				"buffer_size": 3340,
+				"buffer_size": 2876,
 				"line_ending": "Unix"
 			}
 		}
@@ -445,55 +421,80 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/Auth",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/HKM",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/sites",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/hkm",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/sdm",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/sys",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/hkm",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/sys",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/templates",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/templates/gentelella",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/PMS",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/PMS/lov",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/hkm",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/hkm",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/hkm/spks",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/storage/app",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/storage/app/public",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/storage/app/public/draft",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/storage/app/public/spks"
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/modules/keu",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/gentalella",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/gentalella/angularjs",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/layouts"
 	],
 	"file_history":
 	[
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms/pms_pnwr_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/sys/sys_menus_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_10_145928_pms_pnwr_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_11_143840_pms_fp_det.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_11_142955_pms_fp_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/sys/2016_08_10_033928_sys.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/pnwrMst.min.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/spks.min.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/pnwrMst.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/formPnwrMst.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Middleware/Menus.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms/pms_customer_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms/pms_pnwr_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/pnwrMstController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/produk.min.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/.env",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/lovProduk.min.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/HKM/spksController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/hkm/lov/lovSpks.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/lovSpks.min.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/templates/gentelella/master/production/form_buttons.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/templates/gentelella/master/production/form.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/gentalella/angularjs/head.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/hkm/spks/tblSpks.blade.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/formFPMst.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/routes.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/sites/menuController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/gentalella/left.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/app.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/customer.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/libur.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/fpMst.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/home.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/HomeController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Kernel.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/composer.json",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/.gentalella/left.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/hkm/form/formSpks.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/rte-angular-master/src/rte/rte.css",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/layouts/ng-gentalella.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/gentalella/head.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/config/app.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/PMS/form/pnwrMateri.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/formFPMst.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/fpMstController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/fpMst.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/sdm/sdm_pegawai_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/hkm/hkm_spks_apv.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/layouts/app-angularjs.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/layouts/app.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/hkm/formSpks.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/lovSpks.min.js",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/fpMstController.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/routes.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/fpMst.min.js",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_10_145928_pms_pnwr_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/lib/angular-1.5.5/angular-sanitize.js",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/pnwrMstController.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/sdm/2016_08_10_040050_sdm.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/hkm/hkm_spks_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/hkm/reqHkmSpksApv.php",
@@ -505,7 +506,6 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/reqHkmsSpksMst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/reqHkmSpksMst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/PMS/form/pnwrTayang.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/config/app.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/seeds/masterSys.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/sys/sys_negara_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/sys/sys_kategori_mst.php",
@@ -532,14 +532,9 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/pnwrMateriController.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/pnwrTayangController.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/tarifController.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/pnwrMst.blade.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/pnwrMst.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2014_10_12_000000_create_users_table.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/sys/2016_08_10_033928_sys.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/spks.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/PMS/lov/lovCustomer.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/lovCustomer.min.js",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/HKM/spksController.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/sys/sys_status_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/sys/sys_type_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/Auth/AuthController.php",
@@ -549,34 +544,25 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/hkm/reqHkmSpksMst.php",
 		"/opt/lampp/logs/error_log",
 		"/opt/lampp/logs/php_error_log",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/rte-angular-master/src/rte/rte.css",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/formPnwrMst.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_pnwr_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/customer.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/prod/realisasi.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_pnwr_materi.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_customer_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_11_142111_pms_pnwr_spk.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/.env",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/Auth/TokenController.php",
 		"/usr/share/nginx/html/index.html",
 		"/opt/lampp/htdocs/campur/firebase/index.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/produk.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/messages.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/customer.blade.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/gentalella/head.blade.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/produk.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/ng-customer.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/modalCustomer.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_11_142955_pms_fp_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_fp_det.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_tgl_libur_mst.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/composer.json",
 		"/opt/lampp/etc/httpd.conf",
 		"/opt/lampp/etc/php.ini",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_fp_mst.php",
 		"/etc/hosts",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/app.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_pnwr_tayang.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/vendor/symfony/routing/Router.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/bootstrap/app.php",
@@ -586,25 +572,7 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/modalUser.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/userMst.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/layouts/app-user.blade.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/vuser.blade.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/userController.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/explain.txt",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/lovPnwr.min.js",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_11_143840_pms_fp_det.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/keu_bank_mst.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_10_135752_pms_customer_mst.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/PMS/form/pnwrMateri.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/reqPmsPnwrMateri.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/lovProduk.min.js",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_10_153433_pms_pnwr_materi.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/reqPmsPnwrTayang.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_10_152925_pms_pnwr_tayang.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/templates/gentelella/master/production/form_advanced.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/PMS/lov/lovProduk.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/trash_test/script.js",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/trash_test/contact.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/trash_test/index.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/trash_test/modal.html"
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/vuser.blade.php"
 	],
 	"find":
 	{
@@ -615,6 +583,8 @@
 		"height": 93.0,
 		"where_history":
 		[
+			"/opt/lampp/htdocs/laravel/laravel-projects/radio",
+			"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets",
 			""
 		]
 	},
@@ -623,6 +593,25 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"mediumInteger",
+			"ACL",
+			"'HomeController@index'",
+			"total_normal",
+			"save",
+			"Form Buttons",
+			"rte-btn-toolbar",
+			"textare",
+			"default",
+			"mandatori",
+			"getFilesSpks",
+			"f_spks",
+			"getFilesSpks",
+			"tgl_penawaran",
+			"modalstate",
+			"lovModal",
+			"lov-modal",
+			"ModalCtrlMateri",
+			"getMateri",
 			"nama_",
 			"span",
 			"show",
@@ -731,26 +720,7 @@
 			"r",
 			"d",
 			"00",
-			">\n",
-			"where",
-			"nilai_ppn",
-			"nilai_hpp",
-			"Alamat",
-			"id_customer",
-			"app",
-			"nama",
-			"Nama",
-			"nama",
-			"nama_customer",
-			"id_customer",
-			"Customer",
-			"customer",
-			"ppn",
-			"hpp",
-			"_potongan_persen",
-			"_hpp_nilai",
-			"_hpp_persen",
-			"biaya"
+			">\n"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -787,7 +757,7 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -821,24 +791,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "public/app/controllers/spks.min.js",
+					"file": "app/Http/Controllers/sites/menuController.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 12257,
+						"buffer_size": 707,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								11783,
-								11783
+								434,
+								434
 							]
 						],
 						"settings":
@@ -846,15 +816,15 @@
 							"incomplete_sync": null,
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 2,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1213.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -863,15 +833,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 7708,
+						"buffer_size": 8890,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								755,
-								755
+								1504,
+								1504
 							]
 						],
 						"settings":
@@ -884,7 +854,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 65.0,
+						"translation.y": 109.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -892,19 +862,19 @@
 				},
 				{
 					"buffer": 3,
-					"file": "app/Http/Controllers/HKM/spksController.php",
+					"file": "app/Http/Models/sys/sys_app_mst.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 8845,
+						"buffer_size": 233,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1020,
-								1020
+								26,
+								26
 							]
 						],
 						"settings":
@@ -912,164 +882,30 @@
 							"incomplete_sync": null,
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 198.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "public/ext/ng-html/formPnwrMst.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 33916,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								32758,
-								32758
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 4659.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "resources/views/pms/pnwrMst.blade.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 8033,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								7990,
-								7990
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 399.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "public/app/controllers/pnwrMst.min.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 20430,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1006,
-								1006
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/PHP/PHP.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "public/app/controllers/lovSpks.min.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2804,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2427,
-								2427
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 418.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 8,
-					"file": "public/ext/ng-html/hkm/lov/lovSpks.html",
+					"buffer": 4,
+					"file": "app/Http/routes.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3340,
+						"buffer_size": 2876,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2400,
-								2400
+								2087,
+								2087
 							]
 						],
 						"settings":
@@ -1077,15 +913,14 @@
 							"incomplete_sync": null,
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 6.0,
+						"translation.y": 327.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 4,
 					"type": "text"
 				}
 			]
@@ -1144,7 +979,199 @@
 		"selected_items":
 		[
 			[
+				"pnwrcontroll",
+				"app/Http/Controllers/PMS/pnwrMstController.php"
+			],
+			[
+				"menucon",
+				"app/Http/Controllers/sites/menuController.php"
+			],
+			[
+				"customer_m",
+				"app/Http/Models/pms/pms_customer_mst.php"
+			],
+			[
+				"pms_pnwr_mst",
+				"app/Http/Models/pms/pms_pnwr_mst.php"
+			],
+			[
+				"pnwrcontrol",
+				"app/Http/Controllers/PMS/pnwrMstController.php"
+			],
+			[
 				"pnwr.min",
+				"public/app/controllers/pnwrMst.min.js"
+			],
+			[
+				"produk",
+				"public/app/controllers/produk.min.js"
+			],
+			[
+				"menus.",
+				"app/Http/Middleware/Menus.php"
+			],
+			[
+				"route",
+				"app/Http/routes.php"
+			],
+			[
+				".env",
+				".env"
+			],
+			[
+				"spk",
+				"public/app/controllers/spks.min.js"
+			],
+			[
+				"lovproduk.min.js",
+				"public/app/controllers/lovProduk.min.js"
+			],
+			[
+				"app/controllers/pnwrmst.min.js",
+				"public/app/controllers/pnwrMst.min.js"
+			],
+			[
+				"pnwr.blad",
+				"resources/views/pms/pnwrMst.blade.php"
+			],
+			[
+				"pnwr",
+				"public/ext/ng-html/formPnwrMst.html"
+			],
+			[
+				"spks",
+				"public/app/controllers/spks.min.js"
+			],
+			[
+				"left",
+				"resources/views/templates/gentalella/left.blade.php"
+			],
+			[
+				"libur",
+				"resources/views/pms/libur.blade.php"
+			],
+			[
+				"home",
+				"resources/views/home.blade.php"
+			],
+			[
+				"homecon",
+				"app/Http/Controllers/HomeController.php"
+			],
+			[
+				"compo",
+				"composer.json"
+			],
+			[
+				"formpnwr",
+				"public/ext/ng-html/formPnwrMst.html"
+			],
+			[
+				"fp.bl",
+				"resources/views/pms/fpMst.blade.php"
+			],
+			[
+				"pnwr.bla",
+				"resources/views/pms/pnwrMst.blade.php"
+			],
+			[
+				"app/controllers/spks.min.js",
+				"public/app/controllers/spks.min.js"
+			],
+			[
+				"app/app.js",
+				"public/app/app.js"
+			],
+			[
+				"spkscon",
+				"app/Http/Controllers/HKM/spksController.php"
+			],
+			[
+				"spks.html",
+				"public/ext/ng-html/hkm/form/formSpks.html"
+			],
+			[
+				"rte.css",
+				"public/ext/rte-angular-master/src/rte/rte.css"
+			],
+			[
+				"ext/rte-angular-master/src/rte/rte.css",
+				"public/ext/rte-angular-master/src/rte/rte.css"
+			],
+			[
+				"form_butto",
+				"public/assets/templates/gentelella/master/production/form_buttons.html"
+			],
+			[
+				"gentalform.html",
+				"public/assets/templates/gentelella/master/production/form.html"
+			],
+			[
+				"spks.",
+				"public/app/controllers/spks.min.js"
+			],
+			[
+				"spks.b",
+				"resources/views/hkm/spks/tblSpks.blade.php"
+			],
+			[
+				"app.",
+				"config/app.php"
+			],
+			[
+				"formspks",
+				"public/ext/ng-html/hkm/form/formSpks.html"
+			],
+			[
+				"pnwrcont",
+				"app/Http/Controllers/PMS/pnwrMstController.php"
+			],
+			[
+				"pnwr.mi",
+				"public/app/controllers/pnwrMst.min.js"
+			],
+			[
+				"pnwr.html",
+				"public/ext/ng-html/formPnwrMst.html"
+			],
+			[
+				"lov.html",
+				"public/ext/ng-html/hkm/lov/lovSpks.html"
+			],
+			[
+				"lovsp",
+				"public/app/controllers/lovSpks.min.js"
+			],
+			[
+				"pnwrbla",
+				"resources/views/pms/pnwrMst.blade.php"
+			],
+			[
+				"fp",
+				"resources/views/pms/fpMst.blade.php"
+			],
+			[
+				"fpcontrol",
+				"app/Http/Controllers/PMS/fpMstController.php"
+			],
+			[
+				"fp.min",
+				"public/app/controllers/fpMst.min.js"
+			],
+			[
+				"fp.html",
+				"public/ext/ng-html/formFPMst.html"
+			],
+			[
+				"/ext/ng-html/pms/form/pnwrmateri.html",
+				"public/ext/ng-html/PMS/form/pnwrMateri.html"
+			],
+			[
+				"/ext/ng-html/hkm/lov/lovspks.html",
+				"public/ext/ng-html/hkm/lov/lovSpks.html"
+			],
+			[
+				"pnwrmin",
 				"public/app/controllers/pnwrMst.min.js"
 			],
 			[
@@ -1162,10 +1189,6 @@
 			[
 				"spks.min.js",
 				"public/app/controllers/spks.min.js"
-			],
-			[
-				"pnwr.html",
-				"public/ext/ng-html/formPnwrMst.html"
 			],
 			[
 				"fpcon",
@@ -1188,20 +1211,8 @@
 				"resources/views/pms/pnwrMst.blade.php"
 			],
 			[
-				"route",
-				"app/Http/routes.php"
-			],
-			[
 				"pnwrmstcon",
 				"app/Http/Controllers/PMS/pnwrMstController.php"
-			],
-			[
-				"pnwr.mi",
-				"public/app/controllers/pnwrMst.min.js"
-			],
-			[
-				"pnwr",
-				"public/ext/ng-html/formPnwrMst.html"
 			],
 			[
 				"app.bl",
@@ -1212,20 +1223,12 @@
 				"resources/views/layouts/app.blade.php"
 			],
 			[
-				"pnwrmin",
-				"public/app/controllers/pnwrMst.min.js"
-			],
-			[
 				"app/lib/angular-1.5.5/san",
 				"public/app/lib/angular-1.5.5/angular-sanitize.js"
 			],
 			[
 				"app-an",
 				"resources/views/layouts/app-angularjs.blade.php"
-			],
-			[
-				"fp.html",
-				"public/ext/ng-html/formFPMst.html"
 			],
 			[
 				"sdm_",
@@ -1250,10 +1253,6 @@
 			[
 				"formfpmst",
 				"public/ext/ng-html/formFPMst.html"
-			],
-			[
-				"fp",
-				"resources/views/pms/fpMst.blade.php"
 			],
 			[
 				"fpcontro",
@@ -1312,10 +1311,6 @@
 				"public/ext/ng-html/PMS/form/pnwrTayang.html"
 			],
 			[
-				"app.",
-				"config/app.php"
-			],
-			[
 				"hkm/spks",
 				"app/Http/Controllers/HKM/spksController.php"
 			],
@@ -1326,10 +1321,6 @@
 			[
 				"/ext/ng-html/hkm/formspks.html",
 				"public/ext/ng-html/hkm/formSpks.html"
-			],
-			[
-				"app/controllers/spks.min.js",
-				"public/app/controllers/spks.min.js"
 			],
 			[
 				"realis",
@@ -1372,14 +1363,6 @@
 				"public/app/controllers/fpMst.min.js"
 			],
 			[
-				"fp.min",
-				"public/app/controllers/fpMst.min.js"
-			],
-			[
-				"spks",
-				"resources/views/hkm/spks/tblSpks.blade.php"
-			],
-			[
 				"spks_m",
 				"app/Http/Models/hkm/hkm_spks_mst.php"
 			],
@@ -1412,10 +1395,6 @@
 				"public/app/controllers/pnwrMst.min.js"
 			],
 			[
-				".env",
-				".env"
-			],
-			[
 				"realisas",
 				"resources/views/prod/realisasi.blade.php"
 			],
@@ -1438,10 +1417,6 @@
 			[
 				".min.js",
 				"public/app/controllers/realisasi.min.js"
-			],
-			[
-				"produk",
-				"public/app/controllers/produk.min.js"
 			],
 			[
 				"lovco",
@@ -1470,10 +1445,6 @@
 			[
 				"customercontrol",
 				"app/Http/Controllers/PMS/customerController.php"
-			],
-			[
-				"compo",
-				"composer.json"
 			],
 			[
 				"tayang",
@@ -1518,142 +1489,6 @@
 			[
 				"realisasicon",
 				"app/Http/Controllers/PROD/realisasiController.php"
-			],
-			[
-				"fp_det",
-				"app/Http/Models/pms_fp_det.php"
-			],
-			[
-				"fp_ms",
-				"app/Http/Models/pms_fp_mst.php"
-			],
-			[
-				"pnwrmst",
-				"app/Http/Models/pms_pnwr_mst.php"
-			],
-			[
-				"fp.ba",
-				"resources/views/pms/fpMst.blade.php"
-			],
-			[
-				"realiasa",
-				"resources/views/prod/realisasi.blade.php"
-			],
-			[
-				"router",
-				"vendor/symfony/routing/Router.php"
-			],
-			[
-				"app.blad",
-				"resources/views/layouts/app.blade.php"
-			],
-			[
-				"fpmsr",
-				"app/Http/Controllers/PMS/fpMstController.php"
-			],
-			[
-				"app/app",
-				"public/app/app.js"
-			],
-			[
-				"customer.min.js",
-				"public/app/controllers/customer.min.js"
-			],
-			[
-				"produk.",
-				"resources/views/pms/produk.blade.php"
-			],
-			[
-				"customer.bla",
-				"resources/views/pms/customer.blade.php"
-			],
-			[
-				"config/a",
-				"config/app.php"
-			],
-			[
-				"app.p",
-				"bootstrap/app.php"
-			],
-			[
-				"fpdet",
-				"app/Http/Controllers/PMS/fpDetController.php"
-			],
-			[
-				"requse",
-				"app/Http/Requests/reqTblUser.php"
-			],
-			[
-				"requser",
-				"app/Http/Requests/reqTblUser.php"
-			],
-			[
-				"pnw",
-				"public/app/controllers/pnwrMst.min.js"
-			],
-			[
-				"app-angularjs",
-				"resources/views/layouts/app-angularjs.blade.php"
-			],
-			[
-				"/ext/ng-html/modalcustomer.html",
-				"public/ext/ng-html/modalCustomer.html"
-			],
-			[
-				"customercon",
-				"app/Http/Controllers/PMS/customerController.php"
-			],
-			[
-				"lov",
-				"public/app/controllers/lovPnwr.min.js"
-			],
-			[
-				"pnwrcontr",
-				"app/Http/Controllers/PMS/pnwrMstController.php"
-			],
-			[
-				"lovpn",
-				"public/app/controllers/lovPnwr.min.js"
-			],
-			[
-				"pnwrmi",
-				"public/app/controllers/pnwrMst.min.js"
-			],
-			[
-				"lovpnwr.min.js",
-				"public/app/controllers/lovPnwr.min.js"
-			],
-			[
-				"fp_",
-				"app/Http/Models/pms_fp_det.php"
-			],
-			[
-				"form/pnwrtayang.html",
-				"public/ext/ng-html/PMS/form/pnwrTayang.html"
-			],
-			[
-				"app/controllers/lovproduk.min.js",
-				"public/app/controllers/lovProduk.min.js"
-			],
-			[
-				"/ext/ng-html/pms/lov/lovcustomer.html",
-				"public/ext/ng-html/PMS/lov/lovCustomer.html"
-			],
-			[
-				"ext/ng-html/pms/form/pnwrmateri.html",
-				"public/ext/ng-html/PMS/form/pnwrMateri.html"
-			],
-			[
-				"pnwr_mst",
-				"app/Http/Models/pms_pnwr_mst.php"
-			],
-			[
-				"pms_custom",
-				"app/Http/Models/pms_customer_mst.php"
-			],
-			[
-				"pms_pn",
-				"app/Http/Models/pms_pnwr_mst.php"
 			]
 		],
 		"width": 0.0
@@ -1684,7 +1519,7 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 333.0,
+	"side_bar_width": 372.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

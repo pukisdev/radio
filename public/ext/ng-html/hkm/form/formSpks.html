@@ -2,13 +2,14 @@
     $.fn.datepicker.defaults.format = "yyyy-mm-dd";
 </script>
     <div class="panel panel-default" id="idModalMst" ng-show="formTampil">
-        <div class="panel-heading"> &nbsp</div>
+        <div class="panel-heading"> 
+            <h2>Form SPKS</h2>
+        </div>
         <div class="panel-body">
             <!-- Table-to-load-the-data Part -->
             <div class="row">
                 <div class="col-lg-12 margin-tb">
                     <div class="pull-left">
-                        <h2>Form {{ !empty($judul) ? $judul : null }}</h2>
                     </div>
                     <div class="pull-right" style="padding-top:30px">
                         <div class="box-tools" style="display:inline-table">
@@ -126,10 +127,12 @@
                                                                     ngf-resize="{width: 100, height: 100}">Select</div> --> 
                                 <!-- http://www.w3schools.com/tags/att_input_accept.asp: -->
                                 <div class="input-group" ng-if="dataForm.draft !== null">
-                                    <input type="text" class="form-control has-error" name="draft" ng-model="dataForm.draft" readonly>
                                     <span class="input-group-btn">
                                         <button class="btn btn-default" type="button" ngf-change="selectFile('_draft');" ngf-select ng-model="dataForm._draft" name="_draft" ngf-pattern="'image/*,application/pdf'" ngf-accept="'image/*'" ngf-max-size="20MB"><i class="fa fa-upload"></i></button>
                                         <button class="btn btn-default" type="button" ng-click="getFiles('draft');"><i class="fa fa-download"></i></button>
+                                    </span>
+                                    <input type="text" class="form-control has-error" name="draft" ng-model="dataForm.draft" readonly>
+                                    <span class="input-group-btn">
                                         <!-- <a class="btn btn-default" ng-href="" target="_blank"><i class="fa fa-download"></i></a> -->
                                         <button class="btn btn-default" type="button" ng-click="deleteFiles('draft');"><i class="fa fa-trash"></i></button>
                                     </span>
@@ -146,10 +149,12 @@
                             <label for="inputEmail3" class="col-sm-3 control-label">spks</label>
                             <div class="col-sm-9">
                                 <div class="input-group" ng-if="dataForm.spks !== null">
-                                    <input type="text" class="form-control has-error" name="spks" ng-model="dataForm.spks" readonly>
                                     <span class="input-group-btn">
                                         <button class="btn btn-default" type="button" ngf-select ngf-change="selectFile('_spks');" ng-model="dataForm._spks" name="_spks" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="20MB"><i class="fa fa-upload"></i></button>
                                         <button class="btn btn-default" type="button" ng-click="getFiles('spks');"><i class="fa fa-download"></i></button>
+                                    </span>
+                                    <input type="text" class="form-control has-error" name="spks" ng-model="dataForm.spks" readonly>
+                                    <span class="input-group-btn">
                                         <button class="btn btn-default" type="button" ng-click="deleteFiles('spks');"><i class="fa fa-trash"></i></button>
                                     </span>
                                 </div>

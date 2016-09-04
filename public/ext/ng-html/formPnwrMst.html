@@ -384,11 +384,12 @@
                             <label for="inputEmail3" class="col-sm-3 control-label">Spks</label>
                             <div class="col-sm-9">
                                 <div class="input-group">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" ng-click="lovSpks()">...</button>
+                                    </span>
                                     <input type="hidden" class="form-control has-error" placeholder="Kode spks" name="f_spks" ng-model="dataForm.f_spks" readonly>
                                     <input type="text" class="form-control has-error" placeholder="SPKS" name="alias_spks"  ng-model="dataForm.alias_spks" readonly>
                                     <span class="input-group-btn">
-                                        <!-- <button class="btn btn-default" type="button" ng-click="showModal('idModalSpks');">...</button> -->
-                                        <button class="btn btn-default" type="button" ng-click="lovSpks()">...</button>
                                         <button class="btn btn-default" type="button" ng-click="dataForm.f_spks = null; dataForm.alias_spks = null;"><i class="fa fa-refresh"></i></button>
                                     </span>
                                 </div>

@@ -23,6 +23,18 @@ class Sys extends Migration
             $table->enum('sys_status_aktif',['A','N'])->default('A');            
         });
 
+        Schema::create('sys_module_mst', function(Blueprint $table){
+            $table->string('id_module', 8)->primary();
+            $table->string('nama_module', 32);
+            $table->string('keterangan', 128);
+            
+            $table->string('sys_user_created',16);
+            $table->string('sys_user_updated',16)->nullable();
+            $table->timestamp('sys_tgl_created')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('sys_tgl_updated')->nullable();
+            $table->enum('sys_status_aktif',['A','N'])->default('A');            
+        });
+
         /*
             table sys_app_mst
         */
@@ -30,6 +42,7 @@ class Sys extends Migration
             $table->string('id_app', 128)->primary();
             $table->string('nama', 64);
             $table->string('f_type', 8);
+            $table->string('f_module', 8);
             $table->integer('urutan', false, true);
             $table->string('route', 128)->nullabel();
             $table->string('link', 512)->nullable();
@@ -46,6 +59,7 @@ class Sys extends Migration
 
         Schema::table('sys_app_mst', function(Blueprint $table){
             $table->foreign('f_type')->references('id_type')->on('sys_type_mst');
+            $table->foreign('f_module')->references('id_module')->on('sys_module_mst');
         });
 
         // table master status

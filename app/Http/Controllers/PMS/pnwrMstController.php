@@ -22,7 +22,7 @@ class pnwrMstController extends Controller
      */
     public function index(Request $request)
     {
-        // DB::enableQueryLog();    
+        DB::enableQueryLog();    
         // dd($request->all());
         $query = modelMst::with([
             'customer',
@@ -136,7 +136,7 @@ class pnwrMstController extends Controller
     public function update(reqMst $request, $id )
     {
         // dd($request->all());
-        // DB::enableQueryLog();    
+        DB::enableQueryLog();    
         // $id = $request->id_pnwr;
         $request->offsetUnset("nama_customer");
         $request->offsetUnset("nama_produk");

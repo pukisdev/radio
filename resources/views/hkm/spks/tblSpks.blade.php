@@ -1,4 +1,5 @@
-@extends('layouts.app-angularjs')
+@extends('templates.layouts.ng-gentalella')
+
 
 @section('content')
 <div class="container" ng-controller="spksController">
@@ -69,7 +70,7 @@
                 </div>
             </div>
         </div>
-        <div form-spks></div>
+        <div form-spks class="col-md-12"></div>
         <div class="col-md-12" ng-controller="lovCustomerController">
             <div lov-customer></div>
         </div>

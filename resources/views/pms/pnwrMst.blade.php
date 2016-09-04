@@ -1,4 +1,5 @@
-@extends('layouts.app-angularjs')
+<!-- extends('layouts.app-angularjs') -->
+@extends('templates.layouts.ng-gentalella')
 
 @section('content')
 <div class="container">
@@ -6,7 +7,9 @@
         <!-- <div class="col-md-10 col-md-offset-1"> -->
         <div class="col-md-12">
             <div class="panel panel-default" ng-show="!formTampil">
-                <div class="panel-heading"> &nbsp</div>
+                <div class="panel-heading"> 
+                    <h2>Penawaran Order Iklan</h2>
+                </div>
                 <div class="panel-body">
                     <div>
                         <h2></h2>
@@ -16,7 +19,6 @@
                             <div class="row">
                                 <div class="col-lg-12 margin-tb">
                                     <div class="pull-left">
-                                        <h2>Penawaran Order Iklan</h2>
                                     </div>
                                     <div class="pull-right" style="padding-top:30px">
                                         <div class="box-tools" style="display:inline-table">
@@ -53,14 +55,15 @@
                                             <!-- <td>[[ values.sys_status_aktif ]]</td> -->
                                             <td width="23%">
                                                 <div ng-if="!values.f_spks" class="form-group error" ng-class="{ 'has-error' : frmMst.listSpks.$invalid && frmMst.listSpks.$touched }">
+                                                        <!-- [[$index]] -->
                                                     <div class="input-group">
                                                         <span class="input-group-btn">
                                                             <button class="btn btn-default" type="button" ng-click="simpanSpks(values.id_pnwr, $index);" ><i class="fa fa-save"></i></button>
+                                                            <button class="btn btn-default" type="button" ng-click="lovSpks(values.f_customer, $index);" ><i class="fa fa-edit"></i></button>
                                                         </span>
-                                                        <input type="hidden" class="form-control has-error" name="f_spks" ng-model="dataForm[$index].f_spks" required readonly>
+                                                        <input type="hidden" class="form-control has-error" name="f_spks" ng-model="dataForm[$index].f_spks" required readonly> 
                                                         <input type="text" class="form-control has-error" placeholder="Spks" name="alias_spks" ng-model="dataForm[$index].alias_spks" required readonly>
                                                         <span class="input-group-btn">
-                                                            <button class="btn btn-default" type="button" ng-click="lovSpks(values.f_customer, $index);" ><i class="fa fa-edit"></i></button>
                                                             <button class="btn btn-default" type="button" ng-click="dataForm[$index].alias_spks = null; dataForm[$index].f_spks = null; " ><i class="fa fa-refresh"></i></button>
                                                         </span>
 <!--

@@ -190,7 +190,7 @@ class spksController extends Controller
      * @return id
      */
     public function _index(){
-        return view('hkm/spks/tblSpks',['judul'=>'SPKS']);
+        return view('hkm/spks/tblSpks', ['judul'=>'SPKS']);
     }
 
 

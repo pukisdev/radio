@@ -24,7 +24,7 @@ class PmsFpMst extends Migration
             $table->string('jenis_faktur', 128);
             $table->string('keterangan', 1024);
             $table->string('ttd', 128);
-            $table->mediumInteger('netto', false, true);
+            $table->double('netto', 15,2);
             $table->string('netto_terbilang',1024);
             $table->string('sys_user_update',32);
             $table->timestamp('sys_tgl_update')->default(DB::raw('CURRENT_TIMESTAMP'));
