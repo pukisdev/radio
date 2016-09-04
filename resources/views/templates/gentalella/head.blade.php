@@ -8,7 +8,6 @@
 
 
     <!-- load bootstrap from a local -->
-    <!-- {!! Html::style('assets/templates/gentelella/css/bootstrap.min.css') !!} -->
 
     {!! Html::style('assets/templates/gentelella/css/bootstrap.min.css') !!}
 
@@ -27,19 +26,16 @@
 		<?=!empty($v_url_css) ? $v_url_css : '' ;?>
 
 	<script src="assets/templates/gentelella/js/jquery.min.js"></script>
-	<script src="assets/templates/gentelella/js/nprogress.js"></script>
-    <script src="assets/templates/gentelella/js/bootstrap.min.js"></script>
-    <!-- 
-    <script src="assets/js/angular-1.4.4/angular.min.js"></script>
-    <script src="assets/js/angular-1.4.4/angular-messages.min.js"></script>
-     {!! Html::script('components/angular-1.4.4/angular.min.js') !!}
-     -->
 
+    <script src="assets/templates/gentelella/js/nprogress.js"></script>
+    <script src="assets/templates/gentelella/js/bootstrap.min.js"></script>
     <!-- gauge js -->
+    <!--
     <script type="text/javascript" src="assets/templates/gentelella/js/gauge/gauge.min.js"></script>
     <script type="text/javascript" src="assets/templates/gentelella/js/gauge/gauge_demo.js"></script>
+    -->
     <!-- chart js -->
-    <script src="assets/templates/gentelella/js/chartjs/chart.min.js"></script>
+    <!-- <script src="assets/templates/gentelella/js/chartjs/chart.min.js"></script> -->
     <!-- bootstrap progress js -->
     <script src="assets/templates/gentelella/js/progressbar/bootstrap-progressbar.min.js"></script>
     <script src="assets/templates/gentelella/js/nicescroll/jquery.nicescroll.min.js"></script>
@@ -64,13 +60,6 @@
     <script type="text/javascript" src="assets/templates/gentelella/js/flot/curvedLines.js"></script>
     <script type="text/javascript" src="assets/templates/gentelella/js/flot/jquery.flot.resize.js"></script>
 
-    <!-- worldmap -->
-<!-- 
-    <script type="text/javascript" src="assets/templates/gentelella/js/maps/jquery-jvectormap-2.0.1.min.js"></script>
-    <script type="text/javascript" src="assets/templates/gentelella/js/maps/gdp-data.js"></script>
-    <script type="text/javascript" src="assets/templates/gentelella/js/maps/jquery-jvectormap-world-mill-en.js"></script>
-    <script type="text/javascript" src="assets/templates/gentelella/js/maps/jquery-jvectormap-us-aea-en.js"></script>
- -->
     <!-- skycons -->
     <script src="assets/templates/gentelella/js/skycons/skycons.js"></script>
 

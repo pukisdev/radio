@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\Http\Models\pms_customer_mst as modelMst;
+use App\Http\Models\pms\pms_customer_mst as modelMst;
 use App\Http\Requests\reqPmsCustomerMst as reqMst;
 use Carbon;
 use DB;

@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-use App\Http\Models\pms_pnwr_mst as modelMst;
+use App\Http\Models\pms\pms_pnwr_mst as modelMst;
 
 class reqPmsPnwrMst extends Request
 {

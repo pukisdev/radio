@@ -1,59 +1,136 @@
+<?php
+    // print_r(Auth::user());
+?>
                 <div class="left_col scroll-view">
 
                     <div class="navbar nav_title" style="border: 0;">
-                        <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>HRIS System!</span></a>
+                        <a href="index.html" class="site_title"><i class="fa fa-users"></i> <span>RADIS</span></a>
+                    
                     </div>
                     <div class="clearfix"></div>
-
+                    @if(Auth::check())
                     <!-- menu prile quick info -->
                     <div class="profile">
                         <div class="profile_pic">
-                            <img src="assets/templates/gentelella/images/img.jpg" alt="..." class="img-circle profile_img">
+                            <img src="{{ URL::to('/') }}/assets/templates/gentelella/images/img.jpg" alt="..." class="img-circle profile_img">
                         </div>
                         <div class="profile_info">
-                            <span>Welcome,</span>
+                            <span>Welcome,  </span>
                             <h2>
-                                <?=!empty($user_data[0]['nama']) ? ucwords(strtolower($user_data[0]['nama'])) : 'Unknown';?> 
+                            {{ Auth::user()->name }}
                             </h2>
                         </div>
                     </div>
                     <!-- /menu prile quick info -->
-
+                    @endif
                     <br />
                     <!-- sidebar menu -->
                     <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-
+{{-- {!! $MyNavBar->asUl() !!} --}}
+                        <?php $items = !empty($MyNavBar) ? $MyNavBar->roots() : null; ?>
+  
+                        @if(!empty($items))
+                        @foreach($items as $item)
+                            <?php //print_r($item)?>
+                            <div class="menu_section">
+                                <h3>{!! $item->title !!}</h3>
+                                @if($item->hasChildren())
+                                    <ul class="nav side-menu">
+                                    <?php $childrens =  $item->children(); ?> 
+                                    @foreach($childrens as $children)
+                                        <li><a @if(!$children->hasChildren()) href="{!! $children->url() !!}" @endif>{!! $children->title !!} @if($children->hasChildren()) <span class="fa fa-chevron-down"></span> @endif</a>
+                                        @if($children->hasChildren())
+                                            <ul class="nav child_menu" style="display: none">
+                                            <?php $grandChildrens =  $children->children(); ?> 
+                                            @foreach($grandChildrens as $grandChildren)
+                                                <li><a href="{!! $grandChildren->url() !!}">{!! $grandChildren->title !!}</a></li>
+                                            @endforeach
+                                            </ul>
+                                        @endif
+                                    @endforeach
+                                    </ul>
+                                 @endif
+                            </div>
+                        @endforeach
+                        @endif
+<!--
                         <div class="menu_section">
                             <h3>General</h3>
                             <ul class="nav side-menu">
-                                <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
+                                <li><a href="/"><i class="fa fa-home"></i> Home</a>
                                 </li>
+                                <li><a><i class="fa fa-bank"></i> Company Profile <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu" style="display: none">
+                                        <li><a href="index.html">Sejarah</a></li>
+                                        <li><a href="index2.html">Struktur Organisasi</a></li>
+                                        <li><a href="index2.html">Peraturan Perusahaan</a></li>
+                                        <li><a href="index3.html">...</a></li>
+                                    </ul>
+                                </li>
+                                <li><a><i class="fa fa-navicon"></i> Serabutan <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu" style="display: none">
+                                        <li><a href="index.html">Download</a></li>
+                                        <li><a href="index2.html">Gallery</a></li>
+                                        <li><a href="index2.html">Event</a></li>
+                                        <li><a href="index2.html">Extension</a></li>
+                                        <li><a href="index3.html">...</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="menu_section">
+                            <h3>JAGO</h3>
+                            <ul class="nav side-menu">
                                 <li><a><i class="fa fa-table"></i> Master <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu" style="display: none">
-                                        <li><a href="index.html">Master Jabatan</a></li>
-                                        <li><a href="index2.html">Master OU</a></li>
-                                        <li><a href="index3.html">Master Shift</a></li>
-                                        <li><a href="index3.html">Master Golongan</a></li>
-                                        <li><a href="index3.html">Master Agama</a></li>
+                                        <li><a href="index.html">SDM</a></li>
+                                        <li><a href="index2.html">Iklan</a></li>
+                                        <li><a href="index3.html">Sirkulasi</a></li>
+                                        <li><a href="index3.html">Keuangan</a></li>
+                                        <li><a href="index3.html">Akunting</a></li>
+                                        <li><a href="index3.html">Umum</a></li>
+                                        <li><a href="index3.html">Promosi</a></li>
+                                        <li><a href="index3.html">Gabungan</a></li>
                                     </ul>
                                 </li>
-                                <li><a><i class="fa fa-table"></i> Data Pegawai <span class="fa fa-chevron-down"></span></a>
+                                <li><a><i class="fa fa-edit"></i> Transaksi <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu" style="display: none">
-                                        <li><a href="index.html">Daftar Pegawai</a></li>
-                                        <li><a href="index3.html">Daftar Keluarga</a></li>
+                                        <li><a href="index.html">SDM</a></li>
+                                        <li><a href="index2.html">Iklan</a></li>
+                                        <li><a href="index3.html">Sirkulasi</a></li>
+                                        <li><a href="index3.html">Keuangan</a></li>
+                                        <li><a href="index3.html">Akunting</a></li>
+                                        <li><a href="index3.html">Umum</a></li>
+                                        <li><a href="index3.html">Promosi</a></li>
+                                        <li><a href="index3.html">Gabungan</a></li>
                                     </ul>
                                 </li>
-                                <li><a><i class="fa fa-edit"></i> Cuti & Absensi <span class="fa fa-chevron-down"></span></a>
+                                <li><a><i class="fa fa-print"></i> Laporan <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu" style="display: none">
-                                        <li><a href="form.html">Data Absen</a></li>
-                                        <li><a href="form_advanced.html">Data Cuti</a></li>
-                                        <li><a href="form_validation.html">Data Izin</a></li>
-                                        <li><a href="form_wizards.html">Data Lembur</a></li>
-                                        <li><a href="index2.html">Laporan</a></li>
+                                        <li><a href="index.html">SDM</a></li>
+                                        <li><a href="index2.html">Iklan</a></li>
+                                        <li><a href="index3.html">Sirkulasi</a></li>
+                                        <li><a href="index3.html">Keuangan</a></li>
+                                        <li><a href="index3.html">Akunting</a></li>
+                                        <li><a href="index3.html">Umum</a></li>
+                                        <li><a href="index3.html">Promosi</a></li>
+                                        <li><a href="index3.html">Gabungan</a></li>
+                                    </ul>
+                                </li>
+                                <li><a><i class="fa fa-thumbs-up"></i> Approval <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu" style="displ: ;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ay: none">
+                                        <li><a href="index.html">SDM</a></li>
+                                        <li><a href="index2.html">Iklan</a></li>
+                                        <li><a href="index3.html">Sirkulasi</a></li>
+                                        <li><a href="index3.html">Keuangan</a></li>
+                                        <li><a href="index3.html">Akunting</a></li>
+                                        <li><a href="index3.html">Umum</a></li>
+                                        <li><a href="index3.html">Promosi</a></li>
+                                        <li><a href="index3.html">Gabungan</a></li>
                                     </ul>
                                 </li>
                                 <li>
-                                    <a href="#"><i class="fa fa-desktop"></i> Sosial Media <span class="fa fa-chevron-down"></span></a>
+                                    <a href="#"><i class="fa fa-file"></i> Dokumentasi <span class="fa fa-chevron-down"></span></a>
                                 </li>
                             </ul>
                         </div>
@@ -82,7 +159,7 @@
                             </ul>
                         </div>
                        
-
+-->
                     </div>
 
                     <!-- /sidebar menu -->

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\Http\Models\pms_produk_tarif;
+use App\Http\Models\pms\pms_produk_tarif;
 use App\Http\Requests\reqPmsProdukTarif;
 use Carbon;
 

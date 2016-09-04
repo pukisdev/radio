@@ -1,0 +1,249 @@
+<script>
+    $.fn.datepicker.defaults.format = "yyyy-mm-dd";
+</script>
+    <div class="panel panel-default" id="idModalMst" ng-show="formTampil">
+        <div class="panel-heading"> 
+            <h2>Form SPKS</h2>
+        </div>
+        <div class="panel-body">
+            <!-- Table-to-load-the-data Part -->
+            <div class="row">
+                <div class="col-lg-12 margin-tb">
+                    <div class="pull-left">
+                    </div>
+                    <div class="pull-right" style="padding-top:30px">
+                        <div class="box-tools" style="display:inline-table">
+                          <!-- <div class="input-group">
+                              <input type="text" class="form-control input-sm ng-valid ng-dirty" placeholder="Search" ng-change="searchDB()" ng-model="searchText" name="table_search" title="" tooltip="" data-original-title="Min character length is 3">
+                              <span class="input-group-addon">Search</span>
+                          </div> -->
+                        </div>
+                        <!-- <button class="btn btn-success" data-toggle="modal" data-target="#create-user">Create New</button> -->
+                    </div>
+                </div>
+            </div>
+            <div>
+                <form name="frmMst" class="form-horizontal" novalidate="">
+                    <div class="col-md-6">
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.id_spks.$invalid && frmMst.id_spks.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">No SPKS</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Otomatis" name="id_spks" ng-model="dataForm.id_spks" readonly="true">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.f_customer.$invalid && frmMst.f_customer.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Customer</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input type="hidden" class="form-control has-error" placeholder="Kode Customer" name="f_customer" ng-model="dataForm.f_customer" ng-minlength="5" required readonly>
+                                    <input type="text" class="form-control has-error" placeholder="Nama Customer" name="nama_customer"  ng-model="dataForm.nama_customer" required readonly>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" ng-click="showModal('idModalCustomer');">....</button>
+                                    </span>
+                                </div>
+                                <span class="help-inline" ng-messages="frmMst.f_customer.$error" ng-show="frmMst.f_customer.$invalid && frmMst.f_customer.$touched">
+                                    <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.nama.$invalid && frmMst.nama.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Atas Nama</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control has-error" placeholder="Alias Nama" name="nama" ng-model="dataForm.nama" ng-minlength="5" required>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" ng-click="dataForm.nama = dataForm.nama_customer"><i class="fa fa-copy"></i></button>
+                                    </span>
+                                </div>
+                                <span class="help-inline" ng-messages="frmMst.nama.$error" ng-show="frmMst.nama.$invalid && frmMst.nama.$touched">
+                                    <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.tgl_awal.$invalid && frmMst.tgl_awal.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Mulai berlaku</label>
+                            <div class="col-sm-9">
+                                <input type="date" class="form-control has-error" placeholder="Tanggal Faktur" name="tgl_awal" ng-model="dataForm.tgl_awal" >
+                                <span class="help-inline" ng-messages="frmMst.tgl_awal.$error" ng-show="frmMst.tgl_awal.$invalid && frmMst.tgl_awal.$touched">
+                                    <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                </span>
+                            </div>
+                        </div>
+
+                       <div class="form-group error" ng-class="{ 'has-error' : frmMst.tgl_akhir.$invalid && frmMst.tgl_akhir.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Akhir berlaku</label>
+                            <div class="col-sm-9">
+                                <input type="date" class="form-control has-error" placeholder="Tanggal Faktur" name="tgl_akhir" ng-model="dataForm.tgl_akhir" >
+                                <span class="help-inline" ng-messages="frmMst.tgl_akhir.$error" ng-show="frmMst.tgl_akhir.$invalid && frmMst.tgl_akhir.$touched">
+                                    <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                </span>
+                            </div>
+                        </div>
+
+<!--
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.jenis_faktur.$invalid && frmMst.jenis_faktur.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Jenis Faktur</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" placeholder="Jenis Bayar" name="jenis_faktur" ng-model="dataForm.jenis_faktur" ng-required="true">
+                                    <option value> Pilih </option>
+                                    <option value="TUNAI">Tunai</option>
+                                    <option value="KREDIT">Kredit</option>
+                                    <option value="BONUS">Bonus</option>
+                                    <option value="BARTER">Barter</option>
+                                </select>
+                                <span class="help-inline" ng-messages="frmMst.jenis_faktur.$error" ng-show="frmMst.jenis_faktur.$invalid && frmMst.jenis_faktur.$touched">
+                                    <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                </span>
+                            </div>
+                        </div>
+
+                         <div class="form-group error" ng-class="{ 'has-error' : frmMst.ttd.$invalid && frmMst.ttd.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Tanda Tangan</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" placeholder="Tanda Tangan" name="ttd" ng-model="dataForm.ttd" ng-required="true">
+                                    <option value> Pilih </option>
+                                    <option value="JOKO">Joko Santoso Rudhi</option>
+                                    <option value="SWADHIKA">Swadhika Rizkyritno</option>
+                                </select>
+                                <span class="help-inline" ng-messages="frmMst.ttd.$error" ng-show="frmMst.ttd.$invalid && frmMst.ttd.$touched">
+                                    <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                </span>
+                            </div>
+                        </div>
+ -->
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst._draft.$invalid && frmMst._draft.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Draft</label>
+                            <div class="col-sm-9">
+                                <!-- <div class="button" ngf-select ng-model="dataForm.draft" name="dataForm.draft" ngf-pattern="'image/*'"
+                                                                    ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100" 
+                                                                    ngf-resize="{width: 100, height: 100}">Select</div> --> 
+                                <!-- http://www.w3schools.com/tags/att_input_accept.asp: -->
+                                <div class="input-group" ng-if="dataForm.draft !== null">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" ngf-change="selectFile('_draft');" ngf-select ng-model="dataForm._draft" name="_draft" ngf-pattern="'image/*,application/pdf'" ngf-accept="'image/*'" ngf-max-size="20MB"><i class="fa fa-upload"></i></button>
+                                        <button class="btn btn-default" type="button" ng-click="getFiles('draft');"><i class="fa fa-download"></i></button>
+                                    </span>
+                                    <input type="text" class="form-control has-error" name="draft" ng-model="dataForm.draft" readonly>
+                                    <span class="input-group-btn">
+                                        <!-- <a class="btn btn-default" ng-href="" target="_blank"><i class="fa fa-download"></i></a> -->
+                                        <button class="btn btn-default" type="button" ng-click="deleteFiles('draft');"><i class="fa fa-trash"></i></button>
+                                    </span>
+                                </div>
+                                <input type="file" ng-if="dataForm.draft === null" ngf-select ng-model="dataForm._draft" name="_draft" ngf-pattern="'image/*,application/pdf'" ngf-accept="'image/*,application/pdf'" ngf-max-size="20MB" ngf-min-height="100" class="form-control has-error" placeholder="draft"  >
+                                <!-- <input type="file" ngf-select file-model="draft" class="form-control has-error" placeholder="draft" name="draft" ng-model="dataForm.draft" > -->
+                                <span class="help-inline" ng-messages="frmMst._draft.$error" ng-show="frmMst._draft.$invalid && frmMst._draft.$touched">
+                                    <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.spks.$invalid && frmMst.spks.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">spks</label>
+                            <div class="col-sm-9">
+                                <div class="input-group" ng-if="dataForm.spks !== null">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" ngf-select ngf-change="selectFile('_spks');" ng-model="dataForm._spks" name="_spks" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="20MB"><i class="fa fa-upload"></i></button>
+                                        <button class="btn btn-default" type="button" ng-click="getFiles('spks');"><i class="fa fa-download"></i></button>
+                                    </span>
+                                    <input type="text" class="form-control has-error" name="spks" ng-model="dataForm.spks" readonly>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" ng-click="deleteFiles('spks');"><i class="fa fa-trash"></i></button>
+                                    </span>
+                                </div>
+                                <input type="file" ng-if="dataForm.spks === null" ngf-select ng-model="dataForm._spks" name="_spks" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100" class="form-control has-error" placeholder="spks">
+                                <span class="help-inline" ng-messages="frmMst._spks.$error" ng-show="frmMst._spks.$invalid && frmMst._spks.$touched">
+                                    <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.keterangan.$invalid && frmMst.keterangan.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Keterangan</label>
+                            <div class="col-sm-9">
+                                <rte ng-model="dataForm.keterangan"></rte>
+                                <span class="help-inline" ng-messages="frmMst.keterangan.$error" ng-show="frmMst.keterangan.$invalid && frmMst.keterangan.$touched">
+                                    <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <hr/>
+                        <!-- <button id="btn-add" class="btn btn-primary" ng-click="lovPnwr(0, 'tambah')">Tambah Approval</button> -->
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table class="table table-bordered pagin-table" id="table-detail-faktur">
+                                    <thead>
+                                        <tr>
+                                            <th style="min-width:50px;">Nip</th>
+                                            <th style="min-width:200px;">Nama</th>
+                                            <th style="min-width:50px;">Mandatori</th>
+                                            <th style="min-width:50px;">Status Approval</th>
+                                            <th style="min-width:250px;">Komentar</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="abc">
+                                        <tr  ng-repeat="values in dataForm.apv" id="tr-[[$index]]">
+                                            <td width="10%">
+                                                [[ values.nip_alias ]]
+                                                <input type="hidden" ng-model="dataForm.apv[$index].apv_nip" ng-init="dataForm.apv[$index].apv_nip = values.nip_sys">
+                                            </td>
+                                            <td width="20%">[[ values.nama.toUpperCase() ]]</td>
+                                            <td width="15%">
+                                                <div class="form-group error" ng-class="{ 'has-error' : frmMst.mandatori.$invalid && frmMst.mandatori.$touched }">
+                                                    <div class="col-sm-12">
+                                                        <select class="form-control" placeholder="Jenis Bayar" name="mandatori" ng-model="dataForm.apv[$index].mandatori" ng-required="true" required ng-disabled="values.apv_status"> 
+                                                            <option value> Pilih </option>
+                                                            <option value="Y">Mandatori</option>
+                                                            <option value="T">Opsional</option>
+                                                        </select>
+                                                        <span class="help-inline" ng-messages="frmMst.mandatori.$error" ng-show="frmMst.mandatori.$invalid && frmMst.mandatori.$touched">
+                                                            <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td width="10%"> 
+                                                <span class="input-group-btn">
+                                                    <button ng-if="values.apv_status === 'Y' || dataForm.apv[$index].apv_status === 'Y' " class="btn btn-info" type="button" disabled><i class="fa fa-thumbs-up"></i></button>
+                                                    <button ng-if="values.apv_status === 'T' || dataForm.apv[$index].apv_status === 'T' " class="btn btn-warning" type="button" disabled><i class="fa fa-thumbs-down"></i></button>
+                                                    <button ng-if="values.apv_status === null" class="btn btn-default" type="button" ng-click="setApv('Y', $index);"><i class="fa fa fa-thumbs-up"></i></button>
+                                                    <button ng-if="values.apv_status === null" class="btn btn-default" type="button" ng-click="setApv('T', $index);"><i class="fa fa-thumbs-down"></i></button>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <div class="form-group error" ng-class="{ 'has-error' : frmMst.komentar.$invalid && frmMst.komentar.$touched }">
+                                                    <div class="col-sm-12">
+                                                        <input type="text" class="form-control has-error" placeholder="komentar" name="komentar" ng-model="dataForm.apv[$index].komentar" ng-readonly="values.apv_status !== null || dataForm.apv[$index].apv_status !== null">
+                                                        <span class="help-inline" ng-messages="frmMst.komentar.$error" ng-show="frmMst.komentar.$invalid && frmMst.komentar.$touched">
+                                                            <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                                        </span>
+                                                    </div>
+                                                </div>                                            
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>                        
+                    </div>
+                    <div class="col-md-12">
+                        <hr/>
+                        <div class="pull-right">
+                            <button type="button" class="btn btn-default" ng-click="toggle('cancel',null)">Cancel</button>
+                            <button type="button" class="btn btn-primary" id="btn-save" ng-click="save(modalstate, idState, dataForm.draft)" ng-disabled="frmMst.$invalid">Save changes</button>
+                            <!-- <button type="button" class="btn btn-primary" id="btn-save" ng-click="trace()" ng-disabled="frmMst.$invalid">Save changes</button> -->
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>

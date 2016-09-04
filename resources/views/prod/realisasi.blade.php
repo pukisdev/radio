@@ -60,13 +60,28 @@
                                                     <!-- <span ng-if="angular.isArray([values.jam[$parent.$index]])"> ok</span> -->
                                                     <!-- [[ angular.isArray([]) ]]  -->
                                                     <!-- [[ angular.isString(values.jam[$parent.$index]) ]]  -->
+<!--
                                                 <span ng-if="((values.jam[$parent.$index]).indexOf(values3+5)>-1)">
-                                                    <input ng-model="<tayang_realisasi sectionIndex=""></tayang_realisasi>[$index]" ng-change="save(tayang_realisasi, $parent.$index)" ng-if="((values.jam[$parent.$index]).indexOf(values3+5)>-1)" class="form-control input-sm"><!-- mask='59' mask-clean='true' restrict="reject">-->
+                                                    <input ng-model="<tayang_realisasi sectionIndex=""></tayang_realisasi>[$index]" ng-change="save(tayang_realisasi, $parent.$index)" ng-if="((values.jam[$parent.$index]).indexOf(values3+5)>-1)" class="form-control input-sm">
+                                                    mask='59' mask-clean='true' restrict="reject">
                                                 </span>
+-->                                                
                                                 <!-- </span> -->
                                                 <!--
                                                 [[ items.splice(index, 1) ]]
                                                 [[ values.jam[$parent.$index]+ ' #$ ' + sectionIndex +'/'+ (values3+5) + '#' + $parent.$index + '\\' + (values.jam[$parent.$index]).indexOf(values3+5) ]]   
+
+                                                <!-- <input ng-model="tayang_realisasi[sectionIndex][$index]" ng-change="save(tayang_realisasi, $parent.$index)" ng-if="((values.jam[$parent.$index]).indexOf(values3+5)>-1)" class="form-control input-sm"><!-- mask='59' mask-clean='true' restrict="reject">--> 
+                                                    <div class="input-group input-group-sm" style="width:75px;" ng-if="((values.jam[sectionIndex]).indexOf(values3+5)>-1)">
+                                                        <div class="input-group-btn" ng-init="tayang_realisasi[sectionIndex][$index+5] = values.realMenit[$index+5]">
+                                                            <button class="btn btn-info" type="button" ng-click="tayang_realisasi[sectionIndex][$index+5] = values.menit[$index+5]">[[ values.menit[$index+5] ]]</button>
+                                                        </div>
+                                                        <input ng-model="tayang_realisasi[sectionIndex][$index+5]" class="form-control" mask='59' mask-clean='true' restrict="reject">
+                                                    </div>
+                                                <!-- </span> -->
+                                                <!-- [[ values.jam[$parent.$index]+ ' #$ ' + sectionIndex +'/'+ (values3+5) + '#' + $parent.$index + '\\' + (values.jam[$parent.$index]).indexOf(values3+5) ]]    -->
+                                                <!--
+                                                [[ items.splice(index, 1) ]]
                                                 -->
                                                 <!-- [[ values.jam[$parent.$index].forEach(function(i) { count[i] = (count[i]||0)+1;  }); ]]  -->
                                                 <!-- [[ ((values.jam[$parent.$index]).indexOf(values2+5)>0) ]]     -->

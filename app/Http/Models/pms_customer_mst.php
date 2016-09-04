@@ -34,4 +34,15 @@ class pms_customer_mst extends Model
 	{
 	    $this->hasMany('App\Http\Models\pms_fp_mst');
 	}
+
+
+	/**
+	 * @function spks dibuat dan dikembangkan oleh rianday.
+	 * @depok
+	 * @return true
+	 */
+	public function spks()
+	{
+	    $this->hasMany('App\Http\Models\hkm_spks_mst','f_customer','id_customer');
+	}
 }

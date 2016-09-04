@@ -1,4 +1,5 @@
-@extends('layouts.app-angularjs')
+<!-- extends('layouts.app-angularjs') -->
+@extends('templates.layouts.ng-gentalella')
 
 @section('content')
 <div class="container">
@@ -48,8 +49,8 @@
                                             <td>[[ values.id_fp ]]</td>
                                             <td>[[ values.customer.nama_customer ]]</td>
                                             <td>[[ values.deskripsi_fp ]]</td>
-                                            <td>[[ values.tgl_fp ]]</td>
-                                            <td>[[ values.netto ]]</td>
+                                            <td>[[ values.tgl_fp | date : "dd-MM-y" ]]</td>
+                                            <td>[[ values.netto | currency : 'Rp.']]</td>
                                             <td>[[ values.sys_status_aktif ]]</td>
                                             <td>
                                                 <!-- <button class="btn btn-default btn-xs btn-pencil" ng-click="toggle('edit', values.id_fp)">Detil</button> -->
@@ -57,7 +58,7 @@
                                                 <button class="btn btn-danger btn-xs btn-delete" ng-click="confirmDelete(values, $index)">Delete</button>
                                             </td>
                                         </tr>
-                                    </tbody>
+                                      </tbody>
                                 </table>
                             </div>
                             <div>

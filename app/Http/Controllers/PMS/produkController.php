@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 // use App\Http\Requests;
 
-use App\Http\Models\pms_produk_mst;
+use App\Http\Models\pms\pms_produk_mst;
 use App\Http\Requests\req_pms_produk_mst;
 use Carbon;
 use DB;

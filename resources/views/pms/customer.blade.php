@@ -1,4 +1,4 @@
-@extends('layouts.app-angularjs')
+@extends('templates.layouts.ng-gentalella')
 
 @section('content')
 <div class="container">

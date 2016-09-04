@@ -17,7 +17,8 @@ class TokenController extends Controller
     {
         // dd(response(['token'=>Auth::user()->remember_token, 'e'=>base64_encode(Auth::user()->email)]));
         if(!Auth::check()) return response('Unauthorized.', 401);
-        return response(['token'=>Auth::user()->remember_token, 'e'=>base64_encode(Auth::user()->email)]);
+        // return response(['token'=>Auth::user()->remember_token, 'e'=>base64_encode(Auth::user()->email)]);
+        return response(['token'=>Auth::user()->remember_token, 'e'=>base64_encode(Auth::user()->email), 'url' => env('APP_API')] );
     }
 
 }

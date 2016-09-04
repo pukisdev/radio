@@ -99,6 +99,7 @@
                                 <li><a href="{{ url('/mst/pms/customer') }}">Customer</a></li>
                                 <li><a href="{{ url('/mst/pms/pnwrMst') }}">Penawaran</a></li>
                                 <li><a href="{{ url('/mst/pms/fpMst') }}">Faktur Penjualan</a></li>
+                                <li><a href="{{ url('/mst/hkm/spks') }}">Order SPKS</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
@@ -108,6 +109,15 @@
 
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="{{ url('/prod/realisasi') }}">Realisasi Produksi</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                Hukum <span class="caret"></span>
+                            </a>
+
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="{{ url('/mst/hkm/spks') }}">SPKS</a></li>
                             </ul>
                         </li>
 
@@ -161,7 +171,7 @@
     <script src="<?= asset('app/lib/angular-1.5.5/dirPagination.js') ?>"></script>
     <script src="<?= asset('ext/rte-angular-master/src/rte/rte.js') ?>"></script>
     <!-- <script src="<?= asset('app/lib/datatables/media/js/dataTables.bootstrap.min.js') ?>" ></script> -->
-    <!-- <script src="<?= asset('ext/jquery-gritter/js/jquery.gritter.min.js') ?>"></script> -->
+    <script src="<?= asset('ext/jquery-gritter/js/jquery.gritter.min.js') ?>"></script>
     <!-- <script src="<?= asset('ext/textAngular-1.5.0/dist/textAngular.min.js') ?>"></script> -->
     <!-- <script src="<?= asset('ext/tinymce/js/tinymce/tinymce.min.js') ?>"></script> -->
     <!-- <script src="<?= asset('ext/ui-tinymce-master/dist/tinymce.min.js') ?>"></script> -->
