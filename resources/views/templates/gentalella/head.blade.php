@@ -25,56 +25,56 @@
 
 		<?=!empty($v_url_css) ? $v_url_css : '' ;?>
 
-	<script src="assets/templates/gentelella/js/jquery.min.js"></script>
+	<script src="{{ URL::to('/') }}/assets/templates/gentelella/js/jquery.min.js"></script>
 
-    <script src="assets/templates/gentelella/js/nprogress.js"></script>
-    <script src="assets/templates/gentelella/js/bootstrap.min.js"></script>
+    <script src="{{ URL::to('/') }}/assets/templates/gentelella/js/nprogress.js"></script>
+    <script src="{{ URL::to('/') }}/assets/templates/gentelella/js/bootstrap.min.js"></script>
     <!-- gauge js -->
     <!--
-    <script type="text/javascript" src="assets/templates/gentelella/js/gauge/gauge.min.js"></script>
-    <script type="text/javascript" src="assets/templates/gentelella/js/gauge/gauge_demo.js"></script>
+    <script type="text/javascript" src="{{ URL::to('/') }}/assets/templates/gentelella/js/gauge/gauge.min.js"></script>
+    <script type="text/javascript" src="{{ URL::to('/') }}/assets/templates/gentelella/js/gauge/gauge_demo.js"></script>
     -->
     <!-- chart js -->
-    <!-- <script src="assets/templates/gentelella/js/chartjs/chart.min.js"></script> -->
+    <!-- <script src="{{ URL::to('/') }}/assets/templates/gentelella/js/chartjs/chart.min.js"></script> -->
     <!-- bootstrap progress js -->
-    <script src="assets/templates/gentelella/js/progressbar/bootstrap-progressbar.min.js"></script>
-    <script src="assets/templates/gentelella/js/nicescroll/jquery.nicescroll.min.js"></script>
+    <script src="{{ URL::to('/') }}/assets/templates/gentelella/js/progressbar/bootstrap-progressbar.min.js"></script>
+    <script src="{{ URL::to('/') }}/assets/templates/gentelella/js/nicescroll/jquery.nicescroll.min.js"></script>
     <!-- icheck -->
-    <script src="assets/templates/gentelella/js/icheck/icheck.min.js"></script>
+    <script src="{{ URL::to('/') }}/assets/templates/gentelella/js/icheck/icheck.min.js"></script>
     <!-- daterangepicker -->
-    <script type="text/javascript" src="assets/templates/gentelella/js/moment.min.js"></script>
-    <script type="text/javascript" src="assets/templates/gentelella/js/datepicker/daterangepicker.js"></script>
+    <script type="text/javascript" src="{{ URL::to('/') }}/assets/templates/gentelella/js/moment.min.js"></script>
+    <script type="text/javascript" src="{{ URL::to('/') }}/assets/templates/gentelella/js/datepicker/daterangepicker.js"></script>
 
-    <script src="assets/templates/gentelella/js/sparkline/jquery.sparkline.min.js"></script>
-    <script src="assets/templates/gentelella/js/custom.js"></script>
+    <script src="{{ URL::to('/') }}/assets/templates/gentelella/js/sparkline/jquery.sparkline.min.js"></script>
+    <script src="{{ URL::to('/') }}/assets/templates/gentelella/js/custom.js"></script>
 
     <!-- flot js -->
     <!--[if lte IE 8]><script type="text/javascript" src="js/excanvas.min.js"></script><![endif]-->
-    <script type="text/javascript" src="assets/templates/gentelella/js/flot/jquery.flot.js"></script>
-    <script type="text/javascript" src="assets/templates/gentelella/js/flot/jquery.flot.pie.js"></script>
-    <script type="text/javascript" src="assets/templates/gentelella/js/flot/jquery.flot.orderBars.js"></script>
-    <script type="text/javascript" src="assets/templates/gentelella/js/flot/jquery.flot.time.min.js"></script>
-    <script type="text/javascript" src="assets/templates/gentelella/js/flot/date.js"></script>
-    <script type="text/javascript" src="assets/templates/gentelella/js/flot/jquery.flot.spline.js"></script>
-    <script type="text/javascript" src="assets/templates/gentelella/js/flot/jquery.flot.stack.js"></script>
-    <script type="text/javascript" src="assets/templates/gentelella/js/flot/curvedLines.js"></script>
-    <script type="text/javascript" src="assets/templates/gentelella/js/flot/jquery.flot.resize.js"></script>
+    <script type="text/javascript" src="{{ URL::to('/') }}/assets/templates/gentelella/js/flot/jquery.flot.js"></script>
+    <script type="text/javascript" src="{{ URL::to('/') }}/assets/templates/gentelella/js/flot/jquery.flot.pie.js"></script>
+    <script type="text/javascript" src="{{ URL::to('/') }}/assets/templates/gentelella/js/flot/jquery.flot.orderBars.js"></script>
+    <script type="text/javascript" src="{{ URL::to('/') }}/assets/templates/gentelella/js/flot/jquery.flot.time.min.js"></script>
+    <script type="text/javascript" src="{{ URL::to('/') }}/assets/templates/gentelella/js/flot/date.js"></script>
+    <script type="text/javascript" src="{{ URL::to('/') }}/assets/templates/gentelella/js/flot/jquery.flot.spline.js"></script>
+    <script type="text/javascript" src="{{ URL::to('/') }}/assets/templates/gentelella/js/flot/jquery.flot.stack.js"></script>
+    <script type="text/javascript" src="{{ URL::to('/') }}/assets/templates/gentelella/js/flot/curvedLines.js"></script>
+    <script type="text/javascript" src="{{ URL::to('/') }}/assets/templates/gentelella/js/flot/jquery.flot.resize.js"></script>
 
     <!-- skycons -->
-    <script src="assets/templates/gentelella/js/skycons/skycons.js"></script>
+    <script src="{{ URL::to('/') }}/assets/templates/gentelella/js/skycons/skycons.js"></script>
 
     <!-- Datatables -->
-    <script src="assets/templates/gentelella/js/datatables/js/jquery.dataTables.js"></script>
-    <script src="assets/templates/gentelella/js/datatables/tools/js/dataTables.tableTools.js"></script>
+    <script src="{{ URL::to('/') }}/assets/templates/gentelella/js/datatables/js/jquery.dataTables.js"></script>
+    <script src="{{ URL::to('/') }}/assets/templates/gentelella/js/datatables/tools/js/dataTables.tableTools.js"></script>
 
     <!-- form validation -->
-    <script src="assets/templates/gentelella/js/validator/validator.js"></script>
+    <script src="{{ URL::to('/') }}/assets/templates/gentelella/js/validator/validator.js"></script>
 
 
     <!-- PNotify -->
-    <script type="text/javascript" src="assets/templates/gentelella/js/notify/pnotify.core.js"></script>
-    <script type="text/javascript" src="assets/templates/gentelella/js/notify/pnotify.buttons.js"></script>
-    <script type="text/javascript" src="assets/templates/gentelella/js/notify/pnotify.nonblock.js"></script>
+    <script type="text/javascript" src="{{ URL::to('/') }}/assets/templates/gentelella/js/notify/pnotify.core.js"></script>
+    <script type="text/javascript" src="{{ URL::to('/') }}/assets/templates/gentelella/js/notify/pnotify.buttons.js"></script>
+    <script type="text/javascript" src="{{ URL::to('/') }}/assets/templates/gentelella/js/notify/pnotify.nonblock.js"></script>
     
 
 	    <?=!empty($v_url_js) ? $v_url_js : '' ;?>

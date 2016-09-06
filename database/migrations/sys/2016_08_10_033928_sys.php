@@ -47,6 +47,7 @@ class Sys extends Migration
             $table->string('route', 128)->nullabel();
             $table->string('link', 512)->nullable();
             $table->enum('akses_role', ['*','L'])->default('L');
+            $table->string('icon', 32)->nullabel();
             $table->string('keterangan', 256)->nullable();
             
             $table->string('sys_user_created',16);
