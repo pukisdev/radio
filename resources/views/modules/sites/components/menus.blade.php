@@ -47,10 +47,12 @@
                         <div class="bs-glyphicons">
                             <ul class="bs-glyphicons-list">
 								@foreach($vData['menu'] as $value)
-                                <li>
-                                    <!-- <span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span> -->
-                                    <span class="glyphicon fa {{!empty($value->icon) ? $value->icon : 'fa-anchor'}}" aria-hidden="true"></span>
-                                    <span class="glyphicon-class">{{ $value->nama }}</span>
+                                <li onclick="window.location.assign('{{$value->route}}')">
+                                    <!-- <a href="{{$value->route}}"> -->
+                                     <!-- <span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span> -->
+                                        <span class="glyphicon fa {{!empty($value->icon) ? $value->icon : 'fa-anchor'}}" aria-hidden="true"></span>
+                                        <span class="glyphicon-class">{{ $value->nama }}</span>
+                                    <!-- </a> -->
                                 </li>
                                 @endforeach
 

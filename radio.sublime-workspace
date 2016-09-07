@@ -304,39 +304,38 @@
 	"buffers":
 	[
 		{
-			"contents": "create or replace view v_fp_rangkuman as\nselect f_pnwr, max(total_biaya) total_biaya, \n  IFNULL(sum(nilai_biaya_persen),0) total_nilai_biaya_persen,\n  sum(nilai_biaya) total_nilai_biaya,\n  sum(nilai_potongan_persen) total_nilai_potongan_persen,\n  sum(nilai_potongan) total_nilai_potongan,\n  sum(nilai_hpp) total_nilai_hpp,\n  sum(nilai_ppn) total_nilai_ppn,\n  sum(nilai_akhir) total_nilai_akhir\nfrom pms_fp_mst aa \n  join pms_fp_det bb on aa.id_fp = bb.f_fp\n  where aa.sys_status_aktif='A' and bb.sys_status_aktif='A'\n  group by f_pnwr;\n\n\nselect l1.id_menu as id1, l1.nama_menu as menu1, l2.id_menu as id2, l2.nama_menu as menu2, \nl3.id_menu as id3, l3.nama_menu as menu3, \nl4.id_menu as id4, l4.nama_menu as menu4 \nfrom sys_menus_mst l1 \nleft join sys_menus_mst l2 on l1.root = l2.id_menu and l2.sys_status_aktif='A' \nleft join sys_menus_mst l3 on l2.root = l3.id_menu and l3.sys_status_aktif='A'\nleft join sys_menus_mst l4 on l3.root = l4.id_menu and l4.sys_status_aktif='A'\nwhere l1.sys_status_aktif = 'A'\n\n\ncreate or replace view v_menu_app as \nselect aa.id_menu, aa.root, aa.level, aa.f_type as type_menu, aa.urutan, aa.nama_menu, aa.keterangan as ket_menu, aa.icon, aa.auth, aa.sys_status_aktif as aktif_menu, \nbb.id_app, bb.nama, bb.f_type as type_app, bb.route, bb.link, bb.akses_role, bb.keterangan as ket_app, bb.sys_status_aktif as aktif_app \nfrom sys_menus_mst aa left join sys_app_mst bb on aa.f_app = bb.id_app and bb.sys_status_aktif='A' \nwhere aa.sys_status_aktif='A' ORDER BY GetPriority(aa.id_menu), aa.urutan\n\nDELIMITER $$\nDROP FUNCTION IF EXISTS `radio`.`GetParentIDByID` $$\nCREATE FUNCTION `radio`.`GetParentIDByID` (GivenID INT) RETURNS INT\nDETERMINISTIC\nBEGIN\n    DECLARE rv INT;\n\n    SELECT IFNULL(root,-1) INTO rv FROM\n    (SELECT root FROM sys_menus_mst WHERE id_menu = GivenID) A;\n    RETURN rv;\nEND $$\nDELIMITER ;\n\n\nDELIMITER $$\nDROP FUNCTION IF EXISTS `radio`.`GetAncestry` $$\nCREATE FUNCTION `radio`.`GetAncestry` (GivenID INT) RETURNS VARCHAR(1024)\nDETERMINISTIC\nBEGIN\n    DECLARE rv VARCHAR(1024);\n    DECLARE cm CHAR(1);\n    DECLARE ch INT;\n\n    SET rv = '';\n    SET cm = '';\n    SET ch = GivenID;\n    WHILE ch > 0 DO\n        SELECT IFNULL(root,-1) INTO ch FROM\n        (SELECT root FROM sys_menus_mst WHERE id_menu = ch) A;\n        IF ch > 0 THEN\n            SET rv = CONCAT(rv,cm,ch);\n            SET cm = ',';\n        END IF;\n    END WHILE;\n    RETURN rv;\nEND $$\nDELIMITER ;\n\n\n\nDELIMITER $$\nDROP FUNCTION IF EXISTS `radio`.`GetFamilyTree` $$\nCREATE FUNCTION `radio`.`GetFamilyTree` (GivenID INT) RETURNS varchar(1024)\nDETERMINISTIC\nBEGIN\n\n    DECLARE rv,q,queue,queue_children VARCHAR(1024);\n    DECLARE queue_length,front_id,pos INT;\n\n    SET rv = '';\n    SET queue = GivenID;\n    SET queue_length = 1;\n\n    WHILE queue_length > 0 DO\n        SET front_id = FORMAT(queue,0);\n        IF queue_length = 1 THEN\n            SET queue = '';\n        ELSE\n            SET pos = LOCATE(',',queue) + 1;\n            SET q = SUBSTR(queue,pos);\n            SET queue = q;\n        END IF;\n        SET queue_length = queue_length - 1;\n\n        SELECT IFNULL(qc,'') INTO queue_children\n        FROM (SELECT GROUP_CONCAT(id) qc\n        FROM sys_menus_mst WHERE root = front_id) A;\n\n        IF LENGTH(queue_children) = 0 THEN\n            IF LENGTH(queue) = 0 THEN\n                SET queue_length = 0;\n            END IF;\n        ELSE\n            IF LENGTH(rv) = 0 THEN\n                SET rv = queue_children;\n            ELSE\n                SET rv = CONCAT(rv,',',queue_children);\n            END IF;\n            IF LENGTH(queue) = 0 THEN\n                SET queue = queue_children;\n            ELSE\n                SET queue = CONCAT(queue,',',queue_children);\n            END IF;\n            SET queue_length = LENGTH(queue) - LENGTH(REPLACE(queue,',','')) + 1;\n        END IF;\n    END WHILE;\n\n    RETURN rv;\n\nEND $$\nDELIMITER ;\n\n\ndelimiter ~\n\nCREATE FUNCTION GetPriority (inID INT) RETURNS VARCHAR(255) DETERMINISTIC\nbegin\n  DECLARE gParentID INT DEFAULT 0;\n  DECLARE gPriority VARCHAR(255) DEFAULT '';\n  SET gPriority = inID;\n  SELECT root INTO gParentID FROM sys_menus_mst WHERE id_menu = inID;\n  WHILE gParentID > 0 DO\n    SET gPriority = CONCAT(gParentID, '.', gPriority);\n    SELECT root INTO gParentID FROM sys_menus_mst WHERE id_menu = gParentID;\n  END WHILE;\n  RETURN gPriority;\nend ~\n\ndelimiter ;\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nselect bb.* from pms_fp_mst aa \n  join pms_fp_det bb on aa.id_fp = bb.f_fp\n  where aa.sys_status_aktif='A' and bb.sys_status_aktif='A';\n\nSELECT aa.*, (pnwr_hpp - total_nilai_biaya) sisa FROM `pms_pnwr_mst` aa \n  left join v_fp_rangkuman bb on aa.id_pnwr = bb.f_pnwr\n\n\n--SELECT group_concat(f_pnwr),tayang_tgl, group_concat(tayang_jam) FROM `pms_pnwr_tayang` WHERE tayang_tgl = '2016-06-22'\n00001/RSAU/SP/06/2016, 00002/RSAU/SP/06/2016, 00003/RSAU/SP/06/2016\n2016-06-22\n0815,0915,1015, 0900,1030,1300, 0915,0930\n\n\narray:2 [\n  0 => array:13 [\n    \"f_fp\" => \"FP2016.00001\"\n    \"f_pnwr\" => \"00002/RSAU/SP/06/2016\"\n    \"total_biaya\" => \"909091\"\n    \"nilai_biaya_persen\" => \"0\"\n    \"nilai_biaya\" => \"909091\"\n    \"nilai_potongan_persen\" => \"0\"\n    \"nilai_potongan\" => \"0\"\n    \"nilai_hpp\" => \"909091\"\n    \"nilai_ppn\" => \"90909\"\n    \"nilai_akhir\" => \"1000000\"\n    \"sys_user_update\" => \"ADMIN\"\n    \"sys_tgl_update\" => \"2016-06-22 12:44:35\"\n    \"sys_status_aktif\" => \"A\"\n  ]\n  1 => array:13 [\n    \"f_fp\" => \"FP2016.00001\"\n    \"f_pnwr\" => \"00003/RSAU/SP/06/2016\"\n    \"total_biaya\" => \"10000000\"\n    \"nilai_biaya_persen\" => \"0\"\n    \"nilai_biaya\" => \"10000000\"\n    \"nilai_potongan_persen\" => \"0\"\n    \"nilai_potongan\" => \"0\"\n    \"nilai_hpp\" => \"10000000\"\n    \"nilai_ppn\" => \"1000000\"\n    \"nilai_akhir\" => \"11000000\"\n    \"sys_user_update\" => \"ADMIN\"\n    \"sys_tgl_update\" => \"2016-06-22 12:44:35\"\n    \"sys_status_aktif\" => \"A\"\n  ]\n]",
 			"file": "app/Http/query.txt",
-			"file_size": 5764,
-			"file_write_time": 131174702866528687,
 			"settings":
 			{
-				"buffer_size": 5761,
+				"buffer_size": 5764,
 				"line_ending": "Unix",
 				"name": "select bb.* from pms_fp_mst aa"
-			}
-		},
-		{
-			"file": "/u02/app/.db_env",
-			"settings":
-			{
-				"buffer_size": 544,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "# Oracle Settings\nTMP=/tmp; export TMP\nTMPDIR=$TMP; export TMPDIR\nORACLE_HOSTNAME=127.0.0.1; export ORACLE_HOSTNAME\nORACLE_BASE=/u02/app/oracle; export ORACLE_BASE\nORACLE_HOME=$ORACLE_BASE/product/11.2.0/dbhome_1; export ORACLE_HOME\nORACLE_SID=orcl10; export ORACLE_SID\nPATH=/usr/sbin:$PATH; export PATH\nPATH=$ORACLE_HOME/bin:$PATH; export PATH\nLD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib:/usr/lib64; export LD_LIBRARY_PATH\nCLASSPATH=$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib; export CLASSPATH\n\n\n",
-			"settings":
-			{
-				"buffer_size": 499,
-				"line_ending": "Unix",
-				"name": "# Oracle Settings"
 			}
 		},
 		{
 			"file": "app/Http/Controllers/sites/menuController.php",
 			"settings":
 			{
-				"buffer_size": 707,
+				"buffer_size": 1131,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "@extends('templates.layouts.gentalella')\n\n@section('content')\n<div class=\"\">\n    <div class=\"page-title\">\n        <div class=\"title_left\">\n            <h3>{{ $vData['namaType'] }}</h3>\n        </div>\n\n        <div class=\"title_right\">\n            <div class=\"pull-right\">\n                <span role=\"status\" aria-live=\"polite\" class=\"ui-helper-hidden-accessible\"></span>\n                <input style=\"padding: 5px 16px;\" type=\"text\" placeholder=\"Search...\" class=\"autocomplete-input input tooltip-button ui-autocomplete-input\" data-placement=\"bottom\" title=\"\" name=\"\" data-original-title=\"Type 'jav' to see the available tags...\" autocomplete=\"off\">\n                <i class=\"glyph-icon icon-search\"></i>\n            </div>\n        </div>\n    </div>\n    <div class=\"clearfix\"></div>\n    <div class=\"row\">\n        <div class=\"col-md-12\">\n            <div class=\"x_panel\">\n                <div class=\"x_title\">\n                    <h2>Module {{ $vData['namaModule'] }} <!-- <small>different icon design elements</small> --></h2>\n                    <!-- <ul class=\"nav navbar-right panel_toolbox\">\n                        <li><a class=\"collapse-link\"><i class=\"fa fa-chevron-up\"></i></a>\n                        </li>\n                        <li class=\"dropdown\">\n                            <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-expanded=\"false\"><i class=\"fa fa-wrench\"></i></a>\n                            <ul class=\"dropdown-menu\" role=\"menu\">\n                                <li><a href=\"#\">Settings 1</a>\n                                </li>\n                                <li><a href=\"#\">Settings 2</a>\n                                </li>\n                            </ul>\n                        </li>\n                        <li><a class=\"close-link\"><i class=\"fa fa-close\"></i></a>\n                        </li>\n                    </ul> -->\n                    <div class=\"clearfix\"></div>\n                </div>\n                <div class=\"x_content\">\n                    <div class=\"bs-docs-section\">\n                        <!-- <h1 id=\"glyphicons\" class=\"page-header\">Module {{ $vData['namaModule'] }}</h1> -->\n\n                        <!-- <h2 id=\"glyphicons-glyphs\">Available glyphs</h2> -->\n                        <!-- <p>Includes 260 glyphs in font format from the Glyphicon Halflings set. <a href=\"http://glyphicons.com/\">Glyphicons</a> Halflings are normally not available for free, but their creator has made them available for Bootstrap free of cost. As a thank you, we only ask that you include a link back to <a href=\"http://glyphicons.com/\">Glyphicons</a> whenever possible.</p> -->\n                        <div class=\"bs-glyphicons\">\n                            <ul class=\"bs-glyphicons-list\">\n								@foreach($vData['menu'] as $value)\n                                <li>\n                                    <!-- <span class=\"glyphicon glyphicon-asterisk\" aria-hidden=\"true\"></span> -->\n                                    <span class=\"glyphicon fa {{!empty($value->icon) ? $value->icon : 'fa-anchor'}}\" aria-hidden=\"true\"></span>\n                                    <span class=\"glyphicon-class\">{{ $value->nama }}</span>\n                                </li>\n                                @endforeach\n\n<!--                                 <li>\n                                    <span class=\"glyphicon glyphicon-plus\" aria-hidden=\"true\"></span>\n                                    <span class=\"glyphicon-class\">glyphicon glyphicon-plus</span>\n                                </li>\n\n                                <li>\n                                    <span class=\"glyphicon glyphicon-euro\" aria-hidden=\"true\"></span>\n                                    <span class=\"glyphicon-class\">glyphicon glyphicon-euro</span>\n                                </li> -->\n                            </ul>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n\n@endsection\n",
+			"file": "resources/views/modules/sites/components/menus.blade.php",
+			"file_size": 4017,
+			"file_write_time": 131176391328919862,
+			"settings":
+			{
+				"buffer_size": 4017,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "resources/views/templates/gentalella/head.blade.php",
+			"settings":
+			{
+				"buffer_size": 4946,
 				"line_ending": "Unix"
 			}
 		},
@@ -352,7 +351,23 @@
 			"file": "app/Http/Models/sys/sys_app_mst.php",
 			"settings":
 			{
-				"buffer_size": 233,
+				"buffer_size": 730,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/Http/Models/sys/sys_type_mst.php",
+			"settings":
+			{
+				"buffer_size": 521,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/Http/Models/sys/sys_module_mst.php",
+			"settings":
+			{
+				"buffer_size": 486,
 				"line_ending": "Unix"
 			}
 		},
@@ -446,17 +461,28 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/sys",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/sys"
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/sys",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/modules",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/modules/sites",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/modules/sites/sn",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/gentalella"
 	],
 	"file_history":
 	[
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/prod/realisasi.blade.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/Auth/TokenController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/sys/2016_08_10_033928_sys.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/templates/gentelella/fonts/glyphicons-halflings-regular.woff",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/layouts/gentalella.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/css/font-awesome.min.css",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/templates/gentelella/master/production/glyphicons.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/modules/sites/menus.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/sys/sys_menus_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_10_145928_pms_pnwr_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_11_143840_pms_fp_det.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_11_142955_pms_fp_mst.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/sys/2016_08_10_033928_sys.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/pnwrMst.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/spks.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/pnwrMst.blade.php",
@@ -553,9 +579,11 @@
 		"/opt/lampp/logs/php_error_log",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_pnwr_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/customer.min.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/prod/realisasi.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_pnwr_materi.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_customer_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_11_142111_pms_pnwr_spk.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/Auth/TokenController.php",
 		"/usr/share/nginx/html/index.html",
 		"/opt/lampp/htdocs/campur/firebase/index.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/produk.blade.php",
@@ -572,12 +600,7 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/vendor/symfony/routing/Router.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/bootstrap/app.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/PMS/lov/lovPnwr.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/tbl_user.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/reqTblUser.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/modalUser.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/userMst.min.js",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/layouts/app-user.blade.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/vuser.blade.php"
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/tbl_user.php"
 	],
 	"find":
 	{
@@ -598,6 +621,10 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"src=\"assets/",
+			"module",
+			"gly",
+			"container",
 			"mediumInteger",
 			"ACL",
 			"'HomeController@index'",
@@ -721,11 +748,7 @@
 			"FHsY3ZKvif23Fubm5L1gflqrN5gmoLq1phAAA6egRPfXWyEAVUpalqQVPw1Z",
 			"carbon",
 			"class",
-			"7",
-			"r",
-			"d",
-			"00",
-			">\n"
+			"7"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -762,7 +785,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 3,
 			"sheets":
 			[
 				{
@@ -771,15 +794,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5761,
+						"buffer_size": 5764,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3853,
-								3853
+								441,
+								441
 							]
 						],
 						"settings":
@@ -793,85 +816,27 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1175.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 8,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "/u02/app/.db_env",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 544,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								542,
-								542
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 499,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								497,
-								497
-							]
-						],
-						"settings":
-						{
-							"auto_name": "# Oracle Settings",
-							"incomplete_sync": null,
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
 					"file": "app/Http/Controllers/sites/menuController.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 707,
+						"buffer_size": 1131,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								434,
-								434
+								874,
+								874
 							]
 						],
 						"settings":
@@ -887,7 +852,183 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "resources/views/modules/sites/components/menus.blade.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4017,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2290,
+								2290
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 148.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "resources/views/templates/gentalella/head.blade.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4946,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1216,
+								1216
+							],
+							[
+								1309,
+								1309
+							],
+							[
+								1400,
+								1400
+							],
+							[
+								1549,
+								1549
+							],
+							[
+								1669,
+								1669
+							],
+							[
+								1802,
+								1802
+							],
+							[
+								1940,
+								1940
+							],
+							[
+								2059,
+								2059
+							],
+							[
+								2193,
+								2193
+							],
+							[
+								2344,
+								2344
+							],
+							[
+								2459,
+								2459
+							],
+							[
+								2568,
+								2568
+							],
+							[
+								2680,
+								2680
+							],
+							[
+								2913,
+								2913
+							],
+							[
+								3034,
+								3034
+							],
+							[
+								3159,
+								3159
+							],
+							[
+								3290,
+								3290
+							],
+							[
+								3420,
+								3420
+							],
+							[
+								3534,
+								3534
+							],
+							[
+								3662,
+								3662
+							],
+							[
+								3789,
+								3789
+							],
+							[
+								3910,
+								3910
+							],
+							[
+								4037,
+								4037
+							],
+							[
+								4159,
+								4159
+							],
+							[
+								4272,
+								4272
+							],
+							[
+								4425,
+								4425
+							],
+							[
+								4572,
+								4572
+							],
+							[
+								4696,
+								4696
+							],
+							[
+								4823,
+								4823
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": -0.0,
+						"translation.y": 339.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -917,10 +1058,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 109.0,
+						"translation.y": 2241.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
@@ -929,15 +1070,77 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 233,
+						"buffer_size": 730,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								26,
-								26
+								709,
+								709
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "app/Http/Models/sys/sys_type_mst.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 521,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								518,
+								518
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "app/Http/Models/sys/sys_module_mst.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 486,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								477,
+								477
 							]
 						],
 						"settings":
@@ -955,7 +1158,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 8,
 					"file": "app/Http/routes.php",
 					"semi_transient": false,
 					"settings":
@@ -983,7 +1186,7 @@
 						"translation.y": 327.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 7,
 					"type": "text"
 				}
 			]
@@ -1042,12 +1245,20 @@
 		"selected_items":
 		[
 			[
-				"app/http/controllers/auth/tokencontroller.php",
-				"app/Http/Controllers/Auth/TokenController.php"
+				"css/font-awesome.min.css",
+				"public/css/font-awesome.min.css"
 			],
 			[
-				"resources/views/prod/realisasi.blade.php",
-				"resources/views/prod/realisasi.blade.php"
+				"gentelella/glyphi",
+				"public/assets/templates/gentelella/fonts/glyphicons-halflings-regular.woff"
+			],
+			[
+				"templates/layouts/gentalella",
+				"resources/views/templates/layouts/gentalella.blade.php"
+			],
+			[
+				"production/glyphicons.html",
+				"public/assets/templates/gentelella/master/production/glyphicons.html"
 			],
 			[
 				"pnwrcontroll",
@@ -1544,14 +1755,6 @@
 			[
 				"pms_fp",
 				"app/Http/Models/pms_fp_mst.php"
-			],
-			[
-				"app-a",
-				"resources/views/layouts/app-angularjs.blade.php"
-			],
-			[
-				"fphtml",
-				"public/ext/ng-html/formFPMst.html"
 			]
 		],
 		"width": 0.0

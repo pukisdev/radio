@@ -37,9 +37,12 @@ Route::group(['prefix'=>'mst', 'middleware'=>['menus']], function(){ //show view
 	Route::get('pms/produk', 'PMS\produkController@_index');
 	Route::get('pms/libur', 'PMS\liburController@_index');
 	Route::get('pms/customer', 'PMS\customerController@_index');
+	Route::get('hkm/spks', 'HKM\spksController@_index');
+});
+
+Route::group(['prefix'=>'trx', 'middleware'=>['menus']], function(){ //show view
 	Route::get('pms/pnwrMst', 'PMS\pnwrMstController@_index');
 	Route::get('pms/fpMst', 'PMS\fpMstController@_index');
-	Route::get('hkm/spks', 'HKM\spksController@_index');
 });
 
 Route::group(['prefix'=>'pms'], function(){ //return dalam bentuk json
