@@ -11,6 +11,8 @@ use App\Http\Models\pms\pms_customer_mst as modelMst;
 use App\Http\Requests\reqPmsCustomerMst as reqMst;
 use Carbon;
 use DB;
+use PDF;
+use Excel;
 
 class customerController extends Controller
 {
@@ -117,6 +119,46 @@ class customerController extends Controller
      */
     public function _index(){
         return view('pms/customer');
+    }
+
+
+    /**
+     * @function _pdfRekapCustomer dibuat dan dikembangkan oleh rianday.
+     * @depok
+     * @return true
+     */
+    public function _RekapCustomer($fileType)
+    {
+        if(empty($fileType)) abort(403, 'unauthorized');
+
+        $hasil['vData'] = modelMst::get();
+
+        if($fileType == 'pdf'){   
+            $pdf = PDF::loadView('pms.report.rpt-customer', $hasil);
+            return $pdf->download('rekap customer.pdf');
+            // $pdf = PDF::make('dompdf.wrapper');
+            // $pdf = PDF::loadHTML('<h1>Test</h1>');
+            // return $pdf->stream();
+            // return view('pms.report.pdf.testPdf');
+        } else {
+            //
+            Excel::create('rekapCustomer', function($excel) use ($hasil) {
+
+                // Set the title
+                $excel->setTitle('Rekap Customer');
+
+                // Chain the setters
+                $excel->setCreator('rianday')->setCompany('pukisdev');
+
+                // Call them separately
+                $excel->setDescription('A demonstration to change the file properties');
+                
+                $excel->sheet('Sheetname', function($sheet) use ($hasil) {
+                    $sheet->loadView('pms.report.rpt-customer', $hasil);                    
+                });
+            })->export('xls');            
+        }
+        
     }
 
     /**

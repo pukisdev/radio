@@ -45,6 +45,10 @@ Route::group(['prefix'=>'trx', 'middleware'=>['menus']], function(){ //show view
 	Route::get('pms/fpMst', 'PMS\fpMstController@_index');
 });
 
+Route::group(['prefix'=>'rpt'], function(){ //show view
+	Route::get('{fileType}/pms/customer', 'PMS\customerController@_RekapCustomer');
+});
+
 Route::group(['prefix'=>'pms'], function(){ //return dalam bentuk json
 	Route::resource('produk', 'PMS\produkController');
 	Route::resource('tarif', 'PMS\tarifController');

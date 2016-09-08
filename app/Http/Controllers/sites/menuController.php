@@ -29,6 +29,17 @@ class menuController extends Controller
         $hasil['menu'] = modelMst::with(['module','type'])->where('f_type', strtoupper($jenis))->where('f_module', strtolower($module))->get();
         // dd(DB::getQueryLog());
         $varTemp = $hasil['menu']->all();
+        
+        // dd(url()->current());
+        // dd(url()->previous());
+        // dd(url()->full());
+        // abort_if(empty($varTemp), 401);
+        if(empty($varTemp))
+            return response('Unauthorized.', 401);            
+            // return abort(401, 'Unauthorized.');
+            // return back();
+        // return null;
+        
         $hasil['namaModule'] = $varTemp[0]->module->nama_module;
         $hasil['namaType'] = $varTemp[0]->type->nama_type;
         // dd($varTemp[0]->type->nama_type);

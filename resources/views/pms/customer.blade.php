@@ -21,8 +21,16 @@
                                     <div class="pull-right" style="padding-top:30px">
                                         <div class="box-tools" style="display:inline-table">
                                           <div class="input-group">
-                                              <input type="text" class="form-control input-sm ng-valid ng-dirty" placeholder="Search" ng-change="searchDB()" ng-model="searchText" name="table_search" title="" tooltip="" data-original-title="Min character length is 3">
-                                              <span class="input-group-addon">Search</span>
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-default" type="button" ng-click="rekap('pdf')"><i class="fa fa-file-pdf-o"></i></button>
+                                                    <button class="btn btn-default" type="button" ng-click="rekap('excel')"><i class="fa fa-file-excel-o"></i></button>
+                                                </span>
+                                                <!-- <input type="text" class="form-control input-sm ng-valid ng-dirty" placeholder="Search" ng-change="searchDB()" ng-model="searchText" name="table_search" title="" tooltip="" data-original-title="Min character length is 3"> -->
+                                                <input type="text" class="form-control ng-valid ng-dirty" placeholder="Search" ng-change="searchDB()" ng-model="searchText" name="table_search" title="" tooltip="" data-original-title="Min character length is 3">
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-default" type="button" ><i class="fa fa-search"></i></button>
+                                                </span>
+                                                <!-- <span class="input-group-addon">Search</span> -->
                                           </div>
                                         </div>
                                         <!-- <button class="btn btn-success" data-toggle="modal" data-target="#create-user">Create New</button> -->

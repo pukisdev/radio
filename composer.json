@@ -9,7 +9,9 @@
         "laravel/framework": "5.2.*",
         "yajra/laravel-oci8": "5.2.*",
         "laravelcollective/html": "5.2.*",
-        "lavary/laravel-menu": "dev-master"
+        "lavary/laravel-menu": "dev-master",
+        "barryvdh/laravel-dompdf": "^0.7.0",
+        "maatwebsite/excel": "~2.1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

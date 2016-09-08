@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"Model",
+				"modelMst"
+			],
+			[
 				"page",
 				"pageNumber"
 			],
@@ -313,61 +317,10 @@
 			}
 		},
 		{
-			"file": "app/Http/Controllers/sites/menuController.php",
-			"settings":
-			{
-				"buffer_size": 1131,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "@extends('templates.layouts.gentalella')\n\n@section('content')\n<div class=\"\">\n    <div class=\"page-title\">\n        <div class=\"title_left\">\n            <h3>{{ $vData['namaType'] }}</h3>\n        </div>\n\n        <div class=\"title_right\">\n            <div class=\"pull-right\">\n                <span role=\"status\" aria-live=\"polite\" class=\"ui-helper-hidden-accessible\"></span>\n                <input style=\"padding: 5px 16px;\" type=\"text\" placeholder=\"Search...\" class=\"autocomplete-input input tooltip-button ui-autocomplete-input\" data-placement=\"bottom\" title=\"\" name=\"\" data-original-title=\"Type 'jav' to see the available tags...\" autocomplete=\"off\">\n                <i class=\"glyph-icon icon-search\"></i>\n            </div>\n        </div>\n    </div>\n    <div class=\"clearfix\"></div>\n    <div class=\"row\">\n        <div class=\"col-md-12\">\n            <div class=\"x_panel\">\n                <div class=\"x_title\">\n                    <h2>Module {{ $vData['namaModule'] }} <!-- <small>different icon design elements</small> --></h2>\n                    <!-- <ul class=\"nav navbar-right panel_toolbox\">\n                        <li><a class=\"collapse-link\"><i class=\"fa fa-chevron-up\"></i></a>\n                        </li>\n                        <li class=\"dropdown\">\n                            <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-expanded=\"false\"><i class=\"fa fa-wrench\"></i></a>\n                            <ul class=\"dropdown-menu\" role=\"menu\">\n                                <li><a href=\"#\">Settings 1</a>\n                                </li>\n                                <li><a href=\"#\">Settings 2</a>\n                                </li>\n                            </ul>\n                        </li>\n                        <li><a class=\"close-link\"><i class=\"fa fa-close\"></i></a>\n                        </li>\n                    </ul> -->\n                    <div class=\"clearfix\"></div>\n                </div>\n                <div class=\"x_content\">\n                    <div class=\"bs-docs-section\">\n                        <!-- <h1 id=\"glyphicons\" class=\"page-header\">Module {{ $vData['namaModule'] }}</h1> -->\n\n                        <!-- <h2 id=\"glyphicons-glyphs\">Available glyphs</h2> -->\n                        <!-- <p>Includes 260 glyphs in font format from the Glyphicon Halflings set. <a href=\"http://glyphicons.com/\">Glyphicons</a> Halflings are normally not available for free, but their creator has made them available for Bootstrap free of cost. As a thank you, we only ask that you include a link back to <a href=\"http://glyphicons.com/\">Glyphicons</a> whenever possible.</p> -->\n                        <div class=\"bs-glyphicons\">\n                            <ul class=\"bs-glyphicons-list\">\n								@foreach($vData['menu'] as $value)\n                                <li>\n                                    <!-- <span class=\"glyphicon glyphicon-asterisk\" aria-hidden=\"true\"></span> -->\n                                    <span class=\"glyphicon fa {{!empty($value->icon) ? $value->icon : 'fa-anchor'}}\" aria-hidden=\"true\"></span>\n                                    <span class=\"glyphicon-class\">{{ $value->nama }}</span>\n                                </li>\n                                @endforeach\n\n<!--                                 <li>\n                                    <span class=\"glyphicon glyphicon-plus\" aria-hidden=\"true\"></span>\n                                    <span class=\"glyphicon-class\">glyphicon glyphicon-plus</span>\n                                </li>\n\n                                <li>\n                                    <span class=\"glyphicon glyphicon-euro\" aria-hidden=\"true\"></span>\n                                    <span class=\"glyphicon-class\">glyphicon glyphicon-euro</span>\n                                </li> -->\n                            </ul>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n\n@endsection\n",
 			"file": "resources/views/modules/sites/components/menus.blade.php",
-			"file_size": 4017,
-			"file_write_time": 131176391328919862,
 			"settings":
 			{
-				"buffer_size": 4017,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "resources/views/templates/gentalella/head.blade.php",
-			"settings":
-			{
-				"buffer_size": 4946,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/Http/Controllers/PMS/pnwrMstController.php",
-			"settings":
-			{
-				"buffer_size": 8890,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/Http/Models/sys/sys_app_mst.php",
-			"settings":
-			{
-				"buffer_size": 730,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/Http/Models/sys/sys_type_mst.php",
-			"settings":
-			{
-				"buffer_size": 521,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/Http/Models/sys/sys_module_mst.php",
-			"settings":
-			{
-				"buffer_size": 486,
+				"buffer_size": 4204,
 				"line_ending": "Unix"
 			}
 		},
@@ -375,7 +328,90 @@
 			"file": "app/Http/routes.php",
 			"settings":
 			{
-				"buffer_size": 2876,
+				"buffer_size": 3104,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "resources/views/templates/layouts/pdf-gentalella.blade.php",
+			"settings":
+			{
+				"buffer_size": 1874,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "resources/views/templates/gentalella/head.blade.php",
+			"settings":
+			{
+				"buffer_size": 4938,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "resources/views/templates/gentalella/angularjs/head.blade.php",
+			"settings":
+			{
+				"buffer_size": 7065,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "@extends('templates.layouts.pdf-gentalella')\n\n@section('content')\n                        <div class=\"col-md-6 col-sm-6 col-xs-12\">\n                            <!--\n                             <div class=\"x_panel\"> \n                                <div class=\"x_title\">\n                                    <h2>Basic Tables <small>basic table subtitle</small></h2>\n                                    <ul class=\"nav navbar-right panel_toolbox\">\n                                        <li><a class=\"collapse-link\"><i class=\"fa fa-chevron-up\"></i></a>\n                                        </li>\n                                        <li class=\"dropdown\">\n                                            <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-expanded=\"false\"><i class=\"fa fa-wrench\"></i></a>\n                                            <ul class=\"dropdown-menu\" role=\"menu\">\n                                                <li><a href=\"#\">Settings 1</a>\n                                                </li>\n                                                <li><a href=\"#\">Settings 2</a>\n                                                </li>\n                                            </ul>\n                                        </li>\n                                        <li><a class=\"close-link\"><i class=\"fa fa-close\"></i></a>\n                                        </li>\n                                    </ul>\n                                    <div class=\"clearfix\"></div>\n                                </div>\n                                <div class=\"x_content\">\n                            -->\n                                        <blockquote>\n                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>\n                                            <footer>Someone famous in <cite title=\"Source Title\">Source Title</cite>\n                                            </footer>\n                                        </blockquote>\n\n                                    <table class=\"table\">\n                                        <thead>\n                                            <tr>\n                                                <th>#</th>\n                                                <th>Kode Customer</th>\n                                                <th>Nama Customer</th>\n                                            </tr>\n                                        </thead>\n                                        <tbody>\n                                            @foreach($vData as $index=>$isi)\n                                            <tr>\n                                                <th scope=\"row\">{{$index+1}}</th>\n                                                <td>{{$isi->id_customer}}</td>\n                                                <td>{{$isi->nama_customer}}</td>\n                                            </tr>\n                                            @endforeach\n                                        </tbody>\n                                    </table>\n\n                            <!--\n                                </div>\n                            </div>\n                        </div>\n                        -->\n@endsection",
+			"file": "resources/views/pms/report/pdf/rpt-customer.blade.php",
+			"file_size": 3574,
+			"file_write_time": 131177904888204365,
+			"settings":
+			{
+				"buffer_size": 3574,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "resources/views/pms/customer.blade.php",
+			"settings":
+			{
+				"buffer_size": 5423,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "public/app/controllers/customer.min.js",
+			"settings":
+			{
+				"buffer_size": 5933,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/Http/Controllers/PMS/customerController.php",
+			"settings":
+			{
+				"buffer_size": 4723,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "resources/views/pms/report/rpt-customer.blade.php",
+			"settings":
+			{
+				"buffer_size": 2906,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "public/assets/templates/gentelella/master/production/typography.html",
+			"settings":
+			{
+				"buffer_size": 23959,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "config/app.php",
+			"settings":
+			{
+				"buffer_size": 8873,
 				"line_ending": "Unix"
 			}
 		}
@@ -455,24 +491,40 @@
 	[
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Console/Commands",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Middleware",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/sdm",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/sys",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/sys",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/images",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/modules",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/modules/sites",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/modules/sites/sn",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/report",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/gentalella"
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/gentalella",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/gentalella/angularjs",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/layouts"
 	],
 	"file_history":
 	[
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/report/pdf/customerPdf.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/customer.min.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/produk.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/pnwrMstController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/sys/sys_app_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/sys/sys_type_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/sys/sys_module_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/sites/menuController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/gentalella/head.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/pdf/testPdf.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/sys/2016_08_10_033928_sys.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/templates/gentelella/fonts/glyphicons-halflings-regular.woff",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/layouts/gentalella.blade.php",
@@ -490,7 +542,6 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Middleware/Menus.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms/pms_customer_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms/pms_pnwr_mst.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/pnwrMstController.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/produk.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/.env",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/lovProduk.min.js",
@@ -502,7 +553,6 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/gentalella/angularjs/head.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/hkm/spks/tblSpks.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/routes.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/sites/menuController.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/gentalella/left.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/app.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/customer.blade.php",
@@ -516,7 +566,6 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/hkm/form/formSpks.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/rte-angular-master/src/rte/rte.css",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/layouts/ng-gentalella.blade.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/gentalella/head.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/config/app.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/PMS/form/pnwrMateri.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/formFPMst.html",
@@ -569,7 +618,6 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/PMS/lov/lovCustomer.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/lovCustomer.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/sys/sys_status_mst.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/sys/sys_type_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/Auth/AuthController.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/User.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_08_10_040050_sdm.php",
@@ -578,7 +626,6 @@
 		"/opt/lampp/logs/error_log",
 		"/opt/lampp/logs/php_error_log",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_pnwr_mst.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/customer.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/prod/realisasi.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_pnwr_materi.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_customer_mst.php",
@@ -586,7 +633,6 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/Auth/TokenController.php",
 		"/usr/share/nginx/html/index.html",
 		"/opt/lampp/htdocs/campur/firebase/index.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/produk.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/messages.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/ng-customer.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/modalCustomer.html",
@@ -596,11 +642,7 @@
 		"/opt/lampp/etc/php.ini",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_fp_mst.php",
 		"/etc/hosts",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_pnwr_tayang.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/vendor/symfony/routing/Router.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/bootstrap/app.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/PMS/lov/lovPnwr.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/tbl_user.php"
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_pnwr_tayang.php"
 	],
 	"find":
 	{
@@ -621,6 +663,12 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"95",
+			"6",
+			"gent",
+			"Someone famous in S",
+			"Someone famous in Source",
+			"Someone famous in Source Title",
 			"src=\"assets/",
 			"module",
 			"gly",
@@ -742,13 +790,7 @@
 			"date",
 			"$parent.$index",
 			"values",
-			"tayang_realisasi",
-			"virtual",
-			"vhost",
-			"FHsY3ZKvif23Fubm5L1gflqrN5gmoLq1phAAA6egRPfXWyEAVUpalqQVPw1Z",
-			"carbon",
-			"class",
-			"7"
+			"tayang_realisasi"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -819,24 +861,319 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 12,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "app/Http/Controllers/sites/menuController.php",
+					"file": "resources/views/modules/sites/components/menus.blade.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1131,
+						"buffer_size": 4204,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								874,
-								874
+								2892,
+								2892
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 268.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "app/Http/routes.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3104,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1630,
+								1630
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 213.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "resources/views/templates/layouts/pdf-gentalella.blade.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1874,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1471,
+								1471
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 172.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "resources/views/templates/gentalella/head.blade.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4938,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1282,
+								1282
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": -0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "resources/views/templates/gentalella/angularjs/head.blade.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 7065,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								300,
+								300
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "resources/views/pms/report/pdf/rpt-customer.blade.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3574,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1653,
+								1653
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "resources/views/pms/customer.blade.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5423,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1219,
+								1219
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "public/app/controllers/customer.min.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5933,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4274,
+								4274
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": -0.0,
+						"translation.y": 1533.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "app/Http/Controllers/PMS/customerController.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4723,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3376,
+								3376
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1714.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "resources/views/pms/report/rpt-customer.blade.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2906,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								111,
+								111
 							]
 						],
 						"settings":
@@ -856,20 +1193,20 @@
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "resources/views/modules/sites/components/menus.blade.php",
+					"buffer": 11,
+					"file": "public/assets/templates/gentelella/master/production/typography.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4017,
+						"buffer_size": 23959,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2290,
-								2290
+								20376,
+								20376
 							]
 						],
 						"settings":
@@ -877,175 +1214,32 @@
 							"incomplete_sync": null,
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/PHP/PHP.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 148.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "resources/views/templates/gentalella/head.blade.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4946,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1216,
-								1216
-							],
-							[
-								1309,
-								1309
-							],
-							[
-								1400,
-								1400
-							],
-							[
-								1549,
-								1549
-							],
-							[
-								1669,
-								1669
-							],
-							[
-								1802,
-								1802
-							],
-							[
-								1940,
-								1940
-							],
-							[
-								2059,
-								2059
-							],
-							[
-								2193,
-								2193
-							],
-							[
-								2344,
-								2344
-							],
-							[
-								2459,
-								2459
-							],
-							[
-								2568,
-								2568
-							],
-							[
-								2680,
-								2680
-							],
-							[
-								2913,
-								2913
-							],
-							[
-								3034,
-								3034
-							],
-							[
-								3159,
-								3159
-							],
-							[
-								3290,
-								3290
-							],
-							[
-								3420,
-								3420
-							],
-							[
-								3534,
-								3534
-							],
-							[
-								3662,
-								3662
-							],
-							[
-								3789,
-								3789
-							],
-							[
-								3910,
-								3910
-							],
-							[
-								4037,
-								4037
-							],
-							[
-								4159,
-								4159
-							],
-							[
-								4272,
-								4272
-							],
-							[
-								4425,
-								4425
-							],
-							[
-								4572,
-								4572
-							],
-							[
-								4696,
-								4696
-							],
-							[
-								4823,
-								4823
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
-						"translation.x": -0.0,
-						"translation.y": 339.0,
+						"translation.x": 0.0,
+						"translation.y": 4420.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 11,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "app/Http/Controllers/PMS/pnwrMstController.php",
+					"buffer": 12,
+					"file": "config/app.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 8890,
+						"buffer_size": 8873,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1504,
-								1504
+								5906,
+								5906
 							]
 						],
 						"settings":
@@ -1058,135 +1252,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2241.0,
+						"translation.y": 1432.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "app/Http/Models/sys/sys_app_mst.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 730,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								709,
-								709
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "app/Http/Models/sys/sys_type_mst.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 521,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								518,
-								518
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "app/Http/Models/sys/sys_module_mst.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 486,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								477,
-								477
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "app/Http/routes.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2876,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2087,
-								2087
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 327.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
+					"stack_index": 10,
 					"type": "text"
 				}
 			]
@@ -1245,6 +1314,62 @@
 		"selected_items":
 		[
 			[
+				"pdf-gen",
+				"resources/views/templates/layouts/pdf-gentalella.blade.php"
+			],
+			[
+				"rpt-customer",
+				"resources/views/pms/report/rpt-customer.blade.php"
+			],
+			[
+				"head",
+				"resources/views/templates/gentalella/head.blade.php"
+			],
+			[
+				"customer.min",
+				"public/app/controllers/customer.min.js"
+			],
+			[
+				"app.",
+				"config/app.php"
+			],
+			[
+				"customerp",
+				"resources/views/pms/report/pdf/customerPdf.blade.php"
+			],
+			[
+				"production/typography.html",
+				"public/assets/templates/gentelella/master/production/typography.html"
+			],
+			[
+				"customer",
+				"app/Http/Controllers/PMS/customerController.php"
+			],
+			[
+				"menucon",
+				"app/Http/Controllers/sites/menuController.php"
+			],
+			[
+				"produk",
+				"resources/views/pms/produk.blade.php"
+			],
+			[
+				"templates/gentalella/head",
+				"resources/views/templates/gentalella/head.blade.php"
+			],
+			[
+				"testpdf",
+				"resources/views/pms/report/pdf/testPdf.blade.php"
+			],
+			[
+				"app.p",
+				"config/app.php"
+			],
+			[
+				"route",
+				"app/Http/routes.php"
+			],
+			[
 				"css/font-awesome.min.css",
 				"public/css/font-awesome.min.css"
 			],
@@ -1265,10 +1390,6 @@
 				"app/Http/Controllers/PMS/pnwrMstController.php"
 			],
 			[
-				"menucon",
-				"app/Http/Controllers/sites/menuController.php"
-			],
-			[
 				"customer_m",
 				"app/Http/Models/pms/pms_customer_mst.php"
 			],
@@ -1285,16 +1406,8 @@
 				"public/app/controllers/pnwrMst.min.js"
 			],
 			[
-				"produk",
-				"public/app/controllers/produk.min.js"
-			],
-			[
 				"menus.",
 				"app/Http/Middleware/Menus.php"
-			],
-			[
-				"route",
-				"app/Http/routes.php"
 			],
 			[
 				".env",
@@ -1395,10 +1508,6 @@
 			[
 				"spks.b",
 				"resources/views/hkm/spks/tblSpks.blade.php"
-			],
-			[
-				"app.",
-				"config/app.php"
 			],
 			[
 				"formspks",
@@ -1657,10 +1766,6 @@
 				"app/Http/Models/pms_pnwr_mst.php"
 			],
 			[
-				"customer",
-				"app/Http/Controllers/PMS/customerController.php"
-			],
-			[
 				"pnwr.",
 				"public/app/controllers/pnwrMst.min.js"
 			],
@@ -1719,42 +1824,6 @@
 			[
 				"modalcu",
 				"public/ext/ng-html/modalCustomer.html"
-			],
-			[
-				"customcon",
-				"app/Http/Controllers/PMS/customerController.php"
-			],
-			[
-				"customercontrol",
-				"app/Http/Controllers/PMS/customerController.php"
-			],
-			[
-				"tayang",
-				"app/Http/Controllers/PMS/pnwrTayangController.php"
-			],
-			[
-				"realisasicontrol",
-				"app/Http/Controllers/PROD/realisasiController.php"
-			],
-			[
-				"req_pro",
-				"app/Http/Requests/req_pms_produk_mst.php"
-			],
-			[
-				"req",
-				"app/Http/Requests/reqPmsPnwrMst.php"
-			],
-			[
-				"pms",
-				"app/Http/Models/pms_tgl_libur_mst.php"
-			],
-			[
-				"pms_fp_",
-				"database/migrations/2016_05_11_142955_pms_fp_mst.php"
-			],
-			[
-				"pms_fp",
-				"app/Http/Models/pms_fp_mst.php"
 			]
 		],
 		"width": 0.0
