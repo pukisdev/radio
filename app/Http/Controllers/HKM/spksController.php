@@ -43,7 +43,11 @@ class spksController extends Controller
         if(!empty($request->f_customer)) $query->where('f_customer',$request->f_customer);
 
         if($request->get('search')){
-            $items = $query->where("nama", "LIKE", "%".$request->get('search')."%")->paginate(5);      
+            // $items = $query->where("nama", "LIKE", "%".$request->get('search')."%")->orWhere("keterangan", "LIKE", "%".$request->get('search')."%")->paginate(5);      
+            $items = $query->where(function($subQuery) use($request) {
+                                        $subQuery->where("nama", "LIKE", "%".$request->get('search')."%")
+                                        ->orWhere("keterangan", "LIKE", "%".$request->get('search')."%");
+                        })->paginate(5);      
         }else{
           $items = $query->orderBy('sys_tgl_created','desc')->paginate(5);
         }

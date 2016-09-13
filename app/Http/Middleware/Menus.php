@@ -20,6 +20,14 @@ class Menus
     public function handle($request, Closure $next)
     {
 
+        $query = DB::table('sys_menus_mst') 
+        ->leftjoin('sys_app_mst', function($join){
+              $join->on('sys_menus_mst.f_app', '=', 'sys_app_mst.id_app')
+              ->where('sys_app_mst.sys_status_aktif','=','A'); 
+        })
+        ->select('sys_menus_mst.id_menu AS id_menu','sys_menus_mst.root AS root','sys_menus_mst.level AS level','sys_menus_mst.f_type AS type_menu','sys_menus_mst.urutan AS urutan','sys_menus_mst.nama_menu AS nama_menu','sys_menus_mst.keterangan AS ket_menu','sys_menus_mst.icon AS icon','sys_menus_mst.auth AS auth','sys_menus_mst.sys_status_aktif AS aktif_menu','sys_app_mst.id_app AS id_app','sys_app_mst.nama AS nama','sys_app_mst.f_type AS type_app','sys_app_mst.route AS route','sys_app_mst.link AS link','sys_app_mst.akses_role AS akses_role','sys_app_mst.keterangan AS ket_app','sys_app_mst.sys_status_aktif AS aktif_app') 
+        ;
+
         // $listMenu =  DB::table('sys_menus_mst AS l1')
         //             ->select('l1.id_menu as id1', 'l1.nama_menu as menu1', 'l1.level', 'l2.id_menu as id2', 'l2.nama_menu as menu2', 'l3.id_menu as id3', 'l3.nama_menu as menu3', 'l4.id_menu as id4', 'l4.nama_menu as menu4')
         //             ->leftJoin('sys_menus_mst AS l2', function($join){
@@ -35,12 +43,14 @@ class Menus
         //                 ->where('l4.sys_status_aktif','=','A');
         //             })->where('l1.sys_status_aktif','A')->get();
 
-//irwan haryanto
-        $query = DB::table('v_menu_app')->whereNotNull('root');//->get();
+        // $query = DB::table('v_menu_app')->whereNotNull('root');//->get();
         if(!Auth::check()){
           $query->where('auth','T');
         }
-        $listMenu = $query->get();
+        // $listMenu = $query->get();
+        $listMenu = $query->whereNotNull('root')
+        ->orderByRaw('GetPriority(sys_menus_mst.id_menu), sys_menus_mst.urutan')
+        ->get();
 
         Menu::make('MyNavBar', function($menu) use ($listMenu) {
             $subroot = $subsubroot = null;

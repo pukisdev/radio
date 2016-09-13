@@ -317,61 +317,48 @@
 			}
 		},
 		{
-			"file": "resources/views/modules/sites/components/menus.blade.php",
+			"file": "public/assets/ng/views/pms/forms/modalTarif.html",
 			"settings":
 			{
-				"buffer_size": 4204,
+				"buffer_size": 4434,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "app/Http/routes.php",
+			"contents": "app.controller('customerController', function($scope, $http){//, API_URL) {\n	$scope.libraryTemp = {};\n  $scope.totalItemsTemp = {};\n  $scope.totalItems = 0;\n  $scope.subUrl = '/pms/customer';\n  $modalName ='idModalMst';\n  $scope._token = {};\n\n\n    $http({\n      'method'  : 'GET',\n      'url'   : '/token' \n    }).success(function(response){\n      // console.log(response);\n      $scope._token     = response;\n\n      //retrieve employees listing from API\n      getResultsPage(1);\n\n    }).error(function(response){\n        console.log(response);\n    });\n\n\n\n    //show modal form\n    $scope.toggle = function(modalstate, id){\n      var _url = $scope._token['url']+ $scope.subUrl;\n      if($.isEmptyObject($scope._token)) return false;\n\n      $scope.modalstate = modalstate; \n\n      switch(modalstate){\n        case 'add' :\n          $scope.form_title = 'Tambah Data';\n          $scope.dataForm = null;\n        break;\n        case 'edit' :\n          $scope.form_title = 'Edit Data';\n          $scope.idState = id;\n          // $http.get(API_URL + $scope.subUrl+\"/\" + id)\n          $http.get(_url+\"/\" + id)\n            .success(function(response){\n              // console.log(response);\n              $scope.dataForm = response;\n            });\n        break;\n        default:\n        break;\n      }\n\n      $('#'+$modalName).modal('show');\n    }\n\n    $scope.save = function(modalstate, id){\n      var _url = $scope._token['url']+ $scope.subUrl;\n      if($.isEmptyObject($scope._token)) return false;\n\n      var _method = (modalstate === 'edit') ? 'PUT' : 'POST';\n\n      // if(modalstate ==='edit') _url += '/'+id;\n\n      // console.log(id);\n      $http({\n        'method'  : _method,\n        'url'     : _url + ((modalstate ==='edit') ? '/'+id : ''),\n        'data'    : $.param($scope.dataForm),\n        'headers' : {'Content-Type': 'application/x-www-form-urlencoded'}\n      }).success(function(response){\n        // console.log(response);\n        if(modalstate === 'edit') {\n          $scope._data = apiModifyTable($scope._data, response.id_customer, response);\n        }\n        else {\n          // console.log(response);\n          $scope._data.push(response);\n        }\n          \n        $('#'+$modalName).modal('hide');\n        $.gritter.add({\n              title: 'Application',\n              text: 'Data Berhasil Disimpan',\n              fade_out_speed: 5000\n          });\n      }).error(function(error){\n        console.log(error);\n      });\n\n    }\n\n    $scope.confirmDelete = function(_data, _index){\n      var _url = $scope._token['url']+ $scope.subUrl;\n      if($.isEmptyObject($scope._token)) return false;\n      \n      var isConfirmDelete = confirm('Anda yakin mau menghapus data ini?');\n      if(isConfirmDelete){\n        $http({\n          'method'  : 'DELETE',\n          'url'     : _url+'/'+_data.id_customer \n          // 'url'     : API_URL+$scope.subUrl+'/'+_data.id_customer \n        }).success(function(response){\n          $scope._data.splice(_index,1);\n          $.gritter.add({\n                title: 'Application',\n                text: 'Data Berhasil Dihapus',\n                fade_out_speed: 5000\n            });\n        }).error(function(response){\n          console.log(response);\n          $.gritter.add({\n                title: 'Application',\n                text: 'Data Gagal Dihapus',\n                fade_out_speed: 5000\n            });\n        });\n      }\n    }\n  \n    $scope.searchDB = function(){\n      if($.isEmptyObject($scope._token)) return false;\n        if($scope.searchText.length >= 1){\n          // console.log($scope.libraryTemp);\n          if($.isEmptyObject($scope.libraryTemp)){\n                $scope.libraryTemp = $scope._data;\n                $scope.totalItemsTemp = $scope.totalItems;\n                $scope._data = {};\n          }\n          getResultsPage(1);\n        }else{\n          // console.log('masuk');\n            if(!$.isEmptyObject($scope.libraryTemp)){\n                $scope._data = $scope.libraryTemp ;\n                $scope.totalItems = $scope.totalItemsTemp;\n                $scope.libraryTemp = {};\n            }\n        }\n    }\n\n    $scope.pageChanged = function(newPage) {\n      getResultsPage(newPage);\n    };\n\n    $scope.rekap = function(_param){\n      var _url = $scope._token['url']+'/rpt'+'/'+_param+$scope.subUrl;\n      if($.isEmptyObject($scope._token)) return false;\n      \n      window.location.href = _url;\n    }\n/*\n\n*/\n  function getResultsPage(pageNumber) {\n      var _url = $scope._token['url']+ $scope.subUrl;\n      if($.isEmptyObject($scope._token)) return false;\n\n      if(! $.isEmptyObject($scope.libraryTemp)){\n        $http({\n          'method'  : 'GET',\n          'url'   : _url+'?search='+$scope.searchText+'&page='+pageNumber \n        }).success(function(response){\n          // console.log(response);\n          $scope._data     = response.data;\n          $scope.totalItems   = response.total;\n          $scope.table = { TotalItems : response.total, CurrentItems : response.to };\n        }).error(function(response){\n            console.log(response);\n        });\n      }else{\n        $http({\n          'method'  : 'GET',\n          // 'method'  : 'JSONP',\n          'url'   : _url+'?page='+pageNumber \n        }).success(function(response){\n          // console.log(response);\n          $scope._data     = response.data;\n          $scope.totalItems   = response.total;\n          $scope.table = { TotalItems : response.total, CurrentItems : response.to };\n        }).error(function(response){\n          console.log(response);\n        });\n      }\n  }\n\n});\n\napp.directive('modalCustomer', function (){\n    return{\n        restirct    : 'A',\n        templateUrl : '/assets/ng/views/pms/forms/modalCustomer.html',\n        // templateUrl : '/ext/ng-html/modalCustomer.html',\n    };\n});\n\nfunction apiModifyTable(originalData,id,response){\n    angular.forEach(originalData, function (item,key) {\n      // console.log(item.id_customer +' \\\\ '+key+' / '+id);\n        if(item.id_customer == id){\n            originalData[key] = response;\n        }\n    });\n    return originalData;\n}",
+			"file": "public/assets/ng/controllers/pms/customer.min.js",
+			"file_size": 6011,
+			"file_write_time": 131179505185875760,
 			"settings":
 			{
-				"buffer_size": 3104,
+				"buffer_size": 6066,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "resources/views/templates/layouts/pdf-gentalella.blade.php",
+			"contents": "app.controller('liburController', function($scope, $http){//, API_URL) {\n	$scope.libraryTemp = {};\n  $scope.totalItemsTemp = {};\n  $scope.totalItems = 0;\n  $scope.subUrl = '/pms/libur';\n  $modalName ='idModalLibur';\n  $scope._token = {};\n\n  // $idScope = 'id_tanggal';\n    $http({\n      'method'  : 'GET',\n      'url'   : '/token' \n    }).success(function(response){\n      // console.log(response);\n      $scope._token     = response;\n\n      //retrieve employees listing from API\n      getResultsPage(1);\n\n    }).error(function(response){\n        console.log(response);\n    });\n\n\n    //show modal form\n    $scope.toggle = function(modalstate, id){\n      var _url = $scope._token['url']+ $scope.subUrl;\n      if($.isEmptyObject($scope._token)) return false;\n\n      $scope.modalstate = modalstate; \n\n      switch(modalstate){\n        case 'add' :\n          $scope.form_title = 'Tambah Data';\n          $scope.libur = null;\n        break;\n        case 'edit' :\n          $scope.form_title = 'Edit Data';\n          $scope.idState = id;\n          // $http.get(API_URL + $scope.subUrl+\"/\" + id)\n          $http.get(_url+\"/\" + id)\n            .success(function(response){\n              // console.log(response);\n              $scope.libur = response;\n              // $scope.libur = $filter('date')(response, \"dd/MM/yyyy\");\n              // $scope.libur = {\n              //   id_tanggal : new Date('2016-03-14')\n              // };\n            });\n        break;\n        default:\n        break;\n      }\n\n      $('#'+$modalName).modal('show');\n    }\n\n    $scope.save = function(modalstate, id){\n      var _url = $scope._token['url']+ $scope.subUrl;\n      if($.isEmptyObject($scope._token)) return false;\n\n      // var _url = API_URL + $scope.subUrl;\n      var _method = (modalstate === 'edit') ? 'PUT' : 'POST';\n\n      // if(modalstate ==='edit') _url += '/'+id;\n\n      // console.log(id);\n      $http({\n        'method'  : _method,\n        'url'     : _url + ((modalstate ==='edit') ? '/'+id : ''),\n        'data'    : $.param($scope.libur),\n        'headers' : {'Content-Type': 'application/x-www-form-urlencoded'}\n      }).success(function(response){\n        // console.log(response);\n        if(modalstate === 'edit') {\n          $scope.tanggals = apiModifyTable($scope.tanggals, response.id_tanggal, response);\n        }\n        else {\n          // console.log(response);\n          $scope.tanggals.push(response);\n        }\n          \n        $('#'+$modalName).modal('hide');\n        $.gritter.add({\n              title: 'Application',\n              text: 'Data Berhasil Disimpan',\n              fade_out_speed: 5000\n          });\n        // location.reload();\n      }).error(function(error){\n        console.log(error);\n      });\n\n    }\n\n    $scope.confirmDelete = function(_data, _index){\n      var _url = $scope._token['url']+ $scope.subUrl;\n      if($.isEmptyObject($scope._token)) return false;\n\n      var isConfirmDelete = confirm('Anda yakin mau menghapus data ini?');\n      if(isConfirmDelete){\n        $http({\n          'method'  : 'DELETE',\n          'url'     : _url+'/'+_data.id_tanggal \n        }).success(function(response){\n        $scope.tanggals.splice(_index,1);\n          $.gritter.add({\n                title: 'Application',\n                text: 'Data Berhasil Dihapus',\n                fade_out_speed: 5000\n            });\n        }).error(function(response){\n          console.log(response);\n          $.gritter.add({\n                title: 'Application',\n                text: 'Data Gagal Dihapus',\n                fade_out_speed: 5000\n            });\n        });\n      }\n    }\n  \n    $scope.searchDB = function(){\n        if($scope.searchText.length >= 1){\n          // console.log($scope.libraryTemp);\n          if($.isEmptyObject($scope.libraryTemp)){\n                $scope.libraryTemp = $scope.tanggals;\n                $scope.totalItemsTemp = $scope.totalItems;\n                $scope.tanggals = {};\n          }\n          getResultsPage(1);\n        }else{\n          // console.log('masuk');\n            if(!$.isEmptyObject($scope.libraryTemp)){\n                $scope.tanggals = $scope.libraryTemp ;\n                $scope.totalItems = $scope.totalItemsTemp;\n                $scope.libraryTemp = {};\n            }\n        }\n    }\n\n    $scope.pageChanged = function(newPage) {\n      getResultsPage(newPage);\n    };\n\n    $scope.rekap = function(_param){\n      var _url = $scope._token['url']+'/rpt'+'/'+_param+$scope.subUrl;\n      if($.isEmptyObject($scope._token)) return false;\n      \n      window.location.href = _url;\n    }\n/*\n\n*/\n  function getResultsPage(pageNumber) {\n      var _url = $scope._token['url']+ $scope.subUrl;\n      if($.isEmptyObject($scope._token)) return false;\n\n      if(! $.isEmptyObject($scope.libraryTemp)){\n        $http({\n          'method'  : 'GET',\n          'url'     : _url+'?search='+$scope.searchText+'&page='+pageNumber \n          // 'url'   : API_URL+$scope.subUrl+'?search='+$scope.searchText+'&page='+pageNumber \n        }).success(function(response){\n          // console.log(response);\n          $scope.tanggals     = response.data;\n          $scope.totalItems   = response.total;\n          $scope.table = { TotalItems : response.total, CurrentItems : response.to };\n        }).error(function(response){\n            console.log(response);\n        });\n      }else{\n        $http({\n          'method'  : 'GET',\nm          // 'url'   : API_URL+$scope.subUrl+'?page='+pageNumber \n          'url'   : _url+'?page='+pageNumber \n        }).success(function(response){\n          // console.log(response);\n          $scope.tanggals     = response.data;\n          $scope.totalItems   = response.total;\n          $scope.table = { TotalItems : response.total, CurrentItems : response.to };\n        }).error(function(response){\n          console.log(response);\n        });\n      }\n  }\n  \n  // $scope.dt = new Date();\n  \n  // $scope.inlineOptions = {\n  //   customClass: getDayClass,\n  //   minDate: new Date(),\n  //   showWeeks: true\n  // };\n\n  $scope.dateOptions = {\n    dateDisabled: disabled,\n    formatYear: 'yy',\n    maxDate: new Date(2020, 5, 22),\n    minDate: new Date(),\n    startingDay: 1\n  };\n\n  // Disable weekend selection\n  function disabled(data) {\n    var date = data.date,\n      mode = data.mode;\n    return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);\n  }\n\n  $scope.open1 = function() {\n    $scope.popup1.opened = true;\n  };\n\n  $scope.format = 'yyyy-MM-dd';\n  $scope.altInputFormats = ['yyyy/M!/d!'];\n  // $scope.formats = ['yyyy/MM/dd', 'shortDate'];\n  // $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];\n  // $scope.format = $scope.formats[0];\n  // $scope.altInputFormats = ['M!/d!/yyyy'];\n\n  $scope.popup1 = {\n    opened: false\n  };\n\n  // console.log($scope.libur);\n  // function getDayClass(data) {\n  //     var date = data.date,\n  //       mode = data.mode;\n  //     if (mode === 'day') {\n  //       var dayToCheck = new Date(date).setHours(0,0,0,0);\n\n  //       for (var i = 0; i < $scope.events.length; i++) {\n  //         var currentDay = new Date($scope.events[i].date).setHours(0,0,0,0);\n\n  //         if (dayToCheck === currentDay) {\n  //           return $scope.events[i].status;\n  //         }\n  //       }\n  //     }\n\n  //   return '';\n  // }\n});\n\napp.directive('modalLibur', function (){\n    return{\n        restirct    : 'A',\n        templateUrl : '/assets/ng/views/pms/forms/modalLibur.html',\n    };\n});\n\n  // app.filter('myDateFormat', function myDateFormat($filter){\n  //   return function(text){\n  //     var  tempdate= new Date(text.replace(/-/g,\"/\"));\n  //     return $filter('date')(tempdate, \"MMM-dd-yyyy\");\n  //   }\n  // });\n\nfunction apiModifyTable(originalData,id,response){\n    angular.forEach(originalData, function (item,key) {\n      // console.log(item.id_tanggal +' \\\\ '+key+' / '+id);\n        if(item.id_tanggal == id){\n            originalData[key] = response;\n        }\n    });\n    return originalData;\n}",
+			"file": "public/assets/ng/controllers/pms/libur.min.js",
+			"file_size": 7954,
+			"file_write_time": 131179656203400147,
 			"settings":
 			{
-				"buffer_size": 1874,
+				"buffer_size": 7955,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "resources/views/templates/gentalella/head.blade.php",
+			"file": "resources/views/pms/produk.blade.php",
 			"settings":
 			{
-				"buffer_size": 4938,
+				"buffer_size": 5267,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "resources/views/templates/gentalella/angularjs/head.blade.php",
+			"file": "public/assets/ng/views/pms/forms/modalProduk.html",
 			"settings":
 			{
-				"buffer_size": 7065,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "@extends('templates.layouts.pdf-gentalella')\n\n@section('content')\n                        <div class=\"col-md-6 col-sm-6 col-xs-12\">\n                            <!--\n                             <div class=\"x_panel\"> \n                                <div class=\"x_title\">\n                                    <h2>Basic Tables <small>basic table subtitle</small></h2>\n                                    <ul class=\"nav navbar-right panel_toolbox\">\n                                        <li><a class=\"collapse-link\"><i class=\"fa fa-chevron-up\"></i></a>\n                                        </li>\n                                        <li class=\"dropdown\">\n                                            <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-expanded=\"false\"><i class=\"fa fa-wrench\"></i></a>\n                                            <ul class=\"dropdown-menu\" role=\"menu\">\n                                                <li><a href=\"#\">Settings 1</a>\n                                                </li>\n                                                <li><a href=\"#\">Settings 2</a>\n                                                </li>\n                                            </ul>\n                                        </li>\n                                        <li><a class=\"close-link\"><i class=\"fa fa-close\"></i></a>\n                                        </li>\n                                    </ul>\n                                    <div class=\"clearfix\"></div>\n                                </div>\n                                <div class=\"x_content\">\n                            -->\n                                        <blockquote>\n                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>\n                                            <footer>Someone famous in <cite title=\"Source Title\">Source Title</cite>\n                                            </footer>\n                                        </blockquote>\n\n                                    <table class=\"table\">\n                                        <thead>\n                                            <tr>\n                                                <th>#</th>\n                                                <th>Kode Customer</th>\n                                                <th>Nama Customer</th>\n                                            </tr>\n                                        </thead>\n                                        <tbody>\n                                            @foreach($vData as $index=>$isi)\n                                            <tr>\n                                                <th scope=\"row\">{{$index+1}}</th>\n                                                <td>{{$isi->id_customer}}</td>\n                                                <td>{{$isi->nama_customer}}</td>\n                                            </tr>\n                                            @endforeach\n                                        </tbody>\n                                    </table>\n\n                            <!--\n                                </div>\n                            </div>\n                        </div>\n                        -->\n@endsection",
-			"file": "resources/views/pms/report/pdf/rpt-customer.blade.php",
-			"file_size": 3574,
-			"file_write_time": 131177904888204365,
-			"settings":
-			{
-				"buffer_size": 3574,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "resources/views/pms/customer.blade.php",
-			"settings":
-			{
-				"buffer_size": 5423,
+				"buffer_size": 4005,
 				"line_ending": "Unix"
 			}
 		},
@@ -379,39 +366,23 @@
 			"file": "public/app/controllers/customer.min.js",
 			"settings":
 			{
-				"buffer_size": 5933,
+				"buffer_size": 6007,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "app/Http/Controllers/PMS/customerController.php",
+			"file": "public/assets/ng/views/pms/forms/modalCustomer.html",
 			"settings":
 			{
-				"buffer_size": 4723,
+				"buffer_size": 2315,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "resources/views/pms/report/rpt-customer.blade.php",
+			"file": "resources/views/templates/gentalella/head.blade.php",
 			"settings":
 			{
-				"buffer_size": 2906,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "public/assets/templates/gentelella/master/production/typography.html",
-			"settings":
-			{
-				"buffer_size": 23959,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "config/app.php",
-			"settings":
-			{
-				"buffer_size": 8873,
+				"buffer_size": 4030,
 				"line_ending": "Unix"
 			}
 		}
@@ -491,21 +462,23 @@
 	[
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Console/Commands",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Middleware",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/sdm",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/sys",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/sys",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/images",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/controllers",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/controllers/pms",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/views",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/views/pms",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/views/pms/forms",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/report",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates",
@@ -515,6 +488,28 @@
 	],
 	"file_history":
 	[
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/libur.min.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/customer.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/controllers/pms/produk.min.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/produk.min.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/others/app.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/helpers/myHelper.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/.ng-html/modalCustomer.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/app.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/config/app.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/templates/gentelella/master/production/typography.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/report/rpt-customer.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/modules/sites/components/menus.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/routes.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/layouts/pdf-gentalella.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Middleware/Menus.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/gentalella/head.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/report/pdf/rpt-customer.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/customerController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/controllers/pms/customer.min.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/others/myHelper.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/views/pms/lov/lovCustomer.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/gentalella/angularjs/head.blade.php.backup",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/report/pdf/customerPdf.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/customer.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/produk.blade.php",
@@ -523,7 +518,6 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/sys/sys_type_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/sys/sys_module_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/sites/menuController.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/gentalella/head.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/pdf/testPdf.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/sys/2016_08_10_033928_sys.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/templates/gentelella/fonts/glyphicons-halflings-regular.woff",
@@ -539,10 +533,8 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/spks.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/pnwrMst.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/formPnwrMst.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Middleware/Menus.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms/pms_customer_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms/pms_pnwr_mst.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/produk.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/.env",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/lovProduk.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/HKM/spksController.php",
@@ -552,10 +544,7 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/templates/gentelella/master/production/form.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/gentalella/angularjs/head.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/hkm/spks/tblSpks.blade.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/routes.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/gentalella/left.blade.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/app.js",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/customer.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/libur.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/fpMst.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/home.blade.php",
@@ -566,7 +555,6 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/hkm/form/formSpks.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/rte-angular-master/src/rte/rte.css",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/layouts/ng-gentalella.blade.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/config/app.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/PMS/form/pnwrMateri.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/formFPMst.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/fpMstController.php",
@@ -608,7 +596,6 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/reqPmsCustomerMst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/reqPmsFpMst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PROD/realisasiController.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/customerController.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/fpDetController.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/liburController.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/pnwrMateriController.php",
@@ -628,21 +615,7 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_pnwr_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/prod/realisasi.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_pnwr_materi.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_customer_mst.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_11_142111_pms_pnwr_spk.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/Auth/TokenController.php",
-		"/usr/share/nginx/html/index.html",
-		"/opt/lampp/htdocs/campur/firebase/index.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/messages.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/ng-customer.min.js",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/modalCustomer.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_fp_det.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_tgl_libur_mst.php",
-		"/opt/lampp/etc/httpd.conf",
-		"/opt/lampp/etc/php.ini",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_fp_mst.php",
-		"/etc/hosts",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_pnwr_tayang.php"
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms_customer_mst.php"
 	],
 	"find":
 	{
@@ -663,6 +636,26 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"/ext/ng-html/",
+			"API_URL",
+			"/ext/ng-html/",
+			"messages",
+			"=\"/ext/ng-html/messages",
+			"/ext/ng-html/",
+			"api_url",
+			"/ext/ng-html/",
+			"api_url",
+			"messa",
+			" ?>\"></script>",
+			"\"></script>",
+			"<script type=\"text/javascript\" src=\"{{ URL::to('/') }}",
+			"<script src=\"{{ URL::to('/') }}/",
+			"`",
+			"bb",
+			"aa.",
+			"aa",
+			",",
+			"`",
 			"95",
 			"6",
 			"gent",
@@ -770,27 +763,7 @@
 			"formTampil",
 			"netto",
 			"Netto",
-			"netto",
-			"Netto",
-			"netto",
-			"deskripsi_fp",
-			"tgl_fp",
-			"f_customer",
-			"id_fp",
-			"Nomor Faktur",
-			"\n/*",
-			"id_customer",
-			"generate_id",
-			"+5",
-			"index+5",
-			"jam",
-			"dummyDate",
-			"][]",
-			"_temp",
-			"date",
-			"$parent.$index",
-			"values",
-			"tayang_realisasi"
+			"netto"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -798,6 +771,8 @@
 		"regex": false,
 		"replace_history":
 		[
+			"') !!}",
+			"{!! Html::script('",
 			"_data",
 			"subUrl",
 			"totalItems",
@@ -861,24 +836,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 12,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "resources/views/modules/sites/components/menus.blade.php",
+					"file": "public/assets/ng/views/pms/forms/modalTarif.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4204,
+						"buffer_size": 4434,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2892,
-								2892
+								1977,
+								1977
 							]
 						],
 						"settings":
@@ -886,32 +861,32 @@
 							"incomplete_sync": null,
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 268.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "app/Http/routes.php",
+					"file": "public/assets/ng/controllers/pms/customer.min.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3104,
+						"buffer_size": 6066,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1630,
-								1630
+								5151,
+								5197
 							]
 						],
 						"settings":
@@ -919,31 +894,32 @@
 							"incomplete_sync": null,
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 213.0,
+						"translation.y": 1627.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
 					"buffer": 3,
-					"file": "resources/views/templates/layouts/pdf-gentalella.blade.php",
+					"file": "public/assets/ng/controllers/pms/libur.min.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1874,
+						"buffer_size": 7955,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1471,
-								1471
+								5376,
+								5376
 							]
 						],
 						"settings":
@@ -951,11 +927,12 @@
 							"incomplete_sync": null,
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 172.0,
+						"translation.y": 1640.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -963,19 +940,19 @@
 				},
 				{
 					"buffer": 4,
-					"file": "resources/views/templates/gentalella/head.blade.php",
+					"file": "resources/views/pms/produk.blade.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4938,
+						"buffer_size": 5267,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1282,
-								1282
+								4543,
+								4543
 							]
 						],
 						"settings":
@@ -987,28 +964,127 @@
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
-						"translation.x": -0.0,
-						"translation.y": 0.0,
+						"translation.x": 0.0,
+						"translation.y": 468.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
 					"buffer": 5,
-					"file": "resources/views/templates/gentalella/angularjs/head.blade.php",
+					"file": "public/assets/ng/views/pms/forms/modalProduk.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 7065,
+						"buffer_size": 4005,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								300,
-								300
+								2472,
+								2472
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 96.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "public/app/controllers/customer.min.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6007,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5705,
+								5705
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2195.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "public/assets/ng/views/pms/forms/modalCustomer.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2315,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1884,
+								1884
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "resources/views/templates/gentalella/head.blade.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4030,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1742,
+								1742
 							]
 						],
 						"settings":
@@ -1025,237 +1101,6 @@
 						"zoom_level": 1.0
 					},
 					"stack_index": 8,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "resources/views/pms/report/pdf/rpt-customer.blade.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3574,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1653,
-								1653
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "resources/views/pms/customer.blade.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5423,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1219,
-								1219
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "public/app/controllers/customer.min.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5933,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4274,
-								4274
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": -0.0,
-						"translation.y": 1533.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "app/Http/Controllers/PMS/customerController.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4723,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3376,
-								3376
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1714.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 10,
-					"file": "resources/views/pms/report/rpt-customer.blade.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2906,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								111,
-								111
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 11,
-					"file": "public/assets/templates/gentelella/master/production/typography.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 23959,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								20376,
-								20376
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 4420.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 11,
-					"type": "text"
-				},
-				{
-					"buffer": 12,
-					"file": "config/app.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 8873,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5906,
-								5906
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1432.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 10,
 					"type": "text"
 				}
 			]
@@ -1314,16 +1159,80 @@
 		"selected_items":
 		[
 			[
+				"libur.",
+				"public/app/controllers/libur.min.js"
+			],
+			[
+				"ng/produk.mi",
+				"public/assets/ng/controllers/pms/produk.min.js"
+			],
+			[
+				"produk",
+				"public/app/controllers/produk.min.js"
+			],
+			[
+				"pms/forms/modaltarif",
+				"public/assets/ng/views/pms/forms/modalTarif.html"
+			],
+			[
+				"modalproduk",
+				"public/assets/ng/views/pms/forms/modalProduk.html"
+			],
+			[
+				"modalpro",
+				"public/assets/ng/views/pms/forms/modalProduk.html"
+			],
+			[
+				"myhelper.js",
+				"public/app/helpers/myHelper.js"
+			],
+			[
+				"produk.",
+				"resources/views/pms/produk.blade.php"
+			],
+			[
+				"roduk",
+				"public/app/controllers/produk.min.js"
+			],
+			[
+				"assets/ng/others/app.js",
+				"public/assets/ng/others/app.js"
+			],
+			[
+				"ng/modal",
+				"public/assets/ng/views/pms/forms/modalCustomer.html"
+			],
+			[
+				"modalcu",
+				"public/ext/.ng-html/modalCustomer.html"
+			],
+			[
+				"customer",
+				"public/app/controllers/customer.min.js"
+			],
+			[
+				"/app.js",
+				"public/app/app.js"
+			],
+			[
+				"head",
+				"resources/views/templates/gentalella/head.blade.php"
+			],
+			[
+				"head.",
+				"resources/views/templates/gentalella/angularjs/head.blade.php"
+			],
+			[
+				"menu",
+				"app/Http/Middleware/Menus.php"
+			],
+			[
 				"pdf-gen",
 				"resources/views/templates/layouts/pdf-gentalella.blade.php"
 			],
 			[
 				"rpt-customer",
 				"resources/views/pms/report/rpt-customer.blade.php"
-			],
-			[
-				"head",
-				"resources/views/templates/gentalella/head.blade.php"
 			],
 			[
 				"customer.min",
@@ -1342,16 +1251,8 @@
 				"public/assets/templates/gentelella/master/production/typography.html"
 			],
 			[
-				"customer",
-				"app/Http/Controllers/PMS/customerController.php"
-			],
-			[
 				"menucon",
 				"app/Http/Controllers/sites/menuController.php"
-			],
-			[
-				"produk",
-				"resources/views/pms/produk.blade.php"
 			],
 			[
 				"templates/gentalella/head",
@@ -1768,62 +1669,6 @@
 			[
 				"pnwr.",
 				"public/app/controllers/pnwrMst.min.js"
-			],
-			[
-				"pnwrta",
-				"app/Http/Controllers/PMS/pnwrTayangController.php"
-			],
-			[
-				"realisasi",
-				"app/Http/Controllers/PROD/realisasiController.php"
-			],
-			[
-				"pwnr",
-				"public/app/controllers/pnwrMst.min.js"
-			],
-			[
-				"realisas",
-				"resources/views/prod/realisasi.blade.php"
-			],
-			[
-				"realisa",
-				"public/app/controllers/realisasi.min.js"
-			],
-			[
-				"prod/realisasi",
-				"resources/views/prod/realisasi.blade.php"
-			],
-			[
-				"customer.",
-				"public/app/controllers/customer.min.js"
-			],
-			[
-				"head.",
-				"resources/views/templates/gentalella/head.blade.php"
-			],
-			[
-				".min.js",
-				"public/app/controllers/realisasi.min.js"
-			],
-			[
-				"lovco",
-				"public/ext/ng-html/PMS/lov/lovCustomer.html"
-			],
-			[
-				"/ext/ng-html/messages.html",
-				"public/ext/ng-html/messages.html"
-			],
-			[
-				"pnwrm",
-				"public/app/controllers/pnwrMst.min.js"
-			],
-			[
-				"fpmst",
-				"resources/views/pms/fpMst.blade.php"
-			],
-			[
-				"modalcu",
-				"public/ext/ng-html/modalCustomer.html"
 			]
 		],
 		"width": 0.0

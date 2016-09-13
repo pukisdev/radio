@@ -1,0 +1,66 @@
+<!--<div class="modal fade" id="idModalTayang" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">-->
+            <div class="modal-header">
+                <div class="box-tools" style="display:inline-table">
+                    <div class="box-tools" style="display:inline-table">
+                        <h3>
+                            Waktu Tayang
+                        </h3>
+                    </div>
+                </div>
+                <button type="button" class="close" ng-click="cancel()" aria-label="Close"><span aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                <input type="hidden" ng-model="dataModal.f_pnwr">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Ke</th>
+                                <th width="25%">Pilih</th>
+                                <th data-ng-repeat="h in _frekuensi">[[h+1]]</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="i in _periode">
+                            <td>
+                                <h6> [[i+1]] </h6>
+                            </td>
+                            <td>
+                                <input type="date" ng-model="dataModal[$index].tayang_tgl" class="form-control input-sm" placeholder="Tanggal">
+                                    <!-- <div class="input-group date" data-provide="datepicker"> -->
+                                        <!-- <input type="text"  ng-model="dataModal[$index].tayang_tgl" value="2016-01-31" class="form-control input-sm" placeholder="Tanggal"> -->
+                                    <!-- </div> -->
+                            </td>
+                            <td ng-repeat="j in _frekuensi">
+                                <div class="input-group">
+                                    <input ng-model="dataModal[$parent.$index].tayang_jam[$index]" class="form-control input-sm" mask='29:59' mask-clean='true' restrict="reject">
+                                    <!-- <input type="time" ng-model="dataModal[$parent.$index].jam[$index]" class="form-control input-sm" placeholder="Jam"> -->
+                                    <!-- <input type="number" name="menit[]" class="form-control" placeholder="Menit"> -->
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default input-sm" type="button" ng-click=""></button>
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                            <!-- <tr>
+                                <td colspan="7">
+                                    <p class="pull-left pagination">Menampilkan <strong>[[ tableCustomer.CurrentItems ]]</strong> Dari <strong>[[ tableCustomer.TotalItems ]]</strong></p>
+                                    <dir-pagination-controls pagination-id="paginationCustomer" class="pull-right" on-page-change="pageChangedCustomer(newPageNumber)" template-url="/ext/ng-html/dirPagination.html" ></dir-pagination-controls>
+                                </td>
+                            </tr> -->
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-click="simpan()">Simpan</button>
+                <button class="btn btn-primary" ng-click="cancel()" >Tutup</button>
+            </div>
+        <!--
+        </div>
+    </div>
+</div>-->

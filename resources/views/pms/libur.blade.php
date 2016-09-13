@@ -55,7 +55,7 @@
                                 <tr>
                                     <td colspan="7">
                                         <p class="pull-left pagination">Menampilan <strong>[[ table.CurrentItems ]]</strong> Dari <strong>[[ table.TotalItems ]]</strong></p>
-                                        <dir-pagination-controls class="pull-right" on-page-change="pageChanged(newPageNumber)" template-url="/ext/ng-html/dirPagination.html" ></dir-pagination-controls>
+                                        <dir-pagination-controls class="pull-right" on-page-change="pageChanged(newPageNumber)" template-url="/assets/ng/views/etc/dirPagination.html" ></dir-pagination-controls>
                                     </td>
                                 </tr>
                             </tfoot>
@@ -69,9 +69,11 @@
                 </div>
 
             <!-- AngularJS Application Scripts -->
-             <script src="<?= asset('app/app.js') ?>"></script>
-            <script src="<?= asset('app/controllers/libur.min.js') ?>"></script>
+             <!-- <script src="<?= asset('app/app.js') ?>"></script> -->
+            <!-- <script src="<?= asset('app/controllers/libur.min.js') ?>"></script> -->
             <!-- <script src="<?= asset('app/helpers/myHelper.js') ?>"></script>-->
+            {!! Html::script('assets/ng/others/app.js') !!}
+            {!! Html::script('assets/ng/controllers/pms/libur.min.js') !!}
 
                 </div>
             </div>

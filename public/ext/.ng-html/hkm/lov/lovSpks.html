@@ -1,0 +1,56 @@
+<!-- <div class="modal fade" id="idModalSpks" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> -->
+    <!-- <div class="modal-dialog"> -->
+        <!-- <div class="modal-content"> -->
+            <div class="modal-header">
+                <div class="box-tools" style="display:inline-table">
+                    <div class="box-tools" style="display:inline-table">
+                        <div class="input-group"> 
+                            <input type="text" class="form-control input-sm ng-valid ng-dirty" placeholder="Master SPKS" ng-change="searchDBSpks()" ng-model="searchTextSpks" name="table_search" title="" tooltip="" data-original-title="Min character length is 3">
+                            <span class="input-group-addon">Search</span>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="close" ng-click="cancel()" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <!-- <h4 class="modal-title" id="myModalLabel">[[ form_title ]]</h4> -->
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered pagin-table">
+                    <thead>
+                        <tr>
+                            <th>Pilih</th>
+                            <th>ID Spks</th>
+                            <th>Spks</th>
+                            <th>Berlaku Akhir</th>
+                            <th>Files</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr dir-paginate="values in _dataSpks | itemsPerPage:5" total-items="totalItemsSpks" pagination-id="paginationSpks">
+                            <td>
+                                <button type="button" ng-click="lovSpksSelected(values)" class="btn btn-success btn-sm" aria-label="Left Align">
+                                  <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                </button>
+                            </td>
+                            <td>[[ values.id_spks ]]</td>
+                            <td>[[ values.nama ]]</td>
+                            <td>[[ values.tgl_akhir ]]</td>
+                            <td width="10%">
+                                <span class="input-group-btn">
+                                    <button ng-if="values.spks" class="btn btn-success btn-sm" type="button" ng-click="getFileSpks(values.spks);"><i class="fa fa-download" ></i> Spks</button>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="7">
+                                <p class="pull-left pagination">Menampilkan <strong>[[ tableSpks.CurrentItems ]]</strong> Dari <strong>[[ tableSpks.TotalItems ]]</strong></p>
+                                <dir-pagination-controls pagination-id="paginationSpks" class="pull-right" on-page-change="pageChangedSpks(newPageNumber)" template-url="/ext/ng-html/dirPagination.html" ></dir-pagination-controls>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        <!-- </div> -->
+    <!-- </div> -->
+<!-- </div> -->

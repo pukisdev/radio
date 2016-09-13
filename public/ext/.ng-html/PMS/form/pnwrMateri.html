@@ -1,0 +1,72 @@
+    <!-- <script>tinymce.init({ selector:'textarea' });</script> -->
+<!--<div class="modal fade" id="idModalTayang" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">-->
+        <form name="frmMstMateri" class="form-horizontal" novalidate="">
+            <div class="modal-header">
+                <div class="box-tools" style="display:inline-table">
+                    <div class="box-tools" style="display:inline-table">
+                        <h3>
+                            Waktu Tayang
+                        </h3>
+                    </div>
+                </div>
+                <button type="button" class="close" ng-click="cancel()" aria-label="Close"><span aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+                <!-- <input type="hidden" ng-model="dataModal.f_pnwr"> -->
+                    <div class="col-md-12">
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMstMateri.f_pnwr.$invalid && frmMstMateri.f_pnwr.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">ID Penawaran</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <span> [[dataModal.f_pnwr]] </span>
+                                    <input type="hidden" class="form-control" placeholder="Otomatis" name="f_pnwr" ng-model="dataModal.f_pnwr" readonly="true">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMstMateri.materi_tayang.$invalid && frmMstMateri.materi_tayang.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Materi</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <rte ng-model="dataModal.materi_tayang" required></rte>
+                                    <!-- <textarea ui-tinymce ng-model="dataModal.materi_tayang">abc</textarea> -->
+                                </div>
+                            </div>
+                        </div>
+
+<!--                         <div class="form-group error" ng-class="{ 'has-error' : frmMstMateri.no_po_customer.$invalid && frmMstMateri.no_po_customer.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Materi</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control has-error" placeholder="Nomor PO Dari Customer" value="-----" name="no_po_customer" ng-model="dataForm.no_po_customer" >
+                                <span class="help-inline" ng-messages="frmMstMateri.no_po_customer.$error" ng-show="frmMstMateri.no_po_customer.$invalid && frmMstMateri.no_po_customer.$touched">
+                                    <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                </span>
+                            </div>
+                        </div>
+ -->
+                    </div>
+                            <button class="btn btn-primary" ng-click="simpan()" ng-disabled="frmMstMateri.$invalid">Simpan</button>
+                            <button class="btn btn-primary" ng-click="cancel()" >Tutup</button>
+                    <!-- <div class="col-md-12"> -->
+                    <!-- </div> -->
+            </div>
+            <!-- <div class="modal-footer"> -->
+            <!-- </div> -->
+        </form>
+        <!--
+        </div>
+    </div>
+</div>-->
+
+    <script type="text/javascript">
+      'use strict';
+
+      angular.module('rte-angular-demo', [
+        'rte-angular'
+      ]).
+      controller('DemoCtrl', function ($scope, $sce) {
+        $scope.demoContent = $sce.trustAsHtml('<div>Hello, <b>world</b></div>');
+      });
+    </script>

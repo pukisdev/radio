@@ -1,0 +1,36 @@
+<div class="modal fade" id="idModalMst" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="myModalLabel">[[ form_title ]]</h4>
+            </div>
+            <div class="modal-body">
+                <form name="frmMst" class="form-horizontal" novalidate="">
+
+                    <div class="form-group error" ng-class="{ 'has-error' : frmMst.id_customer.$invalid && frmMst.id_customer.$touched }">
+                        <label for="inputEmail3" class="col-sm-3 control-label">ID Customer</label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Otomatis" name="id_customer" ng-model="dataForm.id_customer" readonly="true">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group error" ng-class="{ 'has-error' : frmMst.nama_customer.$invalid && frmMst.nama_customer.$touched }">
+                        <label for="inputEmail3" class="col-sm-3 control-label">Nama</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control has-error" placeholder="Fullname" name="nama_customer" ng-model="dataForm.nama_customer" ng-minlength="5" required >
+                            <span class="help-inline" ng-messages="frmMst.nama_customer.$error" ng-show="frmMst.nama_customer.$invalid && frmMst.nama_customer.$touched">
+                                <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btn-save" ng-click="save(modalstate, idState)" ng-disabled="frmMst.$invalid">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

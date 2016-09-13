@@ -70,82 +70,18 @@
                     </table>
                 </div>
                     <p class="pull-left pagination">Menampilan <strong>[[ table.CurrentItems ]]</strong> Dari <strong>[[ table.TotalItems ]]</strong></p>
-                    <dir-pagination-controls class="pull-right" on-page-change="pageChanged(newPageNumber)" template-url="/ext/ng-html/dirPagination.html" ></dir-pagination-controls>                    
-                <!-- End of Table-to-load-the-data Part -->
-                <!-- Modal (Pop up when detail button clicked) -->
-                <!--<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                                <h4 class="modal-title" id="myModalLabel">[[ form_title ]]</h4>
-                            </div>
-                            <div class="modal-body">
-                                <form name="frmProduk" class="form-horizontal" novalidate="">
-                
-                                    <div class="form-group">
-                                        <label for="inputEmail3" class="col-sm-3 control-label">ID Produk</label>
-                                        <div class="col-sm-9">
-                                            <input type="text" class="form-control" placeholder="ID Otomatis" value="[[ id_produk ]]" ng-model="produk.id_produk" readonly>
-                                        </div>
-                                    </div>
-                
-                                    <div class="form-group error" ng-class="{ 'has-error' : frmProduk.nama.$invalid && frmProduk.nama.$touched }">
-                                        <label for="inputEmail3" class="col-sm-3 control-label">Name</label>
-                                        <div class="col-sm-9">
-                                            <input type="text" class="form-control has-error" placeholder="Fullname" value="[[nama]]" name="nama" ng-model="produk.nama" ng-minlength="5" ng-maxlength="10" maxlength="10" required >
-                                            <span class="help-inline" ng-messages="frmProduk.nama.$error" ng-show="frmProduk.nama.$invalid && frmProduk.nama.$touched">
-                                                <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
-                                            </span>
-                                        </div>
-                                    </div>
-                
-                                    <div class="form-group" ng-class="{ 'has-error' : frmProduk.durasi.$invalid && frmProduk.durasi.$touched }">
-                                        <label for="inputEmail3" class="col-sm-3 control-label">Durasi</label>
-                                        <div class="col-sm-9">
-                                            <input type="durasi" class="form-control" placeholder="Durasi" value="[[durasi]]" name="durasi" ng-model="produk.durasi" required>
-                                            <span class="help-inline" ng-messages="frmProduk.durasi.$error" ng-show="frmProduk.durasi.$invalid && frmProduk.durasi.$touched">
-                                                <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
-                                            </span>
-                                        </div>
-                                    </div>
-                
-                                    <div class="form-group" ng-class="{ 'has-error' : frmProduk.satuan_durasi.$invalid && frmProduk.satuan_durasi.$touched }">
-                                        <label for="inputEmail3" class="col-sm-3 control-label">Satuan Durasi</label>
-                                        <div class="col-sm-9">
-                                            <select class="form-control" placeholder="Satuan Durasi" ng-model="produk.satuan_durasi" name="satuan_durasi" ng-required="true">
-                                                <option value> Pilih </option>
-                                                <option value="detik">Detik</option>
-                                                <option value="menit">Menit</option>
-                                            </select>
-                                        <span class="help-inline" ng-messages="frmProduk.satuan_durasi.$error" ng-show="frmProduk.satuan_durasi.$invalid && frmProduk.satuan_durasi.$touched">
-                                                <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
-                                            </span>
-                                        </div>
-                                    </div>
-                
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" id="btn-save" ng-click="save(modalstate, id_produk)" ng-disabled="frmProduk.$invalid">Save changes</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>-->
+                    <dir-pagination-controls class="pull-right" on-page-change="pageChanged(newPageNumber)" template-url="/assets/ng/views/etc/dirPagination.html" ></dir-pagination-controls>                    
                 <div modal-produk></div>
                 <div modal-tarif></div>
             </div>
         </div>
 
-<!--             <script src="<?= asset('app/lib/angular-1.5.5/angular.min.js') ?>"></script>
-            <script src="<?= asset('app/lib/angular-1.5.5/angular-messages.min.js') ?>"></script>
-            <script src="<?= asset('app/lib/angular-1.5.5/dirPagination.js') ?>"></script>
-            <script src="<?= asset('ext/jquery-gritter/js/jquery.gritter.min.js') ?>"></script>
- -->            
             <!-- AngularJS Application Scripts -->
-            <script src="<?= asset('app/app.js') ?>"></script>
-            <script src="<?= asset('app/controllers/produk.min.js') ?>"></script>
-            <script src="<?= asset('app/helpers/myHelper.js') ?>"></script>                
+            <!-- <script src="<?= asset('app/app.js') ?>"></script> -->
+            <!-- <script src="<?= asset('app/controllers/produk.min.js') ?>"></script> -->
+            <!-- <script src="<?= asset('app/helpers/myHelper.js') ?>"></script>                 -->
+            {!! Html::script('assets/ng/others/app.js') !!}
+            {!! Html::script('assets/ng/controllers/pms/produk.min.js') !!}
 
                 </div>
             </div>
