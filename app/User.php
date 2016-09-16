@@ -37,7 +37,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'f_nip_sys', 'name', 'email', 'password', 'sys_user_created', 'sys_user_updated', 'sys_tgl_created', 'sys_tgl_updated', 'sys_status_aktif',
+        'f_nip_sys', 'name', 'email', 'password', 'is_online', 'sys_user_created', 'sys_user_updated', 'sys_tgl_created', 'sys_tgl_updated', 'sys_status_aktif',
     ];
 
     /**

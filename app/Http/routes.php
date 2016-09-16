@@ -38,6 +38,7 @@ Route::group(['prefix'=>'mst', 'middleware'=>['menus']], function(){ //show view
 	Route::get('pms/libur', 'PMS\liburController@_index');
 	Route::get('pms/customer', 'PMS\customerController@_index');
 	Route::get('hkm/spks', 'HKM\spksController@_index');
+	Route::get('keu/penerimaan', 'keu\penerimaanMstController@_index');
 });
 
 Route::group(['prefix'=>'trx', 'middleware'=>['menus']], function(){ //show view
@@ -48,6 +49,7 @@ Route::group(['prefix'=>'trx', 'middleware'=>['menus']], function(){ //show view
 Route::group(['prefix'=>'rpt'], function(){ //show view
 	Route::get('{fileType}/pms/customer', 'PMS\customerController@_RekapCustomer');
 });
+
 
 Route::group(['prefix'=>'pms'], function(){ //return dalam bentuk json
 	Route::resource('produk', 'PMS\produkController');
@@ -76,15 +78,21 @@ Route::group(['prefix'=>'prod'], function(){
 	Route::resource('realisasi', 'PROD\realisasiController');
 });
 
+Route::group(['prefix'=>'keu'], function(){ 
+	Route::resource('penerimaan', 'keu\penerimaanMstController');
+	Route::resource('bank', 'keu\bankMstController');
+});
+
+Route::group(['prefix'=>'acc'], function(){ 
+	Route::resource('coas', 'acc\coasMstController');
+});
+
 Route::group(['prefix'=>'check'], function(){
 	Route::get('pms/pnwrMst', 'PMS\pnwrMstController@getForFaktur');
 });
+
+
+
 // Route::group(['prefix'=>'files'], function(){
-// 	Route::get('hkm/{fileName}', 'HKM\spksController@_getFiles');
-// });
-
-
-
-
-
-
+// 	Route::get('hkm/{fileName}', 'HKM\spksController@bank');
+//bank

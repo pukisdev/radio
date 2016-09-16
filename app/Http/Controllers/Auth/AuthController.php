@@ -74,6 +74,7 @@ class AuthController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'is_online' => 'T',
             'sys_user_created' => 'ADMIN',
             'sys_tgl_created' => Carbon::now(),
         ]);
