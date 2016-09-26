@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "509b8737a9bf50168688e86cb74ebbfb",
-    "content-hash": "cbcc9824b23f82eb1c4f7b9227a9586d",
+    "hash": "8ce1220d2271d67bcd92f9ba7f8f7c52",
+    "content-hash": "a4518660125192ce22acbf36c7a2fc62",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -1293,6 +1293,52 @@
                 "shell"
             ],
             "time": "2016-03-09 05:03:14"
+        },
+        {
+            "name": "riskihajar/terbilang",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/riskihajar/terbilang.git",
+                "reference": "6f5b79bfc34bf7066dbc362f308ea487f2e70bdb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/riskihajar/terbilang/zipball/6f5b79bfc34bf7066dbc362f308ea487f2e70bdb",
+                "reference": "6f5b79bfc34bf7066dbc362f308ea487f2e70bdb",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~4.2||~5",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Riskihajar\\Terbilang\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "riskihajar",
+                    "email": "riskihajar@gmail.com",
+                    "homepage": "http://riskihajar.com"
+                }
+            ],
+            "description": "Convert number & date to words in any language for Laravel 4 | 5",
+            "homepage": "https://github.com/riskihajar/terbilang",
+            "keywords": [
+                "date to words",
+                "laravel",
+                "number to roman",
+                "number to words",
+                "terbilang"
+            ],
+            "time": "2016-08-27 03:55:35"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -3690,7 +3736,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "lavary/laravel-menu": 20
+        "lavary/laravel-menu": 20,
+        "riskihajar/terbilang": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

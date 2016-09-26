@@ -65,7 +65,8 @@ return [
     |
     */
 
-    'locale' => 'en',
+    // 'locale' => 'en',
+    'locale' => 'id',
 
     /*
     |--------------------------------------------------------------------------
@@ -159,6 +160,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Lavary\Menu\ServiceProvider::class,
+        Riskihajar\Terbilang\TerbilangL5ServiceProvider::class,
 
     ],
 
@@ -212,6 +214,8 @@ return [
         'Menu' => Lavary\Menu\Facade::class,
         'PDF'       => Barryvdh\DomPDF\Facade::class,
         'Excel'     => Maatwebsite\Excel\Facades\Excel::class,
+        'Terbilang' => Riskihajar\Terbilang\Facades\Terbilang::class,
+
     ],
 
 ];

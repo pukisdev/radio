@@ -49,7 +49,7 @@
                         <div class="form-group error" ng-class="{ 'has-error' : frmMst.jenis_bukti.$invalid && frmMst.jenis_bukti.$touched }">
                             <label for="inputEmail3" class="col-sm-3 control-label">Tipe Bayar</label>
                             <div class="col-sm-9">
-                                <select class="form-control" placeholder="Tipe Bayar" name="jenis_bukti" ng-model="dataForm.jenis_bukti" ng-required="true">
+                                <select class="form-control" placeholder="Tipe Bayar" name="jenis_bukti" ng-model="dataForm.jenis_bukti" ng-required="true" ng-disabled="modalstate!=='add'">
                                     <option value> Pilih </option>
                                     <option value="K">Kas</option>
                                     <option value="B">Bank</option>
@@ -85,7 +85,7 @@
                         <div class="form-group error" ng-class="{ 'has-error' : frmMst.terbilang.$invalid && frmMst.terbilang.$touched }">
                             <label for="inputEmail3" class="col-sm-3 control-label">Terbilang</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control has-error" placeholder="terbilang" name="terbilang" ng-model="dataForm.terbilang" >
+                                <input type="text" class="form-control has-error" placeholder="terbilang" name="terbilang" ng-model="dataForm.terbilang" readonly>
                                 <span class="help-inline" ng-messages="frmMst.terbilang.$error" ng-show="frmMst.terbilang.$invalid && frmMst.terbilang.$touched">
                                     <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
                                 </span>

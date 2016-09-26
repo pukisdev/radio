@@ -54,7 +54,7 @@
                                             <td>
                                                 <!-- <button class="btn btn-default btn-xs btn-pencil" ng-click="toggle('edit', values.id_fp)">Detil</button> -->
                                                 <button class="btn btn-default btn-xs btn-detail" ng-click="toggle('edit', values.no_bukti)">Edit</button>
-                                                <button class="btn btn-danger btn-xs btn-delete" ng-click="confirmDelete(values, $index)">Delete</button>
+                                                <!-- <button class="btn btn-danger btn-xs btn-delete" ng-click="confirmDelete(values, $index)">Delete</button> -->
                                             </td>
                                         </tr>
                                       </tbody>

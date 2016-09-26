@@ -15,6 +15,7 @@ use App\Http\Models\keu\fa_penerimaan_jurnal_det as jurnalDet;
 // use App\Http\Requests\reqPmsFpMst as reqMst;
 use Carbon;
 use DB;
+use Terbilang;
 
 class penerimaanMstController extends Controller
 {
@@ -65,6 +66,7 @@ class penerimaanMstController extends Controller
         $request->offsetSet("no_bukti", $no_bukti);
         $request->offsetSet("tgl_terima", Carbon::parse($request->tgl_terima));
         $request->offsetSet("tgl_cetak", Carbon::parse($request->tgl_cetak));
+        $request->offsetSet("terbilang", UcWords(Terbilang::make($request->total, ' Rupiah')));
         $request->offsetSet("lks", 'JAG');
         $request->offsetSet("posting", 0);
 
@@ -122,8 +124,7 @@ class penerimaanMstController extends Controller
         $request->offsetUnset("no_bukti");
         $request->offsetSet("tgl_terima", Carbon::parse($request->tgl_terima));
         $request->offsetSet("tgl_cetak", Carbon::parse($request->tgl_cetak));
-        // $request->offsetSet("lks", 'JAG');
-        // $request->offsetSet("posting", 0);
+        $request->offsetSet("terbilang", UcWords(Terbilang::make($request->total, ' Rupiah')));
 
         modelMst::find($id)->update($request->except(['det','jurnal_det','ar_det','ap_det']));
         // dd(DB::getQueryLog());
