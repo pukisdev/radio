@@ -2,6 +2,7 @@
 @extends('templates.layouts.ng-gentalella')
 
 @section('content')
+
 <div class="container">
     <div class="row" ng-controller="dataFormController">
         <!-- <div class="col-md-10 col-md-offset-1"> -->
@@ -52,7 +53,7 @@
                                             <td>[[ values.keterangan ]]</td>
                                             <td>
                                                 <!-- <button class="btn btn-default btn-xs btn-pencil" ng-click="toggle('edit', values.id_fp)">Detil</button> -->
-                                                <button class="btn btn-default btn-xs btn-detail" ng-click="toggle('edit', values.id_fp)">Edit</button>
+                                                <button class="btn btn-default btn-xs btn-detail" ng-click="toggle('edit', values.no_bukti)">Edit</button>
                                                 <button class="btn btn-danger btn-xs btn-delete" ng-click="confirmDelete(values, $index)">Delete</button>
                                             </td>
                                         </tr>
@@ -86,6 +87,9 @@
 {!! Html::script('assets/ng/controllers/keu/penerimaanMst.min.js') !!}
 {!! Html::script('assets/ng/controllers/keu/lovBank.min.js') !!}
 {!! Html::script('assets/ng/controllers/acc/lovCoa.min.js') !!}
-<!-- {!! Html::script('assets/ng/controllers/pms/lovPnwr.min.js') !!} -->
+{!! Html::script('assets/ng/controllers/acc/lovFakturPiutang.min.js') !!}
+{!! Html::script('assets/ng/controllers/acc/lovFakturHutang.min.js') !!}
+{!! Html::script('assets/ng/controllers/pms/lovCustomer_rev2.min.js') !!}
+{!! Html::script('assets/ng/controllers/umum/lovSupplier.min.js') !!}
 
 @endsection

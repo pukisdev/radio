@@ -1,0 +1,47 @@
+            <div class="modal-header">
+                <div class="box-tools" style="display:inline-table">
+                    <div class="box-tools" style="display:inline-table">
+                        <div class="input-group"> 
+                            <input type="text" class="form-control input-sm ng-valid ng-dirty" placeholder="Master Faktur Piutang" ng-change="searchDBFakturPiutang()" ng-model="searchTextFakturPiutang" name="table_search" title="" tooltip="" data-original-title="Min character length is 3">
+                            <span class="input-group-addon">Search</span>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="close" ng-click="cancel()" aria-label="Close"><span aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered pagin-table">
+                    <thead>
+                        <tr>
+                            <th>Pilih</th>
+                            <th>No Faktur</th>
+                            <th>Tanggal</th>
+                            <th>Coa id</th>
+                            <th>Sisa Piutang</th>
+                            <th>Mata Uang</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr dir-paginate="values in _dataFakturPiutang | itemsPerPage:5" total-items="totalItemsFakturPiutang" pagination-id="paginationFakturPiutang">
+                            <td>
+                                <button type="button" ng-click="lovFakturPiutangSelected(values)" class="btn btn-success btn-sm" aria-label="Left Align">
+                                  <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                </button>
+                            </td>
+                            <td>[[ values.no_faktur ]]</td>
+                            <td>[[ values.tgl_faktur | date : "dd-MM-y" ]]</td>
+                            <td>[[ values.coa_id ]]</td>
+                            <td>[[ values.sisa_piutang | currency : 'Rp.' ]]</td>
+                            <td>[[ values.currency ]]</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="7">
+                                <p class="pull-left pagination">Menampilkan <strong>[[ tableFakturPiutang.CurrentItems ]]</strong> Dari <strong>[[ tableFakturPiutang.TotalItems ]]</strong></p>
+                                <dir-pagination-controls pagination-id="paginationFakturPiutang" class="pull-right" on-page-change="pageChangedFakturPiutang(newPageNumber)" template-url="/assets/ng/views/etc/dirPagination.html" ></dir-pagination-controls>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>

@@ -56,42 +56,27 @@ class penerimaanMstController extends Controller
      */
     public function store(Request $request)
     {
+        DB::enableQueryLog();
         // dd($request->all());
-        // dd($request->fp_det);
-        $input['fp_det']  = $request->fp_det;
 
-        $id_fp = $this->generate_id();
-        $netto = 0;
+        // dd(date('Y H:s:i'));
+        $no_bukti =  $this->generate_id($request->jenis_bukti);
 
-        foreach ($input['fp_det'] as $key => $value) {
-            $input['fp_det'][$key]['f_fp'] = $id_fp;
-            $input['fp_det'][$key]['sys_user_update'] = 'ADMIN';
-            $netto += $value['nilai_akhir'];
-            unset($input['fp_det'][$key]['judul_iklan']);
-        }
+        $request->offsetSet("no_bukti", $no_bukti);
+        $request->offsetSet("tgl_terima", Carbon::parse($request->tgl_terima));
+        $request->offsetSet("tgl_cetak", Carbon::parse($request->tgl_cetak));
+        $request->offsetSet("lks", 'JAG');
+        $request->offsetSet("posting", 0);
 
-        // dd($input['fp_det']);
-
-        modelMst::create([
-                    'id_fp'             => $id_fp,
-                    'generate_ke'       => 1,
-                    'f_customer'        => $request->f_customer,
-                    'tgl_fp'            => Carbon::parse($request->tgl_fp),
-                    'deskripsi_fp'      => $request->deskripsi_fp,
-                    'tgl_jatuh_tempo'   => Carbon::parse($request->tgl_jatuh_tempo),
-                    'jenis_faktur'      => $request->jenis_faktur,
-                    'keterangan'        => $request->keterangan,
-                    'ttd'               => $request->ttd,
-                    'netto'             => $netto,
-                    'netto_terbilang'   => 'Seratus',
-                    'sys_user_update'   => 'ADMIN'
-                ]);
-
-        modelDet::insert($input['fp_det']);
-
-        // dd($request->all());
+        modelMst::create($request->except(['det','jurnal_det','ar_det','ap_det']));
         
-        return modelMst::find($id_fp);//Model::find($request->id_customer);
+        // dd($ap_det);
+        $this->insDetail($request, $no_bukti);
+
+        // dd(DB::getQueryLog());
+        // dd($request->all());
+        // return modelMst::find($no_bukti);
+        return $this->edit($no_bukti);
     }
 
     /**
@@ -100,20 +85,11 @@ class penerimaanMstController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $id)
+    public function show($id)
     {
         // DB::enableQueryLog();    
-        // $items = modelMst::with('customer','fp_det.pnwr')->find($request->_id);
-
-        $items = modelMst::with(['customer', 'fp_det' => function($query){
-                                    $query->where('sys_status_aktif','A'); 
-                                }, 'fp_det.pnwr']
-            )->find($request->_id);
-    
         // dd(DB::getQueryLog());   
-                
-        // dd($items->fp_det);
-        return response($items);
+        // return response($items);
     }
 
     /**
@@ -124,6 +100,10 @@ class penerimaanMstController extends Controller
      */
     public function edit($id)
     {
+        $items = modelMst::with('fa_penerimaan_det.fa_bank_mst','fa_penerimaan_ar_det','fa_penerimaan_ap_det','fa_penerimaan_jurnal_det.coa')
+                ->find($id);    
+        
+        return response($items);
         //
     }
 
@@ -136,97 +116,23 @@ class penerimaanMstController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-        $f_pnwr         = "";
-        $netto          = 0;
-        $input['fp_det']= $request->fp_det;
-
-        foreach ($input['fp_det'] as $key => $value) {
-            $f_pnwr[]   = $value['f_pnwr']; 
-            $netto      += $value['nilai_akhir'];
-
-            $input['fp_det'][$key]['sys_user_update']   = 'ADMIN';
-            unset($input['fp_det'][$key]['judul_iklan']);
-            unset($input['fp_det'][$key]['pnwr']);
-            
-            if(modelDet::where([['f_fp',$id], ['f_pnwr',$value['f_pnwr']],['sys_status_aktif','A']])->count() > 0){
-                unset($input['fp_det'][$key]['f_fp']);
-                unset($input['fp_det'][$key]['f_pnwr']);
-                modelDet::where([['f_fp',$id],['sys_status_aktif','A']])->where('f_pnwr',$value['f_pnwr'])->update($input['fp_det'][$key]);
-            } else {
-                $input['fp_det'][$key]['f_fp'] = $id;
-                modelDet::insert($input['fp_det'][$key]);
-            }
-        }
-        // $isKwintasi = DB::table('kwitansi_det')->where(['f_fp'=>$id, 'sys_status_aktif'=>'A'])->count();
-        
-
-
-        modelMst::where('id_fp',$id)->update([
-                    'generate_ke'       => 1,
-                    'f_customer'        => $request->f_customer,
-                    'tgl_fp'            => Carbon::parse($request->tgl_fp),
-                    'deskripsi_fp'      => $request->deskripsi_fp,
-                    'tgl_jatuh_tempo'   => Carbon::parse($request->tgl_jatuh_tempo),
-                    'jenis_faktur'      => $request->jenis_faktur,
-                    'keterangan'        => $request->keterangan,
-                    'ttd'               => $request->ttd,
-                    'netto'             => $netto,
-                    'netto_terbilang'   => 'Seratus',
-                    'sys_user_update'   => 'ADMIN'
-                ]);
-
-        // modelDet::where('f_fp',$id)->delete();
-        // modelDet::where('f_fp',$id)->update(['sys_status_aktif'=>'A']);
-
-        // dd($input['fp_det']);
-
-        // modelDet::insert($input['fp_det']);
-
         // dd($request->all());
+        // $no_bukti =  $id;
+        DB::enableQueryLog();
+        $request->offsetUnset("no_bukti");
+        $request->offsetSet("tgl_terima", Carbon::parse($request->tgl_terima));
+        $request->offsetSet("tgl_cetak", Carbon::parse($request->tgl_cetak));
+        // $request->offsetSet("lks", 'JAG');
+        // $request->offsetSet("posting", 0);
+
+        modelMst::find($id)->update($request->except(['det','jurnal_det','ar_det','ap_det']));
+        // dd(DB::getQueryLog());
         
-        // return modelMst::find($id_fp);
+        $this->delDetail($id);
+        $this->insDetail($request, $id);
 
-        // dd($input['fp_det']);
-        // dd($request->all());
-        // $pnwrMst = modelMst::findOrFail($id);
-        // if($pnwrMst)
-            // $pnwrMst->fill($request->all())->save();
-            // dd(DB::getQueryLog());
+        return $this->edit($id);
 
-
-        // $id_fp = $this->generate_id();
-        // $netto = 0;
-
-        // foreach ($input['fp_det'] as $key => $value) {
-        //     $input['fp_det'][$key]['f_fp'] = $id_fp;
-        //     $input['fp_det'][$key]['sys_user_update'] = 'ADMIN';
-        //     $netto += $value['nilai_akhir'];
-        //     unset($input['fp_det'][$key]['judul_iklan']);
-        // }
-
-        // // dd($input['fp_det']);
-
-        // modelMst::create([
-        //             'id_fp'             => $id_fp,
-        //             'generate_ke'       => 1,
-        //             'f_customer'        => $request->f_customer,
-        //             'tgl_fp'            => Carbon::parse($request->tgl_fp),
-        //             'deskripsi_fp'      => $request->deskripsi_fp,
-        //             'tgl_jatuh_tempo'   => Carbon::parse($request->tgl_jatuh_tempo),
-        //             'jenis_faktur'      => $request->jenis_faktur,
-        //             'keterangan'        => $request->keterangan,
-        //             'ttd'               => $request->ttd,
-        //             'netto'             => $netto,
-        //             'netto_terbilang'   => 'Seratus',
-        //             'sys_user_update'   => 'ADMIN'
-        //         ]);
-
-        // modelDet::insert($input['fp_det']);
-
-        // // dd($request->all());
-        
-        // return modelMst::find($id_fp);//Model::find($request->id_customer);
     }
 
     /**
@@ -254,9 +160,83 @@ class penerimaanMstController extends Controller
      * @depok
      * @return id
      */
-    private function generate_id(){
-        $max_id = modelMst::where('id_fp','like','FP'.date('Y').'%')->max('id_fp');
-        return 'FP'.date('Y').'.'.(!empty($max_id) ? str_pad(((int)substr($max_id, strpos($max_id,'.')+1)+1),5,'0',STR_PAD_LEFT) : '00001'); 
+    private function generate_id($_jenis){
+        //BM2016070086
+        // $max_id = modelMst::where('no_bukti','like',$_jenis.'M'.date('Y').'07%')->max('no_bukti');
+        $max_id = modelMst::where('no_bukti','like',$_jenis.'M'.date('Ym').'%')->max('no_bukti');
+        return $_jenis.'M'.date('Ym').(!empty($max_id) ? str_pad(((int)substr($max_id, 8)+1),4,'0',STR_PAD_LEFT) : '0001'); 
+    }
+
+
+    /**
+     * @function insDetail dibuat dan dikembangkan oleh rianday.
+     * @depok
+     * @return true
+     */
+    private function insDetail($request, $no_bukti)
+    {
+        if($request->det){
+            $det  = $request->det;
+            foreach ($det as $key => $value) {
+                $det[$key]['no_bukti'] = $no_bukti;
+                $det[$key]['jatuh_tempo'] = Carbon::parse($value['jatuh_tempo']);
+                unset($det[$key]['$$hashKey']);
+                unset($det[$key]['nama_bank']);
+                unset($det[$key]['fa_bank_mst']);
+                // $request->det[$key]['no_bukti']= $no_bukti;
+                // $request->offsetSet(array(['det'][$key]['no_bukti'], $no_bukti);
+            }
+        modelDet::insert($det);
+        }
+        
+        if($request->jurnal_det){
+            $jurnal_det  = $request->jurnal_det;
+            foreach ($jurnal_det as $key => $value) {
+                $jurnal_det[$key]['no_bukti'] = $no_bukti;
+                $jurnal_det[$key]['currency_id'] = 'IDR';
+                unset($jurnal_det[$key]['$$hashKey']);
+                unset($jurnal_det[$key]['nama_coa']);
+                unset($jurnal_det[$key]['coa']);
+            }
+            // dd($jurnal_det);
+        jurnalDet::insert($jurnal_det);
+        }
+
+        if($request->ar_det){
+            $ar_det  = $request->ar_det;
+            foreach ($ar_det as $key => $value) {
+                $ar_det[$key]['no_bukti'] = $no_bukti;
+                $ar_det[$key]['currency_id'] = 'IDR';
+                $ar_det[$key]['coa_customer'] = $value['coa_id'];
+                unset($ar_det[$key]['$$hashKey']);
+            }
+        arDet::insert($ar_det);
+        }
+
+        if($request->ap_det){
+            $ap_det  = $request->ap_det;
+            foreach ($ap_det as $key => $value) {
+                $ap_det[$key]['no_bukti'] = $no_bukti;
+                $ap_det[$key]['currency_id'] = 'IDR';
+                unset($ap_det[$key]['$$hashKey']);
+                unset($ap_det[$key]['nama_customer']);
+            }
+        apDet::insert($ap_det);
+        }
+    }
+
+
+    /**
+     * @function delDetail dibuat dan dikembangkan oleh rianday.
+     * @depok
+     * @return true
+     */
+    private function delDetail($id)
+    {
+        modelDet::where('no_bukti', $id)->delete();
+        jurnalDet::where('no_bukti', $id)->delete();
+        arDet::where('no_bukti', $id)->delete();
+        apDet::where('no_bukti', $id)->delete();
     }
 
 }

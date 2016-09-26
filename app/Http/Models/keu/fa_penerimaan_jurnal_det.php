@@ -25,4 +25,16 @@ class fa_penerimaan_jurnal_det extends Model
 	    return $this->belongsTo('App\Http\Models\keu\fa_penerimaan_mst','no_bukti','no_bukti');
 	}
 
+
+	/**
+	 * @function coa dibuat dan dikembangkan oleh rianday.
+	 * @depok
+	 * @return true
+	 */
+	public function coa()
+	{
+	    return $this->belongsTo('App\Http\Models\acc\acc_coas_mst','coa_id','coa_id');
+	}
+
+
 }

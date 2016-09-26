@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\PMS;
+namespace App\Http\Controllers\umum;
 
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\Http\Models\pms\pms_customer_mst as modelMst;
-use App\Http\Requests\reqPmsCustomerMst as reqMst;
+use App\Http\Models\umum\umum_supplier_mst as modelMst;
+use App\Http\Requests\umum\reqUmumSupplierMst as reqMst;
 use Carbon;
 use DB;
-use PDF;
-use Excel;
+// use PDF;
+// use Excel;
 
-class customerController extends Controller
+class supplierController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -24,7 +24,7 @@ class customerController extends Controller
     // public function index()
     public function index(Request $request)
     {
-        $sort  = 'nama_customer';
+        $sort  = 'nama_supplier';
 
         $query = modelMst::with('coa')->where('sys_status_aktif','A');
 
@@ -34,13 +34,10 @@ class customerController extends Controller
         }
 
         if($request->get('search')){
-            // $items = modelMst::where('sys_status_aktif','A')->where("nama_customer", "LIKE", "%".$request->get('search')."%")->paginate(5);      
-            $query->where("nama_customer", "LIKE", "%".$request->get('search')."%");//->paginate(5);      
-        }//else{
-            // $items = modelMst::where('sys_status_aktif','A')->paginate(5);
-            // $items = $query->paginate(5);
-        // }
-            $items = $query->orderBy($sort)->paginate(5);
+            $query->where("nama_supplier", "LIKE", "%".$request->get('search')."%");//->paginate(5);      
+        }
+
+        $items = $query->orderBy($sort)->paginate(5);
         // dd($items);
         return response($items);        
     }
@@ -64,13 +61,13 @@ class customerController extends Controller
     public function store(reqMst $request, modelMst $model)
     {
          $request->merge(array(
-            'id_customer' => $this->generate_id(),
+            'id_supplier' => $this->generate_id(),
             'sys_user_update' => 'ADMIN',
         ));
          // dd($request->all());   
 
         $model->create($request->all());
-        return $model->find($request->id_customer);
+        return $model->find($request->id_supplier);
     }
 
     /**
@@ -102,15 +99,15 @@ class customerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(reqMst $request, modelMst $customer)
+    public function update(reqMst $request, modelMst $supplier)
     {
         //
         // dd($request->all());
         // $abc->fill($request->all())->save();
         // return response($abc->find($id));
-        // return response($abc->find($request->id_customer));
-        $customer->fill($request->all())->save();
-        return response($customer->find($request->id_customer));
+        // return response($abc->find($request->id_supplier));
+        $supplier->fill($request->all())->save();
+        return response($supplier->find($request->id_supplier));
     }
 
     /**
@@ -130,16 +127,16 @@ class customerController extends Controller
      * @return id
      */
     public function _index(){
-        return view('pms/customer');
+        return view('pms/supplier');
     }
 
 
     /**
-     * @function _pdfRekapCustomer dibuat dan dikembangkan oleh rianday.
+     * @function _pdfRekapSupplier dibuat dan dikembangkan oleh rianday.
      * @depok
      * @return true
      */
-    public function _RekapCustomer($fileType)
+    public function _RekapSupplier($fileType)
     {
         if(empty($fileType)) abort(403, 'unauthorized');
 

@@ -80,12 +80,21 @@ Route::group(['prefix'=>'prod'], function(){
 
 Route::group(['prefix'=>'keu'], function(){ 
 	Route::resource('penerimaan', 'keu\penerimaanMstController');
+	Route::resource('penerimaan/det', 'keu\penerimaanDetController');
 	Route::resource('bank', 'keu\bankMstController');
 });
 
 Route::group(['prefix'=>'acc'], function(){ 
 	Route::resource('coas', 'acc\coasMstController');
+
+	Route::get('lovFakturPiutang','acc\fakturPiutangController@_lovFakturPiutang');
+	Route::get('lovFakturHutang','acc\fakturHutangController@_lovFakturHutang');
 });
+
+Route::group(['prefix'=>'umum'], function(){
+	Route::resource('supplier', 'umum\supplierController');
+});
+
 
 Route::group(['prefix'=>'check'], function(){
 	Route::get('pms/pnwrMst', 'PMS\pnwrMstController@getForFaktur');

@@ -1,6 +1,3 @@
-<div class="modal fade" id="idModalCustomer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
             <div class="modal-header">
                 <div class="box-tools" style="display:inline-table">
                     <div class="box-tools" style="display:inline-table">
@@ -10,12 +7,8 @@
                         </div>
                     </div>
                 </div>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <!-- <h4 class="modal-title" id="myModalLabel">[[ form_title ]]</h4> -->
+                <button type="button" class="close" ng-click="cancel()" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
-            <!-- <div ng-repeat="isi in _dataCustomer">
-                [[ isi.id_customer ]]
-            </div> -->
             <div class="modal-body">
                 <table class="table table-bordered pagin-table">
                     <thead>
@@ -23,13 +16,13 @@
                             <th>Pilih</th>
                             <th>ID Customer</th>
                             <th>Customer</th>
-                            <th>Coa ID</th>
+                            <th>Coa IDs</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr dir-paginate="values in _dataCustomer | itemsPerPage:5" total-items="totalItemsCustomer" pagination-id="paginationCustomer">
                             <td>
-                                <button type="button" ng-click="lovSelected('idModalCustomer', values)" class="btn btn-success btn-sm" aria-label="Left Align">
+                                <button type="button" ng-click="lovCustomerSelected(values)" class="btn btn-success btn-sm" aria-label="Left Align">
                                   <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                                 </button>
                             </td>
@@ -48,6 +41,3 @@
                     </tfoot>
                 </table>
             </div>
-        </div>
-    </div>
-</div>
