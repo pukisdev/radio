@@ -26,8 +26,8 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
-    // 'default' => env('DB_CONNECTION', 'oracle'),
+    //'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => env('DB_CONNECTION', 'oracle'),
 
     /*
     |--------------------------------------------------------------------------
@@ -84,7 +84,7 @@ return [
             // 'tns'           => env('DB_TNS', ''),
             'host'          => env('DB_HOST', 'localhost'),
             'port'          => env('DB_PORT', '1521'),
-            'database'      => env('DB_DATABASE', 'orcl10'),
+            'database'      => env('DB_DATABASE', 'orcl'),
             'username'      => env('DB_USERNAME', 'sys_radio'),
             'password'      => env('DB_PASSWORD', 'sys_radio'),
             'charset'       => env('DB_CHARSET', 'AL32UTF8'),
