@@ -348,26 +348,18 @@
 			}
 		},
 		{
-			"file": "public/assets/ng/controllers/keu/penerimaanMst.min.js",
+			"file": "config/app.php",
 			"settings":
 			{
-				"buffer_size": 20395,
+				"buffer_size": 9033,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "public/assets/ng/views/acc/lov/lovFakturHutang.html",
+			"file": "vendor/riskihajar/terbilang/src/Terbilang.php",
 			"settings":
 			{
-				"buffer_size": 2953,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "public/assets/ng/controllers/acc/lovFakturHutang.min.js",
-			"settings":
-			{
-				"buffer_size": 3064,
+				"buffer_size": 6893,
 				"line_ending": "Unix"
 			}
 		},
@@ -375,7 +367,31 @@
 			"file": "public/assets/ng/views/keu/form/formPenerimaan.html",
 			"settings":
 			{
-				"buffer_size": 60506,
+				"buffer_size": 60552,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "resources/views/modules/keu/penerimaan.blade.php",
+			"settings":
+			{
+				"buffer_size": 5829,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "public/assets/ng/controllers/keu/penerimaanMst.min.js",
+			"settings":
+			{
+				"buffer_size": 21827,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/Http/Models/keu/fa_penerimaan_det.php",
+			"settings":
+			{
+				"buffer_size": 892,
 				"line_ending": "Unix"
 			}
 		},
@@ -383,8 +399,17 @@
 			"file": "app/Http/Controllers/keu/penerimaanMstController.php",
 			"settings":
 			{
-				"buffer_size": 10720,
+				"buffer_size": 7831,
 				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "coa_customer:null\ncoa_id_cust:null\nfa_penerimaan_ap_det:[]\nfa_penerimaan_ar_det:[{no_bukt:\"BM2016070087\", coa_i:\"1.1.03.06.B0099\", no_faktu:\"303221605\", currency_i:\"IDR\",…}]\nfa_penerimaan_det:[,…]\nfa_penerimaan_jurnal_det:[{no_bukt:\"BM2016070087\", coa_i:\"1.1.01.02.00006\", currency_i:\"IDR\",…},…]\njenis_bukti:\"B\"\nketerangan:\"PEMBAYARAN AGEN\"\nkode_perwakilan:null\nkode_relasi:null\nkode_trans:null\nlks:\"JAG\"\nlock_pwk:null\nno_bukti:\"BM2016070087\"\nno_reff_pwk:null\nposting:\"0\"\nterbilang:\"SembilanRatus Delapanbelas Ribu TujuhRatus Limapuluh Rupiah\"\ntgl_cetak:\"2016-07-21 0::0\"\ntgl_terima:\"2016-07-21 0::0\"\ntotal:\"918750\"",
+			"settings":
+			{
+				"buffer_size": 615,
+				"line_ending": "Unix",
+				"name": "coa_customer:null"
 			}
 		},
 		{
@@ -461,10 +486,21 @@
 			}
 		},
 		{
+			"contents": "<?php\n\n/*\n|--------------------------------------------------------------------------\n| Application Routes\n|--------------------------------------------------------------------------\n|\n| Here is where you can register all of the routes for an application.\n| It's a breeze. Simply tell Laravel the URIs it should respond to\n| and give it the controller to call when that URI is requested.\n|\n*/\n// Route::get('/directive/produk', function(){\n//     // return view('modules.sites.upload.index');\n// 		return view('pms/produk');\n// });\n\n// Route::get('/', function () {\n//     return view('welcome');\n//     // return view('pms/produk');\n//     // return view('pms/index');\n// });\n\nRoute::auth();\nRoute::get('/token', 'Auth\\TokenController@getToken');\n\nRoute::group(['middleware'=>['menus']], function(){\n	Route::get('/home', 'sites\\snController@index');\n	Route::get('/', 'sites\\snController@index');\n});\n\nRoute::group(['middleware'=>['menus']], function(){\n	Route::get('/{jenis}/{module}/menu', 'sites\\menuController@index');\n});\n\nRoute::group(['prefix'=>'																																												mst', 'middleware'=>['menus']], function(){ //show view\n	Route::get('pms/produk', 'PMS\\produkController@_index');\n	Route::get('pms/libur', 'PMS\\liburController@_index');\n	Route::get('pms/customer', 'PMS\\customerController@_index');\n	Route::get('hkm/spks', 'HKM\\spksController@_index');\n	Route::get('keu/penerimaan', 'keu\\penerimaanMstController@_index');\n});\n\nRoute::group(['prefix'=>'trx', 'middleware'=>['menus']], function(){ //show view\n	Route::get('pms/pnwrMst', 'PMS\\pnwrMstController@_index');\n	Route::get('pms/fpMst', 'PMS\\fpMstController@_index');\n});\n\nRoute::group(['prefix'=>'rpt'], function(){ //show view\n	Route::get('{fileType}/pms/customer', 'PMS\\customerController@_RekapCustomer');\n});\n\n\nRoute::group(['prefix'=>'pms'], function(){ //return dalam bentuk json\n	Route::resource('produk', 'PMS\\produkController');\n	Route::resource('tarif', 'PMS\\tarifController');\n	Route::resource('libur', 'PMS\\liburController');\n	Route::resource('customer', 'PMS\\customerController');\n	Route::resource('pnwrMst', 'PMS\\pnwrMstController');\n	Route::resource('pnwrTayang', 'PMS\\pnwrTayangController');\n	Route::resource('pnwrMateri', 'PMS\\pnwrMateriController');\n	Route::resource('fpMst', 'PMS\\fpMstController');\n	Route::resource('fpDet', 'PMS\\fpDetController');\n	Route::put('pnwrMst/spks/{pnwrMst}', 'PMS\\pnwrMstController@_saveSpks');\n	// Route::get('order/spks', 'PMS\\')\n});\n\nRoute::group(['prefix'=>'hkm'], function(){\n	Route::resource('spks', 'HKM\\spksController');\n	Route::get('spks/{spks}/apv', 'HKM\\spksController@_getDefaultApv');\n	Route::put('spks/{spks}/apv', 'HKM\\spksController@_setApv');\n	Route::get('spks/files/{dir}/{fileName}', 'HKM\\spksController@_getFiles');\n	Route::delete('spks/files/{id_spks}/{dir}/{fileName}', 'HKM\\spksController@_delFiles');\n});\n\n\nRoute::group(['prefix'=>'prod'], function(){\n	Route::resource('realisasi', 'PROD\\realisasiController');\n});\n\nRoute::group(['prefix'=>'keu'], function(){ \n	Route::resource('penerimaan', 'keu\\penerimaanMstController');\n	Route::resource('penerimaan/det', 'keu\\penerimaanDetController');\n	Route::resource('bank', 'keu\\bankMstController');\n});\n\nRoute::group(['prefix'=>'acc'], function(){ \n	Route::resource('coas', 'acc\\coasMstController');\n\n	Route::get('lovFakturPiutang','acc\\fakturPiutangController@_lovFakturPiutang');\n	Route::get('lovFakturHutang','acc\\fakturHutangController@_lovFakturHutang');\n});\n\nRoute::group(['prefix'=>'umum'], function(){\n	Route::resource('supplier', 'umum\\supplierController');\n});\n\n\nRoute::group(['prefix'=>'check'], function(){\n	Route::get('pms/pnwrMst', 'PMS\\pnwrMstController@getForFaktur');\n});\n\n\n\n// Route::group(['prefix'=>'files'], function(){\n// 	Route::get('hkm/{fileName}', 'HKM\\spksController@bank');\n//bank\n",
 			"file": "app/Http/routes.php",
+			"file_size": 3766,
+			"file_write_time": 131196959683329901,
 			"settings":
 			{
-				"buffer_size": 3766,
+				"buffer_size": 3810,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/Http/Controllers/PMS/produkController.php",
+			"settings":
+			{
+				"buffer_size": 5490,
 				"line_ending": "Unix"
 			}
 		}
@@ -544,40 +580,29 @@
 	[
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/Auth",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PROD",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/acc",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/keu",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/acc",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/sql",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/js",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/controllers",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/controllers/acc",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/controllers/umum",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/views",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/views/acc",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/views/acc/lov",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/views/hkm/lov",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/views/keu/lov",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/views/umum",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/css",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms"
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/vendor",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/vendor/riskihajar",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/vendor/riskihajar/terbilang",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/vendor/riskihajar/terbilang/lib",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/vendor/riskihajar/terbilang/lib/lang",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/vendor/riskihajar/terbilang/lib/lang/id",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/vendor/riskihajar/terbilang/src",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/vendor/riskihajar/terbilang/src/Facades"
 	],
 	"file_history":
 	[
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/controllers/keu/penerimaanMst.min.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/keu/fa_penerimaan_jurnal_det.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/acc/acc_coas_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/keu/penerimaanMstController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/views/acc/lov/lovFakturHutang.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/controllers/acc/lovFakturHutang.min.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/controllers/hkm/spks.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/modules/keu/penerimaan.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/fpMstController.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/acc/fakturPiutangController.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/pnwrMst.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/views/acc/lov/lovCoa.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/fpMstController.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/vendor/laravel/framework/src/Illuminate/Foundation/Auth/AuthenticatesAndRegistersUsers.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/keu/penerimaanDetController.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/views/pms/forms/formPnwrMst.html",
@@ -587,7 +612,6 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/.env",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Middleware/Menus.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/config/database.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/acc/acc_coas_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/umum/umum_supplier_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/umum/2016_05_10_135752_umum_supplier_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/umum/reqUmumSupplierMst.php",
@@ -595,7 +619,6 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/views/pms/lov/lovCustomer_rev2.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/views/umum/lov/lovSupplier.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/views/keu/form/formPenerimaan.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/controllers/keu/penerimaanMst.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/controllers/umum/lovSupplier.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/controllers/pms/fpMst.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/gentalella/head.blade.php",
@@ -613,10 +636,8 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/others/rte-angular-master/src/rte/rte.css",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/views/hkm/form/formSpks.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/hkm/spks/tblSpks.blade.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/controllers/hkm/spks.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/Auth/AuthController.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/User.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/keu/fa_penerimaan_jurnal_det.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/keu/fa_penerimaan_ar_det.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/keu/fa_penerimaan_det.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php",
@@ -697,10 +718,7 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/fpMst.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/sdm/sdm_pegawai_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/hkm/hkm_spks_apv.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/layouts/app-angularjs.blade.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/layouts/app.blade.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/ng-html/hkm/formSpks.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/lib/angular-1.5.5/angular-sanitize.js"
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/layouts/app-angularjs.blade.php"
 	],
 	"find":
 	{
@@ -721,6 +739,24 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"modalstate",
+			"Terbilang::make(",
+			"    ",
+			"  = null",
+			"[]",
+			"ar",
+			"fa_penerimaan_jurnal_det",
+			"fa_penerimaan_det",
+			"no_bukti",
+			".det",
+			"giro",
+			"nip_sys",
+			"detail",
+			"isi",
+			".master",
+			":",
+			"_dataSpks",
+			"showData",
 			"ar",
 			"ar_det",
 			"FakturPiutang",
@@ -830,25 +866,7 @@
 			"rte",
 			"angular-1.5.5/tambahan",
 			"assets/js",
-			"assets/",
-			"bootstrap",
-			"nprogress",
-			"link",
-			"level",
-			"`",
-			"green",
-			"data-toggle-class",
-			"tgl_terima",
-			"gender",
-			"tgl_jatuh_tempo",
-			"tgl_fp",
-			"judul_iklan",
-			"nilai_biaya",
-			"judul_iklan",
-			"total_biaya",
-			"f_pnwr",
-			"fp_det",
-			"id_fp"
+			"assets/"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -887,7 +905,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 5,
 			"sheets":
 			[
 				{
@@ -921,156 +939,24 @@
 						"translation.y": 78.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "public/assets/ng/controllers/keu/penerimaanMst.min.js",
+					"file": "config/app.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 20395,
+						"buffer_size": 9033,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5527,
-								5527
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1972.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "public/assets/ng/views/acc/lov/lovFakturHutang.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2953,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2119,
-								2119
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "public/assets/ng/controllers/acc/lovFakturHutang.min.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3064,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								397,
-								397
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": -0.0,
-						"translation.y": 229.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "public/assets/ng/views/keu/form/formPenerimaan.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 60506,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5855,
-								5855
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 321.0,
-						"translation.y": 870.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "app/Http/Controllers/keu/penerimaanMstController.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 10720,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3638,
-								3638
+								8995,
+								8995
 							]
 						],
 						"settings":
@@ -1083,14 +969,242 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1109.0,
+						"translation.y": 2186.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "vendor/riskihajar/terbilang/src/Terbilang.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6893,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3341,
+								3341
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 841.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "public/assets/ng/views/keu/form/formPenerimaan.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 60552,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2741,
+								2741
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 137.0,
+						"translation.y": 196.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "resources/views/modules/keu/penerimaan.blade.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5829,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3255,
+								3255
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 43.0,
+						"translation.y": 257.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "public/assets/ng/controllers/keu/penerimaanMst.min.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 21827,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3062,
+								3062
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 824.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "app/Http/Models/keu/fa_penerimaan_det.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 892,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								800,
+								800
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 7,
+					"file": "app/Http/Controllers/keu/penerimaanMstController.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 7831,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4210,
+								4210
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1322.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 615,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								471,
+								471
+							]
+						],
+						"settings":
+						{
+							"auto_name": "coa_customer:null",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 12,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
 					"file": "app/Http/Controllers/acc/fakturHutangController.php",
 					"semi_transient": false,
 					"settings":
@@ -1112,18 +1226,18 @@
 							"remote_loading": false,
 							"synced": false,
 							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"tab_size": 4,
+							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 34.0,
 						"translation.y": 26.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 13,
 					"type": "text"
 				},
 				{
-					"buffer": 7,
+					"buffer": 10,
 					"file": "app/Http/Controllers/acc/fakturPiutangController.php",
 					"semi_transient": false,
 					"settings":
@@ -1152,11 +1266,11 @@
 						"translation.y": 383.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 14,
 					"type": "text"
 				},
 				{
-					"buffer": 8,
+					"buffer": 11,
 					"file": "app/Http/Models/acc/acc_saldo_piutang.php",
 					"semi_transient": false,
 					"settings":
@@ -1184,11 +1298,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 11,
+					"stack_index": 16,
 					"type": "text"
 				},
 				{
-					"buffer": 9,
+					"buffer": 12,
 					"file": "app/Http/Models/acc/acc_kartu_piutang.php",
 					"semi_transient": false,
 					"settings":
@@ -1216,11 +1330,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 12,
+					"stack_index": 17,
 					"type": "text"
 				},
 				{
-					"buffer": 10,
+					"buffer": 13,
 					"file": "app/Http/Models/acc/acc_faktur_piutang_sa.php",
 					"semi_transient": false,
 					"settings":
@@ -1248,11 +1362,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 10,
 					"type": "text"
 				},
 				{
-					"buffer": 11,
+					"buffer": 14,
 					"file": "app/Http/Models/acc/acc_faktur_piutang.php",
 					"semi_transient": false,
 					"settings":
@@ -1280,11 +1394,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 10,
+					"stack_index": 15,
 					"type": "text"
 				},
 				{
-					"buffer": 12,
+					"buffer": 15,
 					"file": "app/Http/Controllers/HKM/spksController.php",
 					"semi_transient": false,
 					"settings":
@@ -1310,14 +1424,14 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 897.0,
+						"translation.y": 962.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 14,
+					"stack_index": 11,
 					"type": "text"
 				},
 				{
-					"buffer": 13,
+					"buffer": 16,
 					"semi_transient": false,
 					"settings":
 					{
@@ -1336,6 +1450,8 @@
 						{
 							"auto_name": "array:8 [",
 							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
 							"syntax": "Packages/Text/Plain text.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
@@ -1344,11 +1460,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 13,
+					"stack_index": 18,
 					"type": "text"
 				},
 				{
-					"buffer": 14,
+					"buffer": 17,
 					"file": "public/assets/ng/controllers/pms/fpMst.min.js",
 					"semi_transient": false,
 					"settings":
@@ -1377,24 +1493,24 @@
 						"translation.y": 3450.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 15,
+					"stack_index": 19,
 					"type": "text"
 				},
 				{
-					"buffer": 15,
+					"buffer": 18,
 					"file": "app/Http/routes.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3766,
+						"buffer_size": 3810,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3381,
-								3381
+								1097,
+								1097
 							]
 						],
 						"settings":
@@ -1406,10 +1522,43 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 796.0,
+						"translation.y": 260.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 19,
+					"file": "app/Http/Controllers/PMS/produkController.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5490,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4893,
+								4893
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1812.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
 					"type": "text"
 				}
 			]
@@ -1468,12 +1617,84 @@
 		"selected_items":
 		[
 			[
+				"penerimaanmin",
+				"public/assets/ng/controllers/keu/penerimaanMst.min.js"
+			],
+			[
+				"penerimaan.min",
+				"public/assets/ng/controllers/keu/penerimaanMst.min.js"
+			],
+			[
+				"produkcontroller",
+				"app/Http/Controllers/PMS/produkController.php"
+			],
+			[
 				"route",
 				"app/Http/routes.php"
 			],
 			[
-				"penerimaa",
+				"pen",
 				"resources/views/modules/keu/penerimaan.blade.php"
+			],
+			[
+				"app.p",
+				"config/app.php"
+			],
+			[
+				"app.",
+				"config/app.php"
+			],
+			[
+				"penerimaanm",
+				"app/Http/Controllers/keu/penerimaanMstController.php"
+			],
+			[
+				"penerim",
+				"public/assets/ng/controllers/keu/penerimaanMst.min.js"
+			],
+			[
+				"spks",
+				"app/Http/Controllers/HKM/spksController.php"
+			],
+			[
+				"penerima",
+				"public/assets/ng/controllers/keu/penerimaanMst.min.js"
+			],
+			[
+				"",
+				"public/assets/ng/controllers/keu/penerimaanMst.min.js"
+			],
+			[
+				"acc_coas",
+				"app/Http/Models/acc/acc_coas_mst.php"
+			],
+			[
+				"jurnal",
+				"app/Http/Models/keu/fa_penerimaan_jurnal_det.php"
+			],
+			[
+				"penerimaan",
+				"public/assets/ng/views/keu/form/formPenerimaan.html"
+			],
+			[
+				"fpmstco",
+				"app/Http/Controllers/PMS/fpMstController.php"
+			],
+			[
+				"fa_penerimaan_det",
+				"app/Http/Models/keu/fa_penerimaan_det.php"
+			],
+			[
+				"penerimaanms",
+				"app/Http/Controllers/keu/penerimaanMstController.php"
+			],
+			[
+				"penerimaan.b",
+				"resources/views/modules/keu/penerimaan.blade.php"
+			],
+			[
+				"penerimaa",
+				"app/Http/Controllers/keu/penerimaanMstController.php"
 			],
 			[
 				"lovcoa",
@@ -1526,14 +1747,6 @@
 			[
 				"fpms",
 				"public/assets/ng/controllers/pms/fpMst.min.js"
-			],
-			[
-				"penerimaan.min",
-				"public/assets/ng/controllers/keu/penerimaanMst.min.js"
-			],
-			[
-				"penerimaan",
-				"public/assets/ng/views/keu/form/formPenerimaan.html"
 			],
 			[
 				"fpmst",
@@ -1674,10 +1887,6 @@
 			[
 				"spks.bla",
 				"resources/views/hkm/spks/tblSpks.blade.php"
-			],
-			[
-				"spks",
-				"public/assets/ng/controllers/hkm/spks.min.js"
 			],
 			[
 				"pms/fpmst.min",
@@ -1856,10 +2065,6 @@
 				"resources/views/pms/report/rpt-customer.blade.php"
 			],
 			[
-				"app.",
-				"config/app.php"
-			],
-			[
 				"customerp",
 				"resources/views/pms/report/pdf/customerPdf.blade.php"
 			],
@@ -1878,10 +2083,6 @@
 			[
 				"testpdf",
 				"resources/views/pms/report/pdf/testPdf.blade.php"
-			],
-			[
-				"app.p",
-				"config/app.php"
 			],
 			[
 				"css/font-awesome.min.css",
@@ -1926,58 +2127,6 @@
 			[
 				".env",
 				".env"
-			],
-			[
-				"lovproduk.min.js",
-				"public/app/controllers/lovProduk.min.js"
-			],
-			[
-				"app/controllers/pnwrmst.min.js",
-				"public/app/controllers/pnwrMst.min.js"
-			],
-			[
-				"pnwr.blad",
-				"resources/views/pms/pnwrMst.blade.php"
-			],
-			[
-				"left",
-				"resources/views/templates/gentalella/left.blade.php"
-			],
-			[
-				"home",
-				"resources/views/home.blade.php"
-			],
-			[
-				"homecon",
-				"app/Http/Controllers/HomeController.php"
-			],
-			[
-				"compo",
-				"composer.json"
-			],
-			[
-				"formpnwr",
-				"public/ext/ng-html/formPnwrMst.html"
-			],
-			[
-				"fp.bl",
-				"resources/views/pms/fpMst.blade.php"
-			],
-			[
-				"pnwr.bla",
-				"resources/views/pms/pnwrMst.blade.php"
-			],
-			[
-				"app/controllers/spks.min.js",
-				"public/app/controllers/spks.min.js"
-			],
-			[
-				"app/app.js",
-				"public/app/app.js"
-			],
-			[
-				"spks.html",
-				"public/ext/ng-html/hkm/form/formSpks.html"
 			]
 		],
 		"width": 0.0

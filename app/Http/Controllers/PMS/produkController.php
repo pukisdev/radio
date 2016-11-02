@@ -162,7 +162,8 @@ class produkController extends Controller
      * @depok
      * @return id
      */
-    public function _index(){
+    public function _index($jago){
+        dd($jago);
         return view('pms/produk');
     }
 
