@@ -90,4 +90,33 @@ class penerimaanDetController extends Controller
         modelDet::destroy($id);
     }
 
+    public function seriSetoranBank(Request $request){
+        if($request->get('search')) {
+            $items = modelDet::with('fa_bank_mst')
+                        ->where("no_giro", "LIKE", "%".$request->get('search')."%")
+                        ->where('no_bukti', 'like', 'GM%')
+                        ->whereNotNull('no_giro')
+                        ->WhereIn('no_giro', function ($query) {
+                            $query->select('no_seri')
+                                ->from('bi_keu.fa_setoran_bank_det')
+                                ->whereNotNull('no_seri');
+                        })
+                        ->paginate(5);      
+        } 
+        else {
+            //DB::enableQueryLog();
+            $items = modelDet::with('fa_bank_mst')
+                        ->where('no_bukti', 'like', 'GM%')
+                        ->whereNotNull('no_giro')
+                        ->WhereNotIn('no_giro', function ($query) {
+                            $query->select('no_seri')
+                                ->from('bi_keu.fa_setoran_bank_det')
+                                ->whereNotNull('no_seri');
+                        })
+                        ->paginate(5);
+            //dd(DB::getQueryLog());
+        }
+        //dd($items);
+        return response($items); 
+    }
 }

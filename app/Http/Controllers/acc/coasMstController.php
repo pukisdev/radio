@@ -124,4 +124,24 @@ class coasMstController extends Controller
         // return 'FP'.date('Y').'.'.(!empty($max_id) ? str_pad(((int)substr($max_id, strpos($max_id,'.')+1)+1),5,'0',STR_PAD_LEFT) : '00001'); 
     }
 
+    public function coas_pms_customer(Request $request){
+        if($request->get('search')){
+            $items = modelMst::with('customer')
+                    ->whereNotNull('coa_id')
+                    ->where("coa_name", "LIKE", "%".$request->get('search')."%")
+                    //->orWhere("coa_id", "LIKE", "%".$request->get('search')."%")
+                    ->where('coa_id', 'like','2.1.01.0_.%')
+                    ->orderBy('coa_id','asc')
+                    ->paginate(5);      
+        } else {
+            $items = modelMst::with('customer')
+                    ->whereNotNull('coa_id')
+                    ->where('coa_id', 'like','2.1.01.0_.%')
+                    ->orderBy('coa_id','asc')
+                    ->paginate(5);      
+        }
+        // dd($items);
+        return response($items);   
+    }
+
 }
