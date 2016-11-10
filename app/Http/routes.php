@@ -44,6 +44,7 @@ Route::group(['prefix'=>'mst', 'middleware'=>['menus']], function(){ //show view
 	Route::get('keu/penerimaan', 'keu\penerimaanMstController@_index');
 	Route::get('keu/pembayaran', 'keu\pembayaranMstController@_index');
 	Route::get('keu/setoran_bank', 'keu\setoranBankController@_index');
+	Route::get('keu/nomor_faktur_pajak', 'keu\nomorFPajakController@_index');
 	Route::get('keu/bank', 'keu\bankController@_index');
 	Route::get('keu/npb', 'keu\npbController@_index');
 	Route::get('keu/accCoa', 'keu\accCoaController@_index');
