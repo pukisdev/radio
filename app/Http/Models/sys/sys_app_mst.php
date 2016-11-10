@@ -28,7 +28,18 @@ class sys_app_mst extends Model
      */
     public function type()
     {
-	    return $this->belongsTo('App\Http\Models\sys\sys_type_mst','f_type','id_type');        
+        return $this->belongsTo('App\Http\Models\sys\sys_type_mst','f_type','id_type');        
     }
+
+    /**
+     * @function akses dibuat dan dikembangkan oleh rianday.
+     * @depok
+     * @return true
+     */
+    public function akses()
+    {
+        return $this->hasMany('App\Http\Models\sys\sys_user_akses_det','f_app','id_app');        
+    }
+
 
 }

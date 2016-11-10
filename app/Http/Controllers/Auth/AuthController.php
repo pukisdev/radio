@@ -98,5 +98,4 @@ class AuthController extends Controller
 
         return $code;        
     }
-
 }

@@ -24,4 +24,5 @@ class snController extends Controller
       return view('modules.sites.sn.home');
       // return view('modules.sites.sn.social_networking');
     }
+
 }

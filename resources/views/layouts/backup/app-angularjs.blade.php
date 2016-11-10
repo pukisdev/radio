@@ -155,8 +155,14 @@
     
     <script src="<?= asset('app/lib/angular-1.5.5/angular.min.js') ?>"></script>
     <script src="<?= asset('app/lib/angular-1.5.5/angular-route.min.js') ?>"></script>
-        
+    
+    <!-- JavaScripts Datatables -->
+    <!-- <script src="<?= asset('app/lib/datatables/media/js/jquery.dataTables.js') ?>" ></script> -->
+    <!-- <script src="<?= asset('app/lib/angular-datatables-master/dist/angular-datatables.min.js') ?>"></script> -->
+    <!-- -->
+    
     <script src="<?= asset('ext/bootstrap/js/bootstrap.min.js')?>" ></script>
+    <!-- <script src="<?= asset('app/lib/ui-date-master/dist/date.js') ?>" ></script> -->
     <script src="<?= asset('js/ui-bootstrap-tpls-1.3.3.min.js')?>" ></script>
     <script src="<?= asset('js/angular-currency-mask.js')?>" ></script>
     <script src="<?= asset('js/ngMask.js')?>" ></script>
@@ -164,7 +170,17 @@
     <script src="<?= asset('app/lib/angular-1.5.5/angular-messages.min.js') ?>"></script>
     <script src="<?= asset('app/lib/angular-1.5.5/dirPagination.js') ?>"></script>
     <script src="<?= asset('ext/rte-angular-master/src/rte/rte.js') ?>"></script>
+    <!-- <script src="<?= asset('app/lib/datatables/media/js/dataTables.bootstrap.min.js') ?>" ></script> -->
     <script src="<?= asset('ext/jquery-gritter/js/jquery.gritter.min.js') ?>"></script>
+    <!-- <script src="<?= asset('ext/textAngular-1.5.0/dist/textAngular.min.js') ?>"></script> -->
+    <!-- <script src="<?= asset('ext/tinymce/js/tinymce/tinymce.min.js') ?>"></script> -->
+    <!-- <script src="<?= asset('ext/ui-tinymce-master/dist/tinymce.min.js') ?>"></script> -->
+    <!-- <script src="<?= asset('ext/ui-tinymce-master/src/tinymce.js') ?>"></script> -->
+    
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js" integrity="sha384-I6F5OKECLVtK/BL+8iSLDEHowSAfUo76ZL9+kGAgTRdiByINKJaqTPH/QVNS1VDb" crossorigin="anonymous"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script> -->
+    <!-- <script src="<?= asset('app/app.js') ?>"></script> -->
+    {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
     
     @yield('content')
 

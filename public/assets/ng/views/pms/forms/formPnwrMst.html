@@ -141,7 +141,7 @@
                             <label for="inputEmail3" class="col-sm-3 control-label">Durasi</label>
                             <div class="col-sm-9">
                                 <div class="input-group">
-                                    <input type="number" class="form-control has-error" placeholder="Durasi dalam detik" name="durasi" ng-model="dataForm.durasi" required readonly="">
+                                    <input type="text" class="form-control has-error" placeholder="Durasi dalam detik" name="durasi" ng-model="dataForm.durasi" required readonly="">
                                     <span class="input-group-addon" id="basic-addon1">Detik</span>
                                 </div>
                                 <span class="help-inline" ng-messages="frmMst.durasi.$error" ng-show="frmMst.durasi.$invalid && frmMst.durasi.$touched">
@@ -154,7 +154,7 @@
                             <label for="inputEmail3" class="col-sm-3 control-label">Periode</label>
                             <div class="col-sm-9">
                                 <div class="input-group">
-                                    <input type="number" class="form-control has-error" placeholder="Jumlah hari tayang, Contoh : 14" name="periode" ng-change="total_normal()" ng-model="dataForm.periode" min="1" required >
+                                    <input type="text" class="form-control has-error" placeholder="Jumlah hari tayang, Contoh : 14" name="periode" ng-change="total_normal()" ng-model="dataForm.periode" min="1" required >
                                     <span class="input-group-addon" id="basic-addon1">Hari</span>
                                 </div>
                                 <span class="help-inline" ng-messages="frmMst.periode.$error" ng-show="frmMst.periode.$invalid && frmMst.periode.$touched">
@@ -192,7 +192,7 @@
                             <label for="inputEmail3" class="col-sm-3 control-label">Frekuensi</label>
                             <div class="col-sm-9">
                                 <div class="input-group">
-                                    <input type="number" class="form-control has-error" placeholder="Jumlah Tayang dalam 1 hari" name="frekuensi" ng-model="dataForm.frekuensi" ng-change="total_normal()" ng-min="1" required >
+                                    <input type="text" class="form-control has-error" placeholder="Jumlah Tayang dalam 1 hari" name="frekuensi" ng-model="dataForm.frekuensi" ng-change="total_normal()" ng-min="1" required >
                                     <span class="input-group-addon" id="basic-addon1">Kali</span>
                                 </div>
                                 <span class="help-inline" ng-messages="frmMst.frekuensi.$error" ng-show="frmMst.frekuensi.$invalid && frmMst.frekuensi.$touched">
@@ -205,7 +205,7 @@
                             <label for="inputEmail3" class="col-sm-3 control-label">Total Tayang</label>
                             <div class="col-sm-9">
                                 <div class="input-group">
-                                    <input type="number" class="form-control has-error" placeholder="Periode x Frekuensi" name="total_tayang" ng-model="dataForm.total_tayang" ng-min="1" required readonly="">
+                                    <input type="text" class="form-control has-error" placeholder="Periode x Frekuensi" name="total_tayang" ng-model="dataForm.total_tayang" ng-min="1" required readonly="">
                                     <span class="input-group-btn">
                                         <button class="btn btn-info" type="button" ng-click="openTayang()">Tanggal Tayang</button>
                                         <button class="btn btn-info" type="button" ng-click="openMateri()">Materi Tayang</button>
@@ -255,7 +255,7 @@
                             <label for="inputEmail3" class="col-sm-3 control-label">Diskon</label>
                             <div class="col-sm-9">
                                 <div class="input-group">
-                                    <input type="number" class="form-control has-error" placeholder="Diskon" name="tarif_diskon" ng-model="dataForm.tarif_diskon" ng-change="nilai_rp_diskon()" ng-min="0" ng-max="100" >
+                                    <input type="text" class="form-control has-error" placeholder="Diskon" name="tarif_diskon" ng-model="dataForm.tarif_diskon" ng-change="nilai_rp_diskon()" ng-min="0" ng-max="100" >
                                     <span class="input-group-addon" id="basic-addon1"> % </span>
                                 </div>
                                 <span class="help-inline" ng-messages="frmMst.tarif_diskon.$error" ng-show="frmMst.tarif_diskon.$invalid && frmMst.tarif_diskon.$touched">
