@@ -52,9 +52,11 @@ class pnwrTayangController extends Controller
 
         foreach ($input as $key => $value) {
             // dd($value['tayang_tgl']);
+            // \DateTime::createFromFormat('D M d Y H:i:s e+', $request->tgl_penawaran))
             $insert[] = array(
                             'f_pnwr'        => $f_pnwr, //$value['f_pwnr'],
-                            'tayang_tgl'    => Carbon::parse($value['tayang_tgl']),
+                            'tayang_tgl'    => \DateTime::createFromFormat('D M d Y H:i:s e+', $value['tayang_tgl']),
+                            //'tayang_tgl'    => Carbon::parse($value['tayang_tgl']),
                             'tayang_jam'    => implode(",", $value['tayang_jam']),
                             'sys_user_update' => 'Admin'
                         );
