@@ -1,0 +1,383 @@
+<script>
+    $.fn.datepicker.defaults.format = "yyyy-mm-dd   ";
+</script>
+    <div class="panel panel-default" id="idModalMst" ng-show="formTampil">
+        <div class="panel-heading"> &nbsp</div>
+        <div class="panel-body">
+            <!-- Table-to-load-the-data Part -->
+            <div class="row">
+                <div class="col-lg-12 margin-tb">
+                    <div class="pull-left">
+                        <h2>Form Setoran Bank</h2>
+                    </div>
+                    <div class="pull-right" style="padding-top:30px">
+                        <div class="box-tools" style="display:inline-table">
+                        </div>
+                        <!-- <button class="btn btn-success" data-toggle="modal" data-target="#create-user">Create New</button> -->
+                    </div>
+                </div>
+            </div>
+            <div>
+                <form name="frmMst" class="form-horizontal" novalidate="">
+                    <div class="col-md-6">
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.no_bukti.$invalid && frmMst.no_bukti.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Nomor Bukti</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Otomatis" name="no_bukti" ng-model="dataForm.no_bukti" readonly="true">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.from_periode.$invalid && frmMst.from_periode.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Periode Awal</label>
+                            <div class="col-sm-9">
+                                <input type="date" class="form-control has-error" placeholder="Tanggal Terima" name="from_periode" ng-model="dataForm.from_periode" ng-required="true">
+                                <span class="help-inline" ng-messages="frmMst.from_periode.$error" ng-show="frmMst.from_periode.$invalid && frmMst.from_periode.$touched">
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.to_periode.$invalid && frmMst.to_periode.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Periode Akhir</label>
+                            <div class="col-sm-9">
+                                <input type="date" class="form-control has-error" placeholder="Tanggal Terima" name="to_periode" ng-model="dataForm.to_periode" ng-required="true">
+                                <span class="help-inline" ng-messages="frmMst.to_periode.$error" ng-show="frmMst.to_periode.$invalid && frmMst.to_periode.$touched">
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.no_bank.$invalid && frmMst.no_bank.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Nama Bank</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input type="hidden" name="no_bank" ng-model="dataForm.no_bank" readonly="true">
+                                    <input type="text" class="form-control" placeholder="Otomatis" name="nama_bank" ng-model="dataForm.nama_bank" readonly="true" ng-required="true">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" ng-click="lovBank();">...</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.no_acc.$invalid && frmMst.no_acc.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">No Rek Bank</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Otomatis" name="no_acc" ng-model="dataForm.no_acc" readonly="true">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.tgl_cetak.$invalid && frmMst.tgl_cetak.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Tgl Cetak</label>
+                            <div class="col-sm-9">
+                                <input type="date" class="form-control has-error" placeholder="Tanggal Terima" name="tgl_cetak" ng-model="dataForm.tgl_cetak" ng-required="true">
+                                <span class="help-inline" ng-messages="frmMst.tgl_cetak.$error" ng-show="frmMst.tgl_cetak.$invalid && frmMst.tgl_cetak.$touched">
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.kelompok.$invalid && frmMst.kelompok.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Tipe Bayar</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" placeholder="Tipe Bayar" name="kelompok" ng-model="dataForm.kelompok" ng-required="true">
+                                    <option value> Pilih </option>
+                                    <option value="T">Tunai</option>
+                                    <option value="C">Cheque in Hand</option>
+                                </select>
+                                <span class="help-inline" ng-messages="frmMst.kelompok.$error" ng-show="frmMst.kelompok.$invalid && frmMst.kelompok.$touched">
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.keterangan.$invalid && frmMst.keterangan.$touched }">
+                            <label for="inputEmail3" class="col-sm-1 control-label">Keterangan</label>
+                            <div class="col-sm-11">
+                                <rte ng-model="dataForm.keterangan" required></rte>
+                                <span class="help-inline" ng-messages="frmMst.keterangan.$error" ng-show="frmMst.keterangan.$invalid && frmMst.keterangan.$touched">
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.terbilang.$invalid && frmMst.terbilang.$touched }">
+                            <label for="inputEmail3" class="col-sm-1 control-label">Terbilang</label>
+                            <div class="col-sm-11">
+                                <input type="hidden" name="jumlah" ng-model="dataForm.jumlah" readonly>
+                                <input type="text" class="form-control has-error" placeholder="terbilang" name="terbilang" ng-model="dataForm.terbilang" readonly>
+                                <span class="help-inline" ng-messages="frmMst.terbilang.$error" ng-show="frmMst.terbilang.$invalid && frmMst.terbilang.$touched">
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2><i class="fa fa-bars"></i> Detail <small>Setoran Bank</small></h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                    </li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                    <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                                    <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                                        <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Bukti Bank</a>
+                                        </li>
+                                        <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab"  aria-expanded="false">Jurnal General Ledger</a>
+                                        </li>
+                                    </ul>
+                                    <div id="myTabContent" class="tab-content">
+                                        <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                                            <div class="col-md-12">
+                                                <hr/>
+                                                <button id="btn-add" class="btn btn-primary" ng-click="lovSeri(0, 'tambah')">Tambah</button>
+                                                <div class="col-md-12">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered pagin-table" id="table-detail-faktur">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th style="min-width:250px;">No Seri</th>
+                                                                    <th style="min-width:250px;">Bank Penerbit</th>
+                                                                    <th style="min-width:300px;">Keterangan</th>
+                                                                    <th style="min-width:200px;">Jatuh Tempo</th>
+                                                                    <th style="min-width:200px;">Jumlah</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody class="abc">
+                                                                <tr  ng-repeat="values in dataForm.det" id="tr-[[$index]]">
+                                                                    <td>
+                                                                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.no_seri.$invalid && frmMst.no_seri.$touched }">
+                                                                            <div class="col-sm-12">
+                                                                                <div class="input-group">
+                                                                                    <span class="input-group-btn">
+                                                                                        <button class="btn btn-danger" type="button" ng-click="rmLovSeri(values, dataForm.no_bukti, $index);"><span class="glyphicon glyphicon-trash"></span></button>
+                                                                                    </span>
+                                                                                    <!--
+                                                                                    <input type="hidden" class="form-control has-error" name="no_seri" ng-model="dataForm.det[$index].no_seri" ng-minlength="1" required readonly>
+                                                                                    -->
+                                                                                    <input type="text" class="form-control has-error" placeholder="No Seri" ng-model="dataForm.det[$index].no_seri" required readonly>
+                                                                                    <span class="input-group-btn">
+                                                                                        <button class="btn btn-default" type="button" ng-click="lovSeri($index, 'edit');">...</button>
+                                                                                    </span>
+                                                                                </div>
+                                                                                <span class="help-inline" ng-messages="frmMst.no_seri.$error" ng-show="frmMst.no_seri.$invalid && frmMst.no_seri.$touched">
+                                                                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>                                        
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.nama_bank.$invalid && frmMst.nama_bank.$touched }">
+                                                                            <div class="col-sm-12">
+                                                                                <input type="hidden" class="form-control has-error" name="no_bank" ng-model="dataForm.det[$index].no_bank" required>
+                                                                                <input type="text" class="form-control has-error" placeholder="No Giro/Cek" name="nama_bank" ng-model="dataForm.det[$index].nama_bank" required>
+                                                                                <span class="help-inline" ng-messages="frmMst.nama_bank.$error" ng-show="frmMst.nama_bank.$invalid && frmMst.nama_bank.$touched">
+                                                                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>                                            
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.keterangan.$invalid && frmMst.keterangan.$touched }">
+                                                                            <div class="col-sm-12">
+                                                                                 <input type="text" class="form-control has-error" placeholder="No Giro/Cek" name="keterangan" ng-model="dataForm.det[$index].keterangan" required>
+                                                                                <span class="help-inline" ng-messages="frmMst.keterangan.$error" ng-show="frmMst.keterangan.$invalid && frmMst.keterangan.$touched">
+                                                                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>                                            
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.jatuh_tempo.$invalid && frmMst.jatuh_tempo.$touched }">
+                                                                            <div class="col-sm-12">
+                                                                                <input type="date" class="form-control has-error" placeholder="Jatuh Tempo" name="jatuh_tempo" ng-model="dataForm.det[$index].jatuh_tempo" required>
+                                                                                <span class="help-inline" ng-messages="frmMst.jatuh_tempo.$error" ng-show="frmMst.jatuh_tempo.$invalid && frmMst.jatuh_tempo.$touched">
+                                                                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.jumlah.$invalid && frmMst.jumlah.$touched }">
+                                                                            <div class="col-sm-12">
+                                                                                <input type="text" currency-mask class="form-control has-error" placeholder="Jumlah" name="jumlah" ng-change="totalMst()" ng-model="dataForm.det[$index].jumlah" required>
+                                                                                <span class="help-inline" ng-messages="frmMst.jumlah.$error" ng-show="frmMst.jumlah.$invalid && frmMst.jumlah.$touched">
+                                                                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>                        
+                                            </div>
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                                            <div class="col-md-12">
+                                                <hr/>
+                                                <button id="btn-add" class="btn btn-primary" ng-click="lovAccCoa(0, 'tambah')">Tambah</button>
+                                                <div class="col-md-12">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered pagin-table" id="table-detail-faktur">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th style="min-width:300px;">Coa Id</th>
+                                                                    <th style="min-width:300px;">Nama COa</th>
+                                                                    <th style="min-width:150px;">CC</th>
+                                                                    <th style="min-width:300px;">Nama CC</th>
+                                                                    <th style="min-width:350px;">Keterangan</th>
+                                                                    <th style="min-width:150px;">Curr</th>
+                                                                    <th style="min-width:200px;">Debet</th>
+                                                                    <th style="min-width:200px;">Kredit</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody class="abc">
+                                                                <tr  ng-repeat="values in dataForm.jurnal_det" id="tr-[[$index]]">
+                                                                    <td>
+                                                                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.coa_id.$invalid && frmMst.coa_id.$touched }">
+                                                                            <div class="col-sm-12">
+                                                                                <div class="input-group">
+                                                                                    <span class="input-group-btn">
+                                                                                        <button class="btn btn-danger" type="button" ng-click="rmLovAccCoa(values, dataForm.no_bukti, $index);"><span class="glyphicon glyphicon-trash"></span></button>
+                                                                                    </span>
+                                                                                    <input type="text" class="form-control has-error" placeholder="Coa ID" name="coa_id" ng-model="dataForm.jurnal_det[$index].coa_id" ng-minlength="1" required readonly>
+                                                                                    <span class="input-group-btn">
+                                                                                        <button class="btn btn-default" type="button" ng-click="lovAccCoa($index, 'edit');">...</button>
+                                                                                    </span>
+                                                                                </div>
+                                                                                <span class="help-inline" ng-messages="frmMst.coa_id.$error" ng-show="frmMst.coa_id.$invalid && frmMst.coa_id.$touched">
+                                                                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>                                        
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.coa_name.$invalid && frmMst.coa_name.$touched }">
+                                                                            <div class="col-sm-12">
+                                                                                <input type="text" class="form-control has-error" placeholder="Coa Name" name="coa_name" ng-model="dataForm.jurnal_det[$index].coa_name" readonly>
+                                                                                <span class="help-inline" ng-messages="frmMst.coa_name.$error" ng-show="frmMst.coa_name.$invalid && frmMst.coa_name.$touched">
+                                                                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>                                            
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.costcenter.$invalid && frmMst.costcenter.$touched }">
+                                                                            <div class="col-sm-12">
+                                                                                <div class="input-group">
+                                                                                    <input type="text" class="form-control has-error" placeholder="Cost Center" name="costcenter" ng-model="dataForm.jurnal_det[$index].costcenter">
+                                                                                    <span class="input-group-btn">
+                                                                                        <button class="btn btn-default" type="button" ng-click="lovCostCenter($index, 'edit');">...</button>
+                                                                                    </span>
+                                                                                </div>
+                                                                                <span class="help-inline" ng-messages="frmMst.costcenter.$error" ng-show="frmMst.costcenter.$invalid && frmMst.costcenter.$touched">
+                                                                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>                                            
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.cost_keterangan.$invalid && frmMst.cost_keterangan.$touched }">
+                                                                            <div class="col-sm-12">
+                                                                                <input type="text" class="form-control has-error" placeholder="Coa Name" name="cost_keterangan" ng-model="dataForm.jurnal_det[$index].cost_keterangan" readonly>
+                                                                                <span class="help-inline" ng-messages="frmMst.cost_keterangan.$error" ng-show="frmMst.cost_keterangan.$invalid && frmMst.cost_keterangan.$touched">
+                                                                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>                                            
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.keterangan.$invalid && frmMst.cost_keterangan.$touched }">
+                                                                            <div class="col-sm-12">
+                                                                                <input type="text" class="form-control has-error" placeholder="Keterangan" name="cost_keterangan" ng-model="dataForm.jurnal_det[$index].keterangan">
+                                                                                <span class="help-inline" ng-messages="frmMst.keterangan.$error" ng-show="frmMst.cost_keterangan.$invalid && frmMst.cost_keterangan.$touched">
+                                                                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>                                            
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.currency_id.$invalid && frmMst.currency_id.$touched }">
+                                                                            <div class="col-sm-12">
+                                                                                <input type="text" class="form-control has-error" placeholder="Mata Uang" name="currency_id" ng-model="dataForm.jurnal_det[$index].currency_id" >
+                                                                                <span class="help-inline" ng-messages="frmMst.currency_id.$error" ng-show="frmMst.currency_id.$invalid && frmMst.currency_id.$touched">
+                                                                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>                                            
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.debet.$invalid && frmMst.debet.$touched }">
+                                                                            <div class="col-sm-12">
+                                                                                <input type="text" currency-mask class="form-control has-error" placeholder="Debet" name="debet" ng-model="dataForm.jurnal_det[$index].debet" ng-change="totalGL()" required>
+                                                                                <span class="help-inline" ng-messages="frmMst.debet.$error" ng-show="frmMst.debet.$invalid && frmMst.debet.$touched">
+                                                                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.kredit.$invalid && frmMst.kredit.$touched }">
+                                                                            <div class="col-sm-12">
+                                                                                <input type="text" currency-mask class="form-control has-error" placeholder="Kredit" name="kredit" ng-model="dataForm.jurnal_det[$index].kredit" ng-change="totalGL()" required>
+                                                                                <span class="help-inline" ng-messages="frmMst.kredit.$error" ng-show="frmMst.kredit.$invalid && frmMst.kredit.$touched">
+                                                                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                            <tfoot>
+                                                                <tr>
+                                                                    <th style="min-width:350px;" colspan="6">Jumlah Debet/Kredit</th>
+                                                                    <th>
+                                                                        <div class="form-group error">
+                                                                            <div class="col-sm-12">
+                                                                                <input type="text" name="jml_debet" currency-mask class="form-control has-error" placeholder="jml_debet" ng-model="dataForm.jml_debet" readonly>
+                                                                            </div>
+                                                                        </div>
+                                                                    </th>
+                                                                    <th>
+                                                                        <div class="form-group error">
+                                                                            <div class="col-sm-12">
+                                                                                <input type="text" name="jml_kredit" currency-mask class="form-control has-error" placeholder="jml_kredit" ng-model="dataForm.jml_kredit" readonly>
+                                                                            </div>
+                                                                        </div>
+                                                                    </th>
+                                                                 </tr>
+                                                            </tfoot>
+                                                        </table>
+                                                    </div>
+                                                </div>                        
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <hr/>
+                        <div class="pull-right">
+                            <button type="button" class="btn btn-default" ng-click="toggle('cancel',null)">Cancel</button>
+                            <button type="button" class="btn btn-primary" id="btn-save" ng-click="save(modalstate, idState)" ng-disabled="frmMst.$invalid">Save changes</button>
+                            <!-- <button type="button" class="btn btn-primary" id="btn-save" ng-click="trace()" ng-disabled="frmMst.$invalid">Save changes</button> -->
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>

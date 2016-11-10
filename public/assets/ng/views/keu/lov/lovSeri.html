@@ -1,0 +1,52 @@
+            <div class="modal-header">
+                <div class="box-tools" style="display:inline-table">
+                    <div class="box-tools" style="display:inline-table">
+                        <div class="input-group"> 
+                            <input type="text" class="form-control input-sm ng-valid ng-dirty" placeholder="Data Master Rekening" ng-change="searchDBSeri()" ng-model="searchTextSeri" name="table_search" title="" tooltip="" data-original-title="Min character length is 3">
+                            <span class="input-group-addon">Search</span>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="close" ng-click="cancel()" aria-label="Close"><span aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered pagin-table">
+                    <thead>
+                        <tr>
+                            <th>Pilih</th>
+                            <th>No Seri Giro</th>
+                            <th>Nama Bank</th>
+                            <th>Jatuh Tempo</th>
+                            <th>Jumlah</th>
+                            <th>Id Bank</th>
+                            <th>Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr dir-paginate="values in _dataSeri | itemsPerPage:5" total-items="totalItemsSeri" pagination-id="paginationSeri">
+                            <td>
+                                <button type="button" ng-click="lovSeriSelected(values)" class="btn btn-success btn-sm" aria-label="Left Align">
+                                  <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                </button>
+                            </td>
+                            <td>[[ values.no_giro ]]</td>
+                            <td>[[ values.nama_bank ]]</td>
+                            <td>[[ values.jatuh_tempo ]]</td>
+                            <td>[[ values.jumlah ]]</td>
+                            <td>[[ values.no_bank ]]</td>
+                            <td>[[ values.keterangan ]]</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="7">
+                                <p class="pull-left pagination">Menampilkan <strong>[[ tableSeri.CurrentItems ]]</strong> Dari <strong>[[ tableSeri.TotalItems ]]</strong></p>
+                                <dir-pagination-controls pagination-id="paginationSeri" class="pull-right" on-page-change="pageChangedSeri(newPageNumber)" template-url="/assets/ng/views/etc/dirPagination.html" ></dir-pagination-controls>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        <!-- </div> -->
+    <!-- </div> -->
+<!-- </div> -->
