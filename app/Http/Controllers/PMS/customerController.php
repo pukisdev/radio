@@ -27,8 +27,9 @@ class customerController extends Controller
         $sort  = 'nama_customer';
 
         $query = modelMst::with('coa')->where('sys_status_aktif','A');
-
-        if($request->get('coa_id')){
+        
+        if(!empty($request->get('coa_id')) and $request->get('coa_id') !== 'undefined'){
+            // dd($request->all());
             $query->whereNotNull('coa_id');
             $sort = 'coa_id';
         }

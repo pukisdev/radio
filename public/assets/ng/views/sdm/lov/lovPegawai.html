@@ -1,0 +1,42 @@
+            <div class="modal-header">
+                <div class="box-tools" style="display:inline-table">
+                    <div class="box-tools" style="display:inline-table">
+                        <div class="input-group"> 
+                            <input type="text" class="form-control input-sm ng-valid ng-dirty" placeholder="Data Master Rekening" ng-change="searchDBPegawai()" ng-model="searchTextPegawai" name="table_search" title="" tooltip="" data-original-title="Min character length is 3">
+                            <span class="input-group-addon">Search</span>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="close" ng-click="cancel()" aria-label="Close"><span aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered pagin-table">
+                    <thead>
+                        <tr>
+                            <th>Pilih</th>
+                            <th>Nama</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr dir-paginate="values in _dataPegawai | itemsPerPage:5" total-items="totalItemsPegawai" pagination-id="paginationPegawai">
+                            <td>
+                                <button type="button" ng-click="lovPegawaiSelected(values)" class="btn btn-success btn-sm" aria-label="Left Align">
+                                  <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                </button>
+                            </td>
+                            <td>[[ values.nama ]]</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="7">
+                                <p class="pull-left pagination">Menampilkan <strong>[[ tablePegawai.CurrentItems ]]</strong> Dari <strong>[[ tablePegawai.TotalItems ]]</strong></p>
+                                <dir-pagination-controls pagination-id="paginationPegawai" class="pull-right" on-page-change="pageChangedPegawai(newPageNumber)" template-url="/assets/ng/views/etc/dirPagination.html" ></dir-pagination-controls>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        <!-- </div> -->
+    <!-- </div> -->
+<!-- </div> -->
