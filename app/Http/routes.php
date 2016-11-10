@@ -25,12 +25,14 @@ Route::auth();
 Route::get('/token', 'Auth\TokenController@getToken');
 
 Route::group(['middleware'=>['menus']], function(){
-	Route::get('/home', 'sites\snController@index');
+	// Route::get('/home', 'sites\snController@index');
 	Route::get('/', 'sites\snController@index');
+
 });
 
 Route::group(['middleware'=>['menus']], function(){
 	Route::get('/{jenis}/{module}/menu', 'sites\menuController@index');
+	Route::get('/profile', 'sites\profileController@index');
 });
 
 Route::group(['prefix'=>'mst', 'middleware'=>['menus']], function(){ //show view
@@ -38,17 +40,17 @@ Route::group(['prefix'=>'mst', 'middleware'=>['menus']], function(){ //show view
 	Route::get('pms/libur', 'PMS\liburController@_index');
 	Route::get('pms/customer', 'PMS\customerController@_index');
 	Route::get('hkm/spks', 'HKM\spksController@_index');
-	Route::get('keu/penerimaan', 'keu\penerimaanMstController@_index');
-	Route::get('keu/pembayaran', 'keu\pembayaranMstController@_index');
-	Route::get('keu/bank', 'KEU\bankController@_index');
-	Route::get('keu/npb', 'KEU\npbController@_index');
-	Route::get('keu/accCoa', 'KEU\accCoaController@_index');
-	Route::get('keu/cost_center', 'KEU\costCenterController@_index');
+	Route::get('keu/bank', 'keu\bankController@_index');
+	Route::get('keu/npb', 'keu\npbController@_index');
+	Route::get('keu/accCoa', 'keu\accCoaController@_index');
+	Route::get('keu/cost_center', 'keu\costCenterController@_index');
 });
 
 Route::group(['prefix'=>'trx', 'middleware'=>['menus']], function(){ //show view
 	Route::get('pms/pnwrMst', 'PMS\pnwrMstController@_index');
 	Route::get('pms/fpMst', 'PMS\fpMstController@_index');
+	Route::get('keu/penerimaan', 'keu\penerimaanMstController@_index');
+	Route::get('keu/pembayaran', 'keu\pembayaranMstController@_index');
 });
 
 Route::group(['prefix'=>'rpt'], function(){ //show view
@@ -86,11 +88,11 @@ Route::group(['prefix'=>'prod'], function(){
 Route::group(['prefix'=>'keu'], function(){ 
 	Route::resource('penerimaan', 'keu\penerimaanMstController');
 	Route::resource('pembayaran', 'keu\pembayaranMstController');
-	Route::resource('bank', 'KEU\bankController');
-	Route::resource('jns_trans', 'KEU\jnsTransController');
-	Route::resource('npb', 'KEU\npbController');
-	Route::resource('accCoa', 'KEU\accCoaController');
-	Route::resource('cost_center', 'KEU\costCenterController');
+	Route::resource('bank', 'keu\bankController');
+	Route::resource('jns_trans', 'keu\jnsTransController');
+	Route::resource('npb', 'keu\npbController');
+	Route::resource('accCoa', 'keu\accCoaController');
+	Route::resource('cost_center', 'keu\costCenterController');
 	Route::resource('penerimaan/det', 'keu\penerimaanDetController');
 	//Route::resource('bank', 'keu\bankMstController');
 });
@@ -112,7 +114,9 @@ Route::group(['prefix'=>'check'], function(){
 });
 
 
-
+Route::group(['prefix'=>'sites'], function(){
+	Route::put('profile/password', 'sites\profileController@changePassword');
+});
 // Route::group(['prefix'=>'files'], function(){
 // 	Route::get('hkm/{fileName}', 'HKM\spksController@bank');
 //bank

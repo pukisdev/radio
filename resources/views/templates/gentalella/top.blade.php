@@ -13,17 +13,22 @@
                                     <span class=" fa fa-angle-down"></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-usermenu animated fadeInDown pull-right">
-                                    <li><a href="javascript:;">  Profile</a>
-                                    </li>
                                     <li>
+                                        <a href="/profile">  
+                                            <span class="badge bg-red pull-right">New</span>
+                                            <span>Profile</span>
+                                        </a>
+                                    </li>
+                                    <!-- <li>
                                         <a href="javascript:;">
                                             <span class="badge bg-red pull-right">50%</span>
                                             <span>Settings</span>
                                         </a>
-                                    </li>
+                                    </li> 
                                     <li>
                                         <a href="javascript:;">Help</a>
                                     </li>
+                                    -->
                                     <li><a href="{{ URL::to('/') }}/logout"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
                                     </li>
                                 </ul>

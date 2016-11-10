@@ -76,7 +76,7 @@
 
                                                     </div>
                                                     <span class="help-inline" ng-messages="frmMst.listSpks.$error" ng-show="frmMst.listSpks.$invalid && frmMst.listSpks.$touched">
-                                                        <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                                        <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
                                                     </span>
                                                 </div>
                                                 <button ng-if="values.f_spks" class="btn btn-info btn-xs" ng-click="getFilesSpks(values.spks.spks)">[[ values.spks.alias_spks ]]</button>

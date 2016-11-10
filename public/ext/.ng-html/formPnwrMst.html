@@ -38,7 +38,7 @@
                             <div class="col-sm-9">
                                 <input type="text" class="form-control has-error" placeholder="Nomor PO Dari Customer" value="-----" name="no_po_customer" ng-model="dataForm.no_po_customer" >
                                 <span class="help-inline" ng-messages="frmMst.no_po_customer.$error" ng-show="frmMst.no_po_customer.$invalid && frmMst.no_po_customer.$touched">
-                                    <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
                                 </span>
                             </div>
                         </div>
@@ -54,7 +54,7 @@
                                     </span>
                                 </div>
                                 <span class="help-inline" ng-messages="frmMst.f_customer.$error" ng-show="frmMst.f_customer.$invalid && frmMst.f_customer.$touched">
-                                    <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
                                 </span>
                             </div>
                         </div>
@@ -64,7 +64,7 @@
                             <div class="col-sm-9">
                                 <input type="text" class="form-control has-error" placeholder="Judul Iklan" value="[[judul_iklan]]" name="judul_iklan" ng-model="dataForm.judul_iklan" ng-minlength="5" required >
                                 <span class="help-inline" ng-messages="frmMst.judul_iklan.$error" ng-show="frmMst.judul_iklan.$invalid && frmMst.judul_iklan.$touched">
-                                    <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
                                 </span>
                             </div>
                         </div>
@@ -74,7 +74,7 @@
                             <div class="col-sm-9">
                                 <input type="text" class="form-control has-error" placeholder="Kepada" value="[[kepada]]" name="kepada" ng-model="dataForm.kepada" ng-minlength="5" required >
                                 <span class="help-inline" ng-messages="frmMst.kepada.$error" ng-show="frmMst.kepada.$invalid && frmMst.kepada.$touched">
-                                    <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
                                 </span>
                             </div>
                         </div>
@@ -89,7 +89,7 @@
                                     </span>
                                 </div>
                                 <span class="help-inline" ng-messages="frmMst.f_ae.$error" ng-show="frmMst.f_ae.$invalid && frmMst.f_ae.$touched">
-                                    <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
                                 </span>
                             </div>
                         </div>
@@ -105,7 +105,7 @@
                                     </span>
                                 </div>
                                 <span class="help-inline" ng-messages="frmMst.f_produk.$error" ng-show="frmMst.f_produk.$invalid && frmMst.f_produk.$touched">
-                                    <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
                                 </span>
                             </div>
                         </div>
@@ -115,7 +115,7 @@
                             <div class="col-sm-9">
                                 <input type="text" currency-mask class="form-control has-error" placeholder="Tarif Normal" name="tarif" ng-model="dataForm.tarif" required readonly="">
                                 <span class="help-inline" ng-messages="frmMst.tarif.$error" ng-show="frmMst.tarif.$invalid && frmMst.tarif.$touched">
-                                    <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
                                 </span>
                             </div>
                         </div>
@@ -132,7 +132,7 @@
                                     </div> -->
                                 <!-- </div> -->
                                 <span class="help-inline" ng-messages="frmMst.tgl_penawaran.$error" ng-show="frmMst.tgl_penawaran.$invalid && frmMst.tgl_penawaran.$touched">
-                                    <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
                                 </span>
                             </div>
                         </div>
@@ -141,11 +141,11 @@
                             <label for="inputEmail3" class="col-sm-3 control-label">Durasi</label>
                             <div class="col-sm-9">
                                 <div class="input-group">
-                                    <input type="number" class="form-control has-error" placeholder="Durasi dalam detik" name="durasi" ng-model="dataForm.durasi" required readonly="">
-                                    <span class="input-group-addon" id="basic-addon1">Detik</span>
+                                    <input type="text" class="form-control has-error" placeholder="Durasi " name="durasi" ng-model="dataForm.durasi" required readonly="">
+                                    <!-- <span class="input-group-addon" id="basic-addon1">Detik</span> -->
                                 </div>
                                 <span class="help-inline" ng-messages="frmMst.durasi.$error" ng-show="frmMst.durasi.$invalid && frmMst.durasi.$touched">
-                                    <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
                                 </span>
                             </div>
                         </div>
@@ -154,11 +154,11 @@
                             <label for="inputEmail3" class="col-sm-3 control-label">Periode</label>
                             <div class="col-sm-9">
                                 <div class="input-group">
-                                    <input type="number" class="form-control has-error" placeholder="Jumlah hari tayang, Contoh : 14" name="periode" ng-change="total_normal()" ng-model="dataForm.periode" min="1" required >
+                                    <input type="text" class="form-control has-error" placeholder="Jumlah hari tayang, Contoh : 14" name="periode" ng-change="total_normal()" ng-model="dataForm.periode" min="1" required >
                                     <span class="input-group-addon" id="basic-addon1">Hari</span>
                                 </div>
                                 <span class="help-inline" ng-messages="frmMst.periode.$error" ng-show="frmMst.periode.$invalid && frmMst.periode.$touched">
-                                    <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
                                 </span>
                             </div>
                         </div>
@@ -173,7 +173,7 @@
                                 </select>
                                 <input type="text" class="form-control has-error" placeholder="Fullname"  ng-minlength="5" required >
                                 <span class="help-inline" ng-messages="frmMst.satuan_periode.$error" ng-show="frmMst.satuan_periode.$invalid && frmMst.satuan_periode.$touched">
-                                    <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
                                 </span>
                             </div>
                         </div>
@@ -183,7 +183,7 @@
                             <div class="col-sm-9">
                                 <input type="text" class="form-control has-error" placeholder="Fullname" value="[[jml_periode]]" name="jml_periode" ng-model="dataForm.jml_periode" ng-minlength="5" required >
                                 <span class="help-inline" ng-messages="frmMst.jml_periode.$error" ng-show="frmMst.jml_periode.$invalid && frmMst.jml_periode.$touched">
-                                    <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
                                 </span>
                             </div>
                         </div>
@@ -192,11 +192,11 @@
                             <label for="inputEmail3" class="col-sm-3 control-label">Frekuensi</label>
                             <div class="col-sm-9">
                                 <div class="input-group">
-                                    <input type="number" class="form-control has-error" placeholder="Jumlah Tayang dalam 1 hari" name="frekuensi" ng-model="dataForm.frekuensi" ng-change="total_normal()" ng-min="1" required >
+                                    <input type="text" class="form-control has-error" placeholder="Jumlah Tayang dalam 1 hari" name="frekuensi" ng-model="dataForm.frekuensi" ng-change="total_normal()" ng-min="1" required >
                                     <span class="input-group-addon" id="basic-addon1">Kali</span>
                                 </div>
                                 <span class="help-inline" ng-messages="frmMst.frekuensi.$error" ng-show="frmMst.frekuensi.$invalid && frmMst.frekuensi.$touched">
-                                    <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
                                 </span>
                             </div>
                         </div>
@@ -205,14 +205,14 @@
                             <label for="inputEmail3" class="col-sm-3 control-label">Total Tayang</label>
                             <div class="col-sm-9">
                                 <div class="input-group">
-                                    <input type="number" class="form-control has-error" placeholder="Periode x Frekuensi" name="total_tayang" ng-model="dataForm.total_tayang" ng-min="1" required readonly="">
+                                    <input type="text" class="form-control has-error" placeholder="Periode x Frekuensi" name="total_tayang" ng-model="dataForm.total_tayang" ng-min="1" required readonly="">
                                     <span class="input-group-btn">
                                         <button class="btn btn-info" type="button" ng-click="openTayang()">Tanggal Tayang</button>
                                         <button class="btn btn-info" type="button" ng-click="openMateri()">Materi Tayang</button>
                                     </span>                                    
                                 </div>
                                 <span class="help-inline" ng-messages="frmMst.total_tayang.$error" ng-show="frmMst.total_tayang.$invalid && frmMst.total_tayang.$touched">
-                                    <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
                                 </span>
                             </div>
                         </div>
@@ -230,7 +230,7 @@
                                 </select>
                                 <!-- <input type="text" class="form-control has-error" placeholder="Fullname" value="[[jenis_bayar]]" name="jenis_bayar" ng-model="dataForm.jenis_bayar" ng-minlength="5" required > -->
                                 <span class="help-inline" ng-messages="frmMst.jenis_bayar.$error" ng-show="frmMst.jenis_bayar.$invalid && frmMst.jenis_bayar.$touched">
-                                    <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
                                 </span>
                             </div>
                         </div>
@@ -246,7 +246,7 @@
                                     <!-- <input type="number" currency-mask class="form-control has-error" placeholder="Tarif Normal" value="[[dataForm.tarif]]" name="tarif_normal" ng-model="dataForm.tarif_normal" ng-min="0" required readonly> -->
                                 </div>
                                 <span class="help-inline" ng-messages="frmMst.tarif_normal.$error" ng-show="frmMst.tarif_normal.$invalid && frmMst.tarif_normal.$touched">
-                                    <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
                                 </span>
                             </div>
                         </div>
@@ -259,7 +259,7 @@
                                     <span class="input-group-addon" id="basic-addon1"> % </span>
                                 </div>
                                 <span class="help-inline" ng-messages="frmMst.tarif_diskon.$error" ng-show="frmMst.tarif_diskon.$invalid && frmMst.tarif_diskon.$touched">
-                                    <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
                                 </span>
                             </div>
                         </div>
@@ -272,7 +272,7 @@
                                     <input type="text" currency-mask class="form-control has-error" placeholder="Potongan" name="tarif_potongan" ng-model="dataForm.tarif_potongan" ng-change="total_normal()" ng-min="0">
                                 </div>
                                 <span class="help-inline" ng-messages="frmMst.tarif_potongan.$error" ng-show="frmMst.tarif_potongan.$invalid && frmMst.tarif_potongan.$touched">
-                                    <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
                                 </span>
                             </div>
                         </div>
@@ -285,7 +285,7 @@
                                     <input type="text" currency-mask class="form-control has-error" placeholder="Total Sebelum Pajak" name="tarif_hpp" ng-model="dataForm.tarif_hpp" ng-minlength="5" required readonly>
                                 </div>
                                 <span class="help-inline" ng-messages="frmMst.tarif_hpp.$error" ng-show="frmMst.tarif_hpp.$invalid && frmMst.tarif_hpp.$touched">
-                                    <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
                                 </span>
                             </div>
                         </div>
@@ -298,7 +298,7 @@
                                     <input type="text" currency-mask class="form-control has-error" placeholder="Pajak Penjualan" name="tarif_ppn" ng-model="dataForm.tarif_ppn" ng-minlength="5" required readonly>
                                 </div>
                                 <span class="help-inline" ng-messages="frmMst.tarif_ppn.$error" ng-show="frmMst.tarif_ppn.$invalid && frmMst.tarif_ppn.$touched">
-                                    <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
                                 </span>
                             </div>
                         </div>
@@ -311,7 +311,7 @@
                                     <input type="text" currency-mask class="form-control has-error" placeholder="Total" value="" name="tarif_total" ng-model="dataForm.tarif_total" ng-minlength="5" required readonly>
                                 </div>
                                 <span class="help-inline" ng-messages="frmMst.tarif_total.$error" ng-show="frmMst.tarif_total.$invalid && frmMst.tarif_total.$touched">
-                                    <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
                                 </span>
                             </div>
                         </div>
@@ -324,7 +324,7 @@
                                     <input type="text" currency-mask class="form-control has-error" placeholder="Netto Deal" name="pnwr_total" ng-model="dataForm.pnwr_total" ng-change="totalDeal()">
                                 </div>
                                 <span class="help-inline" ng-messages="frmMst.pnwr_total.$error" ng-show="frmMst.pnwr_total.$invalid && frmMst.pnwr_total.$touched">
-                                    <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
                                 </span>
                             </div>
                         </div>
@@ -337,7 +337,7 @@
                                     <input type="text" currency-mask class="form-control has-error" placeholder="Ditawar" name="pnwr_hpp" ng-model="dataForm.pnwr_hpp" readonly="">
                                 </div>
                                 <span class="help-inline" ng-messages="frmMst.pnwr_hpp.$error" ng-show="frmMst.pnwr_hpp.$invalid && frmMst.pnwr_hpp.$touched">
-                                    <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
                                 </span>
                             </div>
                         </div>
@@ -350,7 +350,7 @@
                                     <input type="text" currency-mask class="form-control has-error" placeholder="Pajak Penjualan" name="pnwr_ppn" ng-model="dataForm.pnwr_ppn" readonly="">
                                 </div>
                                 <span class="help-inline" ng-messages="frmMst.pnwr_ppn.$error" ng-show="frmMst.pnwr_ppn.$invalid && frmMst.pnwr_ppn.$touched">
-                                    <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
                                 </span>
                             </div>
                         </div>
@@ -366,7 +366,7 @@
                                 </select>
                                 <!-- <input type="text" class="form-control has-error" placeholder="Status" value="[[pnwr_status]]" name="pnwr_status" ng-model="dataForm.pnwr_status" ng-minlength="5" required > -->
                                 <span class="help-inline" ng-messages="frmMst.pnwr_status.$error" ng-show="frmMst.pnwr_status.$invalid && frmMst.pnwr_status.$touched">
-                                    <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
                                 </span>
                             </div>
                         </div>
@@ -376,7 +376,7 @@
                             <div class="col-sm-9">
                                 <input type="text" class="form-control has-error" placeholder="Keterangan" name="keterangan" ng-model="dataForm.keterangan" >
                                 <span class="help-inline" ng-messages="frmMst.keterangan.$error" ng-show="frmMst.keterangan.$invalid && frmMst.keterangan.$touched">
-                                    <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
                                 </span>
                             </div>
                         </div>
@@ -394,7 +394,7 @@
                                     </span>
                                 </div>
                                 <span class="help-inline" ng-messages="frmMst.alias_spks.$error" ng-show="frmMst.alias_spks.$invalid && frmMst.alias_spks.$touched">
-                                    <ng-messages-include src="/ext/ng-html/messages.html"></ng-messages-include>
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
                                 </span>
                             </div>
                         </div>
