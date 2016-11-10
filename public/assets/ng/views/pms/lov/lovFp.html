@@ -1,0 +1,48 @@
+            <div class="modal-header">
+                <div class="box-tools" style="display:inline-table">
+                    <div class="box-tools" style="display:inline-table">
+                        <div class="input-group"> 
+                            <input type="text" class="form-control input-sm ng-valid ng-dirty" placeholder="Data Master Rekening" ng-change="searchDBFp()" ng-model="searchTextFp" name="table_search" title="" tooltip="" data-original-title="Min character length is 3">
+                            <span class="input-group-addon">Search</span>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="close" ng-click="cancel()" aria-label="Close"><span aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered pagin-table">
+                    <thead>
+                        <tr>
+                            <th>Pilih</th>
+                            <th>No Faktur</th>
+                            <th>Tgl Faktur</th>
+                            <th>Nilai</th>
+                            <th>Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr dir-paginate="values in _dataFp | itemsPerPage:5" total-items="totalItemsFp" pagination-id="paginationFp">
+                            <td>
+                                <button type="button" ng-click="lovFpSelected(values)" class="btn btn-success btn-sm" aria-label="Left Align">
+                                  <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                </button>
+                            </td>
+                            <td>[[ values.id_fp ]]</td>
+                            <td>[[ values.tgl_fp ]]</td>
+                            <td>[[ values.netto ]]</td>
+                            <td>[[ values.keterangan ]]</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="7">
+                                <p class="pull-left pagination">Menampilkan <strong>[[ tableFp.CurrentItems ]]</strong> Dari <strong>[[ tableFp.TotalItems ]]</strong></p>
+                                <dir-pagination-controls pagination-id="paginationFp" class="pull-right" on-page-change="pageChangedFp(newPageNumber)" template-url="/assets/ng/views/etc/dirPagination.html" ></dir-pagination-controls>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        <!-- </div> -->
+    <!-- </div> -->
+<!-- </div> -->

@@ -45,6 +45,8 @@ Route::group(['prefix'=>'mst', 'middleware'=>['menus']], function(){ //show view
 	Route::get('keu/npb', 'KEU\npbController@_index');
 	Route::get('keu/accCoa', 'KEU\accCoaController@_index');
 	Route::get('keu/cost_center', 'KEU\costCenterController@_index');
+	Route::get('keu/kwitansi', 'KEU\kwitansiController@_index');
+	Route::get('sdm/pegawai', 'sdm\pegawaiMstController@_index');
 });
 
 Route::group(['prefix'=>'trx', 'middleware'=>['menus']], function(){ //show view
@@ -94,8 +96,11 @@ Route::group(['prefix'=>'keu'], function(){
 	Route::resource('accCoa', 'KEU\accCoaController');
 	Route::resource('cost_center', 'KEU\costCenterController');
 	Route::resource('penerimaan/det', 'keu\penerimaanDetController');
+	Route::resource('kwitansi', 'keu\kwitansiController');
 
 	Route::get('seri_sb','keu\penerimaanDetController@seriSetoranBank');
+	Route::get('fpajak', 'keu\kwitansiController@getFpajak');
+	Route::get('maxFpajak', 'keu\kwitansiController@getMaxFpajak');
 	//Route::resource('bank', 'keu\bankMstController');
 });
 
@@ -109,6 +114,10 @@ Route::group(['prefix'=>'acc'], function(){
 
 Route::group(['prefix'=>'umum'], function(){
 	Route::resource('supplier', 'umum\supplierController');
+});
+
+Route::group(['prefix'=>'sdm'], function(){
+	Route::resource('pegawai', 'sdm\pegawaiMstController');
 });
 
 

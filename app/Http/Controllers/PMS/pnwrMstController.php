@@ -75,9 +75,13 @@ class pnwrMstController extends Controller
     public function store(reqMst $request, modelMst $model)
     {
         // dd($request);
+
         $request->offsetUnset("nama_customer");
         $request->offsetUnset("nama_produk");
-        $request->offsetSet("tgl_penawaran", Carbon::parse($request->tgl_penawaran));
+        $request->offsetSet("tgl_penawaran", \DateTime::createFromFormat('D M d Y H:i:s e+', $request->tgl_penawaran));
+        $request->offsetSet("tgl_awal", Carbon::now());
+        $request->offsetSet("tgl_akhir", Carbon::now());
+        //$request->offsetSet("tgl_penawaran", Carbon::parse($request->tgl_penawaran));
         // dd($request->all());
         $request->merge(array(
             'id_pnwr' => $this->generate_id(),
