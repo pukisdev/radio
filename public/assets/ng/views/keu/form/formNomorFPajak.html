@@ -1,0 +1,97 @@
+    <div class="panel panel-default" id="idModalMst" ng-show="formTampil">
+        <div class="panel-heading"> &nbsp</div>
+        <div class="panel-body">
+            <!-- Table-to-load-the-data Part -->
+            <div class="row">
+                <div class="col-lg-12 margin-tb">
+                    <div class="pull-left">
+                        <h2>Form Nomor Faktur Pajak</h2>
+                    </div>
+                    <div class="pull-right" style="padding-top:30px">
+                        <div class="box-tools" style="display:inline-table">
+                        </div>
+                        <!-- <button class="btn btn-success" data-toggle="modal" data-target="#create-user">Create New</button> -->
+                    </div>
+                </div>
+            </div>
+            <div>
+                <form name="frmMst" class="form-horizontal" novalidate="">
+                    <div class="col-md-8">
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.nomor_surat_pajak.$invalid && frmMst.nomor_surat_pajak.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Nomor Surat</label>
+                            <div class="col-sm-9">
+                                <!-- <div class="input-group"> -->
+                                <input type="text" class="form-control" placeholder="Otomatis" name="nomor_surat_pajak" ng-model="dataForm.nomor_surat_pajak" required="true">
+                                <!-- </div> -->
+                                <span class="help-inline" ng-messages="frmMst.nomor_surat_pajak.$error" ng-show="frmMst.nomor_surat_pajak.$invalid && frmMst.nomor_surat_pajak.$touched">
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.tanggal.$invalid && frmMst.tanggal.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Tanggal Surat</label>
+                            <div class="col-sm-9">
+                                <input type="date" class="form-control has-error" placeholder="Tanggal Terima" name="tanggal" ng-model="dataForm.tanggal" ng-required="true">
+                                <span class="help-inline" ng-messages="frmMst.tanggal.$error" ng-show="frmMst.tanggal.$invalid && frmMst.tanggal.$touched">
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.nomor_depan.$invalid && frmMst.nomor_depan.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Nomor Depan</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control has-error" placeholder="Nomor Depan" name="nomor_depan" ng-model="dataForm.nomor_depan" ng-required="true">
+                                <span class="help-inline" ng-messages="frmMst.nomor_depan.$error" ng-show="frmMst.nomor_depan.$invalid && frmMst.nomor_depan.$touched">
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.nomor_belakang.$invalid && frmMst.nomor_belakang.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Nomor Belakang (min)</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control has-error" placeholder="Nomor Belakang (min)" name="nomor_belakang" ng-model="dataForm.nomor_belakang" ng-required="true">
+                                <span class="help-inline" ng-messages="frmMst.nomor_belakang.$error" ng-show="frmMst.nomor_belakang.$invalid && frmMst.nomor_belakang.$touched">
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.nomor_belakang_max.$invalid && frmMst.nomor_belakang_max.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Nomor Belakang (max)</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control has-error" placeholder="Nomor Belakang (max)" name="nomor_belakang_max" ng-model="dataForm.nomor_belakang_max" ng-required="true">
+                                <span class="help-inline" ng-messages="frmMst.nomor_belakang_max.$error" ng-show="frmMst.nomor_belakang_max.$invalid && frmMst.nomor_belakang_max.$touched">
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.status.$invalid && frmMst.status.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Default</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" placeholder="Status" name="status" ng-model="dataForm.status" ng-required="true">
+                                    <option value> Pilih </option>
+                                    <option value="Y">Iya</option>
+                                    <option value="N">Tidak</option>
+                                </select>
+                                <span class="help-inline" ng-messages="frmMst.status.$error" ng-show="frmMst.status.$invalid && frmMst.status.$touched">
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <hr/>
+                        <div class="pull-right">
+                            <button type="button" class="btn btn-default" ng-click="toggle('cancel',null)">Cancel</button>
+                            <button type="button" class="btn btn-primary" id="btn-save" ng-click="save(modalstate, idState)" ng-disabled="frmMst.$invalid">Save changes</button>
+                            <!-- <button type="button" class="btn btn-primary" id="btn-save" ng-click="trace()" ng-disabled="frmMst.$invalid">Save changes</button> -->
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>

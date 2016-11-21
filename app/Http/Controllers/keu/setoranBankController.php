@@ -19,7 +19,7 @@ class setoranBankController extends Controller
 {
     
     public function _index(){
-        return view('modules/keu/setoranBank');
+        return view('modules.keu.setoranBank');
     }
 
     private function generate_id(){
