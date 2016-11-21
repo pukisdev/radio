@@ -50,6 +50,7 @@ Route::group(['prefix'=>'mst', 'middleware'=>['menus']], function(){ //show view
 	Route::get('keu/accCoa', 'keu\accCoaController@_index');
 	Route::get('keu/cost_center', 'keu\costCenterController@_index');
 	Route::get('keu/kwitansi', 'keu\kwitansiController@_index');
+	Route::get('keu/bKwitansi/{no_kwitansi}', 'keu\kwitansiController@bKwitansi');
 	Route::get('sdm/pegawai', 'sdm\pegawaiMstController@_index');
 });
 
@@ -62,6 +63,8 @@ Route::group(['prefix'=>'trx', 'middleware'=>['menus']], function(){ //show view
 
 Route::group(['prefix'=>'rpt'], function(){ //show view
 	Route::get('{fileType}/pms/customer', 'PMS\customerController@_RekapCustomer');
+	Route::get('keu/pKwitansi/{no_kwitansi}', 'keu\kwitansiController@pKwitansi');
+	Route::get('keu/pFpajak/{no_kwitansi}', 'keu\kwitansiController@pFpajak');
 });
 
 
