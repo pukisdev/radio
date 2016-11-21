@@ -111,6 +111,8 @@
     {!! Html::script('/assets/templates/gentelella/js/flot/jquery.flot.stack.js') !!}
     {!! Html::script('/assets/templates/gentelella/js/flot/curvedLines.js') !!}
     {!! Html::script('/assets/templates/gentelella/js/flot/jquery.flot.resize.js') !!}
+    <!-- knob -->
+    {!! Html::script('/assets/templates/gentelella/js/knob/jquery.knob.min.js') !!}
 
     <!-- skycons -->
     {!! Html::script('assets/templates/gentelella/js/skycons/skycons.js') !!}

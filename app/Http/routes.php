@@ -41,10 +41,10 @@ Route::group(['prefix'=>'mst', 'middleware'=>['menus']], function(){ //show view
 	Route::get('pms/customer', 'PMS\customerController@_index');
 	Route::get('hkm/spks', 'HKM\spksController@_index');
 
-	Route::get('keu/penerimaan', 'keu\penerimaanMstController@_index');
-	Route::get('keu/pembayaran', 'keu\pembayaranMstController@_index');
+	// Route::get('keu/penerimaan', 'keu\penerimaanMstController@_index');
+	// Route::get('keu/pembayaran', 'keu\pembayaranMstController@_index');
 	Route::get('keu/setoran_bank', 'keu\setoranBankController@_index');
-	Route::get('keu/nomor_faktur_pajak', 'keu\nomorFPajakController@_index');
+	Route::get('keu/nomor_fpajak', 'keu\nomorFPajakController@_index');
 
 	Route::get('keu/bank', 'keu\bankController@_index');
 	Route::get('keu/npb', 'keu\npbController@_index');
@@ -59,6 +59,7 @@ Route::group(['prefix'=>'trx', 'middleware'=>['menus']], function(){ //show view
 	Route::get('pms/fpMst', 'PMS\fpMstController@_index');
 	Route::get('keu/penerimaan', 'keu\penerimaanMstController@_index');
 	Route::get('keu/pembayaran', 'keu\pembayaranMstController@_index');
+	Route::get('keu/transfer_bukti', 'keu\transferNoBuktiController@_index');
 });
 
 Route::group(['prefix'=>'rpt'], function(){ //show view
@@ -105,11 +106,18 @@ Route::group(['prefix'=>'keu'], function(){
 	Route::resource('cost_center', 'keu\costCenterController');
 	Route::resource('penerimaan/det', 'keu\penerimaanDetController');
 	Route::resource('kwitansi', 'keu\kwitansiController');
+	Route::resource('nomor_fpajak', 'keu\nomorFPajakController');
 
 	Route::get('seri_sb','keu\penerimaanDetController@seriSetoranBank');
 	Route::get('fpajak', 'keu\kwitansiController@getFpajak');
 	Route::get('maxFpajak', 'keu\kwitansiController@getMaxFpajak');
 	//Route::resource('bank', 'keu\bankMstController');
+
+	Route::post('nomor_fpajak/{nomor_fpajak}/edit', 'keu\nomorFPajakController@edit');
+	
+	Route::post('transferNoBukti/cekData', 'keu\transferNoBuktiController@cekData');
+
+
 });
 
 Route::group(['prefix'=>'acc'], function(){ 
