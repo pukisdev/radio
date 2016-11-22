@@ -19,6 +19,7 @@
             </div>
             <div>
                 <form name="frmMst" class="form-horizontal" novalidate="">
+                    {{ csrf_field() }}
                     <div class="col-md-6">
                         <div class="form-group error" ng-class="{ 'has-error' : frmMst.no_kwitansi.$invalid && frmMst.no_kwitansi.$touched }">
                             <label for="inputEmail3" class="col-sm-3 control-label">Nomor Kwitansi</label>
@@ -135,7 +136,7 @@
                         <div class="form-group error" ng-class="{ 'has-error' : frmMst.terbilang.$invalid && frmMst.terbilang.$touched }">
                             <label for="inputEmail3" class="col-sm-1 control-label">Terbilang</label>
                             <div class="col-sm-11">
-                                <input type="hidden" name="nilai_kwitansi" ng-model="dataForm.nilai_kwitansi" readonly>
+                                <input type="text" name="nilai_kwitansi" ng-model="dataForm.nilai_kwitansi"  value ="100" readonly>
                                 <input type="text" class="form-control has-error" placeholder="terbilang" name="terbilang" ng-model="dataForm.terbilang" readonly>
                                 <span class="help-inline" ng-messages="frmMst.terbilang.$error" ng-show="frmMst.terbilang.$invalid && frmMst.terbilang.$touched">
                                     <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
@@ -245,7 +246,18 @@
                         <hr/>
                         <div class="pull-right">
                             <button type="button" class="btn btn-default" ng-click="toggle('cancel',null)">Cancel</button>
-                            <button type="button" class="btn btn-primary" id="btn-save" ng-click="save(modalstate, idState)" ng-disabled="frmMst.$invalid">Save changes</button>
+                            <button type="button" class="btn btn-primary" id="btn-save" ng-click="save(modalstate, idState)" ng-disabled="frmMst.$invalid">
+                                Save changes
+                            </button>
+                            <button type="button" class="btn btn-primary" id="btn-pFpajak" ng-click="pKwitansi()" ng-disabled="frmMst.$invalid">
+                                Cetak Kwitansi
+                            </button>
+                            <button type="button" class="btn btn-primary" id="btn-pFpajak" ng-click="pFpajak()" ng-disabled="frmMst.$invalid">
+                                Cetak FPajak
+                            </button>
+                            <button type="button" class="btn btn-primary" id="btn-bKwitansi" ng-click="bKwitansi()" ng-disabled="modalstate=='add'">
+                                Batal Kwitansi
+                            </button>
                             <!-- <button type="button" class="btn btn-primary" id="btn-save" ng-click="trace()" ng-disabled="frmMst.$invalid">Save changes</button> -->
                         </div>
                     </div>

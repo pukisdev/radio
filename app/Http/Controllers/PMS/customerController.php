@@ -26,7 +26,8 @@ class customerController extends Controller
     {
         $sort  = 'nama_customer';
 
-        $query = modelMst::with('coa')->where('sys_status_aktif','A');
+        //$query = modelMst::with('coa')->where('sys_status_aktif','A');
+        $query = modelMst::where('sys_status_aktif', 'A');
         
         if(!empty($request->get('coa_id')) and $request->get('coa_id') !== 'undefined'){
             // dd($request->all());
@@ -62,15 +63,17 @@ class customerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(reqMst $request, modelMst $model)
+    public function store(request $request)
     {
          $request->merge(array(
-            'id_customer' => $this->generate_id(),
-            'sys_user_update' => 'ADMIN',
+            'id_customer'       => $this->generate_id(),
+            'sys_user_update'   => 'ADMIN',
         ));
-         // dd($request->all());   
-
-        $model->create($request->all());
+        
+        //dd($request->all());   
+        //DB::enableQueryLog();
+        modelMst::create($request->all());
+        //dd(DB::getQueryLog());
         return $model->find($request->id_customer);
     }
 
@@ -94,6 +97,10 @@ class customerController extends Controller
     public function edit($id)
     {
         //
+        $items = modelMst::find($id);   
+        //dd($items);
+        //die(); 
+        return response($items);
     }
 
     /**
@@ -103,15 +110,15 @@ class customerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(reqMst $request, modelMst $customer)
+    public function update(request $request, $id)
     {
         //
-        // dd($request->all());
-        // $abc->fill($request->all())->save();
-        // return response($abc->find($id));
-        // return response($abc->find($request->id_customer));
-        $customer->fill($request->all())->save();
-        return response($customer->find($request->id_customer));
+
+        /*$customer->fill($request->all())->save();
+        return response($customer->find($request->id_customer));*/
+
+        modelMst::find($id)->update($request->all());
+        return $this->edit($id);
     }
 
     /**
@@ -122,7 +129,9 @@ class customerController extends Controller
      */
     public function destroy($id)
     {        
-        modelMst::where((new modelMst)->getKeyName(), $id)->update(['sys_status_aktif'=>'N']);        
+        DB::enableQueryLog();
+        modelMst::where((new modelMst)->getKeyName(), $id)->update(['sys_status_aktif'=>'N']);  
+        dd(DB::getQueryLog());      
     }
 
      /**

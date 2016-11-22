@@ -1,17 +1,17 @@
 @extends('templates.layouts.ng-gentalella')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-default">
-                <div class="panel-heading"> &nbsp</div>
 
+<div class="container">
+    <div class="row" ng-controller="dataFormController">
+        <div class="col-md-12">
+            <div class="panel panel-default" ng-show="!formTampil">
+                <div class="panel-heading"> &nbsp</div>
                 <div class="panel-body">
                     <div>
                         <h2></h2>
-                        <div  ng-controller="customerController">
 
+                        <div  >
                             <!-- Table-to-load-the-data Part -->
                             <div class="row">
                                 <div class="col-lg-12 margin-tb">
@@ -50,7 +50,7 @@
                                     <!-- <tr  dir-paginate="values in customers | itemsPerPage:5" total-items="totalItems"> -->
                                     <tr  dir-paginate="values in _data | itemsPerPage:5" total-items="totalItems">
                                         <td>[[ values.id_customer ]]</td>
-                                        <td>[[ values.nama_customer ]]</td>
+                                        <td>[[ values.ket_nama ]]. [[ values.nama_customer ]]</td>
                                         <td>[[ values.sys_status_aktif ]]</td>
                                         <td>
                                             <button class="btn btn-default btn-xs btn-detail" ng-click="toggle('edit', values.id_customer)">Edit</button>
@@ -58,28 +58,24 @@
                                         </td>
                                     </tr>
                                 </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td colspan="7">
-                                            <p class="pull-left pagination">Menampilan <strong>[[ table.CurrentItems ]]</strong> Dari <strong>[[ table.TotalItems ]]</strong></p>
-                                            <dir-pagination-controls class="pull-right" on-page-change="pageChanged(newPageNumber)" template-url="/assets/ng/views/etc/dirPagination.html" ></dir-pagination-controls>
-                                        </td>
-                                    </tr>
-                                </tfoot>
                             </table>
-                            <div modal-customer></div>
+                            <div>
+                                <p class="pull-left pagination">Menampilan <strong>[[ table.CurrentItems ]]</strong> Dari <strong>[[ table.TotalItems ]]</strong></p>
+                                <dir-pagination-controls class="pull-right" on-page-change="pageChanged(newPageNumber)" template-url="/assets/ng/views/etc/dirPagination.html" ></dir-pagination-controls>
+                            </div>
+                            <!--<div modal-customer></div>-->
                         </div>
                     </div>
-
-                    <!-- AngularJS Application Scripts -->
-                    <!-- <script src="<?= asset('app/app.js') ?>"></script> -->
-                    <!-- <script src="<?= asset('app/controllers/customer.min.js') ?>"></script> -->
-                    {!! Html::script('assets/ng/others/app.js') !!}
-                    {!! Html::script('assets/ng/controllers/pms/customer.min.js') !!}
-
                 </div>
             </div>
+            <div form-customer></div>
         </div>
     </div>
 </div>
+
+<!-- AngularJS Application Scripts -->
+<!--{!! Html::script('assets/ng/others/app.js') !!}-->
+{!! Html::script('assets/ng/others/angular-1.5.5/angular-sanitize.min.js') !!}
+{!! Html::script('assets/ng/controllers/pms/customer.min.js') !!}
+
 @endsection

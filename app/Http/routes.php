@@ -51,6 +51,7 @@ Route::group(['prefix'=>'mst', 'middleware'=>['menus']], function(){ //show view
 	Route::get('keu/accCoa', 'keu\accCoaController@_index');
 	Route::get('keu/cost_center', 'keu\costCenterController@_index');
 	Route::get('keu/kwitansi', 'keu\kwitansiController@_index');
+	Route::get('keu/bKwitansi/{no_kwitansi}', 'keu\kwitansiController@bKwitansi');
 	Route::get('sdm/pegawai', 'sdm\pegawaiMstController@_index');
 });
 
@@ -64,6 +65,8 @@ Route::group(['prefix'=>'trx', 'middleware'=>['menus']], function(){ //show view
 
 Route::group(['prefix'=>'rpt'], function(){ //show view
 	Route::get('{fileType}/pms/customer', 'PMS\customerController@_RekapCustomer');
+	Route::get('keu/pKwitansi/{no_kwitansi}', 'keu\kwitansiController@pKwitansi');
+	Route::get('keu/pFpajak/{no_kwitansi}', 'keu\kwitansiController@pFpajak');
 });
 
 
@@ -77,6 +80,8 @@ Route::group(['prefix'=>'pms'], function(){ //return dalam bentuk json
 	Route::resource('pnwrMateri', 'PMS\pnwrMateriController');
 	Route::resource('fpMst', 'PMS\fpMstController');
 	Route::resource('fpDet', 'PMS\fpDetController');
+	Route::resource('ketCustomer', 'pms\ketCustomerController');
+	Route::resource('jnsKlien', 'pms\jnsKlienController');
 	Route::put('pnwrMst/spks/{pnwrMst}', 'PMS\pnwrMstController@_saveSpks');
 	// Route::get('order/spks', 'PMS\')
 });

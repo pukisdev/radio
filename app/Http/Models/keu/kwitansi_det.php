@@ -29,6 +29,11 @@ class kwitansi_det extends Model
 	    return $this->belongsTo('App\Http\Models\pms\pms_fp_mst','f_fp','id_fp');
 	}
 
+    public function pms_fp_det()
+    {
+        return $this->belongsTo('App\Http\Models\pms\pms_fp_det','f_fp','f_fp');
+    }
+
     public function fa_fpajak_mst_nomor(){
         return $this->hasMany('App\Http\Models\keu\kwitansi_det', 'nomor_surat_pajak', 'f_sk_fpajak');
     }

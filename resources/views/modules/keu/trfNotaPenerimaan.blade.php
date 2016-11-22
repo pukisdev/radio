@@ -1,9 +1,11 @@
+<!-- extends('layouts.app-angularjs') -->
 @extends('templates.layouts.ng-gentalella')
 
 @section('content')
 
 <div class="container">
     <div class="row" ng-controller="dataFormController">
+        <!-- <div class="col-md-10 col-md-offset-1"> -->
         <div class="col-md-12">
             <div class="panel panel-default" ng-show="!formTampil">
                 <div class="panel-heading"> &nbsp</div>
@@ -16,7 +18,7 @@
                             <div class="row">
                                 <div class="col-lg-12 margin-tb">
                                     <div class="pull-left">
-                                        <h2>Form Pembayaran</h2>
+                                        <h2>Posting Nota Penerimaan</h2>
                                     </div>
                                     <div class="pull-right" style="padding-top:30px">
                                         <div class="box-tools" style="display:inline-table">
@@ -35,10 +37,9 @@
                                         <tr>
                                             <th>No Bukti</th>
                                             <th>Tgl Cetak</th>
-                                            <th>Nilai</th>
-                                            <th>Posting</th>
                                             <th>Keterangan</th>
-                                            <th><button id="btn-add" class="btn btn-primary btn-xs" ng-click="toggle('add', 0)">Buat Faktur Baru</button></th>
+                                            <th>Nilai</th>
+                                            <th><button id="btn-add" class="btn btn-primary btn-xs" ng-click="toggle('add', 0)">Buat Baru</button></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -47,7 +48,6 @@
                                             <td>[[ values.no_bukti ]]</td>
                                             <td>[[ values.tgl_cetak.substring(0,10)]]</td>
                                             <td>[[ values.total | currency : 'Rp. ' ]]</td>
-                                            <td>[[ values.posting ]]</td>
                                             <td>[[ values.keterangan ]]</td>
                                             <td>
                                                 <!-- <button class="btn btn-default btn-xs btn-pencil" ng-click="toggle('edit', values.id_fp)">Detil</button> -->
@@ -69,21 +69,29 @@
 
                 </div>
             </div>
-            <div form-pembayaran></div>
+            <div form-setoran-bank></div>
         </div>
+        <!-- <div class="col-md-12" ng-controller="lovProdukController">
+            <div lov-produk></div>
+        </div> -->
+        <!-- <div class="col-md-12" ng-controller="lovCustomerController"> -->
+            <!-- <div lov-customer></div> -->
+        <!-- </div> -->
+        <!-- <div class="col-md-12" ng-controller="lovTayangController"> -->
             <lov-modal></lov-modal>
+        <!-- </div> -->
     </div>
 </div>
                     <!-- AngularJS Application Scripts -->
 {!! Html::script('assets/ng/others/angular-1.5.5/angular-sanitize.min.js') !!}
-{!! Html::script('assets/ng/controllers/keu/pembayaranMst.min.js') !!}
+{!! Html::script('assets/ng/controllers/keu/setoranBankMst.min.js') !!}
 {!! Html::script('assets/ng/controllers/keu/lovBank.min.js') !!}
-{!! Html::script('assets/ng/controllers/keu/lovJnsTrans.min.js') !!}
+{!! Html::script('assets/ng/controllers/keu/lovSeri.min.js') !!}
 {!! Html::script('assets/ng/controllers/keu/lovAccCoa.min.js') !!}
-{!! Html::script('assets/ng/controllers/keu/lovNpb.min.js') !!}
 {!! Html::script('assets/ng/controllers/keu/lovCostCenter.min.js') !!}
+<!--{!! Html::script('assets/ng/controllers/keu/lovNpb.min.js') !!}
 {!! Html::script('assets/ng/controllers/keu/lovApCst.min.js') !!}
-{!! Html::script('assets/ng/controllers/acc/lovCoa.min.js') !!}
+{!! Html::script('assets/ng/controllers/acc/lovCoa.min.js') !!} -->
 <!-- {!! Html::script('assets/ng/controllers/pms/lovPnwr.min.js') !!} -->
 
 @endsection

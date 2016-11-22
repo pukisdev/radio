@@ -57,6 +57,7 @@ class Menus
                 break;
                 case 2 :
                     if(!empty($subroot)){
+                      // dd($listMenu[$key+1]);
                         if((!empty($listMenu[$key+1])) and $listMenu[$key+1]->root == $value->id_menu){   
                            $subsubroot = $subroot->add($value->nama_menu)->prepend('<i class="fa '.$value->icon.'"></i>');
                         }
