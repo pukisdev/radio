@@ -1,11 +1,9 @@
-<!-- extends('layouts.app-angularjs') -->
 @extends('templates.layouts.ng-gentalella')
 
 @section('content')
 
 <div class="container">
     <div class="row" ng-controller="dataFormController">
-        <!-- <div class="col-md-10 col-md-offset-1"> -->
         <div class="col-md-12">
             <div class="panel panel-default" ng-show="!formTampil">
                 <div class="panel-heading"> &nbsp</div>
@@ -73,15 +71,7 @@
             </div>
             <div form-pembayaran></div>
         </div>
-        <!-- <div class="col-md-12" ng-controller="lovProdukController">
-            <div lov-produk></div>
-        </div> -->
-        <!-- <div class="col-md-12" ng-controller="lovCustomerController"> -->
-            <!-- <div lov-customer></div> -->
-        <!-- </div> -->
-        <!-- <div class="col-md-12" ng-controller="lovTayangController"> -->
             <lov-modal></lov-modal>
-        <!-- </div> -->
     </div>
 </div>
                     <!-- AngularJS Application Scripts -->

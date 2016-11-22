@@ -11,9 +11,12 @@ class pms_customer_mst extends Model
 	protected $primaryKey 	= 'id_customer';
 	public $incrementing	= false;
 	public $timestamps 		= false;
-	protected $fillable 	= array('id_customer','nama_customer', 'coa_id',
-									'sys_user_update', 'sys_tgl_update', 'sys_status_aktif');
+	protected $fillable 	= array('id_customer', 'group_perusahaan', 'jenis_klien', 'ket_nama', 'nama_customer', 'alamat1', 'alamat2', 'kode_pos', 'kota', 'telepon', 'fax', 'contact_person', 'telp_cp', 'npwp', 'nama_npwp', 'alamat_npwp', 'no_rekening', 'jenis_bayar', 'keterangan_bayar', 'keterangan', 'coa_id', 'sys_user_update', 'sys_tgl_update', 'sys_status_aktif');
 
+
+	public function pms_ket_customer_mst(){
+		$this->belongsTo('App\Http\Models\pms_ket_customer_mst', 'id_keterangan', 'ket_nama');	
+	}
 
 	/**
 	 * @function pnwr_mst dibuat dan dikembangkan oleh rianday.
@@ -22,7 +25,7 @@ class pms_customer_mst extends Model
 	 */
 	public function pnwr_mst()
 	{
-	    return $this->hasMany('App\Http\Models\pms\pms_pnwr_mst','f_customer','id_customer');
+	    $this->hasMany('App\Http\Models\pms_pnwr_mst','f_customer','id_customer');
 	}
 
 	/**
@@ -32,7 +35,7 @@ class pms_customer_mst extends Model
 	 */
 	public function fp_mst()
 	{
-	    return $this->hasMany('App\Http\Models\pms\pms_fp_mst');
+	    $this->hasMany('App\Http\Models\pms_fp_mst');
 	}
 
 
@@ -43,17 +46,6 @@ class pms_customer_mst extends Model
 	 */
 	public function spks()
 	{
-	    return $this->hasMany('App\Http\Models\hkm\hkm_spks_mst','f_customer','id_customer');
-	}
-
-
-	/**
-	 * @function coa dibuat dan dikembangkan oleh rianday.
-	 * @depok
-	 * @return true
-	 */
-	public function coa()
-	{
-	    return $this->belongsTo('App\Http\Models\acc\acc_coas_mst','coa_id','coa_id');
+	    $this->hasMany('App\Http\Models\hkm_spks_mst','f_customer','id_customer');
 	}
 }

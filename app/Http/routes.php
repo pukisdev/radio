@@ -80,6 +80,8 @@ Route::group(['prefix'=>'pms'], function(){ //return dalam bentuk json
 	Route::resource('pnwrMateri', 'PMS\pnwrMateriController');
 	Route::resource('fpMst', 'PMS\fpMstController');
 	Route::resource('fpDet', 'PMS\fpDetController');
+	Route::resource('ketCustomer', 'pms\ketCustomerController');
+	Route::resource('jnsKlien', 'pms\jnsKlienController');
 	Route::put('pnwrMst/spks/{pnwrMst}', 'PMS\pnwrMstController@_saveSpks');
 	// Route::get('order/spks', 'PMS\')
 });
