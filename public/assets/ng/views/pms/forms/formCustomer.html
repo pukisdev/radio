@@ -1,0 +1,224 @@
+<script>
+    $.fn.datepicker.defaults.format = "yyyy-mm-dd   ";
+</script>
+    <div class="panel panel-default" id="idModalMst" ng-show="formTampil">
+        <div class="panel-heading"> &nbsp</div>
+        <div class="panel-body">
+            <!-- Table-to-load-the-data Part -->
+            <div class="row">
+                <div class="col-lg-12 margin-tb">
+                    <div class="pull-left">
+                        <h2>Form Customer</h2>
+                    </div>
+                    <div class="pull-right" style="padding-top:30px">
+                        <div class="box-tools" style="display:inline-table">
+                        </div>
+                        <!-- <button class="btn btn-success" data-toggle="modal" data-target="#create-user">Create New</button> -->
+                    </div>
+                </div>
+            </div>
+            <div>
+                <form name="frmMst" class="form-horizontal" novalidate="">
+                    <div class="col-md-6">
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.id_customer.$invalid && frmMst.id_customer.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Id Customer</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Otomatis" name="id_customer" ng-model="dataForm.id_customer" readonly="true">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.ket_nama.$invalid && frmMst.ket_nama.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Ket. Customer</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" placeholder="Tipe Bayar" name="ket_nama" ng-model="dataForm.ket_nama" ng-required="true">
+                                    <option value>Pilih</option>
+                                    <option ng-repeat="ket in dataKetNama" value="{{ ket.id_keterangan }}"> {{ ket.nama_keterangan }} </option>
+                                    <!--
+                                    <option value="T">Tunai</option>
+                                    <option value="C">Cheque in Hand</option>
+                                    -->
+                                </select>
+                                <span class="help-inline" ng-messages="frmMst.ket_nama.$error" ng-show="frmMst.ket_nama.$invalid && frmMst.ket_nama.$touched">
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.nama_customer.$invalid && frmMst.nama_customer.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Nama Customer</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" placeholder="Nama Customer" name="nama_customer" ng-model="dataForm.nama_customer">
+                                <span class="help-inline" ng-messages="frmMst.nama_customer.$error" ng-show="frmMst.nama_customer.$invalid && frmMst.nama_customer.$touched">
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.group_perusahaan.$invalid && frmMst.group_perusahaan.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Group Perusahaan</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" placeholder="Tipe Bayar" name="group_perusahaan" ng-model="dataForm.group_perusahaan" ng-required="true">
+                                    <option value> Pilih </option>
+                                    <option value="T">Tidak</option>
+                                    <option value="Y">Ya</option>
+                                </select>
+                                <span class="help-inline" ng-messages="frmMst.group_perusahaan.$error" ng-show="frmMst.group_perusahaan.$invalid && frmMst.group_perusahaan.$touched">
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.jenis_klien.$invalid && frmMst.jenis_klien.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Jenis Klien</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" placeholder="Tipe Bayar" name="jenis_klien" ng-model="dataForm.jenis_klien" ng-required="true">
+                                    <option value> Pilih </option>
+                                    <option ng-repeat="jns in dataJnsKlien" value="{{ jns.id_jenis_klien }}"> {{ jns.keterangan }} </option>
+                                    <!--
+                                    <option value="T">Tunai</option>
+                                    <option value="C">Cheque in Hand</option>
+                                    -->
+                                </select>
+                                <span class="help-inline" ng-messages="frmMst.jenis_klien.$error" ng-show="frmMst.jenis_klien.$invalid && frmMst.jenis_klien.$touched">
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.alamat1.$invalid && frmMst.alamat1.$touched }">
+                            <label for="inputEmail3" class="col-sm-1 control-label">Alamat</label>
+                            <div class="col-sm-11">
+                                <rte ng-model="dataForm.alamat1" required></rte>
+                                <span class="help-inline" ng-messages="frmMst.alamat1.$error" ng-show="frmMst.alamat1.$invalid && frmMst.alamat1.$touched">
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.kota.$invalid && frmMst.kota.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Kota</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Kota" name="kota" ng-model="dataForm.kota" ng-required="true">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.kode_pos.$invalid && frmMst.kode_pos.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Kodepos</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Kodepos" name="kode_pos" ng-model="dataForm.kode_pos" ng-required="true">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.telepon.$invalid && frmMst.telepon.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Telepon</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Telepon" name="telepon" ng-model="dataForm.telepon" ng-required="true">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.coa_id.$invalid && frmMst.coa_id.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Coa Id</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Coa Id" name="coa_id" ng-model="dataForm.coa_id">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.contact_person.$invalid && frmMst.contact_person.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Contact Person</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Contact Person" name="contact_person" ng-model="dataForm.contact_person">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.telp_cp.$invalid && frmMst.telp_cp.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Telepon CP</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Telepon CP" name="telp_cp" ng-model="dataForm.telp_cp">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.no_rekening.$invalid && frmMst.no_rekening.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">No Rekening</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="No Rekening" name="no_rekening" ng-model="dataForm.no_rekening">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.npwp.$invalid && frmMst.npwp.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">NPWP</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="NPWP" name="npwp" ng-model="dataForm.npwp" ng-required="true">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.nama_npwp.$invalid && frmMst.nama_npwp.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Nama NPWP</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Nama NPWP" name="nama_npwp" ng-model="dataForm.nama_npwp" ng-required="true">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <div class="col-md-12">    
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.alamat_npwp.$invalid && frmMst.alamat_npwp.$touched }">
+                            <label for="inputEmail3" class="col-sm-1 control-label">Alamat NPWP</label>
+                            <div class="col-sm-11">
+                                <rte ng-model="dataForm.alamat_npwp" required></rte>
+                                <span class="help-inline" ng-messages="frmMst.alamat_npwp.$error" ng-show="frmMst.alamat_npwp.$invalid && frmMst.alamat_npwp.$touched">
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.keterangan.$invalid && frmMst.keterangan.$touched }">
+                            <label for="inputEmail3" class="col-sm-1 control-label">Keterangan Lain</label>
+                            <div class="col-sm-11">
+                                <rte ng-model="dataForm.keterangan" required></rte>
+                                <span class="help-inline" ng-messages="frmMst.keterangan.$error" ng-show="frmMst.keterangan.$invalid && frmMst.keterangan.$touched">
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <hr/>
+                        <div class="pull-right">
+                            <button type="button" class="btn btn-default" ng-click="toggle('cancel',null)">Cancel</button>
+                            <button type="button" class="btn btn-primary" id="btn-save" ng-click="save(modalstate, idState)" ng-disabled="frmMst.$invalid">Save changes</button>
+                            <!-- <button type="button" class="btn btn-primary" id="btn-save" ng-click="trace()" ng-disabled="frmMst.$invalid">Save changes</button> -->
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>

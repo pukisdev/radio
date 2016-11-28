@@ -13,6 +13,8 @@ use App\Http\Models\keu\fa_fpajak_mst_nomor as modelFPajak;
 use Carbon;
 use DB;
 use Terbilang;
+use Excel;
+use PDF;
 
 class kwitansiController extends Controller
 {
@@ -96,7 +98,7 @@ class kwitansiController extends Controller
         $request->offsetSet("mengetahui", $request->mengetahui);
         $request->offsetSet("kode_customer", $request->kode_customer);
         $request->offsetSet("nama_customer", $request->nama_customer);
-        $request->offsetSet("cetak", '');
+        $request->offsetSet("cetak", '0');
         $request->offsetSet("status_posting", 'N');
         $request->offsetSet("sys_user_update", '');
         $request->offsetSet("sys_tgl_update", Carbon::now());
@@ -172,7 +174,7 @@ class kwitansiController extends Controller
         $request->offsetSet("sys_tgl_update", Carbon::now());
         $request->offsetSet("no_kwitansi_lama", !empty($request->no_kwitansi_lama) ? $request->no_kwitansi_lama : '');
 
-        //modelMst::find(str_replace('_', '/', $id))->update($request->except(['det']));
+        modelMst::find($id)->update($request->except(['det']));
         
         $this->delDetail($id);
         $this->insDetail($request, $id);
@@ -227,4 +229,65 @@ class kwitansiController extends Controller
     public function delDetail($id){
         modelDet::where('f_kwitansi', $id)->delete();
     }
+
+    public function pKwitansi(Request $req){
+        if(!empty($req->no_kwitansi)){
+            modelMst::find($req->no_kwitansi)->update(['cetak' => 1]);
+
+            $hasil = modelMst::with('sdm_pegawai_mst')->where('no_kwitansi',$req->no_kwitansi)->first();
+            $output = 'pdf';            
+            if($output == 'pdf'){
+                $pdf = PDF::loadView('modules.keu.report.cetakKwitansi', ['vData' => $hasil])->setPaper('a4');//->setOrientation('landscape');
+                return $pdf->download('kwitansi.pdf');
+            }
+            else{
+                Excel::create('Daftar Voucher', function($excel) use ($hasil) {
+                $excel->sheet('Excel sheet', function($sheet) use ($hasil) {
+                    $sheet->loadView('modules.keu.report.cetakKwitansi')->with('vData', $hasil)->with('vDet', $det);
+                });
+                $excel->setTitle('Daftar Voucher');     
+                })->export('xls'); 
+            }
+        }
+    }
+
+    public function pFpajak(Request $req){
+        if(!empty($req->no_kwitansi)){
+            modelMst::find($req->no_kwitansi)->update(['cetak' => 1]);
+
+            /*$hasil = modelMst::with('kwitansi_det.pms_fp_mst.pms_fp_det')->where('no_kwitansi',$req->no_kwitansi)->get();*/
+            $hasil = modelMst::select('no_kwitansi','b.f_fp','b.depan_fpajak','b.no_fpajak','e.nama_customer', 'e.alamat1', 'e.npwp', 'c.keterangan', 'sum(d.nilai_hpp) nilai_hpp', 'sum(d.nilai_potongan) nilai_potongan', 'sum(d.nilai_ppn) nilai_ppn')
+                            ->join('bi_keu.kwitansi_det b', 'no_kwitansi', '=', 'b.f_kwitansi')
+                            ->join('sys_radio.pms_fp_mst c', 'c.id_fp', '=', 'b.f_fp')
+                            ->join('sys_radio.pms_fp_det d', 'c.id_fp', '=', 'd.f_fp')
+                            ->join('sys_radio.pms_customer_mst e', 'e.id_customer', '=','kode_customer')
+                            ->where('no_kwitansi',$req->no_kwitansi)
+                            ->groupBy('no_kwitansi','b.f_fp','b.depan_fpajak', 'b.no_fpajak','e.nama_customer', 'e.alamat1', 'e.npwp', 'c.keterangan')
+                            ->get();
+            
+            $hasil2 = DB::table('sys_radio.sdm_perusahaan_mst')
+                            ->where('id_perusahaan', '=', 'PST')
+                            ->first();
+
+            $output = 'pdf';            
+            if($output == 'pdf'){
+                $pdf = PDF::loadView('modules.keu.report.cetakFpajak', ['vData' => $hasil, 'vData2' => $hasil2])->setPaper('a4');//->setOrientation('landscape');
+                return $pdf->download('fPajak.pdf');
+            }
+            else{
+                Excel::create('Daftar Voucher', function($excel) use ($hasil) {
+                $excel->sheet('Excel sheet', function($sheet) use ($hasil) {
+                    $sheet->loadView('modules.keu.report.cetakFpajak')->with('vData', $hasil)->with('vDet', $det);
+                });
+                $excel->setTitle('Daftar Voucher');     
+                })->export('xls'); 
+            }
+        }
+    }
+
+    public function bKwitansi($id){
+        modelDet::where('f_kwitansi', $id)->update(['sys_status_aktif' => 'N']);
+        modelMst::find($id)->update(['sys_status_aktif' => 'N']);
+    }
+
 }
