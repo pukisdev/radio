@@ -15,30 +15,11 @@ use Validator;
 
 class transferNoBuktiController extends Controller
 {
-    var $allowedTransfer;
-    // /**
-    //  * Display a listing of the resource.
-    //  *
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function index(Request $request)
-    // {
-    //     //
-    //     if($request->get('search')){
-    //         $items = modelMst::where("no_bukti", "LIKE", "%".$request->get('search')."%")
-    //                  //->where("status_aktif","=","A")
-    //                  ->orderBy('tanggal','desc')->paginate(5);      
-    //     }else{
-    //       //$items = modelMst::where("status_aktif","=","A")->paginate(5);
-    //       $items = modelMst::orderBy('tanggal','desc')->paginate(5);
-    //     }
-    //     // dd($items);
-    //     return response($items);
-    // }
+    private $allowedTransfer;
 
-    function __construct()
+    public function __construct()
     {
-        $this->$allowedTransfer = false;
+        $this->allowedTransfer = false;
     }
 
     /**
@@ -66,22 +47,28 @@ class transferNoBuktiController extends Controller
      */
     public function transfer(Request $request)
     {
-
         $periode = $request->bulan.'/'.$request->tahun;
         $this->cancelArGl($periode);
-        $this->postingGPenerimaanDua($periode);
+        $this->postingGlPenerimaan($periode);
         $this->balancingFaktur($periode);
+
+        return 'what?';
     }
  
 
 
     /**
-     * @function postingGPenerimaanDua dibuat dan dikembangkan oleh rianday.
+     * @function postingGPenerimaan dibuat dan dikembangkan oleh rianday.
      * @depok
      * @return true
      */
-    public function postingGPenerimaanDua($periode)
+    private function postingGlPenerimaan($periode)
+    // private function postingGlPenerimaan(Request $request)//($periode)
     {
+        $today = Carbon::now();
+
+        DB::enableQueryLog();
+        // $periode = $request->periode;
         // CURSOR C_NP_MST IS   
         // select a.lks,
         //       a.no_bukti,
@@ -90,11 +77,12 @@ class transferNoBuktiController extends Controller
         //       a.keterangan
         // from     bi_keu.fa_penerimaan_mst a
         // where  a.tgl_terima between trunc(:main.periode,'mm') and last_day(:main.periode);
-        
         $data['cNpMst'] = DB::table('bi_keu.fa_penerimaan_mst a')
-                            ->select(DB:raw('a.lks, a.no_bukti, a.tgl_terima,nvl(a.total,0) total, keterangan'))
-                            ->whereRaw("tgl_terima between trunc(to_date('".$periode."','mm/yyyy'),'MM') and last_day(to_date('".$periode."','mm/yyyy'))");
+                            ->select(DB::raw('a.lks, a.no_bukti, a.tgl_terima,nvl(a.total,0) total, keterangan, jenis_bukti'))
+                            ->whereRaw("tgl_terima between trunc(to_date('".$periode."','mm/yyyy'),'MM') and last_day(to_date('".$periode."','mm/yyyy'))")
+                            ->get();
 
+        // dd(DB::getQueryLog());
         // CURSOR C_NP_DET IS   
         // SELECT A.NO_BUKTI,
         //       A.COA_ID,
@@ -106,11 +94,11 @@ class transferNoBuktiController extends Controller
         // FROM     BI_KEU.FA_PENERIMAAN_MST B,BI_KEU.FA_PENERIMAAN_JURNAL_VIEW A
         // WHERE    B.NO_BUKTI = A.NO_BUKTI 
         // AND    B.TGL_TERIMA BETWEEN TRUNC(:MAIN.PERIODE,'MM') AND LAST_DAY(:MAIN.PERIODE);
-
         $data['cNpDet'] = DB::table('bi_keu.fa_penerimaan_mst b')
                             ->join('bi_keu.fa_penerimaan_jurnal_view a','b.no_bukti','=','a.no_bukti')
                             ->select('a.no_bukti','a.coa_id','a.currency_id','a.tipe','a.nilai','b.lks','a.keterangan')
-                            ->whereRaw("b.tgl_terima between trunc(to_date('".$periode."','mm/yyyy'),'MM') and last_day(to_date('".$periode."','mm/yyyy'))");
+                            ->whereRaw("b.tgl_terima between trunc(to_date('".$periode."','mm/yyyy'),'MM') and last_day(to_date('".$periode."','mm/yyyy'))")
+                            ->get();
  
         // CURSOR C_KAR IS   
         // SELECT NO_BUKTI,
@@ -122,9 +110,10 @@ class transferNoBuktiController extends Controller
         //             TGL_CETAK
         // FROM   BI_KEU.FA_KARTU_PIUTANG_BI_VIEW A
         // WHERE  A.TGL_CETAK BETWEEN TRUNC(:MAIN.PERIODE,'MM') AND LAST_DAY(:MAIN.PERIODE);
-        $data['kar'] = DB::table('bi_keu.fa_kartu_piutang_bi_view a')
+        $data['cKar'] = DB::table('bi_keu.fa_kartu_piutang_bi_view a')
                         ->select('no_bukti','coa_id','no_faktur','currency_id','keterangan','nilai_bayar','tgl_cetak')
-                        ->whereRaw("tgl_cetak between trunc(to_date('".$periode."','mm/yyyy'),'MM') and last_day(to_date('".$periode."','mm/yyyy'))");
+                        ->whereRaw("tgl_cetak between trunc(to_date('".$periode."','mm/yyyy'),'MM') and last_day(to_date('".$periode."','mm/yyyy'))")
+                        ->get();
     
 
 // CURSOR C_KARTU_HUTANG IS   
@@ -137,8 +126,11 @@ class transferNoBuktiController extends Controller
 //                     TGL_TERIMA
 //            FROM   BI_KEU.FA_KARTU_HUTANG_PENERIMAAN_V A
 //            WHERE  A.TGL_TERIMA BETWEEN TRUNC(:MAIN.PERIODE,'MM') AND LAST_DAY(:MAIN.PERIODE);
-        $data['cKartuHutang'] = DB::table('bi_keu.fa_kartu_hutang_penerimaan_v')      
-     
+        $data['cKartuHutang'] = DB::table('bi_keu.fa_kartu_hutang_penerimaan_v')
+                        ->select('no_bukti','coa_id','no_invoice','currency_id','keterangan','nilai_bayar','tgl_terima')
+                        ->whereRaw("tgl_terima between trunc(to_date('".$periode."','mm/yyyy'),'MM') and last_day(to_date('".$periode."','mm/yyyy'))")
+                        ->get();
+
 // CURSOR C_FAK IS   
 //        SELECT TRIM(A.NO_FAKTUR) NO_FAKTUR,
 //               A.CURRENCY_ID,
@@ -148,50 +140,304 @@ class transferNoBuktiController extends Controller
 //         AND   B.TGL_TERIMA BETWEEN TRUNC(:MAIN.PERIODE,'MM') AND LAST_DAY(:MAIN.PERIODE)
 //         GROUP BY A.NO_FAKTUR,
 //                      A.CURRENCY_ID;
-                       
+        $data['cFak'] = DB::table('bi_keu.fa_penerimaan_ar_det a')
+                      ->select(DB::raw("trim(a.no_faktur) no_faktur, a.currency_id, sum(a.nilai_bayar) nilai_bayar"))
+                      ->join('bi_keu.fa_penerimaan_mst b','a.no_bukti','=','b.no_bukti')                       
+                      ->whereRaw("tgl_terima between trunc(to_date('".$periode."','mm/yyyy'),'MM') and last_day(to_date('".$periode."','mm/yyyy'))")
+                      ->groupBy('a.no_faktur','a.currency_id')
+                      ->get();
      
-CURSOR C_SAL IS   
-       SELECT B.COA_CUSTOMER,
-              SUM(B.NILAI_BAYAR) TOTAL,
-              'K'||TO_CHAR(TO_NUMBER(TO_CHAR(A.TGL_TERIMA,'mm'))),
-              TO_CHAR(A.TGL_TERIMA,'yyyy')
-        FROM    BI_KEU.FA_PENERIMAAN_MST A,BI_KEU.FA_PENERIMAAN_AR_DET B
-        WHERE A.NO_BUKTI = B.NO_BUKTI --AND
-              --A.NO_BUKTI = XNO_BUKTI;
-              --  AND B.COA_CUSTOMER  ='1.1.03.06.I0005'
-        AND   A.TGL_TERIMA BETWEEN TRUNC(:MAIN.PERIODE,'MM') AND LAST_DAY(:MAIN.PERIODE)
-        --AND   TO_CHAR(A.TGL_TERIMA,'MM/YYYY') = TO_CHAR(:MAIN.PERIODE,'YYYY')  --(A.TGL_TERIMA BETWEEN :MAIN.FROM_DATE AND :MAIN.TO_DATE) 
-        --AND   A.POSTING LIKE '0'
-        AND     B.COA_CUSTOMER IS NOT NULL
-        GROUP BY B.COA_CUSTOMER,
-                 'K'||TO_CHAR(TO_NUMBER(TO_CHAR(A.TGL_TERIMA,'mm'))),
-                 TO_CHAR(A.TGL_TERIMA,'yyyy');            
+// CURSOR C_SAL IS   
+//        SELECT B.COA_CUSTOMER,
+//               SUM(B.NILAI_BAYAR) TOTAL,
+//               'K'||TO_CHAR(TO_NUMBER(TO_CHAR(A.TGL_TERIMA,'mm'))),
+//               TO_CHAR(A.TGL_TERIMA,'yyyy')
+//         FROM    BI_KEU.FA_PENERIMAAN_MST A,BI_KEU.FA_PENERIMAAN_AR_DET B
+//         WHERE A.NO_BUKTI = B.NO_BUKTI --AND
+//         AND   A.TGL_TERIMA BETWEEN TRUNC(:MAIN.PERIODE,'MM') AND LAST_DAY(:MAIN.PERIODE)
+//         AND     B.COA_CUSTOMER IS NOT NULL
+//         GROUP BY B.COA_CUSTOMER,
+//                  'K'||TO_CHAR(TO_NUMBER(TO_CHAR(A.TGL_TERIMA,'mm'))),
+//                  TO_CHAR(A.TGL_TERIMA,'yyyy');            
+        $data['cSal'] = DB::table('bi_keu.fa_penerimaan_mst a')
+                        ->join('bi_keu.fa_penerimaan_ar_det b','a.no_bukti','=','b.no_bukti')
+                        ->select(DB::raw("b.coa_customer, sum(b.nilai_bayar) total, 'K'||to_char(to_number(to_char(a.tgl_terima,'mm'))) jenis, to_char(a.tgl_terima,'yyyy') tahun"))
+                        ->whereRaw("tgl_terima between trunc(to_date('".$periode."','mm/yyyy'),'MM') and last_day(to_date('".$periode."','mm/yyyy'))")
+                        ->whereNotNull('b.coa_customer')
+                        ->groupBy(DB::raw("b.coa_customer, 'K'||to_char(to_number(to_char(a.tgl_terima,'mm'))),to_char(a.tgl_terima,'yyyy')"))
+                        ->get();
 
-                         
-CURSOR C_SET_MST IS                     
-       SELECT A.NO_BUKTI,
-              A.TGL_CETAK,
-              A.JUMLAH,
-              A.KETERANGAN
-         FROM   FA_SETORAN_BANK_MST A
-         WHERE  A.TGL_CETAK BETWEEN TRUNC(:MAIN.PERIODE,'MM') AND LAST_DAY(:MAIN.PERIODE);
-         --WHERE TO_CHAR(A.TGL_CETAK,'MM/YYYY') = TO_CHAR(:MAIN.PERIODE,'YYYY');   --(A.TGL_CETAK BETWEEN :MAIN.FROM_DATE AND :MAIN.TO_DATE) 
-       --AND A.POSTING LIKE '0';
-                
-CURSOR C_SET_DET IS  
-       SELECT B.COA_ID,
-                    B.NO_BUKTI,
-                    B.DEBET,
-                    B.KREDIT,
-                    B.KETERANGAN
-           FROM     FA_SETORAN_BANK_MST A, FA_SETORAN_BANK_JURNAL_DET B
-             WHERE  A.NO_BUKTI =B.NO_BUKTI
-             AND    A.TGL_CETAK BETWEEN TRUNC(:MAIN.PERIODE,'MM') AND LAST_DAY(:MAIN.PERIODE);
-             --AND      TO_CHAR(A.TGL_CETAK,'MM/YYYY') = TO_CHAR(:MAIN.PERIODE,'YYYY');  --(A.TGL_CETAK BETWEEN :MAIN.FROM_DATE AND :MAIN.TO_DATE) 
-         --AND      A.POSTING LIKE '0';
-     
+        // dd(DB::getQueryLog());                 
+// CURSOR C_SET_MST IS                     
+//        SELECT A.NO_BUKTI,
+//               A.TGL_CETAK,
+//               A.JUMLAH,
+//               A.KETERANGAN
+//          FROM   FA_SETORAN_BANK_MST A
+//          WHERE  A.TGL_CETAK BETWEEN TRUNC(:MAIN.PERIODE,'MM') AND LAST_DAY(:MAIN.PERIODE);
+
+        $data['cSetMst'] = DB::table('bi_keu.fa_setoran_bank_mst a')
+                        ->select('a.no_bukti','a.tgl_cetak','a.jumlah','a.keterangan')
+                        ->whereRaw("tgl_cetak between trunc(to_date('".$periode."','mm/yyyy'),'MM') and last_day(to_date('".$periode."','mm/yyyy'))")
+                        ->get();
+
+// CURSOR C_SET_DET IS  
+//        SELECT B.COA_ID,
+//                     B.NO_BUKTI,
+//                     B.DEBET,
+//                     B.KREDIT,
+//                     B.KETERANGAN
+//            FROM     FA_SETORAN_BANK_MST A, FA_SETORAN_BANK_JURNAL_DET B
+//              WHERE  A.NO_BUKTI =B.NO_BUKTI
+//              AND    A.TGL_CETAK BETWEEN TRUNC(:MAIN.PERIODE,'MM') AND LAST_DAY(:MAIN.PERIODE);
+        $data['cSetDet'] = DB::table('bi_keu.fa_setoran_bank_mst a')
+                          ->join('bi_keu.fa_setoran_bank_jurnal_det b','a.no_bukti','=','b.no_bukti')
+                          ->select('b.coa_id','b.no_bukti','b.debet','b.kredit','b.keterangan')
+                          ->whereRaw("tgl_cetak between trunc(to_date('".$periode."','mm/yyyy'),'MM') and last_day(to_date('".$periode."','mm/yyyy'))")
+                          ->get();
+        // dd(DB::getQueryLog());
+        // dd($data['cNpMst']);
+
+        foreach ($data['cNpMst'] as $key => $value) {
+            $max_number = DB::table('bi_acc.acc_gl_trans_mst')->max('record_number');
+            $max_number = ($max_number < 0 || is_null($max_number)) ? 1 : $max_number+1;
+            
+            // dd($value);
+            if ($value->jenis_bukti == 'K') {
+              $vjurnal = '01'; 
+            } else if($value->jenis_bukti == 'B'){
+              $vjurnal = '03';
+            } else if($value->jenis_bukti == 'G'){
+              $vjurnal = '05';
+            }
+
+            $vjmlkode = DB::table('bi_acc.acc_gl_trans_mst')
+                        ->where('bukti',$value->no_bukti)
+                        ->where('lks', $value->lks)
+                        ->count('*');
+
+            if($vjmlkode <= 0){
+                DB::table('bi_acc.acc_gl_trans_mst')->insert([
+                    'lks'     => $value->lks, 
+                    'bukti'   => $value->no_bukti, 
+                    'tgl'     => $value->tgl_terima, 
+                    'jurnal'  => $vjurnal,
+                    'tdebet'  => $value->total,
+                    'tkredit' => $value->total,
+                    'posting' => 'N',
+                    'record_number' => $max_number,
+                    'product_id' => 1
+                  ]);
+            } else {
+                DB::table('bi_acc.acc_gl_trans_mst')
+                ->where(['bukti'=>$value->no_bukti, 'lks'=>$value->lks])
+                ->update(
+                  [
+                    'tdebet' => $value->total,
+                    'tkredit' => $value->total
+                  ]
+                );
+            }
+        }                          
 
 
+
+        //---=====================================================
+        //---ISI DETAIL GENERAL LEDGER (TABLE ACC_GL_TRANS_DET)
+        //---===================================================== 
+        // ->select('a.no_bukti','a.coa_id','a.currency_id','a.tipe','a.nilai','b.lks','a.keterangan')
+
+        foreach ($data['cNpDet'] as $key => $value) {
+            $max_number = DB::table('bi_acc.acc_gl_trans_mst')->max('record_number');
+            $max_number = ($max_number < 0 || is_null($max_number)) ? 1 : $max_number+1;
+
+            // dd($value);
+            DB::table('bi_acc.acc_gl_trans_det')->insert([
+              'lks'   => $value->lks,
+              'rek'   => $value->coa_id,
+              'bukti' => $value->no_bukti,
+              'urai'  => $value->keterangan,
+              'dk'    => $value->tipe,
+              'nilai' => $value->nilai,
+              'record_number' => $max_number
+            ]);
+
+
+        }
+
+        // ---=====================================================
+        // ---ISI DETAIL GENERAL LEDGER (TABLE ACC_KARTU_PIUTANG)
+        // ---===================================================== 
+        // ->select('no_bukti','coa_id','no_faktur','currency_id','keterangan','nilai_bayar','tgl_cetak')
+
+        foreach ($data['cKar'] as $key => $value) {
+
+            DB::table('bi_acc.acc_kartu_piutang')->insert([
+                'coa_id'  => $value->coa_id,
+                'tgl'     => $value->tgl_cetak,
+                'no_bukti'=> $value->no_bukti,
+                'dk'      => 'K',
+                'keterangan' => $value->keterangan,
+                'nilai'   => $value->nilai_bayar,
+                'currency'=> $value->currency_id,
+                'nilai_tukar'=> 1,
+                'tipe'    => 4
+            ]);
+
+        }
+
+        //  ---=====================================================
+        // ---ISI DETAIL GENERAL LEDGER (TABLE ACC_SALDO_PIUTANG)
+        // ---===================================================== 
+        // ->select(DB::raw("b.coa_customer, sum(b.nilai_bayar) total, 'K'||to_char(to_number(to_char(a.tgl_terima,'mm'))) jenis, to_char(a.tgl_terima,'yyyy') tahun"))
+
+        $data['salPiutang'] = DB::table('bi_acc.acc_saldo_piutang')
+                              ->select('coa_id','tahun','k1','k2','k3','k4','k5','k6','k7','k8','k9','k10','k11','k12')
+                              ->where('tahun', $today->year)
+                              ->get();
+
+        foreach ($data['cSal'] as $key => $value) {
+            // dd(array_search($value->coa_customer, $data['salPiutang']));
+          $salPiutang_temp = [];
+          // $i = 0;
+          foreach ($data['salPiutang'] as $key2 => $value2) {
+            if($value2->coa_id == $value->coa_customer){
+              $index = $key2;
+              $salPiutang_temp  = $value2;
+              // $i++;
+              // dd($data['salPiutang'][$index]);
+              break;
+            }
+          }
+
+          $k = 0;
+          switch ($value->jenis) {
+            case 'K1':
+              $k = (empty($salPiutang_temp) or is_null($salPiutang_temp->k1)) ? 0 : $salPiutang_temp->k1;
+            break;
+            case 'K2':
+              $k = (empty($salPiutang_temp) or is_null($salPiutang_temp->k2)) ? 0 : $salPiutang_temp->k2;
+            break;
+            case 'K3':
+              $k = (empty($salPiutang_temp) or is_null($salPiutang_temp->k3)) ? 0 : $salPiutang_temp->k3;
+            break;
+            case 'K3':
+              $k = (empty($salPiutang_temp) or is_null($salPiutang_temp->k3)) ? 0 : $salPiutang_temp->k3;
+            break;
+            case 'K4':
+              $k = (empty($salPiutang_temp) or is_null($salPiutang_temp->k4)) ? 0 : $salPiutang_temp->k4;
+            break;
+            case 'K5':
+              $k = (empty($salPiutang_temp) or is_null($salPiutang_temp->k5)) ? 0 : $salPiutang_temp->k5;
+            break;
+            case 'K6':
+              $k = (empty($salPiutang_temp) or is_null($salPiutang_temp->k6)) ? 0 : $salPiutang_temp->k6;
+            break;
+            case 'K7':
+              $k = (empty($salPiutang_temp) or is_null($salPiutang_temp->k7)) ? 0 : $salPiutang_temp->k7;
+            break;
+            case 'K8':
+              $k = (empty($salPiutang_temp) or is_null($salPiutang_temp->k8)) ? 0 : $salPiutang_temp->k8;
+            break;
+            case 'K9':
+              $k = (empty($salPiutang_temp) or is_null($salPiutang_temp->k9)) ? 0 : $salPiutang_temp->k9;
+            break;
+            case 'K10':
+              $k = (empty($salPiutang_temp) or is_null($salPiutang_temp->k10)) ? 0 : $salPiutang_temp->k10;
+            break;
+            case 'K11':
+              $k = (empty($salPiutang_temp) or is_null($salPiutang_temp->k11)) ? 0 : $salPiutang_temp->k11;
+            break;
+            case 'K12':
+              $k = (empty($salPiutang_temp) or is_null($salPiutang_temp->k12)) ? 0 : $salPiutang_temp->k12;
+            break;
+            default:
+              $k=0;
+            break;
+          }
+
+          // echo 'jenis'.$value->jenis.'<br/>';
+          if (DB::table('bi_acc.acc_saldo_piutang')->where(['coa_id'=>$value->coa_customer, 'tahun'=>$today->year])->count() > 0) {          
+            DB::table('bi_acc.acc_saldo_piutang')
+            ->where(['coa_id'=>$value->coa_customer, 'tahun'=>$today->year])
+            ->update([$value->jenis => $k + (is_null($value->total) ? 0 : $value->total)]);
+          } else {
+            DB::table('bi_acc.acc_saldo_piutang')
+            ->insert([
+                'coa_id'=>$value->coa_customer, 
+                'tahun'=>$today->year,
+                'currency'=>'IDR',
+                $value->jenis => $k + (is_null($value->total) ? 0 : $value->total),
+            ]);            
+          }
+            
+        }
+
+
+        // ---=====================================================
+        // ---ISI DETAIL GENERAL LEDGER (TABLE ACC_SETORAN_BANK)
+        // ---===================================================== 
+        // ->select('a.no_bukti','a.tgl_cetak','a.jumlah','a.keterangan')
+
+        foreach ($data['cSetMst'] as $key => $value) {
+          DB::table('bi_acc.acc_gl_trans_mst')
+            ->insert([
+                'lks'     =>  'JAG',
+                'bukti'   =>  $value->no_bukti,
+                'tgl'     =>  $value->tgl_cetak,
+                'jurnal'  =>  '07',
+                'tdebet'  =>  $value->jumlah,
+                'tkredit' =>  $value->jumlah,
+                'posting' =>  'N',
+                // 'record_number'  =>  null,
+                'product_id' => 1,
+              ]);
+        }
+
+          // ---=====================================================
+          // ---ISI DETAIL GENERAL LEDGER (TABLE ACC_SETORAN_BANK_AP_DET)
+          // ---===================================================== 
+          // ->select('b.coa_id','b.no_bukti','b.debet','b.kredit','b.keterangan')
+        
+        foreach ($data['cSetDet'] as $key => $value) {
+          if ($value->debet = 0 && $value->kredit > 0 ) {
+            DB::table('bi_acc.acc_gl_trans_det')
+              ->insert([
+                  'lks'     =>  'JAG',
+                  'rek'     =>  $value->coa_id,
+                  'bukti'   =>  $value->no_bukti,
+                  'urai'    =>  $value->keterangan,
+                  'dk'      =>  'D',
+                  'nilai'  =>  $value->debet,
+                  // 'record_number' => null
+                ]);
+          } else {
+            DB::table('bi_acc.acc_gl_trans_det')
+              ->insert([
+                  'lks'     =>  'JAG',
+                  'rek'     =>  $value->coa_id,
+                  'bukti'   =>  $value->no_bukti,
+                  'urai'    =>  $value->keterangan,
+                  'dk'      =>  'K',
+                  'nilai'  =>  $value->kredit,
+                ]);
+
+          }
+        }
+        // ->select('no_bukti','coa_id','no_invoice','currency_id','keterangan','nilai_bayar','tgl_terima')
+        foreach ($data['cKartuHutang'] as $key => $value) {
+            DB::table('bi_acc.acc_kartu_hutang')->insert([
+                'coa_id'    => $value->coa_id,
+                'tgl'       => $value->tgl_terima,
+                'no_bukti'  => $value->no_bukti,
+                'dk'        => 'D',
+                'keterangan'=> $value->keterangan,
+                'nilai'     => $value->nilai_bayar,
+                'currency'  => $value->currency_id,
+                'nilai_tukar'=> 1,
+                'tipe'      => 4,
+            ]);
+        }
     }
 
     /**
@@ -201,6 +447,8 @@ CURSOR C_SET_DET IS
      */
     private function cancelArGl($periode)
     {        
+        // dd($periode);
+        // DB::enableQueryLog();
           // --******** HAPUS DATA PENERIMAAN KAS BANK PADA G/L *************
         // $sub['bukti'] = DB::table('bi_acc.acc_gl_trans_mst')
         //                 ->select('bukti')
@@ -218,24 +466,27 @@ CURSOR C_SET_DET IS
             })
             ->delete();
 
+
         DB::table('bi_acc.acc_gl_trans_mst')
             ->whereIn('jurnal',['01','03','05','07'])
             ->whereRaw("tgl between trunc(to_date('".$periode."','mm/yyyy'),'MM') and last_day(to_date('".$periode."','mm/yyyy'))")
             ->delete();
 
+        
           // --******** HAPUS DATA PENERIMAAN KAS BANK PADA KARTU PIUTANG *************
         DB::table('bi_acc.acc_kartu_piutang')
-            ->whereIn('DK','K')
+            ->where('DK','K')
             ->whereRaw("SUBSTR(NO_BUKTI,1,2) IN ('BM','KM','GM')")
             ->whereRaw("tgl between trunc(to_date('".$periode."','mm/yyyy'),'MM') and last_day(to_date('".$periode."','mm/yyyy'))")
             ->delete();
-
+        
           // --******** HAPUS DATA PENERIMAAN KAS BANK PADA KARTU HUTANG *************
         DB::table('bi_acc.acc_kartu_hutang')
             ->where('DK','D')
             ->whereRaw("SUBSTR(NO_BUKTI,1,2) IN ('BM','KM','GM')")
             ->whereRaw("tgl between trunc(to_date('".$periode."','mm/yyyy'),'MM') and last_day(to_date('".$periode."','mm/yyyy'))")
             ->delete();
+        // dd(DB::getQueryLog());
 
     }
 
@@ -246,17 +497,18 @@ CURSOR C_SET_DET IS
      * @depok
      * @return true
      */
-    public function balancingFaktur($periode)
+    protected function balancingFaktur($periode)
     {
-        
+        DB::enableQueryLog();
+
     // --************* UPDATE BAYAR MULAI DARI TGL AWAL TAHUN S/D TGL AKHIR BULAN BERSANGKUTAN *******************
         DB::table('bi_acc.acc_faktur_piutang')
             ->whereIn('no_faktur', function($query) use ($periode){
-                $table->distinct('a.no_faktur')
+                $query->select(DB::raw('distinct a.no_faktur'))
                     ->from('bi_keu.fa_penerimaan_ar_det a')
                     ->join('bi_keu.fa_penerimaan_mst b','a.no_bukti','=','b.no_bukti')
                     ->whereRaw("tgl_terima between trunc(to_date('".$periode."','mm/yyyy'),'YYYY') and last_day(to_date('".$periode."','mm/yyyy'))");
-            })->update('bayar',0);
+            })->update(['bayar'=>0]);
 
         // UPDATE BI_ACC.ACC_FAKTUR_PIUTANG
         // SET BAYAR=0
@@ -268,8 +520,8 @@ CURSOR C_SET_DET IS
         // );
         
         DB::table('bi_acc.acc_faktur_piutang')
-            ->whereRaw("tgl_terima between trunc(to_date('".$periode."','mm/yyyy'),'YYYY') and last_day(to_date('".$periode."','mm/yyyy'))")
-            ->update('bayar',0);            
+            ->whereRaw("tgl_faktur between trunc(to_date('".$periode."','mm/yyyy'),'YYYY') and last_day(to_date('".$periode."','mm/yyyy'))")
+            ->update(['bayar'=>0]);            
         // UPDATE BI_ACC.ACC_FAKTUR_PIUTANG
         // SET      BAYAR=0
         // WHERE  TGL_FAKTUR BETWEEN TRUNC(:MAIN.PERIODE,'YYYY') AND LAST_DAY(:MAIN.PERIODE);
@@ -282,7 +534,7 @@ CURSOR C_SET_DET IS
         foreach ($data['faktur_sa'] as $key => $value) {
             DB::table('bi_acc.acc_faktur_piutang')
                 ->where('no_faktur',$value->no_faktur)
-                ->update('bayar',$value->bayar);
+                ->update(['bayar'=>$value->bayar]);
         }            
     // FOR REC IN (SELECT * FROM BI_ACC.ACC_FAKTUR_PIUTANG_SA
     //             WHERE SA_TAHUN =  TO_CHAR(:MAIN.PERIODE,'YYYY')) LOOP
@@ -305,7 +557,7 @@ CURSOR C_SET_DET IS
         foreach ($data['ar_det'] as $key => $value) {
             DB::table('bi_acc.acc_faktur_piutang')
                 ->where('no_faktur',$value->no_faktur)
-                ->update('bayar',DB::raw('nvl(bayar,0) + '.$value->nilai_bayar));
+                ->update(['bayar' => DB::raw('nvl(bayar,0) + '.$value->nilai_bayar)]);
         }            
             // FOR REC_FAKTUR IN (SELECT *
             //                          FROM   BI_KEU.FA_PENERIMAAN_AR_DET
@@ -415,8 +667,9 @@ CURSOR C_SET_DET IS
 
     }
 
-    public function _index(){
-        return view('modules.keu.transferNoBukti');
+    public function _index($jenis){
+        // dd($jenis);
+        return view('modules.keu.transferNoBukti')->with(['jenis'=>$jenis]);
     }
 
 }

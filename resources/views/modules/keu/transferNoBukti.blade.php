@@ -3,6 +3,7 @@
 
 @section('content')
 
+<style> .ng-cloak { display: none !important; } </style>
 <div class="container">
     <div class="row" ng-controller="dataFormController">
         <!-- <div class="col-md-10 col-md-offset-1"> -->
@@ -16,7 +17,7 @@
                             <div class="pull-left">
                                 <!-- <h2>Transfer Nota Penerimaan</h2> -->
                             </div>
-                            <div class="pull-right" style="padding-top:30px">
+                            <div class="pull-right" >
                                 <div class="box-tools" style="display:inline-table">
                                 </div>
                                 <!-- <button class="btn btn-success" data-toggle="modal" data-target="#create-user">Create New</button> -->
@@ -24,6 +25,10 @@
                         </div>
                     </div>
                     <div>
+                    <div class="alert alert-info alert-dismissible fade in" role="alert">
+                        <h4>Transfer {{ ucfirst($jenis) }} </h4>
+                        <input type="hidden" ng-model="jenis" ng-init="jenis = '{{ $jenis }}'">
+                    </div>
                         <form name="frmMst" class="form-horizontal" novalidate="">
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="form-group error" ng-class="{ 'has-error' : frmMst.bulan.$invalid && frmMst.bulan.$touched }">
@@ -118,10 +123,19 @@
                                     </div>
                                 </div> <!-- end of bukti bermasalah -->
                                 <div ng-show="!btnTransfer">
+
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="alert alert-success alert-dismissible fade in" role="alert" ng-show="successStatusTransfer">
+                                            <strong>Transfer Berhasil </strong>
+                                        </div>
+                                        <div class="alert alert-error alert-dismissible fade in" role="alert" ng-show="errorStatusTransfer">
+                                            <strong>Transfer tidak berhasil, Silahkan hubungi MIS Administrator</strong>
+                                        </div>
+                                    </div>
                                     <div class="col-md-12 col-sm-12 col-xs-12">
                                         <div class="xpanel">
                                             <div class="x_title">
-                                                <h2>Detail Faktur<small class="bg-green"> Tidak ada data yang bermasalah</small></h2>
+                                                <h2>Detail Faktur<small class="bg-green"> Tidak ada data yang bermasalah </small> </h2>
                                                 <div class="clearfix"></div>
                                             </div>
                                             <div class="x_content">

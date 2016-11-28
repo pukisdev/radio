@@ -59,7 +59,7 @@ Route::group(['prefix'=>'trx', 'middleware'=>['menus']], function(){ //show view
 	Route::get('pms/fpMst', 'PMS\fpMstController@_index');
 	Route::get('keu/penerimaan', 'keu\penerimaanMstController@_index');
 	Route::get('keu/pembayaran', 'keu\pembayaranMstController@_index');
-	Route::get('keu/transfer_bukti', 'keu\transferNoBuktiController@_index');
+	Route::get('keu/transfer_bukti/{jenis}', 'keu\transferNoBuktiController@_index');
 });
 
 Route::group(['prefix'=>'rpt'], function(){ //show view
@@ -115,7 +115,13 @@ Route::group(['prefix'=>'keu'], function(){
 
 	Route::post('nomor_fpajak/{nomor_fpajak}/edit', 'keu\nomorFPajakController@edit');
 	
-	Route::post('transferNoBukti/cekData', 'keu\transferNoBuktiController@cekData');
+	Route::post('transferPenerimaan/cekData', 'keu\transferNoBuktiController@cekData');
+	Route::post('transferPenerimaan/proses', 'keu\transferNoBuktiController@transfer');
+
+	Route::post('transferPembayaran/cekData', 'keu\transferPembayaranController@cekData');
+	Route::post('transferPembayaran/proses', 'keu\transferPembayaranController@transfer');
+	// Route::get('transferNoBukti/proses', 'keu\transferNoBuktiController@transfer');
+	// Route::get('transferNoBukti/postingGL', 'keu\transferNoBuktiController@postingGlPenerimaanDua');
 
 
 });

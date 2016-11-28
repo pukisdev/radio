@@ -118,12 +118,16 @@ class penerimaanMstController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // dd($request->all());
+        dd($request->all());
         // $no_bukti =  $id;
         DB::enableQueryLog();
         $request->offsetUnset("no_bukti");
+        $temp['tgl_terima'] = \DateTime::createFromFormat('D M d Y H:i:s e+', $request->tgl_terima);
+        // $temp['tgl_cetak']  = \DateTime::createFromFormat('D M d Y H:i:s e+', $request->tgl_cetak);
         $request->offsetSet("tgl_terima", Carbon::parse($request->tgl_terima));
         $request->offsetSet("tgl_cetak", Carbon::parse($request->tgl_cetak));
+        // $request->offsetSet("tgl_terima", $temp['tgl_terima']);
+        // $request->offsetSet("tgl_cetak", $temp['tgl_cetak']);
         $request->offsetSet("terbilang", UcWords(Terbilang::make($request->total, ' Rupiah')));
 
         modelMst::find($id)->update($request->except(['det','jurnal_det','ar_det','ap_det']));

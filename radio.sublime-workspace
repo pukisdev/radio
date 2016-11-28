@@ -4,8 +4,44 @@
 		"selected_items":
 		[
 			[
+				"salPi",
+				"salPiutang_temp"
+			],
+			[
+				"currne",
+				"currency_id"
+			],
+			[
+				"acc_gl_",
+				"acc_gl_trans_mst"
+			],
+			[
+				"value",
+				"value2"
+			],
+			[
+				"currenc",
+				"currency_id"
+			],
+			[
+				"acc_gl_trans",
+				"acc_gl_trans_det"
+			],
+			[
+				"jenis",
+				"jenis_bukti"
+			],
+			[
+				"max",
+				"max_number"
+			],
+			[
+				"c",
+				"cNpMst"
+			],
+			[
 				"curren",
-				"CURRENCY_ID"
+				"currency_id"
 			],
 			[
 				"posting",
@@ -308,10 +344,6 @@
 				"base64_encode"
 			],
 			[
-				"jenis",
-				"jenis_bayar"
-			],
-			[
 				"hituga",
 				"hitung_potongan_rp"
 			],
@@ -338,10 +370,6 @@
 			[
 				"reu",
 				"request"
-			],
-			[
-				"value",
-				"value_det"
 			],
 			[
 				"con",
@@ -399,7 +427,15 @@
 			"file": "app/Http/routes.php",
 			"settings":
 			{
-				"buffer_size": 5854,
+				"buffer_size": 5952,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/Http/Middleware/Authenticate.php",
+			"settings":
+			{
+				"buffer_size": 676,
 				"line_ending": "Unix"
 			}
 		},
@@ -407,8 +443,17 @@
 			"file": "app/Http/Controllers/keu/transferNoBuktiController.php",
 			"settings":
 			{
-				"buffer_size": 17782,
+				"buffer_size": 29961,
 				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "BEGIN\n  BEGIN                                 \n  OPEN C_NP_MST;\n  LOOP\n    FETCH C_NP_MST INTO VKODE_PERWAKILAN,\n                        VNO_BUKTI_MST,\n                        VTGL_TERIMA_MST,\n                        VTOTAL_MST,\n                        VKETERANGAN_MST;\n                \n  EXIT WHEN C_NP_MST%NOTFOUND;\n      \n  BEGIN\n       SELECT MAX(NVL(RECORD_NUMBER,0))+1\n       INTO 	VLEDGER_ISI_MST\n       FROM 	BI_ACC.ACC_GL_TRANS_MST;\n       \n       IF VLEDGER_ISI_MST = 0 OR VLEDGER_ISI_MST IS NULL THEN\n              VLEDGER_MST := 1;\n       ELSE\n              VLEDGER_MST := NVL(VLEDGER_ISI_MST,0)+1;\n       END IF;       \n  EXCEPTION\n         WHEN NO_DATA_FOUND THEN VLEDGER_MST := 0;       \n  END;\n  BEGIN\n      SELECT 	DISTINCT A.JENIS_BUKTI \n      INTO 	 	VJENIS_BUKTI\n      FROM 	 	BI_KEU.FA_PENERIMAAN_MST A\n      WHERE   (A.TGL_TERIMA BETWEEN TRUNC(:MAIN.PERIODE,'MM') AND LAST_DAY(:MAIN.PERIODE))\n      --WHERE 	TO_CHAR(A.TGL_TERIMA,'MM/YYYY') = TO_CHAR(:MAIN.PERIODE,'YYYY')  --(A.TGL_TERIMA BETWEEN :MAIN.FROM_DATE AND :MAIN.TO_DATE) \n      AND 		A.NO_BUKTI LIKE VNO_BUKTI_MST;\n\n      IF VJENIS_BUKTI LIKE 'K' THEN\n         VJURNAL := '01';\n      ELSIF\n         VJENIS_BUKTI LIKE 'B' THEN\n         VJURNAL := '03';\n      ELSIF\n         VJENIS_BUKTI LIKE 'G' THEN\n         VJURNAL := '05';\n      END IF;       \n  EXCEPTION\n  		WHEN NO_DATA_FOUND THEN NULL;    	\n  END;\n  \n  BEGIN\n      SELECT COUNT(*)\n      INTO 	 VJMLKODE\n      FROM 	 BI_ACC.ACC_GL_TRANS_MST\n      WHERE  BUKTI = VNO_BUKTI_MST \n      AND		 LKS   = VKODE_PERWAKILAN;\n  EXCEPTION\n      WHEN NO_DATA_FOUND THEN VJMLKODE := 0;\n  END;\n                  \n    IF VJMLKODE = 0 OR VJMLKODE IS NULL THEN          \n         INSERT INTO BI_ACC.ACC_GL_TRANS_MST(LKS,\n                                             BUKTI,\n                                             TGL,\n                                             JURNAL,\n                                             TDEBET,\n                                             TKREDIT,\n                                             POSTING,\n                                             RECORD_NUMBER,\n                                             PRODUCT_ID)\n         VALUES (VKODE_PERWAKILAN,\n                 VNO_BUKTI_MST,\n                 VTGL_TERIMA_MST,\n                 VJURNAL,\n                 VTOTAL_MST,\n                 VTOTAL_MST,\n                 'N',\n                 VLEDGER_MST,\n                 1);--VPROD_ID);\n         COMMIT;\n         CLEAR_MESSAGE;\n         :CONTROL.DISPLAY := 'Proses Untuk Nomor Bukti : '||VNO_BUKTI_MST;\n         SYNCHRONIZE;\n    ELSE\n    		 BEGIN\n	         UPDATE BI_ACC.ACC_GL_TRANS_MST \n	         SET 		TDEBET = VTOTAL_MST,TKREDIT = VTOTAL_MST\n	         WHERE 	BUKTI = VNO_BUKTI_MST \n	         AND    LKS   = VKODE_PERWAKILAN;\n    		 EXCEPTION\n    		 	 WHEN NO_DATA_FOUND THEN NULL;\n    		 END;\n         \n         CLEAR_MESSAGE;\n         :CONTROL.DISPLAY := 'Proses Untuk Nomor Bukti : '||VNO_BUKTI_MST;\n         SYNCHRONIZE;                                  \n    END IF;        \n  END LOOP;\n  CLOSE C_NP_MST;\nEND; \n\n\n                ---=====================================================\n                ---ISI DETAIL GENERAL LEDGER (TABLE ACC_GL_TRANS_DET)\n                ---===================================================== \nBEGIN                                 \n  OPEN C_NP_DET;\n  LOOP\n    FETCH C_NP_DET INTO VNO_BUKTI_DET,\n                        VCOA_ID,\n                        VCURRENCY_ID,\n                        VTIPE,\n                        VNILAI,\n                        VLKS,\n                        VKETERANGAN;\n                        \n  	EXIT WHEN C_NP_DET%NOTFOUND;\n\n  	BEGIN\n    		SELECT 	MAX(NVL(RECORD_NUMBER,0))\n        INTO 		VLEDGER_ISI_DET\n        FROM 		BI_ACC.ACC_GL_TRANS_DET\n        WHERE 	LKS = VLKS;\n        \n        IF VLEDGER_ISI_DET = 0 OR VLEDGER_ISI_DET IS NULL THEN\n        		VLEDGER_DET := 1;\n        ELSE\n        		VLEDGER_DET := NVL(VLEDGER_ISI_DET,0)+1;\n        END IF;\n     EXCEPTION\n     		WHEN NO_DATA_FOUND THEN VLEDGER_DET := 0;       \n     END;\n     \n  	 -- MASUK KE GL TRANSAKSI DEBET DAN KREDIT\n  	 INSERT INTO BI_ACC.ACC_GL_TRANS_DET(LKS,\n                                         REK,\n                                         BUKTI,\n                                         URAI,\n                                         DK,\n                                         NILAI,\n                                         RECORD_NUMBER)\n      VALUES(VLKS,\n             VCOA_ID,\n             VNO_BUKTI_DET,\n             VKETERANGAN,\n             VTIPE,\n             VNILAI,\n             VLEDGER_DET);\n                                           \n    	COMMIT;\n      CLEAR_MESSAGE;\n      :CONTROL.DISPLAY := 'Proses Untuk Nomor Bukti : '||VNO_BUKTI_DET;\n      SYNCHRONIZE;                                    \n  END LOOP;\n  CLOSE C_NP_DET;\nEND;\n  \n                  ---=====================================================\n                ---ISI DETAIL GENERAL LEDGER (TABLE ACC_KARTU_PIUTANG)\n                ---===================================================== \nBEGIN                                 \n  OPEN C_KAR;\n  LOOP\n    FETCH C_KAR INTO VNO_BUKTI_KAR,\n                     VCOA_CUSTOMER_KAR,  \n                     VNO_FAKTUR_KAR,\n                     VCURRENCY_ID_KAR,\n                     VKETERANGAN_KAR,\n                     VNILAI_KAR,\n                     VTGL_TERIMA_KAR;\n                   -- VRANK_KAR;\n\n                        \n  	EXIT WHEN C_KAR%NOTFOUND;\n\n\n	  -- MASUK KE GL TRANSAKSI DEBET DAN KREDIT\n  	INSERT INTO BI_ACC.ACC_KARTU_PIUTANG(COA_ID,\n                                         TGL,\n                                         NO_BUKTI,\n                                         DK,\n                                         KETERANGAN,\n                                         NILAI,\n                                         CURRENCY,\n                                         NILAI_TUKAR,\n                                         TIPE)\n     VALUES(VCOA_CUSTOMER_KAR,\n            VTGL_TERIMA_KAR,\n            VNO_BUKTI_KAR,\n            'K',\n            VKETERANGAN_KAR,\n            VNILAI_KAR,\n            VCURRENCY_ID_KAR,\n            1,4);\n                                           \n    	COMMIT;\n    	\n      CLEAR_MESSAGE;\n      :CONTROL.DISPLAY := 'Proses Untuk Nomor Bukti : '||VNO_BUKTI_KAR;\n      SYNCHRONIZE;                                    \n    END LOOP;\n    CLOSE C_KAR;\nEND;\n\n\n                 ---=====================================================\n                ---ISI DETAIL GENERAL LEDGER (TABLE ACC_SALDO_PIUTANG)\n                ---===================================================== \n\nBEGIN                                 \n  OPEN C_SAL;\n  LOOP\n    FETCH C_SAL INTO VCOA_CUSTOMER_SAL, \n                     VTOTAL_SAL,\n                     VBULAN_SAL,\n                     VTAHUN_SAL;\n\n                        \n    EXIT WHEN C_SAL%NOTFOUND;\n\n\n  	-- MASUK KE GL TRANSAKSI DEBET DAN KREDIT\n		BEGIN\n  			SELECT COA_ID,\n         			 TAHUN,\n         			 K1,\n         			 K2,\n         			 K3,\n         			 K4,\n         			 K5,\n         			 K6,\n         			 K7,\n         			 K8,\n         			 K9,\n         			 K10,\n         			 K11,\n         			 K12\n   			INTO   VCOA_ID_SAL,\n            	 VTAHUN_SAL, \n            	 VK1,\n         			 VK2,\n         			 VK3,\n         			 VK4,\n         			 VK5,\n         			 VK6,\n         			 VK7,\n         			 VK8,\n         			 VK9,\n         			 VK10,\n         			 VK11,\n         			 VK12\n   			FROM 	 BI_ACC.ACC_SALDO_PIUTANG\n   			WHERE  COA_ID = VCOA_CUSTOMER_SAL\n        AND    TAHUN  = VTAHUN_SAL;\n		EXCEPTION\n	    	WHEN NO_DATA_FOUND THEN NULL;\n	 	END;\n\n   BEGIN       \n		   IF VBULAN_SAL = 'K1' THEN                                \n		               UPDATE BI_ACC.ACC_SALDO_PIUTANG\n		               SET   	K1 = NVL(VK1,0) + NVL(VTOTAL_SAL,0)\n		               WHERE 	COA_ID = VCOA_CUSTOMER_SAL\n		               AND   	TAHUN  = VTAHUN_SAL;\n		   ELSIF\n		      VBULAN_SAL = 'K2' THEN          \n		               UPDATE BI_ACC.ACC_SALDO_PIUTANG\n		               SET   	K2 = NVL(VK2,0) + NVL(VTOTAL_SAL,0)\n		               WHERE 	COA_ID = VCOA_CUSTOMER_SAL\n		               AND   	TAHUN  = VTAHUN_SAL;\n		   ELSIF\n		      VBULAN_SAL = 'K3' THEN          \n		               UPDATE BI_ACC.ACC_SALDO_PIUTANG\n		               SET   	K3 = NVL(VK3,0) + NVL(VTOTAL_SAL,0)\n		               WHERE 	COA_ID = VCOA_CUSTOMER_SAL\n		               AND   	TAHUN  = VTAHUN_SAL;\n		   ELSIF\n		         VBULAN_SAL = 'K4' THEN          \n		               UPDATE BI_ACC.ACC_SALDO_PIUTANG\n		               SET   K4 = NVL(VK4,0) + NVL(VTOTAL_SAL,0)\n		               WHERE COA_ID = VCOA_CUSTOMER_SAL AND\n		              TAHUN  = VTAHUN_SAL;\n		   ELSIF\n		         VBULAN_SAL = 'K5' THEN          \n		               UPDATE BI_ACC.ACC_SALDO_PIUTANG\n		               SET   K5 = NVL(VK5,0) + NVL(VTOTAL_SAL,0)\n		               WHERE COA_ID = VCOA_CUSTOMER_SAL AND\n		              TAHUN  = VTAHUN_SAL;\n		   ELSIF\n		         VBULAN_SAL = 'K6' THEN          \n		               UPDATE BI_ACC.ACC_SALDO_PIUTANG\n		               SET   K6 = NVL(VK6,0) + NVL(VTOTAL_SAL,0)\n		               WHERE COA_ID = VCOA_CUSTOMER_SAL AND\n		              TAHUN  = VTAHUN_SAL;\n		   ELSIF\n		         VBULAN_SAL = 'K7' THEN          \n		               UPDATE BI_ACC.ACC_SALDO_PIUTANG\n		               SET   K7 = NVL(VK7,0) + NVL(VTOTAL_SAL,0)\n		               WHERE COA_ID = VCOA_CUSTOMER_SAL AND\n		              TAHUN  = VTAHUN_SAL;\n		   ELSIF\n		         VBULAN_SAL = 'K8' THEN          \n		               UPDATE BI_ACC.ACC_SALDO_PIUTANG\n		               SET   K8 = NVL(VK8,0) + NVL(VTOTAL_SAL,0)\n		               WHERE COA_ID = VCOA_CUSTOMER_SAL AND\n		              TAHUN  = VTAHUN_SAL;\n		   ELSIF\n		         VBULAN_SAL = 'K9' THEN          \n		               UPDATE BI_ACC.ACC_SALDO_PIUTANG\n		               SET   K9 = NVL(VK9,0) + NVL(VTOTAL_SAL,0)\n		               WHERE COA_ID = VCOA_CUSTOMER_SAL AND\n		              TAHUN  = VTAHUN_SAL;\n		   ELSIF\n		         VBULAN_SAL = 'K10' THEN          \n		               UPDATE BI_ACC.ACC_SALDO_PIUTANG\n		               SET   K10 = NVL(VK10,0) + NVL(VTOTAL_SAL,0)\n		               WHERE COA_ID = VCOA_CUSTOMER_SAL AND\n		              TAHUN  = VTAHUN_SAL;\n		   ELSIF\n		         VBULAN_SAL = 'K11' THEN          \n		               UPDATE BI_ACC.ACC_SALDO_PIUTANG\n		               SET   K11 = NVL(VK11,0) + NVL(VTOTAL_SAL,0)\n		               WHERE COA_ID = VCOA_CUSTOMER_SAL AND\n		              TAHUN  = VTAHUN_SAL;\n		   ELSIF\n		         VBULAN_SAL = 'K12' THEN          \n		               UPDATE BI_ACC.ACC_SALDO_PIUTANG\n		               SET   K12 = NVL(VK12,0) + NVL(VTOTAL_SAL,0)\n		               WHERE COA_ID = VCOA_CUSTOMER_SAL AND\n		              TAHUN  = VTAHUN_SAL;\n		    END IF;                \n                                           \n		    COMMIT;\n		    CLEAR_MESSAGE;\n		    :CONTROL.DISPLAY := 'Proses Untuk Nomor Bukti : '||VNO_BUKTI_KAR;\n		    SYNCHRONIZE;\n		EXCEPTION\n				WHEN NO_DATA_FOUND THEN NULL;   	\n		END;                                    \n    END LOOP;\n   CLOSE C_SAL;\n\nEND;\n\n\n                    ---=====================================================\n                ---ISI DETAIL GENERAL LEDGER (TABLE ACC_SETORAN_BANK)\n                ---===================================================== \n BEGIN                                 \n  OPEN C_SET_MST;\n  LOOP\n    FETCH C_SET_MST INTO VNO_BUKTI_MST_SEL,\n                                            VTGL_TERIMA_MST_SEL,\n                                            VTOTAL_MST_SEL,\n                                            VKETERANGAN_MST_SEL;\n\n                        \n  EXIT WHEN C_SET_MST%NOTFOUND;\n\n           \n  -- MASUK KE GL TRANSAKSI DEBET DAN KREDIT\n  INSERT INTO BI_ACC.ACC_GL_TRANS_MST(LKS,\n                                             BUKTI,\n                                                                                TGL,\n                                                                                JURNAL,\n                                                                                TDEBET,\n                                                                                TKREDIT,\n                                                                                POSTING,\n                                                                                RECORD_NUMBER,\n                                                                                PRODUCT_ID)\n                                                                    VALUES ('AGP',\n                                                                                VNO_BUKTI_MST_SEL,\n                                                                            VTGL_TERIMA_MST_SEL,\n                                                                                    '07',\n                                                                                    VTOTAL_MST,\n                                                                                    VTOTAL_MST,\n                                                                                    'N',\n                                                                                    NULL,\n                                                                                    1);--VPROD_ID);\n                                           \n    COMMIT;\n                         CLEAR_MESSAGE;\n                    :CONTROL.DISPLAY := 'Proses Untuk Nomor Bukti : '||VNO_BUKTI_MST_SEL;\n                    SYNCHRONIZE;                                    \n     END LOOP;\n    CLOSE C_SET_MST;\n  \n\n  END;\n  \n  \n                  ---=====================================================\n                ---ISI DETAIL GENERAL LEDGER (TABLE ACC_SETORAN_BANK_AP_DET)\n                ---===================================================== \n  BEGIN                                 \n  OPEN C_SET_DET;\n  LOOP\n    FETCH C_SET_DET INTO     VCOA_ID_SEL,\n                          VNO_BUKTI_DET_SEL,\n                                                  VNILAI_SEL_D,\n                                                    VNILAI_SEL_K,\n                                                  VKETERANGAN_SEL;\n                                                \n                                                \n        \n                        \n  EXIT WHEN C_SET_DET%NOTFOUND;\n  \n  IF VNILAI_SEL_K =0 AND VNILAI_SEL_D > 0 THEN\n  		-- MASUK KE GL TRANSAKSI DEBET DAN KREDIT\n  		INSERT INTO BI_ACC.ACC_GL_TRANS_DET(LKS,\n                                          REK,\n                                          BUKTI,\n                                          URAI,\n                                          DK,\n                                          NILAI,\n                                          RECORD_NUMBER)\n       VALUES('AGP',\n              VCOA_ID_SEL,\n              VNO_BUKTI_DET_SEL,\n              VKETERANGAN_SEL,\n              'D',\n              VNILAI_SEL_D,\n              '1'\n              --VLEDGER_DET\n              );\n    		COMMIT;\n  END IF;\n  \n  IF VNILAI_SEL_D =0 AND VNILAI_SEL_K > 0 THEN\n      INSERT INTO BI_ACC.ACC_GL_TRANS_DET(LKS,\n                                          REK,\n                                          BUKTI,\n                                          URAI,\n                                          DK,\n                                          NILAI,\n                                          RECORD_NUMBER)\n       VALUES('AGP',\n              VCOA_ID_SEL,\n              VNO_BUKTI_DET_SEL,\n              VKETERANGAN_SEL,\n              'K',\n              VNILAI_SEL_K,\n              '1'\n              --VLEDGER_DET\n              );\n                                                                           \n       COMMIT;\n  END IF;\n  CLEAR_MESSAGE;\n  :CONTROL.DISPLAY := 'Proses Untuk Nomor Bukti : '||VNO_BUKTI_DET;\n  SYNCHRONIZE;                                    \n  END LOOP;\n  CLOSE C_SET_DET;\nEND;\n\n\nBEGIN                                 \n  OPEN C_KARTU_HUTANG;\n  LOOP\n    FETCH C_KARTU_HUTANG INTO VNO_BUKTI_KAR,\n                     					VCOA_CUSTOMER_KAR,  \n                    					VNO_FAKTUR_KAR,\n                     					VCURRENCY_ID_KAR,\n                     					VKETERANGAN_KAR,\n                     					VNILAI_KAR,\n                     					VTGL_TERIMA_KAR;\n                   -- VRANK_KAR;\n\n                        \n  	EXIT WHEN C_KARTU_HUTANG%NOTFOUND;\n\n\n	  -- MASUK KE GL TRANSAKSI DEBET DAN KREDIT\n  	INSERT INTO BI_ACC.ACC_KARTU_HUTANG(COA_ID,\n                                         TGL,\n                                         NO_BUKTI,\n                                         DK,\n                                         KETERANGAN,\n                                         NILAI,\n                                         CURRENCY,\n                                         NILAI_TUKAR,\n                                         TIPE)\n     VALUES(VCOA_CUSTOMER_KAR,\n            VTGL_TERIMA_KAR,\n            VNO_BUKTI_KAR,\n            'D',\n            VKETERANGAN_KAR,\n            VNILAI_KAR,\n            VCURRENCY_ID_KAR,\n            1,4);\n                                           \n    	COMMIT;\n      CLEAR_MESSAGE;\n      :CONTROL.DISPLAY := 'Proses Untuk Nomor Bukti : '||VNO_BUKTI_KAR;\n      SYNCHRONIZE;                                    \n    END LOOP;\n    CLOSE C_KARTU_HUTANG;\nEND;  \n\n\n/*\n*** ditutup karena lock pindah ke akunting terkait dengan sistem perwakilan ***\n\nBEGIN\n		UPDATE BI_KEU.FA_PENERIMAAN_MST SET POSTING='1'\n    WHERE  TO_CHAR(TGL_TERIMA,'MM/YYYY') = TO_CHAR(:MAIN.PERIODE,'MM/YYYY')  -- (TGL_TERIMA BETWEEN :MAIN.FROM_DATE AND :MAIN.TO_DATE)\n    AND LKS = 'AGP' AND--:GLOBAL.COMPANY AND\n    POSTING = '0';\n    \n    COMMIT;\nEXCEPTION\n		WHEN NO_DATA_FOUND THEN NULL;\nEND;\n*/\n\nBEGIN\n		SELECT COUNT(*)\n    INTO   VCOUNT\n    FROM   BI_KEU.FA_PENERIMAAN_MST\n    WHERE  TO_CHAR(TGL_TERIMA,'MM/YYYY') = TO_CHAR(:MAIN.PERIODE,'MM/YYYY')  --(TGL_TERIMA BETWEEN :MAIN.FROM_DATE AND :MAIN.TO_DATE)\n    --        AND POSTING = '1'\n    AND POSTING = '1'\n    AND LKS = 'AGP';--:GLOBAL.COMPANY;\nEXCEPTION\n		WHEN NO_DATA_FOUND THEN VCOUNT := 0;\nEND;\n\n    /*IF VCOUNT<>0 THEN\n         SET_ALERT_PROPERTY('ALERT_INFO',ALERT_MESSAGE_TEXT,'POSTING SELESAI..');\n         VCOUNT := SHOW_ALERT('ALERT_INFO');     \n    END IF;   \n    */\n    \n    \n	--set_alert_property('alert_info',alert_message_text,'Posting Selesai..');\n	--vPESAN := show_alert('alert_info');\n    \nEND;\n",
+			"settings":
+			{
+				"buffer_size": 18387,
+				"line_ending": "Unix",
+				"name": "BEGIN"
 			}
 		},
 		{
@@ -593,16 +638,7 @@
 	[
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/keu",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/sites",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/keu",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/sys",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/keu",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/config",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng",
@@ -745,7 +781,7 @@
 	],
 	"find":
 	{
-		"height": 42.0
+		"height": 35.0
 	},
 	"find_in_files":
 	{
@@ -762,6 +798,42 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"$value->k",
+			": $value->k",
+			"value->k",
+			"value",
+			",",
+			"cKartuHutang",
+			"cSetDet",
+			"cSetMst",
+			"||",
+			"k9",
+			"K9",
+			"k9",
+			"K9",
+			"k9",
+			"K9",
+			"k1",
+			"K1",
+			"k1",
+			"K1",
+			"k1",
+			"K1",
+			"k1",
+			"K1",
+			"k1",
+			"K1",
+			"k1",
+			"K1",
+			"k1",
+			"K1",
+			"k1",
+			"K1",
+			"k1",
+			"K1",
+			"k1",
+			"K1",
+			"transfer_",
 			"        \n",
 			"transfer",
 			"Transfer",
@@ -853,43 +925,7 @@
 			"current_password",
 			"12",
 			"no_bukti",
-			".table>tfoot>tr>td",
-			"images",
-			"type",
-			"/**\n     * @function type dibuat dan dikembangkan oleh rianday.\n     * @depok\n     * @return true\n     */\n    public function type()\n    {\n	    return $this->belongsTo('App\\Http\\Models\\sys\\sys_type_mst','f_type','id_type');        \n    }\n\n    ",
-			"sys_app_mst",
-			"auth",
-			"jurnal_",
-			"lovBank",
-			"lov",
-			"level",
-			"2016-08-31",
-			"level",
-			"`",
-			"2016-08-31",
-			"saldo_awal, kredit, debet",
-			"vSALDO",
-			"SALDO_AKHIR",
-			"2016-08-31",
-			"link",
-			"2016-08-31",
-			"2016-08-10",
-			"KEU",
-			"keu",
-			"KEU",
-			"modalstate",
-			"Terbilang::make(",
-			"    ",
-			"  = null",
-			"[]",
-			"ar",
-			"fa_penerimaan_jurnal_det",
-			"fa_penerimaan_det",
-			"no_bukti",
-			".det",
-			"giro",
-			"nip_sys",
-			"detail"
+			".table>tfoot>tr>td"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -964,7 +1000,7 @@
 						"translation.y": 3458.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 15,
+					"stack_index": 17,
 					"type": "text"
 				},
 				{
@@ -973,15 +1009,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5854,
+						"buffer_size": 5952,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4833,
-								4833
+								4959,
+								4959
 							]
 						],
 						"settings":
@@ -993,52 +1029,19 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1105.0,
+						"translation.y": 1277.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 13,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "app/Http/Controllers/keu/transferNoBuktiController.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 17782,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5073,
-								5073
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1456.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "config/database.php",
+					"file": "app/Http/Middleware/Authenticate.php",
 					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 4589,
+						"buffer_size": 676,
 						"regions":
 						{
 						},
@@ -1059,7 +1062,40 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 554.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "app/Http/Controllers/keu/transferNoBuktiController.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 29961,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								16892,
+								16892
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4594.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -1067,6 +1103,70 @@
 				},
 				{
 					"buffer": 4,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 18387,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								16846,
+								16846
+							]
+						],
+						"settings":
+						{
+							"auto_name": "BEGIN",
+							"incomplete_sync": null,
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 5222.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "config/database.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4589,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								631,
+								631
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
 					"file": "app/Http/Controllers/PMS/customerController.php",
 					"semi_transient": false,
 					"settings":
@@ -1095,11 +1195,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
+					"buffer": 7,
 					"file": "resources/views/pms/customer.blade.php",
 					"semi_transient": false,
 					"settings":
@@ -1128,80 +1228,16 @@
 						"translation.y": 711.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 8,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 8,
 					"file": "public/assets/ng/controllers/pms/customer.min.js",
 					"semi_transient": false,
 					"settings":
 					{
 						"buffer_size": 6066,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": -0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1958,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1958,
-								1958
-							]
-						],
-						"settings":
-						{
-							"auto_name": "CANCEL_GL_AR;",
-							"incomplete_sync": null,
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 339.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "public/assets/ng/controllers/keu/transferNoBukti.min.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 9584,
 						"regions":
 						{
 						},
@@ -1230,6 +1266,72 @@
 				},
 				{
 					"buffer": 9,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1958,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1958,
+								1958
+							]
+						],
+						"settings":
+						{
+							"auto_name": "CANCEL_GL_AR;",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 339.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "public/assets/ng/controllers/keu/transferNoBukti.min.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 9584,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				},
+				{
+					"buffer": 11,
 					"file": "public/assets/ng/views/keu/form/formNomorFPajak.html",
 					"semi_transient": false,
 					"settings":
@@ -1258,11 +1360,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 12,
 					"type": "text"
 				},
 				{
-					"buffer": 10,
+					"buffer": 12,
 					"file": "resources/views/modules/keu/transferNoBukti.blade.php",
 					"semi_transient": false,
 					"settings":
@@ -1291,11 +1393,11 @@
 						"translation.y": 331.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 11,
 					"type": "text"
 				},
 				{
-					"buffer": 11,
+					"buffer": 13,
 					"file": "resources/views/templates/gentalella/angularjs/head.blade.php",
 					"semi_transient": false,
 					"settings":
@@ -1324,11 +1426,11 @@
 						"translation.y": 859.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 14,
+					"stack_index": 16,
 					"type": "text"
 				},
 				{
-					"buffer": 12,
+					"buffer": 14,
 					"file": "public/assets/ng/views/keu/form/formPenerimaan.html",
 					"semi_transient": false,
 					"settings":
@@ -1357,11 +1459,11 @@
 						"translation.y": 630.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 12,
+					"stack_index": 15,
 					"type": "text"
 				},
 				{
-					"buffer": 13,
+					"buffer": 15,
 					"file": "app/Http/Models/keu/fa_fpajak_mst_nomor.php",
 					"semi_transient": false,
 					"settings":
@@ -1388,11 +1490,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 11,
+					"stack_index": 14,
 					"type": "text"
 				},
 				{
-					"buffer": 14,
+					"buffer": 16,
 					"semi_transient": false,
 					"settings":
 					{
@@ -1411,17 +1513,19 @@
 						{
 							"auto_name": "",
 							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
 							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 10,
+					"stack_index": 13,
 					"type": "text"
 				},
 				{
-					"buffer": 15,
+					"buffer": 17,
 					"semi_transient": false,
 					"settings":
 					{
@@ -1440,6 +1544,8 @@
 						{
 							"auto_name": "PROCEDURE POSTING_GL_PENERIMAAN_DUA IS",
 							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
 							"syntax": "Packages/Text/Plain text.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
@@ -1448,7 +1554,7 @@
 						"translation.y": 1045.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 5,
 					"type": "text"
 				}
 			]
