@@ -38,11 +38,11 @@
                             </div>
                         </div>
 
-                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.account_id.$invalid && frmMst.account_id.$touched }" ng-readonly="modalstate=='edit'">
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.account_id.$invalid && frmMst.account_id.$touched }" >
                             <label for="inputEmail3" class="col-sm-3 control-label">No Account</label>
                             <div class="col-sm-9">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="No Account" name="account_id" ng-model="dataForm.account_id" ng-change="cekCoa()">
+                                    <input type="text" class="form-control" placeholder="No Account" name="account_id" ng-model="dataForm.account_id" ng-change="cekCoa()" ng-readonly="modalstate=='edit'">
                                 </div>
                             </div>
                         </div>
