@@ -8,16 +8,11 @@
             <div class="row">
                 <div class="col-lg-12 margin-tb">
                     <div class="pull-left">
-                        <h2>Form</h2>
+                        <h2>Form Penawaran</h2>
                     </div>
                     <div class="pull-right" style="padding-top:30px">
                         <div class="box-tools" style="display:inline-table">
-                          <!-- <div class="input-group">
-                              <input type="text" class="form-control input-sm ng-valid ng-dirty" placeholder="Search" ng-change="searchDB()" ng-model="searchText" name="table_search" title="" tooltip="" data-original-title="Min character length is 3">
-                              <span class="input-group-addon">Search</span>
-                          </div> -->
                         </div>
-                        <!-- <button class="btn btn-success" data-toggle="modal" data-target="#create-user">Create New</button> -->
                     </div>
                 </div>
             </div>
@@ -85,7 +80,7 @@
                                 <div class="input-group">
                                     <input type="text" class="form-control has-error" placeholder="Nama Ae" name="f_ae" ng-model="dataForm.f_ae" ng-minlength="5" required>
                                     <span class="input-group-btn">
-                                        <button class="btn btn-default" type="button">...</button>
+                                        <button class="btn btn-default" type="button" ng-click="lovAe()">...</button>
                                     </span>
                                 </div>
                                 <span class="help-inline" ng-messages="frmMst.f_ae.$error" ng-show="frmMst.f_ae.$invalid && frmMst.f_ae.$touched">
@@ -123,14 +118,7 @@
                         <div class="form-group error" ng-class="{ 'has-error' : frmMst.tgl_penawaran.$invalid && frmMst.tgl_penawaran.$touched }">
                             <label for="inputEmail3" class="col-sm-3 control-label">Tanggal Penawaran</label>
                             <div class="col-sm-9">
-                                <!-- <div class="input-group date" data-provide="datepicker"> -->
                                     <input type="date" class="form-control has-error" placeholder="Tanggal Faktur" name="tgl_penawaran" ng-model="dataForm.tgl_penawaran" required>
-                                    <!-- <input type="date" class="form-control has-error" placeholder="Tanggal Faktur" name="tgl_jatuh_tempo" ng-model="dataForm.tgl_jatuh_tempo" > -->
-                                    <!-- <input type="text" class="form-control has-error" placeholder="Tanggal Penawaran" value="[[tgl_penawaran]]" name="tgl_penawaran" ng-model="dataForm.tgl_penawaran" ng-minlength="5" required > -->
-                                    <!-- <div class="input-group-addon">
-                                        <span class="glyphicon glyphicon-th"></span>
-                                    </div> -->
-                                <!-- </div> -->
                                 <span class="help-inline" ng-messages="frmMst.tgl_penawaran.$error" ng-show="frmMst.tgl_penawaran.$invalid && frmMst.tgl_penawaran.$touched">
                                     <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
                                 </span>
@@ -163,31 +151,6 @@
                             </div>
                         </div>
 
-    <!--                     <div class="form-group error" ng-class="{ 'has-error' : frmMst.satuan_periode.$invalid && frmMst.satuan_periode.$touched }">
-                            <label for="inputEmail3" class="col-sm-3 control-label">Satuan Periode</label>
-                            <div class="col-sm-9">
-                                <select class="form-control" placeholder="Satuan Durasi" value="[[satuan_periode]]" name="satuan_periode" ng-model="dataForm.satuan_periode" ng-required="true">
-                                    <option value> Pilih </option>
-                                    <option value="detik">Detik</option>
-                                    <option value="menit">Menit</option>
-                                </select>
-                                <input type="text" class="form-control has-error" placeholder="Fullname"  ng-minlength="5" required >
-                                <span class="help-inline" ng-messages="frmMst.satuan_periode.$error" ng-show="frmMst.satuan_periode.$invalid && frmMst.satuan_periode.$touched">
-                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.jml_periode.$invalid && frmMst.jml_periode.$touched }">
-                            <label for="inputEmail3" class="col-sm-3 control-label">Jumlah Periode</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control has-error" placeholder="Fullname" value="[[jml_periode]]" name="jml_periode" ng-model="dataForm.jml_periode" ng-minlength="5" required >
-                                <span class="help-inline" ng-messages="frmMst.jml_periode.$error" ng-show="frmMst.jml_periode.$invalid && frmMst.jml_periode.$touched">
-                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
-                                </span>
-                            </div>
-                        </div>
-     -->
                         <div class="form-group error" ng-class="{ 'has-error' : frmMst.frekuensi.$invalid && frmMst.frekuensi.$touched }">
                             <label for="inputEmail3" class="col-sm-3 control-label">Frekuensi</label>
                             <div class="col-sm-9">

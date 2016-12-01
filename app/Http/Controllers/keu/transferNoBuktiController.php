@@ -15,7 +15,7 @@ use Validator;
 
 class transferNoBuktiController extends Controller
 {
-    var $allowedTransfer;
+    public $allowedTransfer;
     // /**
     //  * Display a listing of the resource.
     //  *
@@ -38,7 +38,7 @@ class transferNoBuktiController extends Controller
 
     function __construct()
     {
-        $this->$allowedTransfer = false;
+        $this->allowedTransfer = false;
     }
 
     /**
@@ -91,9 +91,9 @@ class transferNoBuktiController extends Controller
         // from     bi_keu.fa_penerimaan_mst a
         // where  a.tgl_terima between trunc(:main.periode,'mm') and last_day(:main.periode);
         
-        $data['cNpMst'] = DB::table('bi_keu.fa_penerimaan_mst a')
+        /*$data['cNpMst'] = DB::table('bi_keu.fa_penerimaan_mst a')
                             ->select(DB:raw('a.lks, a.no_bukti, a.tgl_terima,nvl(a.total,0) total, keterangan'))
-                            ->whereRaw("tgl_terima between trunc(to_date('".$periode."','mm/yyyy'),'MM') and last_day(to_date('".$periode."','mm/yyyy'))");
+                            ->whereRaw("tgl_terima between trunc(to_date('".$periode."','mm/yyyy'),'MM') and last_day(to_date('".$periode."','mm/yyyy'))");*/
 
         // CURSOR C_NP_DET IS   
         // SELECT A.NO_BUKTI,
@@ -107,67 +107,67 @@ class transferNoBuktiController extends Controller
         // WHERE    B.NO_BUKTI = A.NO_BUKTI 
         // AND    B.TGL_TERIMA BETWEEN TRUNC(:MAIN.PERIODE,'MM') AND LAST_DAY(:MAIN.PERIODE);
 
-        $data['cNpDet'] = DB::table('bi_keu.fa_penerimaan_mst b')
-                            ->join('bi_keu.fa_penerimaan_jurnal_view a','b.no_bukti','=','a.no_bukti')
-                            ->select('a.no_bukti','a.coa_id','a.currency_id','a.tipe','a.nilai','b.lks','a.keterangan')
-                            ->whereRaw("b.tgl_terima between trunc(to_date('".$periode."','mm/yyyy'),'MM') and last_day(to_date('".$periode."','mm/yyyy'))");
+//         $data['cNpDet'] = DB::table('bi_keu.fa_penerimaan_mst b')
+//                             ->join('bi_keu.fa_penerimaan_jurnal_view a','b.no_bukti','=','a.no_bukti')
+//                             ->select('a.no_bukti','a.coa_id','a.currency_id','a.tipe','a.nilai','b.lks','a.keterangan')
+//                             ->whereRaw("b.tgl_terima between trunc(to_date('".$periode."','mm/yyyy'),'MM') and last_day(to_date('".$periode."','mm/yyyy'))");
  
-        // CURSOR C_KAR IS   
-        // SELECT NO_BUKTI,
-        //           COA_ID,
-        //           NO_FAKTUR,
-        //             CURRENCY_ID,
-        //           KETERANGAN,
-        //             NILAI_BAYAR,
-        //             TGL_CETAK
-        // FROM   BI_KEU.FA_KARTU_PIUTANG_BI_VIEW A
-        // WHERE  A.TGL_CETAK BETWEEN TRUNC(:MAIN.PERIODE,'MM') AND LAST_DAY(:MAIN.PERIODE);
-        $data['kar'] = DB::table('bi_keu.fa_kartu_piutang_bi_view a')
-                        ->select('no_bukti','coa_id','no_faktur','currency_id','keterangan','nilai_bayar','tgl_cetak')
-                        ->whereRaw("tgl_cetak between trunc(to_date('".$periode."','mm/yyyy'),'MM') and last_day(to_date('".$periode."','mm/yyyy'))");
+//         // CURSOR C_KAR IS   
+//         // SELECT NO_BUKTI,
+//         //           COA_ID,
+//         //           NO_FAKTUR,
+//         //             CURRENCY_ID,
+//         //           KETERANGAN,
+//         //             NILAI_BAYAR,
+//         //             TGL_CETAK
+//         // FROM   BI_KEU.FA_KARTU_PIUTANG_BI_VIEW A
+//         // WHERE  A.TGL_CETAK BETWEEN TRUNC(:MAIN.PERIODE,'MM') AND LAST_DAY(:MAIN.PERIODE);
+//         $data['kar'] = DB::table('bi_keu.fa_kartu_piutang_bi_view a')
+//                         ->select('no_bukti','coa_id','no_faktur','currency_id','keterangan','nilai_bayar','tgl_cetak')
+//                         ->whereRaw("tgl_cetak between trunc(to_date('".$periode."','mm/yyyy'),'MM') and last_day(to_date('".$periode."','mm/yyyy'))");
     
 
-// CURSOR C_KARTU_HUTANG IS   
-//        SELECT NO_BUKTI,
-//                   COA_ID,
-//                   NO_INVOICE,
-//                     CURRENCY_ID,
-//                   KETERANGAN,
-//                     NILAI_BAYAR,
-//                     TGL_TERIMA
-//            FROM   BI_KEU.FA_KARTU_HUTANG_PENERIMAAN_V A
-//            WHERE  A.TGL_TERIMA BETWEEN TRUNC(:MAIN.PERIODE,'MM') AND LAST_DAY(:MAIN.PERIODE);
-        $data['cKartuHutang'] = DB::table('bi_keu.fa_kartu_hutang_penerimaan_v')      
+// // CURSOR C_KARTU_HUTANG IS   
+// //        SELECT NO_BUKTI,
+// //                   COA_ID,
+// //                   NO_INVOICE,
+// //                     CURRENCY_ID,
+// //                   KETERANGAN,
+// //                     NILAI_BAYAR,
+// //                     TGL_TERIMA
+// //            FROM   BI_KEU.FA_KARTU_HUTANG_PENERIMAAN_V A
+// //            WHERE  A.TGL_TERIMA BETWEEN TRUNC(:MAIN.PERIODE,'MM') AND LAST_DAY(:MAIN.PERIODE);
+//         $data['cKartuHutang'] = DB::table('bi_keu.fa_kartu_hutang_penerimaan_v')      
      
-// CURSOR C_FAK IS   
-//        SELECT TRIM(A.NO_FAKTUR) NO_FAKTUR,
-//               A.CURRENCY_ID,
-//               SUM(A.NILAI_BAYAR) NILAI_BAYAR
-//         FROM    FA_PENERIMAAN_AR_DET A,FA_PENERIMAAN_MST B
-//             WHERE A.NO_BUKTI = B.NO_BUKTI 
-//         AND   B.TGL_TERIMA BETWEEN TRUNC(:MAIN.PERIODE,'MM') AND LAST_DAY(:MAIN.PERIODE)
-//         GROUP BY A.NO_FAKTUR,
-//                      A.CURRENCY_ID;
+// // CURSOR C_FAK IS   
+// //        SELECT TRIM(A.NO_FAKTUR) NO_FAKTUR,
+// //               A.CURRENCY_ID,
+// //               SUM(A.NILAI_BAYAR) NILAI_BAYAR
+// //         FROM    FA_PENERIMAAN_AR_DET A,FA_PENERIMAAN_MST B
+// //             WHERE A.NO_BUKTI = B.NO_BUKTI 
+// //         AND   B.TGL_TERIMA BETWEEN TRUNC(:MAIN.PERIODE,'MM') AND LAST_DAY(:MAIN.PERIODE)
+// //         GROUP BY A.NO_FAKTUR,
+// //                      A.CURRENCY_ID;
                        
      
-CURSOR C_SAL IS   
-       SELECT B.COA_CUSTOMER,
-              SUM(B.NILAI_BAYAR) TOTAL,
-              'K'||TO_CHAR(TO_NUMBER(TO_CHAR(A.TGL_TERIMA,'mm'))),
-              TO_CHAR(A.TGL_TERIMA,'yyyy')
-        FROM    BI_KEU.FA_PENERIMAAN_MST A,BI_KEU.FA_PENERIMAAN_AR_DET B
-        WHERE A.NO_BUKTI = B.NO_BUKTI --AND
-              --A.NO_BUKTI = XNO_BUKTI;
-              --  AND B.COA_CUSTOMER  ='1.1.03.06.I0005'
-        AND   A.TGL_TERIMA BETWEEN TRUNC(:MAIN.PERIODE,'MM') AND LAST_DAY(:MAIN.PERIODE)
-        --AND   TO_CHAR(A.TGL_TERIMA,'MM/YYYY') = TO_CHAR(:MAIN.PERIODE,'YYYY')  --(A.TGL_TERIMA BETWEEN :MAIN.FROM_DATE AND :MAIN.TO_DATE) 
-        --AND   A.POSTING LIKE '0'
-        AND     B.COA_CUSTOMER IS NOT NULL
-        GROUP BY B.COA_CUSTOMER,
-                 'K'||TO_CHAR(TO_NUMBER(TO_CHAR(A.TGL_TERIMA,'mm'))),
-                 TO_CHAR(A.TGL_TERIMA,'yyyy');            
+// /*CURSOR C_SAL IS   
+//        SELECT B.COA_CUSTOMER,
+//               SUM(B.NILAI_BAYAR) TOTAL,
+//               'K'||TO_CHAR(TO_NUMBER(TO_CHAR(A.TGL_TERIMA,'mm'))),
+//               TO_CHAR(A.TGL_TERIMA,'yyyy')
+//         FROM    BI_KEU.FA_PENERIMAAN_MST A,BI_KEU.FA_PENERIMAAN_AR_DET B
+//         WHERE A.NO_BUKTI = B.NO_BUKTI --AND
+//               --A.NO_BUKTI = XNO_BUKTI;
+//               --  AND B.COA_CUSTOMER  ='1.1.03.06.I0005'
+//         AND   A.TGL_TERIMA BETWEEN TRUNC(:MAIN.PERIODE,'MM') AND LAST_DAY(:MAIN.PERIODE)
+//         --AND   TO_CHAR(A.TGL_TERIMA,'MM/YYYY') = TO_CHAR(:MAIN.PERIODE,'YYYY')  --(A.TGL_TERIMA BETWEEN :MAIN.FROM_DATE AND :MAIN.TO_DATE) 
+//         --AND   A.POSTING LIKE '0'
+//         AND     B.COA_CUSTOMER IS NOT NULL
+//         GROUP BY B.COA_CUSTOMER,
+//                  'K'||TO_CHAR(TO_NUMBER(TO_CHAR(A.TGL_TERIMA,'mm'))),
+//                  TO_CHAR(A.TGL_TERIMA,'yyyy');            
 
-                         
+/*                         
 CURSOR C_SET_MST IS                     
        SELECT A.NO_BUKTI,
               A.TGL_CETAK,
@@ -188,7 +188,7 @@ CURSOR C_SET_DET IS
              WHERE  A.NO_BUKTI =B.NO_BUKTI
              AND    A.TGL_CETAK BETWEEN TRUNC(:MAIN.PERIODE,'MM') AND LAST_DAY(:MAIN.PERIODE);
              --AND      TO_CHAR(A.TGL_CETAK,'MM/YYYY') = TO_CHAR(:MAIN.PERIODE,'YYYY');  --(A.TGL_CETAK BETWEEN :MAIN.FROM_DATE AND :MAIN.TO_DATE) 
-         --AND      A.POSTING LIKE '0';
+         --AND      A.POSTING LIKE '0';*/
      
 
 

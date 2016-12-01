@@ -8,6 +8,10 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Http\Models\acc\acc_coas_mst as modelMst;
+use App\Http\Models\acc\acc_coas_jns_acc as modelJns;
+use App\Http\Models\acc\acc_coas_tipe_acc as modelTipe;
+
+use DB;
 
 // use Carbon;
 // use DB;
@@ -23,9 +27,17 @@ class coasMstController extends Controller
     {
         // 
         if($request->get('search')){
-            $items = modelMst::whereNotNull('coa_id')->where("coa_name", "LIKE", "%".$request->get('search')."%")->orWhere("coa_id", "LIKE", "%".$request->get('search')."%")->orderBy('coa_id','asc')->paginate(5);      
+            $items = modelMst::whereNotNull('coa_id')
+                    ->leftJoin('bi_sdm.sdm_perusahaan_view', 'kode', '=', 'region_id')
+                    ->where("coa_name", "LIKE", "%".$request->get('search')."%")
+                    ->orWhere("coa_id", "LIKE", "%".$request->get('search')."%")->orWhere("coa_desc", "LIKE", "%".$request->get('search')."%")
+                    ->orderBy('coa_id','asc')
+                    ->paginate(5);      
         } else {
-            $items = modelMst::whereNotNull('coa_id')->orderBy('coa_id','asc')->paginate(5);      
+            $items = modelMst::leftJoin('bi_sdm.sdm_perusahaan_view', 'kode', '=', 'region_id')
+                        ->whereNotNull('coa_id')
+                        ->orderBy('coa_id','asc')
+                        ->paginate(5);      
         }
         // dd($items);
         return response($items);        
@@ -49,6 +61,19 @@ class coasMstController extends Controller
      */
     public function store(Request $request)
     {
+        $coa_id = $request->parent_id . '.' . $request->account_id;
+        
+        $request->offsetSet("coa_id", $coa_id);
+
+        $request->offsetSet("coa_sub_acct", ($request->coa_sub_acct == true) ? '1' : null);
+        $request->offsetSet("coa_revaluation", ($request->coa_revaluation == true) ? '1' : null);
+        $request->offsetSet("coa_revaluation_current", ($request->coa_revaluation_current == true) ? '1' : null);
+
+        //dd($request->all());
+        
+        modelMst::create($request->all());
+
+        return $this->edit($coa_id); 
     }
 
     /**
@@ -59,15 +84,12 @@ class coasMstController extends Controller
      */
     public function show(Request $request, $id)
     {
-        // DB::enableQueryLog();    
+        //DB::enableQueryLog();    
         // $items = modelMst::with('customer','fp_det.pnwr')->find($request->_id);
 
-        $items = modelMst::with(['customer', 'fp_det' => function($query){
-                                    $query->where('sys_status_aktif','A'); 
-                                }, 'fp_det.pnwr']
-            )->find($request->_id);
+        $items = modelMst::select('*','nama')->leftJoin('bi_sdm.sdm_perusahaan_view', 'kode', '=', 'region_id')->find($id);
     
-        // dd(DB::getQueryLog());   
+        //dd(DB::getQueryLog());   
                 
         // dd($items->fp_det);
         return response($items);
@@ -82,6 +104,9 @@ class coasMstController extends Controller
     public function edit($id)
     {
         //
+        //$items = modelMst::find($id);
+        $items = modelMst::leftJoin('bi_sdm.sdm_perusahaan_view', 'kode', '=', 'region_id')->find($id);
+        return response($items);
     }
 
     /**
@@ -92,7 +117,20 @@ class coasMstController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
+    {   
+        //DB::enableQueryLog();
+        
+        //dd($request->coa_sub_acct);
+        //var_dump($request->coa_sub_acct);
+
+        $request->offsetSet("coa_sub_acct", ($request->coa_sub_acct == 'true') ? '1' : '');
+        $request->offsetSet("coa_revaluation", ($request->coa_revaluation == 'true') ? '1' : '');
+        $request->offsetSet("coa_revaluation_current", ($request->coa_revaluation_current == 'true') ? '1' : '');
+        //dd($request->all());
+        modelMst::find($id)->update($request->all());
+        //dd(DB::getQueryLog());
+
+        return $this->edit($id);
     }
 
     /**
@@ -112,6 +150,7 @@ class coasMstController extends Controller
      * @return id
      */
     public function _index(){
+        return view('modules/acc/coas/coasMst');
     }
 
     /**
@@ -142,6 +181,16 @@ class coasMstController extends Controller
         }
         // dd($items);
         return response($items);   
+    }
+
+    public function get_coas_jenis(){
+        $items = modelTipe::get();
+        return response($items);   
+    }
+
+    public function get_coas_tipe(){
+        $items = modelJns::get();
+        return response($items);
     }
 
 }

@@ -183,6 +183,40 @@ class customerController extends Controller
         
     }
 
+    public function _RekapStatusOrder($fileType)
+    {
+        if(empty($fileType)) abort(403, 'unauthorized');
+
+        $hasil['vData'] = modelMst::get();
+
+        if($fileType == 'pdf'){   
+            $pdf = PDF::loadView('pms.report.rpt-customer', $hasil);
+            return $pdf->download('rekap customer.pdf');
+            // $pdf = PDF::make('dompdf.wrapper');
+            // $pdf = PDF::loadHTML('<h1>Test</h1>');
+            // return $pdf->stream();
+            // return view('pms.report.pdf.testPdf');
+        } else {
+            //
+            Excel::create('rekapCustomer', function($excel) use ($hasil) {
+
+                // Set the title
+                $excel->setTitle('Rekap Customer');
+
+                // Chain the setters
+                $excel->setCreator('rianday')->setCompany('pukisdev');
+
+                // Call them separately
+                $excel->setDescription('A demonstration to change the file properties');
+                
+                $excel->sheet('Sheetname', function($sheet) use ($hasil) {
+                    $sheet->loadView('pms.report.rpt-customer', $hasil);                    
+                });
+            })->export('xls');            
+        }
+        
+    }
+
     /**
      * @function generate_id dibuat dan dikembangkan oleh rianday.
      * @depok
