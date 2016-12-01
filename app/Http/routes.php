@@ -55,6 +55,9 @@ Route::group(['prefix'=>'mst', 'middleware'=>['menus']], function(){ //show view
 	Route::get('keu/bKwitansi/{no_kwitansi}', 'keu\kwitansiController@bKwitansi');
 
 	Route::get('sdm/pegawai', 'sdm\pegawaiMstController@_index');
+
+	Route::get('acc/transAr', 'acc\transArMstController@_index');
+	Route::get('acc/coas', 'acc\coasMstController@_index');
 });
 
 Route::group(['prefix'=>'trx', 'middleware'=>['menus']], function(){ //show view
@@ -65,11 +68,14 @@ Route::group(['prefix'=>'trx', 'middleware'=>['menus']], function(){ //show view
 	Route::get('keu/transfer_bukti/{jenis}', 'keu\transferNoBuktiController@_index');
 });
 
+
 Route::group(['prefix'=>'rpt', 'middleware' => ['menus']], function(){ //show view
 	Route::get('keu/kwitansi', 'keu\kwitansiController@_index');
+	Route::get('{fileType}/pms/order', 'PMS\rekapStatusOrderController@_RekapStatusOrder');
 	Route::get('{fileType}/pms/customer', 'PMS\customerController@_RekapCustomer');
 	Route::get('keu/pKwitansi/{no_kwitansi}', 'keu\kwitansiController@pKwitansi');
 	Route::get('keu/pFpajak/{no_kwitansi}', 'keu\kwitansiController@pFpajak');
+	Route::get('pms/rekapStatusOrder', 'PMS\rekapStatusOrderController@index');
 });
 
 
@@ -136,12 +142,14 @@ Route::group(['prefix'=>'keu'], function(){
 
 Route::group(['prefix'=>'acc'], function(){ 
 	Route::resource('coas', 'acc\coasMstController');
+	Route::resource('transAr', 'acc\transArMstController');
 	Route::resource('anggaran', 'acc\anggaranMstController');
-
 	Route::get('coas/ap/cst','acc\coasMstController@_coas_ap');
 	Route::get('coas/ap/pms_cst','acc\coasMstController@coas_pms_customer');
 	Route::get('lovFakturPiutang','acc\fakturPiutangController@_lovFakturPiutang');
 	Route::get('lovFakturHutang','acc\fakturHutangController@_lovFakturHutang');
+	Route::get('coasJenis', 'acc\coasMstController@get_coas_jenis');
+	Route::get('coasTipe', 'acc\coasMstController@get_coas_tipe');
 });
 
 Route::group(['prefix'=>'umum'], function(){
@@ -150,6 +158,7 @@ Route::group(['prefix'=>'umum'], function(){
 
 Route::group(['prefix'=>'sdm'], function(){
 	Route::resource('pegawai', 'sdm\pegawaiMstController');
+	Route::get('allPerus', 'sdm\perusahaanController@all');
 });
 
 

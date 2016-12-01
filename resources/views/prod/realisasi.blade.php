@@ -109,6 +109,6 @@
     </div>
 </div>
                     <!-- AngularJS Application Scripts -->
-<script src="<?= asset('app/controllers/realisasi.min.js') ?>"></script>
-
+<!--<script src="<?= asset('app/controllers/realisasi.min.js') ?>"></script>-->
+{!! Html::script('assets/ng/controllers/prod/realisasi.min.js') !!}
 @endsection

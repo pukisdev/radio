@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Models;
+namespace App\Http\Models\pms;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -28,7 +28,7 @@ class pms_pnwr_mst extends Model
 	 */
 	public function customer()
 	{
-	    return $this->belongsTo('App\Http\Models\pms_customer_mst','f_customer','id_customer');
+	    return $this->belongsTo('App\Http\Models\pms\pms_customer_mst','f_customer','id_customer');
 	}
 
 
@@ -39,7 +39,7 @@ class pms_pnwr_mst extends Model
 	 */
 	public function produk()
 	{
-	    return $this->belongsTo('App\Http\Models\pms_produk_mst','f_produk','id_produk');
+	    return $this->belongsTo('App\Http\Models\pms\pms_produk_mst','f_produk','id_produk');
 	}
 
 	/**
@@ -49,7 +49,7 @@ class pms_pnwr_mst extends Model
 	 */
 	public function faktur()
 	{
-	    return $this->hasMany('App\Http\Models\pms_fp_det','f_pnwr','id_pnwr');
+	    return $this->hasMany('App\Http\Models\pms\pms_fp_det','f_pnwr','id_pnwr');
 	}
 
 	/**
@@ -59,7 +59,7 @@ class pms_pnwr_mst extends Model
 	 */
 	public function tayang()
 	{
-	    return $this->hasMany('App\Http\Models\pms_pnwr_tayang','f_pnwr','id_pnwr');
+	    return $this->hasMany('App\Http\Models\pms\pms_pnwr_tayang','f_pnwr','id_pnwr');
 	}
 
 

@@ -24,14 +24,18 @@ class pnwrMstController extends Controller
     {
         DB::enableQueryLog();    
         // dd($request->all());
-        $query = modelMst::with([
+        /*$query = modelMst::with([
             'customer',
             'spks'=>function($query){
                 $query->where('sys_status_aktif','A');
-                // $query->whereNotNull('spks');     
-                // $query->where('id_customer','=','f_customer');  
             }, 'customer.spks'
-        ]);
+        ]);*/
+        $query = DB::table('pms_pnwr_mst a')
+                ->join('pms_customer_mst b', 'a.f_customer', '=', 'b.id_customer')
+                ->leftJoin('hkm_spks_mst c', function($join){
+                    $join->on('a.f_spks', '=', 'c.id_spks')
+                        ->where('c.sys_status_aktif', '=','A');
+                });
         // dd(explode(",", $request->get('not_in')));
 
         if($request->get('not_in') and !empty($request->get('not_in'))){
@@ -42,7 +46,7 @@ class pnwrMstController extends Controller
             $query->where('f_customer', $request->get('f_customer'));
         }
 
-        $query->where('sys_status_aktif','A');
+        $query->where('a.sys_status_aktif','A');
 
         if($request->get('search')){
             $items = $query->where("judul_iklan", "LIKE", "%".$request->get('search')."%")->paginate(5);      
@@ -50,8 +54,8 @@ class pnwrMstController extends Controller
             $items = $query->paginate(5);
         }
 
-        // dd(DB::getQueryLog());   
-        // dd($items);
+        //dd(DB::getQueryLog());   
+        //dd($items);
 
         return response($items);        
     }

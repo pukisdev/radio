@@ -48,11 +48,10 @@
                                         <!-- <tr  dir-paginate="values in customers | itemsPerPage:5" total-items="totalItems"> -->
                                         <tr  dir-paginate="values in _data | itemsPerPage:5" total-items="totalItems">
                                             <td>[[ values.id_pnwr ]]</td>
-                                            <td>[[ values.customer.nama_customer ]]</td>
+                                            <td>[[ values.nama_customer ]]</td>
                                             <td>[[ values.judul_iklan ]]</td>
                                             <td>[[ values.tgl_penawaran.substring(0, 10) ]]</td>
                                             <td>[[ values.pnwr_total | currency : 'Rp.' ]]</td>
-                                            <!-- <td>[[ values.sys_status_aktif ]]</td> -->
                                             <td width="23%">
                                                 <div ng-if="!values.f_spks" class="form-group error" ng-class="{ 'has-error' : frmMst.listSpks.$invalid && frmMst.listSpks.$touched }">
                                                         <!-- [[$index]] -->
@@ -134,5 +133,6 @@
 {!! Html::script('assets/ng/controllers/pms/lovProduk.min.js') !!}
 {!! Html::script('assets/ng/controllers/pms/lovCustomer.min.js') !!}
 {!! Html::script('assets/ng/controllers/hkm/lovSpks.min.js') !!}
+{!! Html::script('assets/ng/controllers/sdm/lovPegawai.min.js') !!}
 
 @endsection

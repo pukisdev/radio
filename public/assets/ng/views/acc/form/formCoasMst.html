@@ -1,0 +1,153 @@
+<script>
+    $.fn.datepicker.defaults.format = "yyyy-mm-dd   ";
+</script>
+    <div class="panel panel-default" id="idModalMst" ng-show="formTampil">
+        <div class="panel-heading"> &nbsp</div>
+        <div class="panel-body">
+            <div ng-show="muncul">MUNCUL</div>
+            <!-- Table-to-load-the-data Part -->
+            <div class="row">
+                <div class="col-lg-12 margin-tb">
+                    <div class="pull-left">
+                        <h2>Form Pembayaran [[ modalState ]]</h2>
+                    </div>
+                    <div class="pull-right" style="padding-top:30px">
+                        <div class="box-tools" style="display:inline-table">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <form name="frmMst" class="form-horizontal" novalidate="">
+                    <div class="col-md-6">
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.coa_id.$invalid && frmMst.coa_id.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">No COA</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="No Coa" name="coa_id" ng-model="dataForm.coa_id" readonly="true">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.parent_id.$invalid && frmMst.parent_id.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">No Parent</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="No Parent" name="parent_id" ng-model="dataForm.parent_id" ng-readonly="modalstate=='edit'" ng-change="cekCoa()"> 
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.account_id.$invalid && frmMst.account_id.$touched }" >
+                            <label for="inputEmail3" class="col-sm-3 control-label">No Account</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="No Account" name="account_id" ng-model="dataForm.account_id" ng-change="cekCoa()" ng-readonly="modalstate=='edit'">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.coa_name.$invalid && frmMst.coa_name.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Nama COA</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Nama Coa" name="coa_name" ng-model="dataForm.coa_name">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.coa_desc.$invalid && frmMst.coa_desc.$touched }">
+                            <label for="inputEmail3" class="col-sm-2 control-label">Deskripsi COA</label>
+                            <div class="col-sm-10">
+                                <rte ng-model="dataForm.coa_desc"></rte>
+                                <span class="help-inline" ng-messages="frmMst.coa_desc.$error" ng-show="frmMst.coa_desc.$invalid && frmMst.coa_desc.$touched">
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.region_id.$invalid && frmMst.region_id.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Perusahaan</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input type="hidden" name="region_id" ng-model="dataForm.region_id" ng-required="true">
+                                    <input type="text" class="form-control" placeholder="Perusahaan" name="nama_perusahaan" ng-model="dataForm.nama_perusahaan" readonly="true">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" ng-click="lovAllPerusahaan();">...</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.coa_type.$invalid && frmMst.coa_type.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Jenis Account</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" placeholder="Tipe Bayar" name="coa_type" ng-model="dataForm.coa_type" ng-required="true" ng-change="setJenisBukti()">
+                                    <option value>Pilih</option>
+                                    <option ng-repeat="jenis in dataJenis" value="{{ jenis.id_jenis }}"> {{ jenis.nama_jenis }} </option>
+                                </select>
+                                <span class="help-inline" ng-messages="frmMst.coa_type.$error" ng-show="frmMst.coa_type.$invalid && frmMst.coa_type.$touched">
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.coa_side.$invalid && frmMst.coa_side.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Tipe Account</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" placeholder="Pajak POT/PUT" name="coa_side" ng-model="dataForm.coa_side" ng-required="true">
+                                    <option value>Pilih</option>
+                                    <option ng-repeat="tipe in dataTipe" value="{{ tipe.nama_tipe }}"> {{ tipe.nama_tipe }} </option>
+                                </select>
+                                <span class="help-inline" ng-messages="frmMst.coa_side.$error" ng-show="frmMst.coa_side.$invalid && frmMst.coa_side.$touched">
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.coa_level.$invalid && frmMst.coa_level.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Level COA</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input type="number" class="form-control" placeholder="Level COA" name="coa_level" ng-model="dataForm.coa_level" min="1" max="9">
+                                </div>
+                                <span class="help-inline" ng-messages="frmMst.coa_level.$error" ng-show="frmMst.coa_level.$invalid && frmMst.coa_level.$touched">
+                                    <ng-messages-include src="/assets/ng/views/etc/messages.html"></ng-messages-include>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group error" ng-class="{ 'has-error' : frmMst.coa_level.$invalid && frmMst.coa_level.$touched }">
+                            <label for="inputEmail3" class="col-sm-3 control-label"></label>
+                            <div class="col-sm-9">
+                                <p style="padding: 5px;">
+                                    <input type="checkbox" name="coa_sub_acct" id="coa_sub_acct" data-parsley-mincheck="2" class="flat" ng-model="dataForm.coa_sub_acct" > 
+                                    <label for="inputEmail3" class="control-label">Punya Sub Account</label>
+                                </p>
+                                <p style="padding: 5px;">
+                                    <input type="checkbox" name="coa_revaluation" id="coa_revaluation" data-parsley-mincheck="2" class="flat" ng-model="dataForm.coa_revaluation"> 
+                                    <label for="inputEmail3" class="control-label">Laba Ditahan Lalu</label>
+                                </p>
+                                <p style="padding: 5px;">
+                                    <input type="checkbox" name="coa_revaluation_current" id="coa_revaluation_current" data-parsley-mincheck="2" class="flat" ng-model="dataForm.coa_revaluation_current"> 
+                                    <label for="inputEmail3" class="control-label">Laba Ditahan Berjalan</label>
+                                </p>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="col-md-12">
+                        <hr/>
+                        <div class="pull-right">
+                            <button type="button" class="btn btn-default" ng-click="toggle('cancel',null)">Cancel</button>
+                            <button type="button" class="btn btn-primary" id="btn-save" ng-click="save(modalstate, idState)" ng-disabled="frmMst.$invalid">Save changes</button>
+                            <!-- <button type="button" class="btn btn-primary" id="btn-save" ng-click="trace()" ng-disabled="frmMst.$invalid">Save changes</button> -->
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>

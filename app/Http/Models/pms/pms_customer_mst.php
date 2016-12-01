@@ -15,7 +15,7 @@ class pms_customer_mst extends Model
 
 
 	public function pms_ket_customer_mst(){
-		$this->belongsTo('App\Http\Models\pms_ket_customer_mst', 'id_keterangan', 'ket_nama');	
+		$this->belongsTo('App\Http\Models\pms\pms_ket_customer_mst', 'id_keterangan', 'ket_nama');	
 	}
 
 	/**
@@ -25,7 +25,7 @@ class pms_customer_mst extends Model
 	 */
 	public function pnwr_mst()
 	{
-	    $this->hasMany('App\Http\Models\pms_pnwr_mst','f_customer','id_customer');
+	    $this->hasMany('App\Http\Models\pms\pms_pnwr_mst','f_customer','id_customer');
 	}
 
 	/**
@@ -35,7 +35,7 @@ class pms_customer_mst extends Model
 	 */
 	public function fp_mst()
 	{
-	    $this->hasMany('App\Http\Models\pms_fp_mst');
+	    $this->hasMany('App\Http\Models\pms\pms_fp_mst');
 	}
 
 
