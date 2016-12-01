@@ -70,8 +70,8 @@
     {!! Html::script('assets/ng/others/angular-1.5.5/angular.min.js') !!}
     {!! Html::script('assets/ng/others/angular-1.5.5/angular-route.min.js') !!}
     {!! Html::script('assets/templates/gentelella/js/bootstrap.min.js') !!}
-    {!! Html::script('assets/ng/others/tambahan/ui-bootstrap-2.2.0.min.js') !!}
-    <!-- {!! Html::script('assets/ng/others/tambahan/ui-bootstrap-tpls-1.3.3.min.js') !!} -->
+    <!-- {!! Html::script('assets/ng/others/tambahan/ui-bootstrap-2.2.0.min.js') !!} -->
+    {!! Html::script('assets/ng/others/tambahan/ui-bootstrap-tpls-1.3.3.min.js') !!}
     {!! Html::script('assets/ng/others/tambahan/angular-currency-mask.js') !!}
     {!! Html::script('assets/ng/others/tambahan/ngMask.js') !!}
     {!! Html::script('assets/ng/others/bootstrap-datepicker/js/bootstrap-datepicker.min.js') !!}

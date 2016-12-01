@@ -46,6 +46,6 @@ class pms_customer_mst extends Model
 	 */
 	public function spks()
 	{
-	    $this->hasMany('App\Http\Models\hkm_spks_mst','f_customer','id_customer');
+	    $this->hasMany('App\Http\Models\hkm\hkm_spks_mst','f_customer','id_customer');
 	}
 }

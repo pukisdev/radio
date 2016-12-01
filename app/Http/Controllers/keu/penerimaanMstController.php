@@ -118,7 +118,7 @@ class penerimaanMstController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd($request->all());
+        // dd($request->all());
         // $no_bukti =  $id;
         DB::enableQueryLog();
         $request->offsetUnset("no_bukti");

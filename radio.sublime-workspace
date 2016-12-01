@@ -4,6 +4,22 @@
 		"selected_items":
 		[
 			[
+				"acc_an",
+				"acc_anggaran_mst"
+			],
+			[
+				"acc_angga",
+				"acc_anggaran_det"
+			],
+			[
+				"anggaran",
+				"anggaran_det"
+			],
+			[
+				"nilai",
+				"nilai_bayar"
+			],
+			[
 				"salPi",
 				"salPiutang_temp"
 			],
@@ -412,13 +428,10 @@
 	"buffers":
 	[
 		{
-			"contents": "create or replace view v_fp_rangkuman as\nselect f_pnwr, max(total_biaya) total_biaya, \n  IFNULL(sum(nilai_biaya_persen),0) total_nilai_biaya_persen,\n  sum(nilai_biaya) total_nilai_biaya,\n  sum(nilai_potongan_persen) total_nilai_potongan_persen,\n  sum(nilai_potongan) total_nilai_potongan,\n  sum(nilai_hpp) total_nilai_hpp,\n  sum(nilai_ppn) total_nilai_ppn,\n  sum(nilai_akhir) total_nilai_akhir\nfrom pms_fp_mst aa \n  join pms_fp_det bb on aa.id_fp = bb.f_fp\n  where aa.sys_status_aktif='A' and bb.sys_status_aktif='A'\n  group by f_pnwr;\n\n\nselect l1.id_menu as id1, l1.nama_menu as menu1, l2.id_menu as id2, l2.nama_menu as menu2, \nl3.id_menu as id3, l3.nama_menu as menu3, \nl4.id_menu as id4, l4.nama_menu as menu4 \nfrom sys_menus_mst l1 \nleft join sys_menus_mst l2 on l1.root = l2.id_menu and l2.sys_status_aktif='A' \nleft join sys_menus_mst l3 on l2.root = l3.id_menu and l3.sys_status_aktif='A'\nleft join sys_menus_mst l4 on l3.root = l4.id_menu and l4.sys_status_aktif='A'\nwhere l1.sys_status_aktif = 'A'\n\n\ncreate or replace view v_menu_app as \nselect aa.id_menu, aa.root, aa.level, aa.f_type as type_menu, aa.urutan, aa.nama_menu, aa.keterangan as ket_menu, aa.icon, aa.auth, aa.sys_status_aktif as aktif_menu, \nbb.id_app, bb.nama, bb.f_type as type_app, bb.route, bb.link, bb.akses_role, bb.keterangan as ket_app, bb.sys_status_aktif as aktif_app \nfrom sys_menus_mst aa left join sys_app_mst bb on aa.f_app = bb.id_app and bb.sys_status_aktif='A' \nwhere aa.sys_status_aktif='A' ORDER BY GetPriority(aa.id_menu), aa.urutan\n\nCREATE VIEW v_menu_app AS \nselect aa.id_menu AS id_menu,aa.root AS root,aa.level AS level,aa.f_type AS type_menu,aa.urutan AS urutan,\naa.nama_menu AS nama_menu,aa.keterangan AS ket_menu,aa.icon AS icon,aa.auth AS auth,aa.sys_status_aktif AS aktif_menu,\nbb.id_app AS id_app,bb.nama AS nama,bb.f_type AS type_app,bb.route AS route,bb.link AS link,\nbb.akses_role AS akses_role,bb.keterangan AS ket_app,bb.sys_status_aktif AS aktif_app \nfrom sys_menus_mst aa \nleft join sys_app_mst bb on aa.f_app = bb.id_app and bb.sys_status_aktif = 'A'\nwhere aa.sys_status_aktif = 'A' \norder by GetPriority(aa.id_menu),aa.urutan;\n\n\nDELIMITER $$\nDROP FUNCTION IF EXISTS `radio`.`GetParentIDByID` $$\nCREATE FUNCTION `radio`.`GetParentIDByID` (GivenID INT) RETURNS INT\nDETERMINISTIC\nBEGIN\n    DECLARE rv INT;\n\n    SELECT IFNULL(root,-1) INTO rv FROM\n    (SELECT root FROM sys_menus_mst WHERE id_menu = GivenID) A;\n    RETURN rv;\nEND $$\nDELIMITER ;\n\n\nDELIMITER $$\nDROP FUNCTION IF EXISTS `radio`.`GetAncestry` $$\nCREATE FUNCTION `radio`.`GetAncestry` (GivenID INT) RETURNS VARCHAR(1024)\nDETERMINISTIC\nBEGIN\n    DECLARE rv VARCHAR(1024);\n    DECLARE cm CHAR(1);\n    DECLARE ch INT;\n\n    SET rv = '';\n    SET cm = '';\n    SET ch = GivenID;\n    WHILE ch > 0 DO\n        SELECT IFNULL(root,-1) INTO ch FROM\n        (SELECT root FROM sys_menus_mst WHERE id_menu = ch) A;\n        IF ch > 0 THEN\n            SET rv = CONCAT(rv,cm,ch);\n            SET cm = ',';\n        END IF;\n    END WHILE;\n    RETURN rv;\nEND $$\nDELIMITER ;\n\n\n\nDELIMITER $$\nDROP FUNCTION IF EXISTS `radio`.`GetFamilyTree` $$\nCREATE FUNCTION `radio`.`GetFamilyTree` (GivenID INT) RETURNS varchar(1024)\nDETERMINISTIC\nBEGIN\n\n    DECLARE rv,q,queue,queue_children VARCHAR(1024);\n    DECLARE queue_length,front_id,pos INT;\n\n    SET rv = '';\n    SET queue = GivenID;\n    SET queue_length = 1;\n\n    WHILE queue_length > 0 DO\n        SET front_id = FORMAT(queue,0);\n        IF queue_length = 1 THEN\n            SET queue = '';\n        ELSE\n            SET pos = LOCATE(',',queue) + 1;\n            SET q = SUBSTR(queue,pos);\n            SET queue = q;\n        END IF;\n        SET queue_length = queue_length - 1;\n\n        SELECT IFNULL(qc,'') INTO queue_children\n        FROM (SELECT GROUP_CONCAT(id) qc\n        FROM sys_menus_mst WHERE root = front_id) A;\n\n        IF LENGTH(queue_children) = 0 THEN\n            IF LENGTH(queue) = 0 THEN\n                SET queue_length = 0;\n            END IF;\n        ELSE\n            IF LENGTH(rv) = 0 THEN\n                SET rv = queue_children;\n            ELSE\n                SET rv = CONCAT(rv,',',queue_children);\n            END IF;\n            IF LENGTH(queue) = 0 THEN\n                SET queue = queue_children;\n            ELSE\n                SET queue = CONCAT(queue,',',queue_children);\n            END IF;\n            SET queue_length = LENGTH(queue) - LENGTH(REPLACE(queue,',','')) + 1;\n        END IF;\n    END WHILE;\n\n    RETURN rv;\n\nEND $$\nDELIMITER ;\n\n\n\n\n\ndelimiter ~\n\nCREATE FUNCTION GetPriority (inID INT) RETURNS VARCHAR(255) DETERMINISTIC\nbegin\n  DECLARE gParentID INT DEFAULT 0;\n  DECLARE gPriority VARCHAR(255) DEFAULT '';\n  SET gPriority = inID;\n  SELECT root INTO gParentID FROM sys_menus_mst WHERE id_menu = inID;\n  WHILE gParentID > 0 DO\n    SET gPriority = CONCAT(gParentID, '.', gPriority);\n    SELECT root INTO gParentID FROM sys_menus_mst WHERE id_menu = gParentID;\n  END WHILE;\n  RETURN gPriority;\nend ~\n\ndelimiter ;\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nselect bb.* from pms_fp_mst aa \n  join pms_fp_det bb on aa.id_fp = bb.f_fp\n  where aa.sys_status_aktif='A' and bb.sys_status_aktif='A';\n\nSELECT aa.*, (pnwr_hpp - total_nilai_biaya) sisa FROM `pms_pnwr_mst` aa \n  left join v_fp_rangkuman bb on aa.id_pnwr = bb.f_pnwr\n\n\n--SELECT group_concat(f_pnwr),tayang_tgl, group_concat(tayang_jam) FROM `pms_pnwr_tayang` WHERE tayang_tgl = '2016-06-22'\n00001/RSAU/SP/06/2016, 00002/RSAU/SP/06/2016, 00003/RSAU/SP/06/2016\n2016-06-22\n0815,0915,1015, 0900,1030,1300, 0915,0930\n\n\narray:2 [\n  0 => array:13 [\n    \"f_fp\" => \"FP2016.00001\"\n    \"f_pnwr\" => \"00002/RSAU/SP/06/2016\"\n    \"total_biaya\" => \"909091\"\n    \"nilai_biaya_persen\" => \"0\"\n    \"nilai_biaya\" => \"909091\"\n    \"nilai_potongan_persen\" => \"0\"\n    \"nilai_potongan\" => \"0\"\n    \"nilai_hpp\" => \"909091\"\n    \"nilai_ppn\" => \"90909\"\n    \"nilai_akhir\" => \"1000000\"\n    \"sys_user_update\" => \"ADMIN\"\n    \"sys_tgl_update\" => \"2016-06-22 12:44:35\"\n    \"sys_status_aktif\" => \"A\"\n  ]\n  1 => array:13 [\n    \"f_fp\" => \"FP2016.00001\"\n    \"f_pnwr\" => \"00003/RSAU/SP/06/2016\"\n    \"total_biaya\" => \"10000000\"\n    \"nilai_biaya_persen\" => \"0\"\n    \"nilai_biaya\" => \"10000000\"\n    \"nilai_potongan_persen\" => \"0\"\n    \"nilai_potongan\" => \"0\"\n    \"nilai_hpp\" => \"10000000\"\n    \"nilai_ppn\" => \"1000000\"\n    \"nilai_akhir\" => \"11000000\"\n    \"sys_user_update\" => \"ADMIN\"\n    \"sys_tgl_update\" => \"2016-06-22 12:44:35\"\n    \"sys_status_aktif\" => \"A\"\n  ]\n]\n\n\n\n\n\nINSERT INTO sys_menus_mst (id_menu, root, lvl, nama_menu, f_type, f_app, urutan, keterangan, icon, auth, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES(1, NULL, 0, 'root', 'OTH', NULL, 1, NULL, NULL, 'Y', 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_menus_mst (id_menu, root, lvl, nama_menu, f_type, f_app, urutan, keterangan, icon, auth, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES(2, 1, 1, 'General', 'MENU', NULL, 1, NULL, NULL, 'T', 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_menus_mst (id_menu, root, lvl, nama_menu, f_type, f_app, urutan, keterangan, icon, auth, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES(3, 2, 2, 'Home', 'WEB', 'NVxDxjsDDWTJihiEaO4QCNl1fCZCtwmMNOc45UocuL0JOof1LDvCsiZwiJgeBJPr9K4836Jp2BQMsunn7iXcovCNQg6RGF3EYMUptUT8JJM3mozrKD35Hw12AcJ7JOl3', 1, NULL, 'fa-home', 'Y', 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_menus_mst (id_menu, root, lvl, nama_menu, f_type, f_app, urutan, keterangan, icon, auth, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES(4, 1, 1, 'Radio', 'MENU', NULL, 2, NULL, NULL, 'Y', 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_menus_mst (id_menu, root, lvl, nama_menu, f_type, f_app, urutan, keterangan, icon, auth, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES(5, 4, 2, 'Master', 'MENU', NULL, 1, NULL, 'fa-table', 'Y', 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_menus_mst (id_menu, root, lvl, nama_menu, f_type, f_app, urutan, keterangan, icon, auth, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES(6, 5, 3, 'Pemasaran', 'MST', 'oppslKYM5bPamowcRXbC8iA7jXbudMT7fkS3pgpKbEfKDScZA3vpTPAZ6vM9FTMn5J6LY8CtrmuZ3qhLAHOkodnlxHfZDQ0RKMZ0LSZvmygBWqxd8xcDtZCZWKYWa3', 1, NULL, NULL, 'Y', 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_menus_mst (id_menu, root, lvl, nama_menu, f_type, f_app, urutan, keterangan, icon, auth, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES(7, 8, 3, 'Pemasaran', 'TRX', 'oppyslKYM5bPamowcRXbC8iA7jXbudMT7fkS3pgpKbEfKDScZA3vpTPAZ6vM9FTMn5J6LY8CtrmuZ3qhLAHOkodnlxHfZDQ0RKMZ0LSZvmygBWqxd8xcDtZCZWKYWa3', 1, NULL, NULL, 'Y', 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_menus_mst (id_menu, root, lvl, nama_menu, f_type, f_app, urutan, keterangan, icon, auth, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES(8, 4, 2, 'Transaksi', 'MENU', NULL, 2, NULL, 'fa-edit', 'Y', 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_menus_mst (id_menu, root, lvl, nama_menu, f_type, f_app, urutan, keterangan, icon, auth, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES(9, 5, 3, 'Hukum', 'MST', '98lKYM5bPamowcRXbC8iA7jXbudMT7fkS3pgpKbEfKDScZA3vpTPAZ6vM9FTMn5J6LY8CtrmuZ3qhLAHOkodnlxHfZDQ0RKMZ0LSZvmygBWqxd8xcDtZCZWKYWa3', 2, NULL, NULL, 'Y', 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_menus_mst (id_menu, root, lvl, nama_menu, f_type, f_app, urutan, keterangan, icon, auth, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES(10, 4, 2, 'Laporan', 'MENU', NULL, 3, NULL, 'fa-print', 'Y', 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_menus_mst (id_menu, root, lvl, nama_menu, f_type, f_app, urutan, keterangan, icon, auth, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES(11, 4, 2, 'Approval', 'MENU', NULL, 4, NULL, 'fa-thumbs-up', 'Y', 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_menus_mst (id_menu, root, lvl, nama_menu, f_type, f_app, urutan, keterangan, icon, auth, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES(12, 4, 2, 'Dokumentasi', 'MENU', NULL, 5, NULL, 'fa-file', 'Y', 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_menus_mst (id_menu, root, lvl, nama_menu, f_type, f_app, urutan, keterangan, icon, auth, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES(13, 2, 2, 'Dashboard', 'MENU', NULL, 2, NULL, 'fa-navicon', 'T', 'ADMIN', NULL, sysdate, NULL, 'A');\n\n\n\nINSERT INTO sys_app_mst (id_app, nama, f_type, f_module, urutan, route, link_, akses_role, icon, keterangan, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES('1231HlKYM5bPamowcRXbC8iA7jXbudMT7fkS3pgpKbEfKDScZA3vpTPAZ6vM9FTMn5J6LY8CtrmuZ3qhLAHOkodnlxHfZDQ0RKMZ0LSZvmygBWqxd8xcDtZCZWKYWao', 'Master SPKS', 'MST', 'hkm', 1, '/mst/hkm/spks', NULL, 'L', '', NULL, 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_app_mst (id_app, nama, f_type, f_module, urutan, route, link_, akses_role, icon, keterangan, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES('20b9jHlKYM5bPamowcRXbC8iA7jXbudMT7fkS3pgpKbEfKDScZA3vpTPAZ6vM9FTMn5J6LY8CtrmuZ3qhLAHOkodnlxHfZDQ0RKMZ0LSZvmygBWqxd8xcDtZCZWKYWa3', 'Realisasi Produksi', 'TRX', 'prod', 1, '/trx/prod/realisasi', NULL, 'L', '', NULL, 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_app_mst (id_app, nama, f_type, f_module, urutan, route, link_, akses_role, icon, keterangan, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES('20b9jHlKYM5bPamowcRXbC8iA7jXbudMT7fkS3pgpKbEfKDScZA3vpTPAZ6vM9FTMn5J6LY8CtrmuZ3qhLAHOkodnlxHfZDQ0RKMZ0LSZvmygBWqxd8xcDtZCZWKYWao', 'Customer', 'MST', 'pms', 2, '/mst/pms/customer', NULL, 'L', 'fa-users', NULL, 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_app_mst (id_app, nama, f_type, f_module, urutan, route, link_, akses_role, icon, keterangan, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES('4IO0cFUZlxG6dXF17uuP8rL1KlmK0yQhbfchfnUgo05JbfRqA9iXQJD2OQ82uJFpteVE7cpivuEzpLqW2VUuVxUBId35pp0nox1g3105lCpjDOOOxqOTKi2ctPSoHMiX', 'Produk dan Tarif', 'MST', 'pms', 1, '/mst/pms/produk', NULL, 'L', 'fa-bullhorn', NULL, 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_app_mst (id_app, nama, f_type, f_module, urutan, route, link_, akses_role, icon, keterangan, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES('98lKYM5bPamowcRXbC8iA7jXbudMT7fkS3pgpKbEfKDScZA3vpTPAZ6vM9FTMn5J6LY8CtrmuZ3qhLAHOkodnlxHfZDQ0RKMZ0LSZvmygBWqxd8xcDtZCZWKYWa3', 'Hukum', 'MENU', 'hkm', 2, '/mst/hkm/menu', NULL, 'L', '', NULL, 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_app_mst (id_app, nama, f_type, f_module, urutan, route, link_, akses_role, icon, keterangan, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES('JvNAU7f8JNbBvLDjDaI4OFT7JVX1vJhHFxozZcHzTr4nqRB32uFnFOQWYeqUuEvW5zONWe0LJqdJTtiFQ9M84dquEJm4WzzLp2P236TUNvmKrX5Wz8vAeM02EkaSAO7p', 'Penawaran', 'TRX', 'pms', 4, '/trx/pms/pnwrMst', NULL, 'L', '', NULL, 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_app_mst (id_app, nama, f_type, f_module, urutan, route, link_, akses_role, icon, keterangan, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES('NVxDxjsDDWTJihiEaO4QCNl1fCZCtwmMNOc45UocuL0JOof1LDvCsiZwiJgeBJPr9K4836Jp2BQMsunn7iXcovCNQg6RGF3EYMUptUT8JJM3mozrKD35Hw12AcJ7JOl3', 'Home', 'WEB', NULL, 0, '/home', NULL, '*', '', NULL, 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_app_mst (id_app, nama, f_type, f_module, urutan, route, link_, akses_role, icon, keterangan, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES('NVxDxjsDDWTJihiEaO4QCNl1fCZCtwmMNOc45UocuL0JOof1LDvCsiZwiJgeBJPr9K4836Jp2BQMsunn7iXcovCNQg6RGF3EYMUptUT8JJM3mozrKD35Hw12AcJ7JOls', 'Tanggal Libur', 'MST', 'pms', 3, '/mst/pms/libur', NULL, 'L', 'fa-calendar', NULL, 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_app_mst (id_app, nama, f_type, f_module, urutan, route, link_, akses_role, icon, keterangan, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES('oppslKYM5bPamowcRXbC8iA7jXbudMT7fkS3pgpKbEfKDScZA3vpTPAZ6vM9FTMn5J6LY8CtrmuZ3qhLAHOkodnlxHfZDQ0RKMZ0LSZvmygBWqxd8xcDtZCZWKYWa3', 'Pemasaran', 'MENU', 'pms', 1, '/mst/pms/menu', NULL, 'L', '', NULL, 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_app_mst (id_app, nama, f_type, f_module, urutan, route, link_, akses_role, icon, keterangan, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES('zmvDz6XDPNXDDWytZTT4Ol6FZfAryzbEHmr2pTekgERRESVPU7cf6JhaxoK4uQdpkEcyAMz44GYjwheX0UZOShjXHXwyovNTDP2gdeLdHHas3vI2grXOdu7wFiboq0tb', 'Faktur Penjualan', 'TRX', 'pms', 2, '/trx/pms/fpMst', NULL, 'L', '', NULL, 'ADMIN', NULL, sysdate, NULL, 'A');\n\n\n\nINSERT INTO sys_module_mst (id_module, nama_module, keterangan, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES('hkm', 'Hukum', 'modul Hukum\\r\\n', 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_module_mst (id_module, nama_module, keterangan, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES('HRIS', 'HRIS', 'MODUL HRIS', 'ADMIN', NULL, sysdate, NULL, 'N');\nINSERT INTO sys_module_mst (id_module, nama_module, keterangan, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES('pms', 'Pemasaran', 'modul pemasaran\\r\\n', 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_module_mst (id_module, nama_module, keterangan, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES('prod', 'Produksi', 'modul produksi\\r\\n', 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_module_mst (id_module, nama_module, keterangan, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES('SITE', 'SITES', 'MODUL UMUM SITE', 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_module_mst (id_module, nama_module, keterangan, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES('SYS', 'SYSTEM', 'MODUL SISTEM', 'ADMIN', NULL, sysdate, NULL, 'A');\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nselect * from sys_app_mst where f_type = 'MST' and f_module = 'KEU';\n\n\nINSERT INTO sys_module_mst (id_module, nama_module, keterangan, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES('HRIS', 'HRIS', 'MODUL HRIS', 'ADMIN', NULL, sysdate, NULL, 'N');\nINSERT INTO sys_module_mst (id_module, nama_module, keterangan, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES('pms', 'Pemasaran', 'modul pemasaran\\r\\n', 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_module_mst (id_module, nama_module, keterangan, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES('prod', 'Produksi', 'modul produksi\\r\\n', 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_module_mst (id_module, nama_module, keterangan, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES('SITE', 'SITES', 'MODUL UMUM SITE', 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_module_mst (id_module, nama_module, keterangan, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES('SYS', 'SYSTEM', 'MODUL SISTEM', 'ADMIN', NULL, sysdate, NULL, 'A');\n\n\ntruncate table sys_app_mst;\n\nINSERT INTO sys_app_mst (id_app, nama, f_type, f_module, urutan, route, link_, akses_role, icon, keterangan, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES('1231HlKYM5bPamowcRXbC8iA7jXbudMT7fkS3pgpKbEfKDScZA3vpTPAZ6vM9FTMn5J6LY8CtrmuZ3qhLAHOkodnlxHfZDQ0RKMZ0LSZvmygBWqxd8xcDtZCZWKYWao', 'Master SPKS', 'MST', 'hkm', 1, '/mst/hkm/spks', NULL, 'L', '', NULL, 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_app_mst (id_app, nama, f_type, f_module, urutan, route, link_, akses_role, icon, keterangan, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES('20b9jHlKYM5bPamowcRXbC8iA7jXbudMT7fkS3pgpKbEfKDScZA3vpTPAZ6vM9FTMn5J6LY8CtrmuZ3qhLAHOkodnlxHfZDQ0RKMZ0LSZvmygBWqxd8xcDtZCZWKYWa3', 'Realisasi Produksi', 'TRX', 'prod', 1, '/trx/prod/realisasi', NULL, 'L', '', NULL, 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_app_mst (id_app, nama, f_type, f_module, urutan, route, link_, akses_role, icon, keterangan, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES('20b9jHlKYM5bPamowcRXbC8iA7jXbudMT7fkS3pgpKbEfKDScZA3vpTPAZ6vM9FTMn5J6LY8CtrmuZ3qhLAHOkodnlxHfZDQ0RKMZ0LSZvmygBWqxd8xcDtZCZWKYWao', 'Customer', 'MST', 'pms', 2, '/mst/pms/customer', NULL, 'L', 'fa-users', NULL, 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_app_mst (id_app, nama, f_type, f_module, urutan, route, link_, akses_role, icon, keterangan, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES('4IO0cFUZlxG6dXF17uuP8rL1KlmK0yQhbfchfnUgo05JbfRqA9iXQJD2OQ82uJFpteVE7cpivuEzpLqW2VUuVxUBId35pp0nox1g3105lCpjDOOOxqOTKi2ctPSoHMiX', 'Produk dan Tarif', 'MST', 'pms', 1, '/mst/pms/produk', NULL, 'L', 'fa-bullhorn', NULL, 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_app_mst (id_app, nama, f_type, f_module, urutan, route, link_, akses_role, icon, keterangan, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES('98lKYM5bPamowcRXbC8iA7jXbudMT7fkS3pgpKbEfKDScZA3vpTPAZ6vM9FTMn5J6LY8CtrmuZ3qhLAHOkodnlxHfZDQ0RKMZ0LSZvmygBWqxd8xcDtZCZWKYWa3', 'Hukum', 'MENU', 'hkm', 2, '/mst/hkm/menu', NULL, 'L', '', NULL, 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_app_mst (id_app, nama, f_type, f_module, urutan, route, link_, akses_role, icon, keterangan, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES('JvNAU7f8JNbBvLDjDaI4OFT7JVX1vJhHFxozZcHzTr4nqRB32uFnFOQWYeqUuEvW5zONWe0LJqdJTtiFQ9M84dquEJm4WzzLp2P236TUNvmKrX5Wz8vAeM02EkaSAO7p', 'Penawaran', 'TRX', 'pms', 4, '/trx/pms/pnwrMst', NULL, 'L', '', NULL, 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_app_mst (id_app, nama, f_type, f_module, urutan, route, link_, akses_role, icon, keterangan, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES('NVxDxjsDDWTJihiEaO4QCNl1fCZCtwmMNOc45UocuL0JOof1LDvCsiZwiJgeBJPr9K4836Jp2BQMsunn7iXcovCNQg6RGF3EYMUptUT8JJM3mozrKD35Hw12AcJ7JOl3', 'Home', 'WEB', NULL, 0, '/home', NULL, '*', '', NULL, 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_app_mst (id_app, nama, f_type, f_module, urutan, route, link_, akses_role, icon, keterangan, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES('NVxDxjsDDWTJihiEaO4QCNl1fCZCtwmMNOc45UocuL0JOof1LDvCsiZwiJgeBJPr9K4836Jp2BQMsunn7iXcovCNQg6RGF3EYMUptUT8JJM3mozrKD35Hw12AcJ7JOls', 'Tanggal Libur', 'MST', 'pms', 3, '/mst/pms/libur', NULL, 'L', 'fa-calendar', NULL, 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_app_mst (id_app, nama, f_type, f_module, urutan, route, link_, akses_role, icon, keterangan, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES('oppslKYM5bPamowcRXbC8iA7jXbudMT7fkS3pgpKbEfKDScZA3vpTPAZ6vM9FTMn5J6LY8CtrmuZ3qhLAHOkodnlxHfZDQ0RKMZ0LSZvmygBWqxd8xcDtZCZWKYWa3', 'Pemasaran', 'MENU', 'pms', 1, '/mst/pms/menu', NULL, 'L', '', NULL, 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_app_mst (id_app, nama, f_type, f_module, urutan, route, link_, akses_role, icon, keterangan, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES('oppyslKYM5bPamowcRXbC8iA7jXbudMT7fkS3pgpKbEfKDScZA3vpTPAZ6vM9FTMn5J6LY8CtrmuZ3qhLAHOkodnlxHfZDQ0RKMZ0LSZvmygBWqxd8xcDtZCZWKYWa3', 'Pemasaran', 'MENU', 'pms', 1, '/trx/pms/menu', NULL, 'L', '', NULL, 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_app_mst (id_app, nama, f_type, f_module, urutan, route, link_, akses_role, icon, keterangan, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES('zmvDz6XDPNXDDWytZTT4Ol6FZfAryzbEHmr2pTekgERRESVPU7cf6JhaxoK4uQdpkEcyAMz44GYjwheX0UZOShjXHXwyovNTDP2gdeLdHHas3vI2grXOdu7wFiboq0tb', 'Faktur Penjualan', 'TRX', 'pms', 2, '/trx/pms/fpMst', NULL, 'L', '', NULL, 'ADMIN', NULL, sysdate, NULL, 'A');\n\n\n\nINSERT INTO sys_menus_mst (id_menu, root, lvl, nama_menu, f_type, f_app, urutan, keterangan, icon, auth, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES(1, NULL, 0, 'root', 'OTH', NULL, 1, NULL, NULL, 'Y', 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_menus_mst (id_menu, root, lvl, nama_menu, f_type, f_app, urutan, keterangan, icon, auth, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES(2, 1, 1, 'General', 'MENU', NULL, 1, NULL, NULL, 'T', 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_menus_mst (id_menu, root, lvl, nama_menu, f_type, f_app, urutan, keterangan, icon, auth, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES(3, 2, 2, 'Home', 'WEB', 'NVxDxjsDDWTJihiEaO4QCNl1fCZCtwmMNOc45UocuL0JOof1LDvCsiZwiJgeBJPr9K4836Jp2BQMsunn7iXcovCNQg6RGF3EYMUptUT8JJM3mozrKD35Hw12AcJ7JOl3', 1, NULL, 'fa-home', 'Y', 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_menus_mst (id_menu, root, lvl, nama_menu, f_type, f_app, urutan, keterangan, icon, auth, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES(4, 1, 1, 'Radio', 'MENU', NULL, 2, NULL, NULL, 'Y', 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_menus_mst (id_menu, root, lvl, nama_menu, f_type, f_app, urutan, keterangan, icon, auth, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES(5, 4, 2, 'Master', 'MENU', NULL, 1, NULL, 'fa-table', 'Y', 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_menus_mst (id_menu, root, lvl, nama_menu, f_type, f_app, urutan, keterangan, icon, auth, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES(6, 5, 3, 'Pemasaran', 'MST', 'oppslKYM5bPamowcRXbC8iA7jXbudMT7fkS3pgpKbEfKDScZA3vpTPAZ6vM9FTMn5J6LY8CtrmuZ3qhLAHOkodnlxHfZDQ0RKMZ0LSZvmygBWqxd8xcDtZCZWKYWa3', 1, NULL, NULL, 'Y', 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_menus_mst (id_menu, root, lvl, nama_menu, f_type, f_app, urutan, keterangan, icon, auth, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES(7, 8, 3, 'Pemasaran', 'TRX', 'oppyslKYM5bPamowcRXbC8iA7jXbudMT7fkS3pgpKbEfKDScZA3vpTPAZ6vM9FTMn5J6LY8CtrmuZ3qhLAHOkodnlxHfZDQ0RKMZ0LSZvmygBWqxd8xcDtZCZWKYWa3', 1, NULL, NULL, 'Y', 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_menus_mst (id_menu, root, lvl, nama_menu, f_type, f_app, urutan, keterangan, icon, auth, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES(8, 4, 2, 'Transaksi', 'MENU', NULL, 2, NULL, 'fa-edit', 'Y', 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_menus_mst (id_menu, root, lvl, nama_menu, f_type, f_app, urutan, keterangan, icon, auth, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES(9, 5, 3, 'Hukum', 'MST', '98lKYM5bPamowcRXbC8iA7jXbudMT7fkS3pgpKbEfKDScZA3vpTPAZ6vM9FTMn5J6LY8CtrmuZ3qhLAHOkodnlxHfZDQ0RKMZ0LSZvmygBWqxd8xcDtZCZWKYWa3', 2, NULL, NULL, 'Y', 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_menus_mst (id_menu, root, lvl, nama_menu, f_type, f_app, urutan, keterangan, icon, auth, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES(10, 4, 2, 'Laporan', 'MENU', NULL, 3, NULL, 'fa-print', 'Y', 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_menus_mst (id_menu, root, lvl, nama_menu, f_type, f_app, urutan, keterangan, icon, auth, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES(11, 4, 2, 'Approval', 'MENU', NULL, 4, NULL, 'fa-thumbs-up', 'Y', 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_menus_mst (id_menu, root, lvl, nama_menu, f_type, f_app, urutan, keterangan, icon, auth, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES(12, 4, 2, 'Dokumentasi', 'MENU', NULL, 5, NULL, 'fa-file', 'Y', 'ADMIN', NULL, sysdate, NULL, 'A');\nINSERT INTO sys_menus_mst (id_menu, root, lvl, nama_menu, f_type, f_app, urutan, keterangan, icon, auth, sys_user_created, sys_user_updated, sys_tgl_created, sys_tgl_updated, sys_status_aktif) VALUES(13, 2, 2, 'Dashboard', 'MENU', NULL, 2, NULL, 'fa-navicon', 'T', 'ADMIN', NULL, sysdate, NULL, 'A');\n\ncommit;\n\n\n\n\nCREATE OR REPLACE FORCE VIEW \"SYS_RADIO\".\"V_MENU_APP_AKSES\" (\"F_USER\", \"ID_MENU\", \"ROOT\", \"LVL\", \"TYPE_MENU\", \"URUTAN\", \"NAMA_MENU\", \"KET_MENU\", \"ICON\", \"AUTH\", \"AKTIF_MENU\", \"ID_APP\", \"NAMA\", \"TYPE_APP\", \"ROUTE\", \"LINK_\", \"AKSES_ROLE\", \"KET_APP\", \"AKTIF_APP\") AS \nselect bb.f_user, aa.\"ID_MENU\",aa.\"ROOT\",aa.\"LVL\",aa.\"TYPE_MENU\",aa.\"URUTAN\",aa.\"NAMA_MENU\",aa.\"KET_MENU\",aa.\"ICON\",aa.\"AUTH\",aa.\"AKTIF_MENU\",aa.\"ID_APP\",aa.\"NAMA\",aa.\"TYPE_APP\",aa.\"ROUTE\",aa.\"LINK_\",aa.\"AKSES_ROLE\",aa.\"KET_APP\",aa.\"AKTIF_APP\" from V_MENU_APP aa \n  join sys_user_akses_det bb on aa.id_app = bb.f_app and bb.sys_status_aktif='A'\nwhere akses_role is not null and akses_role <> '*'\nunion \nselect '*' f_user, aa.\"ID_MENU\",aa.\"ROOT\",aa.\"LVL\",aa.\"TYPE_MENU\",aa.\"URUTAN\",aa.\"NAMA_MENU\",aa.\"KET_MENU\",aa.\"ICON\",aa.\"AUTH\",aa.\"AKTIF_MENU\",aa.\"ID_APP\",aa.\"NAMA\",aa.\"TYPE_APP\",aa.\"ROUTE\",aa.\"LINK_\",aa.\"AKSES_ROLE\",aa.\"KET_APP\",aa.\"AKTIF_APP\" from V_MENU_APP aa where akses_role is null OR akses_role = '*';\n",
 			"file": "app/Http/query.txt",
-			"file_size": 5764,
-			"file_write_time": 131176394552159796,
 			"settings":
 			{
-				"buffer_size": 28029,
+				"buffer_size": 8811,
 				"line_ending": "Unix",
 				"name": "select bb.* from pms_fp_mst aa"
 			}
@@ -427,113 +440,115 @@
 			"file": "app/Http/routes.php",
 			"settings":
 			{
-				"buffer_size": 5952,
+				"buffer_size": 6822,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "app/Http/Middleware/Authenticate.php",
+			"file": "app/Http/Controllers/acc/anggaranMstController.php",
 			"settings":
 			{
-				"buffer_size": 676,
+				"buffer_size": 5365,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "app/Http/Controllers/keu/transferNoBuktiController.php",
+			"file": "/u02/backup_jag/listener.log",
 			"settings":
 			{
-				"buffer_size": 29961,
+				"buffer_size": 1103094,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"contents": "BEGIN\n  BEGIN                                 \n  OPEN C_NP_MST;\n  LOOP\n    FETCH C_NP_MST INTO VKODE_PERWAKILAN,\n                        VNO_BUKTI_MST,\n                        VTGL_TERIMA_MST,\n                        VTOTAL_MST,\n                        VKETERANGAN_MST;\n                \n  EXIT WHEN C_NP_MST%NOTFOUND;\n      \n  BEGIN\n       SELECT MAX(NVL(RECORD_NUMBER,0))+1\n       INTO 	VLEDGER_ISI_MST\n       FROM 	BI_ACC.ACC_GL_TRANS_MST;\n       \n       IF VLEDGER_ISI_MST = 0 OR VLEDGER_ISI_MST IS NULL THEN\n              VLEDGER_MST := 1;\n       ELSE\n              VLEDGER_MST := NVL(VLEDGER_ISI_MST,0)+1;\n       END IF;       \n  EXCEPTION\n         WHEN NO_DATA_FOUND THEN VLEDGER_MST := 0;       \n  END;\n  BEGIN\n      SELECT 	DISTINCT A.JENIS_BUKTI \n      INTO 	 	VJENIS_BUKTI\n      FROM 	 	BI_KEU.FA_PENERIMAAN_MST A\n      WHERE   (A.TGL_TERIMA BETWEEN TRUNC(:MAIN.PERIODE,'MM') AND LAST_DAY(:MAIN.PERIODE))\n      --WHERE 	TO_CHAR(A.TGL_TERIMA,'MM/YYYY') = TO_CHAR(:MAIN.PERIODE,'YYYY')  --(A.TGL_TERIMA BETWEEN :MAIN.FROM_DATE AND :MAIN.TO_DATE) \n      AND 		A.NO_BUKTI LIKE VNO_BUKTI_MST;\n\n      IF VJENIS_BUKTI LIKE 'K' THEN\n         VJURNAL := '01';\n      ELSIF\n         VJENIS_BUKTI LIKE 'B' THEN\n         VJURNAL := '03';\n      ELSIF\n         VJENIS_BUKTI LIKE 'G' THEN\n         VJURNAL := '05';\n      END IF;       \n  EXCEPTION\n  		WHEN NO_DATA_FOUND THEN NULL;    	\n  END;\n  \n  BEGIN\n      SELECT COUNT(*)\n      INTO 	 VJMLKODE\n      FROM 	 BI_ACC.ACC_GL_TRANS_MST\n      WHERE  BUKTI = VNO_BUKTI_MST \n      AND		 LKS   = VKODE_PERWAKILAN;\n  EXCEPTION\n      WHEN NO_DATA_FOUND THEN VJMLKODE := 0;\n  END;\n                  \n    IF VJMLKODE = 0 OR VJMLKODE IS NULL THEN          \n         INSERT INTO BI_ACC.ACC_GL_TRANS_MST(LKS,\n                                             BUKTI,\n                                             TGL,\n                                             JURNAL,\n                                             TDEBET,\n                                             TKREDIT,\n                                             POSTING,\n                                             RECORD_NUMBER,\n                                             PRODUCT_ID)\n         VALUES (VKODE_PERWAKILAN,\n                 VNO_BUKTI_MST,\n                 VTGL_TERIMA_MST,\n                 VJURNAL,\n                 VTOTAL_MST,\n                 VTOTAL_MST,\n                 'N',\n                 VLEDGER_MST,\n                 1);--VPROD_ID);\n         COMMIT;\n         CLEAR_MESSAGE;\n         :CONTROL.DISPLAY := 'Proses Untuk Nomor Bukti : '||VNO_BUKTI_MST;\n         SYNCHRONIZE;\n    ELSE\n    		 BEGIN\n	         UPDATE BI_ACC.ACC_GL_TRANS_MST \n	         SET 		TDEBET = VTOTAL_MST,TKREDIT = VTOTAL_MST\n	         WHERE 	BUKTI = VNO_BUKTI_MST \n	         AND    LKS   = VKODE_PERWAKILAN;\n    		 EXCEPTION\n    		 	 WHEN NO_DATA_FOUND THEN NULL;\n    		 END;\n         \n         CLEAR_MESSAGE;\n         :CONTROL.DISPLAY := 'Proses Untuk Nomor Bukti : '||VNO_BUKTI_MST;\n         SYNCHRONIZE;                                  \n    END IF;        \n  END LOOP;\n  CLOSE C_NP_MST;\nEND; \n\n\n                ---=====================================================\n                ---ISI DETAIL GENERAL LEDGER (TABLE ACC_GL_TRANS_DET)\n                ---===================================================== \nBEGIN                                 \n  OPEN C_NP_DET;\n  LOOP\n    FETCH C_NP_DET INTO VNO_BUKTI_DET,\n                        VCOA_ID,\n                        VCURRENCY_ID,\n                        VTIPE,\n                        VNILAI,\n                        VLKS,\n                        VKETERANGAN;\n                        \n  	EXIT WHEN C_NP_DET%NOTFOUND;\n\n  	BEGIN\n    		SELECT 	MAX(NVL(RECORD_NUMBER,0))\n        INTO 		VLEDGER_ISI_DET\n        FROM 		BI_ACC.ACC_GL_TRANS_DET\n        WHERE 	LKS = VLKS;\n        \n        IF VLEDGER_ISI_DET = 0 OR VLEDGER_ISI_DET IS NULL THEN\n        		VLEDGER_DET := 1;\n        ELSE\n        		VLEDGER_DET := NVL(VLEDGER_ISI_DET,0)+1;\n        END IF;\n     EXCEPTION\n     		WHEN NO_DATA_FOUND THEN VLEDGER_DET := 0;       \n     END;\n     \n  	 -- MASUK KE GL TRANSAKSI DEBET DAN KREDIT\n  	 INSERT INTO BI_ACC.ACC_GL_TRANS_DET(LKS,\n                                         REK,\n                                         BUKTI,\n                                         URAI,\n                                         DK,\n                                         NILAI,\n                                         RECORD_NUMBER)\n      VALUES(VLKS,\n             VCOA_ID,\n             VNO_BUKTI_DET,\n             VKETERANGAN,\n             VTIPE,\n             VNILAI,\n             VLEDGER_DET);\n                                           \n    	COMMIT;\n      CLEAR_MESSAGE;\n      :CONTROL.DISPLAY := 'Proses Untuk Nomor Bukti : '||VNO_BUKTI_DET;\n      SYNCHRONIZE;                                    \n  END LOOP;\n  CLOSE C_NP_DET;\nEND;\n  \n                  ---=====================================================\n                ---ISI DETAIL GENERAL LEDGER (TABLE ACC_KARTU_PIUTANG)\n                ---===================================================== \nBEGIN                                 \n  OPEN C_KAR;\n  LOOP\n    FETCH C_KAR INTO VNO_BUKTI_KAR,\n                     VCOA_CUSTOMER_KAR,  \n                     VNO_FAKTUR_KAR,\n                     VCURRENCY_ID_KAR,\n                     VKETERANGAN_KAR,\n                     VNILAI_KAR,\n                     VTGL_TERIMA_KAR;\n                   -- VRANK_KAR;\n\n                        \n  	EXIT WHEN C_KAR%NOTFOUND;\n\n\n	  -- MASUK KE GL TRANSAKSI DEBET DAN KREDIT\n  	INSERT INTO BI_ACC.ACC_KARTU_PIUTANG(COA_ID,\n                                         TGL,\n                                         NO_BUKTI,\n                                         DK,\n                                         KETERANGAN,\n                                         NILAI,\n                                         CURRENCY,\n                                         NILAI_TUKAR,\n                                         TIPE)\n     VALUES(VCOA_CUSTOMER_KAR,\n            VTGL_TERIMA_KAR,\n            VNO_BUKTI_KAR,\n            'K',\n            VKETERANGAN_KAR,\n            VNILAI_KAR,\n            VCURRENCY_ID_KAR,\n            1,4);\n                                           \n    	COMMIT;\n    	\n      CLEAR_MESSAGE;\n      :CONTROL.DISPLAY := 'Proses Untuk Nomor Bukti : '||VNO_BUKTI_KAR;\n      SYNCHRONIZE;                                    \n    END LOOP;\n    CLOSE C_KAR;\nEND;\n\n\n                 ---=====================================================\n                ---ISI DETAIL GENERAL LEDGER (TABLE ACC_SALDO_PIUTANG)\n                ---===================================================== \n\nBEGIN                                 \n  OPEN C_SAL;\n  LOOP\n    FETCH C_SAL INTO VCOA_CUSTOMER_SAL, \n                     VTOTAL_SAL,\n                     VBULAN_SAL,\n                     VTAHUN_SAL;\n\n                        \n    EXIT WHEN C_SAL%NOTFOUND;\n\n\n  	-- MASUK KE GL TRANSAKSI DEBET DAN KREDIT\n		BEGIN\n  			SELECT COA_ID,\n         			 TAHUN,\n         			 K1,\n         			 K2,\n         			 K3,\n         			 K4,\n         			 K5,\n         			 K6,\n         			 K7,\n         			 K8,\n         			 K9,\n         			 K10,\n         			 K11,\n         			 K12\n   			INTO   VCOA_ID_SAL,\n            	 VTAHUN_SAL, \n            	 VK1,\n         			 VK2,\n         			 VK3,\n         			 VK4,\n         			 VK5,\n         			 VK6,\n         			 VK7,\n         			 VK8,\n         			 VK9,\n         			 VK10,\n         			 VK11,\n         			 VK12\n   			FROM 	 BI_ACC.ACC_SALDO_PIUTANG\n   			WHERE  COA_ID = VCOA_CUSTOMER_SAL\n        AND    TAHUN  = VTAHUN_SAL;\n		EXCEPTION\n	    	WHEN NO_DATA_FOUND THEN NULL;\n	 	END;\n\n   BEGIN       \n		   IF VBULAN_SAL = 'K1' THEN                                \n		               UPDATE BI_ACC.ACC_SALDO_PIUTANG\n		               SET   	K1 = NVL(VK1,0) + NVL(VTOTAL_SAL,0)\n		               WHERE 	COA_ID = VCOA_CUSTOMER_SAL\n		               AND   	TAHUN  = VTAHUN_SAL;\n		   ELSIF\n		      VBULAN_SAL = 'K2' THEN          \n		               UPDATE BI_ACC.ACC_SALDO_PIUTANG\n		               SET   	K2 = NVL(VK2,0) + NVL(VTOTAL_SAL,0)\n		               WHERE 	COA_ID = VCOA_CUSTOMER_SAL\n		               AND   	TAHUN  = VTAHUN_SAL;\n		   ELSIF\n		      VBULAN_SAL = 'K3' THEN          \n		               UPDATE BI_ACC.ACC_SALDO_PIUTANG\n		               SET   	K3 = NVL(VK3,0) + NVL(VTOTAL_SAL,0)\n		               WHERE 	COA_ID = VCOA_CUSTOMER_SAL\n		               AND   	TAHUN  = VTAHUN_SAL;\n		   ELSIF\n		         VBULAN_SAL = 'K4' THEN          \n		               UPDATE BI_ACC.ACC_SALDO_PIUTANG\n		               SET   K4 = NVL(VK4,0) + NVL(VTOTAL_SAL,0)\n		               WHERE COA_ID = VCOA_CUSTOMER_SAL AND\n		              TAHUN  = VTAHUN_SAL;\n		   ELSIF\n		         VBULAN_SAL = 'K5' THEN          \n		               UPDATE BI_ACC.ACC_SALDO_PIUTANG\n		               SET   K5 = NVL(VK5,0) + NVL(VTOTAL_SAL,0)\n		               WHERE COA_ID = VCOA_CUSTOMER_SAL AND\n		              TAHUN  = VTAHUN_SAL;\n		   ELSIF\n		         VBULAN_SAL = 'K6' THEN          \n		               UPDATE BI_ACC.ACC_SALDO_PIUTANG\n		               SET   K6 = NVL(VK6,0) + NVL(VTOTAL_SAL,0)\n		               WHERE COA_ID = VCOA_CUSTOMER_SAL AND\n		              TAHUN  = VTAHUN_SAL;\n		   ELSIF\n		         VBULAN_SAL = 'K7' THEN          \n		               UPDATE BI_ACC.ACC_SALDO_PIUTANG\n		               SET   K7 = NVL(VK7,0) + NVL(VTOTAL_SAL,0)\n		               WHERE COA_ID = VCOA_CUSTOMER_SAL AND\n		              TAHUN  = VTAHUN_SAL;\n		   ELSIF\n		         VBULAN_SAL = 'K8' THEN          \n		               UPDATE BI_ACC.ACC_SALDO_PIUTANG\n		               SET   K8 = NVL(VK8,0) + NVL(VTOTAL_SAL,0)\n		               WHERE COA_ID = VCOA_CUSTOMER_SAL AND\n		              TAHUN  = VTAHUN_SAL;\n		   ELSIF\n		         VBULAN_SAL = 'K9' THEN          \n		               UPDATE BI_ACC.ACC_SALDO_PIUTANG\n		               SET   K9 = NVL(VK9,0) + NVL(VTOTAL_SAL,0)\n		               WHERE COA_ID = VCOA_CUSTOMER_SAL AND\n		              TAHUN  = VTAHUN_SAL;\n		   ELSIF\n		         VBULAN_SAL = 'K10' THEN          \n		               UPDATE BI_ACC.ACC_SALDO_PIUTANG\n		               SET   K10 = NVL(VK10,0) + NVL(VTOTAL_SAL,0)\n		               WHERE COA_ID = VCOA_CUSTOMER_SAL AND\n		              TAHUN  = VTAHUN_SAL;\n		   ELSIF\n		         VBULAN_SAL = 'K11' THEN          \n		               UPDATE BI_ACC.ACC_SALDO_PIUTANG\n		               SET   K11 = NVL(VK11,0) + NVL(VTOTAL_SAL,0)\n		               WHERE COA_ID = VCOA_CUSTOMER_SAL AND\n		              TAHUN  = VTAHUN_SAL;\n		   ELSIF\n		         VBULAN_SAL = 'K12' THEN          \n		               UPDATE BI_ACC.ACC_SALDO_PIUTANG\n		               SET   K12 = NVL(VK12,0) + NVL(VTOTAL_SAL,0)\n		               WHERE COA_ID = VCOA_CUSTOMER_SAL AND\n		              TAHUN  = VTAHUN_SAL;\n		    END IF;                \n                                           \n		    COMMIT;\n		    CLEAR_MESSAGE;\n		    :CONTROL.DISPLAY := 'Proses Untuk Nomor Bukti : '||VNO_BUKTI_KAR;\n		    SYNCHRONIZE;\n		EXCEPTION\n				WHEN NO_DATA_FOUND THEN NULL;   	\n		END;                                    \n    END LOOP;\n   CLOSE C_SAL;\n\nEND;\n\n\n                    ---=====================================================\n                ---ISI DETAIL GENERAL LEDGER (TABLE ACC_SETORAN_BANK)\n                ---===================================================== \n BEGIN                                 \n  OPEN C_SET_MST;\n  LOOP\n    FETCH C_SET_MST INTO VNO_BUKTI_MST_SEL,\n                                            VTGL_TERIMA_MST_SEL,\n                                            VTOTAL_MST_SEL,\n                                            VKETERANGAN_MST_SEL;\n\n                        \n  EXIT WHEN C_SET_MST%NOTFOUND;\n\n           \n  -- MASUK KE GL TRANSAKSI DEBET DAN KREDIT\n  INSERT INTO BI_ACC.ACC_GL_TRANS_MST(LKS,\n                                             BUKTI,\n                                                                                TGL,\n                                                                                JURNAL,\n                                                                                TDEBET,\n                                                                                TKREDIT,\n                                                                                POSTING,\n                                                                                RECORD_NUMBER,\n                                                                                PRODUCT_ID)\n                                                                    VALUES ('AGP',\n                                                                                VNO_BUKTI_MST_SEL,\n                                                                            VTGL_TERIMA_MST_SEL,\n                                                                                    '07',\n                                                                                    VTOTAL_MST,\n                                                                                    VTOTAL_MST,\n                                                                                    'N',\n                                                                                    NULL,\n                                                                                    1);--VPROD_ID);\n                                           \n    COMMIT;\n                         CLEAR_MESSAGE;\n                    :CONTROL.DISPLAY := 'Proses Untuk Nomor Bukti : '||VNO_BUKTI_MST_SEL;\n                    SYNCHRONIZE;                                    \n     END LOOP;\n    CLOSE C_SET_MST;\n  \n\n  END;\n  \n  \n                  ---=====================================================\n                ---ISI DETAIL GENERAL LEDGER (TABLE ACC_SETORAN_BANK_AP_DET)\n                ---===================================================== \n  BEGIN                                 \n  OPEN C_SET_DET;\n  LOOP\n    FETCH C_SET_DET INTO     VCOA_ID_SEL,\n                          VNO_BUKTI_DET_SEL,\n                                                  VNILAI_SEL_D,\n                                                    VNILAI_SEL_K,\n                                                  VKETERANGAN_SEL;\n                                                \n                                                \n        \n                        \n  EXIT WHEN C_SET_DET%NOTFOUND;\n  \n  IF VNILAI_SEL_K =0 AND VNILAI_SEL_D > 0 THEN\n  		-- MASUK KE GL TRANSAKSI DEBET DAN KREDIT\n  		INSERT INTO BI_ACC.ACC_GL_TRANS_DET(LKS,\n                                          REK,\n                                          BUKTI,\n                                          URAI,\n                                          DK,\n                                          NILAI,\n                                          RECORD_NUMBER)\n       VALUES('AGP',\n              VCOA_ID_SEL,\n              VNO_BUKTI_DET_SEL,\n              VKETERANGAN_SEL,\n              'D',\n              VNILAI_SEL_D,\n              '1'\n              --VLEDGER_DET\n              );\n    		COMMIT;\n  END IF;\n  \n  IF VNILAI_SEL_D =0 AND VNILAI_SEL_K > 0 THEN\n      INSERT INTO BI_ACC.ACC_GL_TRANS_DET(LKS,\n                                          REK,\n                                          BUKTI,\n                                          URAI,\n                                          DK,\n                                          NILAI,\n                                          RECORD_NUMBER)\n       VALUES('AGP',\n              VCOA_ID_SEL,\n              VNO_BUKTI_DET_SEL,\n              VKETERANGAN_SEL,\n              'K',\n              VNILAI_SEL_K,\n              '1'\n              --VLEDGER_DET\n              );\n                                                                           \n       COMMIT;\n  END IF;\n  CLEAR_MESSAGE;\n  :CONTROL.DISPLAY := 'Proses Untuk Nomor Bukti : '||VNO_BUKTI_DET;\n  SYNCHRONIZE;                                    \n  END LOOP;\n  CLOSE C_SET_DET;\nEND;\n\n\nBEGIN                                 \n  OPEN C_KARTU_HUTANG;\n  LOOP\n    FETCH C_KARTU_HUTANG INTO VNO_BUKTI_KAR,\n                     					VCOA_CUSTOMER_KAR,  \n                    					VNO_FAKTUR_KAR,\n                     					VCURRENCY_ID_KAR,\n                     					VKETERANGAN_KAR,\n                     					VNILAI_KAR,\n                     					VTGL_TERIMA_KAR;\n                   -- VRANK_KAR;\n\n                        \n  	EXIT WHEN C_KARTU_HUTANG%NOTFOUND;\n\n\n	  -- MASUK KE GL TRANSAKSI DEBET DAN KREDIT\n  	INSERT INTO BI_ACC.ACC_KARTU_HUTANG(COA_ID,\n                                         TGL,\n                                         NO_BUKTI,\n                                         DK,\n                                         KETERANGAN,\n                                         NILAI,\n                                         CURRENCY,\n                                         NILAI_TUKAR,\n                                         TIPE)\n     VALUES(VCOA_CUSTOMER_KAR,\n            VTGL_TERIMA_KAR,\n            VNO_BUKTI_KAR,\n            'D',\n            VKETERANGAN_KAR,\n            VNILAI_KAR,\n            VCURRENCY_ID_KAR,\n            1,4);\n                                           \n    	COMMIT;\n      CLEAR_MESSAGE;\n      :CONTROL.DISPLAY := 'Proses Untuk Nomor Bukti : '||VNO_BUKTI_KAR;\n      SYNCHRONIZE;                                    \n    END LOOP;\n    CLOSE C_KARTU_HUTANG;\nEND;  \n\n\n/*\n*** ditutup karena lock pindah ke akunting terkait dengan sistem perwakilan ***\n\nBEGIN\n		UPDATE BI_KEU.FA_PENERIMAAN_MST SET POSTING='1'\n    WHERE  TO_CHAR(TGL_TERIMA,'MM/YYYY') = TO_CHAR(:MAIN.PERIODE,'MM/YYYY')  -- (TGL_TERIMA BETWEEN :MAIN.FROM_DATE AND :MAIN.TO_DATE)\n    AND LKS = 'AGP' AND--:GLOBAL.COMPANY AND\n    POSTING = '0';\n    \n    COMMIT;\nEXCEPTION\n		WHEN NO_DATA_FOUND THEN NULL;\nEND;\n*/\n\nBEGIN\n		SELECT COUNT(*)\n    INTO   VCOUNT\n    FROM   BI_KEU.FA_PENERIMAAN_MST\n    WHERE  TO_CHAR(TGL_TERIMA,'MM/YYYY') = TO_CHAR(:MAIN.PERIODE,'MM/YYYY')  --(TGL_TERIMA BETWEEN :MAIN.FROM_DATE AND :MAIN.TO_DATE)\n    --        AND POSTING = '1'\n    AND POSTING = '1'\n    AND LKS = 'AGP';--:GLOBAL.COMPANY;\nEXCEPTION\n		WHEN NO_DATA_FOUND THEN VCOUNT := 0;\nEND;\n\n    /*IF VCOUNT<>0 THEN\n         SET_ALERT_PROPERTY('ALERT_INFO',ALERT_MESSAGE_TEXT,'POSTING SELESAI..');\n         VCOUNT := SHOW_ALERT('ALERT_INFO');     \n    END IF;   \n    */\n    \n    \n	--set_alert_property('alert_info',alert_message_text,'Posting Selesai..');\n	--vPESAN := show_alert('alert_info');\n    \nEND;\n",
+			"contents": "./oracle/app/10.1.2.0.2/BI/opmn/logs/states\n./oracle/app/10.1.2.0.2/BI/opmn/logs/states/p979697713\n./oracle/app/10.1.2.0.2/BI/opmn/logs/states/.opmndat\n./oracle/app/10.1.2.0.2/BI/opmn/logs/ipm.log\n./oracle/app/10.1.2.0.2/BI/opmn/logs/OC4J~OC4J_BI_Forms~default_island~1\n./oracle/app/10.1.2.0.2/BI/j2ee/OC4J_BI_Forms/log/OC4J_BI_Forms_default_island_1/global-application.log\n./oracle/app/10.1.2.0.2/BI/j2ee/OC4J_BI_Forms/log/OC4J_BI_Forms_default_island_1/default-web-access.log\n./oracle/app/10.1.2.0.2/BI/j2ee/OC4J_BI_Forms/log/OC4J_BI_Forms_default_island_1/server.log\n./oracle/app/10.1.2.0.2/BI/j2ee/OC4J_BI_Forms/log/OC4J_BI_Forms_default_island_1/rmi.log\n./oracle/app/10.1.2.0.2/BI/j2ee/OC4J_BI_Forms/log/OC4J_BI_Forms_default_island_1/jms.log\n./oracle/app/10.1.2.0.2/BI/j2ee/OC4J_BI_Forms/application-deployments/formsapp/OC4J_BI_Forms_default_island_1/application.log\n./oracle/app/10.1.2.0.2/BI/j2ee/OC4J_BI_Forms/application-deployments/reports/OC4J_BI_Forms_default_island_1/application.log\n./oracle/app/10.1.2.0.2/BI/j2ee/OC4J_BI_Forms/persistence/OC4J_BI_Forms_default_island_1\n./oracle/app/10.1.2.0.2/BI/j2ee/OC4J_BI_Forms/persistence/OC4J_BI_Forms_default_island_1/transaction.state\n./oracle/app/10.1.2.0.2/BI/j2ee/OC4J_Portal/log/OC4J_Portal_default_island_1/server.log\n./oracle/app/10.1.2.0.2/BI/j2ee/home/log/home_default_island_1/server.log\n./oracle/app/10.1.2.0.2/BI/webcache/logs/event_log\n./oracle/app/10.1.2.0.2/BI/webcache/logs/access_log\n./oracle/app/10.1.2.0.2/BI/Apache/Apache/logs/error_log.1480464000\n./oracle/app/10.1.2.0.2/BI/Apache/Apache/logs/dms_metrics.30200.shm.mem\n./oracle/app/10.1.2.0.2/BI/Apache/Apache/logs/access_log.1480464000\n./oracle/app/10.1.2.0.2/BI/Apache/Apache/logs/mod_oc4j.30200.shm.mem\n./oracle/app/10.1.2.0.2/infra/opmn/logs/states/.opmndat\n./oracle/app/10.1.2.0.2/infra/sysman/log\n./oracle/app/10.1.2.0.2/infra/sysman/log/em-web-access.log\n./oracle/app/10.1.2.0.2/infra/j2ee/oca/log/oca_default_island_1/server.log\n./oracle/app/10.1.2.0.2/infra/j2ee/OC4J_SECURITY/log/OC4J_SECURITY_default_island_1/default-web-access.log\n./oracle/app/10.1.2.0.2/infra/j2ee/OC4J_SECURITY/log/OC4J_SECURITY_default_island_1/server.log\n./oracle/app/10.1.2.0.2/infra/Apache/Apache/logs/dms_metrics.29330.shm.mem\n./oracle/app/10.1.2.0.2/infra/Apache/Apache/logs/access_log.1480464000\n./oracle/app/10.1.2.0.2/infra/Apache/Apache/logs/mod_oc4j.29330.shm.mem\n./oracle/app/10.1.2.0.2/infra/Apache/modplsql/cache/session\n./oracle/app/10.1.2.0.2/infra/Apache/modplsql/cache/session/775\n./oracle/app/10.1.2.0.2/infra/Apache/modplsql/cache/session/775/1423.a\n./oracle/app/10.1.2.0.2/infra/network/log/listener.log\n./data/oradata/orcl10AS/sysaux01.dbf\n./data/oradata/orcl10AS/control01.ctl\n./data/oradata/orcl10AS/control02.ctl\n./data/oradata/orcl10AS/redo01.log\n./data/oradata/orcl10AS/undotbs01.dbf\n./data/oradata/orcl10AS/control03.ctl",
 			"settings":
 			{
-				"buffer_size": 18387,
+				"buffer_size": 2860,
 				"line_ending": "Unix",
-				"name": "BEGIN"
+				"name": "./oracle/app/10.1.2.0.2/BI/opmn/logs/states"
 			}
 		},
 		{
-			"file": "config/database.php",
+			"contents": "CREATE TEMPORARY TABLESPACE BI_ACC_TEMP TEMPFILE \n  '/data/oracle/oradata/orcl10AS/bi_acc_temp1.dbf' SIZE 500M AUTOEXTEND OFF,\n  '/data/oracle/oradata/orcl10AS/bi_acc_temp2.dbf' SIZE 500M AUTOEXTEND OFF,\n  '/data/oracle/oradata/orcl10AS/bi_acc_temp3.dbf' SIZE 500M AUTOEXTEND OFF,\n  '/data/oracle/oradata/orcl10AS/bi_acc_temp4.dbf' SIZE 500M AUTOEXTEND OFF\nTABLESPACE GROUP ''\nEXTENT MANAGEMENT LOCAL UNIFORM SIZE 16M;\n\nCREATE TEMPORARY TABLESPACE BI_IKL_TEMP TEMPFILE \n  '/data/oracle/oradata/orcl10AS/bi_ikl_temp1.dbf' SIZE 500M AUTOEXTEND OFF\nTABLESPACE GROUP ''\nEXTENT MANAGEMENT LOCAL UNIFORM SIZE 16M;\n\nCREATE TEMPORARY TABLESPACE BI_KEU_TEMP TEMPFILE \n  '/data/oracle/oradata/orcl10AS/bi_keu_temp1.dbf' SIZE 500M AUTOEXTEND OFF\nTABLESPACE GROUP ''\nEXTENT MANAGEMENT LOCAL UNIFORM SIZE 16M;\n\nCREATE TEMPORARY TABLESPACE BI_SIR_TEMP TEMPFILE \n  '/data/oracle/oradata/orcl10AS/bi_sir_temp1.dbf' SIZE 500M AUTOEXTEND OFF\nTABLESPACE GROUP ''\nEXTENT MANAGEMENT LOCAL UNIFORM SIZE 16M;\n\nCREATE TABLESPACE BI_ACC DATAFILE \n  '/data/oracle/oradata/orcl10AS/bi_acc02.dbf' SIZE 1020M AUTOEXTEND OFF,\n  '/data/oracle/oradata/orcl10AS/bi_acc01.dbf' SIZE 1020M AUTOEXTEND OFF,\n  '/data/oracle/oradata/orcl10AS/bi_acc03.dbf' SIZE 1020M AUTOEXTEND OFF,\n  '/data/oracle/oradata/orcl10AS/bi_acc04.dbf' SIZE 1020M AUTOEXTEND OFF,\n  '/data/oracle/oradata/orcl10AS/bi_acc05.dbf' SIZE 1020M AUTOEXTEND OFF,\n  '/data/oracle/oradata/orcl10AS/bi_acc06.dbf' SIZE 1020M AUTOEXTEND OFF,\n  '/data/oracle/oradata/orcl10AS/bi_acc07.dbf' SIZE 1020M AUTOEXTEND OFF,\n  '/data/oracle/oradata/orcl10AS/bi_acc08.dbf' SIZE 1020M AUTOEXTEND OFF\nLOGGING \nONLINE\nEXTENT MANAGEMENT LOCAL AUTOALLOCATE\nBLOCKSIZE 8K\nSEGMENT SPACE MANAGEMENT MANUAL\nFLASHBACK ON;\n\nCREATE TABLESPACE BI_DEV DATAFILE \n'/data/oracle/oradata/orcl10AS/bi_dev05.dbf' SIZE 1020M AUTOEXTEND OFF,\n'/data/oracle/oradata/orcl10AS/bi_dev04.dbf' SIZE 1020M AUTOEXTEND OFF,\n'/data/oracle/oradata/orcl10AS/bi_dev03.dbf' SIZE 1020M AUTOEXTEND OFF,\n'/data/oracle/oradata/orcl10AS/bi_dev02.dbf' SIZE 1020M AUTOEXTEND OFF,\n'/data/oracle/oradata/orcl10AS/bi_dev01.dbf' SIZE 1020M AUTOEXTEND OFF\nLOGGING\nONLINE\nEXTENT MANAGEMENT LOCAL AUTOALLOCATE\nBLOCKSIZE 8K\nSEGMENT SPACE MANAGEMENT MANUAL\nFLASHBACK ON;\n\nCREATE TABLESPACE BI_IKL DATAFILE \n  '/data/oracle/oradata/orcl10AS/bi_ikl01.dbf' SIZE 1020M AUTOEXTEND OFF\nLOGGING\nONLINE\nEXTENT MANAGEMENT LOCAL AUTOALLOCATE\nBLOCKSIZE 8K\nSEGMENT SPACE MANAGEMENT MANUAL\nFLASHBACK ON;\n\nCREATE TABLESPACE BI_KEU DATAFILE \n  '/data/oracle/oradata/orcl10AS/bi_keu01.dbf' SIZE 1020M AUTOEXTEND OFF\nLOGGING\nONLINE\nEXTENT MANAGEMENT LOCAL AUTOALLOCATE\nBLOCKSIZE 8K\nSEGMENT SPACE MANAGEMENT MANUAL\nFLASHBACK ON;\n\nCREATE TABLESPACE BI_PRM DATAFILE \n  '/data/oracle/oradata/orcl10AS/bi_prm01.dbf' SIZE 1020M AUTOEXTEND OFF\nLOGGING\nONLINE\nEXTENT MANAGEMENT LOCAL AUTOALLOCATE\nBLOCKSIZE 8K\nSEGMENT SPACE MANAGEMENT MANUAL\nFLASHBACK ON;\n\nCREATE TABLESPACE BI_PRV DATAFILE \n  '/data/oracle/oradata/orcl10AS/bi_prv01.dbf' SIZE 100M AUTOEXTEND OFF\nLOGGING\nONLINE\nEXTENT MANAGEMENT LOCAL AUTOALLOCATE\nBLOCKSIZE 8K\nSEGMENT SPACE MANAGEMENT MANUAL\nFLASHBACK ON;\n\nCREATE TABLESPACE BI_SDM DATAFILE \n  '/data/oracle/oradata/orcl10AS/bi_sdm01.dbf' SIZE 1020M AUTOEXTEND OFF\nLOGGING\nONLINE\nEXTENT MANAGEMENT LOCAL AUTOALLOCATE\nBLOCKSIZE 8K\nSEGMENT SPACE MANAGEMENT MANUAL\nFLASHBACK ON;\n\nCREATE TABLESPACE BI_SIR DATAFILE \n  '/data/oracle/oradata/orcl10AS/bi_sir02.dbf' SIZE 1020M AUTOEXTEND OFF,\n  '/data/oracle/oradata/orcl10AS/bi_sir01.dbf' SIZE 1020M AUTOEXTEND OFF\nLOGGING\nONLINE\nEXTENT MANAGEMENT LOCAL AUTOALLOCATE\nBLOCKSIZE 8K\nSEGMENT SPACE MANAGEMENT MANUAL\nFLASHBACK ON;\n\nCREATE TABLESPACE BI_UMUM DATAFILE \n  '/data/oracle/oradata/orcl10AS/bi_umum01.dbf' SIZE 1024M AUTOEXTEND OFF\nLOGGING\nONLINE\nEXTENT MANAGEMENT LOCAL AUTOALLOCATE\nBLOCKSIZE 8K\nSEGMENT SPACE MANAGEMENT MANUAL\nFLASHBACK ON;\n  \nCREATE TABLESPACE BI_BACKUP DATAFILE \n  '/data/oracle/oradata/orcl10AS/bi_backup01.dbf' SIZE 1024M AUTOEXTEND OFF\nLOGGING\nONLINE\nEXTENT MANAGEMENT LOCAL AUTOALLOCATE\nBLOCKSIZE 8K\nSEGMENT SPACE MANAGEMENT MANUAL\nFLASHBACK ON;\n\nCREATE TABLESPACE BI_PBG DATAFILE \n  '/data/oracle/oradata/orcl10AS/bi_pbg01.dbf' SIZE 1024M AUTOEXTEND OFF\nLOGGING\nONLINE\nEXTENT MANAGEMENT LOCAL AUTOALLOCATE\nBLOCKSIZE 8K\nSEGMENT SPACE MANAGEMENT MANUAL\nFLASHBACK ON;\n\nCREATE TABLESPACE BI_PMB DATAFILE \n  '/data/oracle/oradata/orcl10AS/bi_pmb01.dbf' SIZE 1024M AUTOEXTEND OFF\nLOGGING\nONLINE\nEXTENT MANAGEMENT LOCAL AUTOALLOCATE\nBLOCKSIZE 8K\nSEGMENT SPACE MANAGEMENT MANUAL\nFLASHBACK ON;\n\nCREATE TABLESPACE BI_PMS DATAFILE \n  '/data/oracle/oradata/orcl10AS/bi_pms01.dbf' SIZE 1024M AUTOEXTEND OFF\nLOGGING\nONLINE\nEXTENT MANAGEMENT LOCAL AUTOALLOCATE\nBLOCKSIZE 8K\nSEGMENT SPACE MANAGEMENT MANUAL\nFLASHBACK ON;\n\nCREATE TABLESPACE BI_PRO DATAFILE \n  '/data/oracle/oradata/orcl10AS/bi_pro01.dbf' SIZE 1024M AUTOEXTEND OFF\nLOGGING\nONLINE\nEXTENT MANAGEMENT LOCAL AUTOALLOCATE\nBLOCKSIZE 8K\nSEGMENT SPACE MANAGEMENT MANUAL\nFLASHBACK ON;",
 			"settings":
 			{
-				"buffer_size": 4589,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/Http/Controllers/PMS/customerController.php",
-			"settings":
-			{
-				"buffer_size": 5271,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "resources/views/pms/customer.blade.php",
-			"settings":
-			{
-				"buffer_size": 5603,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "public/assets/ng/controllers/pms/customer.min.js",
-			"settings":
-			{
-				"buffer_size": 6066,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "     CANCEL_GL_AR;\n     POSTING_GL_PENERIMAAN_DUA;\n     BALANCING_FAKTUR;\n\n\n\nPROCEDURE CANCEL_GL_AR IS\nBEGIN\n  --******** HAPUS DATA PENERIMAAN KAS BANK PADA G/L *************\n  DELETE FROM BI_ACC.ACC_GL_TRANS_DET\n  WHERE  BUKTI IN (SELECT BUKTI FROM BI_ACC.ACC_GL_TRANS_MST\n  								 WHERE JURNAL IN ('01','03','05','07')\n  								 AND   TGL BETWEEN TRUNC(:MAIN.PERIODE,'MM') AND LAST_DAY(:MAIN.PERIODE)\n  								 --AND   TO_CHAR(TGL,'MM/YYYY') = TO_CHAR(:MAIN.PERIODE,'MM/YYYY')\n  								 );\n  \n  DELETE FROM BI_ACC.ACC_GL_TRANS_MST\n  WHERE  JURNAL IN ('01','03','05','07')\n  AND    TGL BETWEEN TRUNC(:MAIN.PERIODE,'MM') AND LAST_DAY(:MAIN.PERIODE);\n  --AND    TO_CHAR(TGL,'MM/YYYY') = TO_CHAR(:MAIN.PERIODE,'MM/YYYY');\n  \n  COMMIT;\n  \n\n  --******** HAPUS DATA PENERIMAAN KAS BANK PADA KARTU PIUTANG *************\n	DELETE FROM BI_ACC.ACC_KARTU_PIUTANG\n	WHERE  --TIPE='4'\n	DK='K'\n	AND   SUBSTR(NO_BUKTI,1,2) IN ('BM','KM','GM')\n	AND   TGL BETWEEN TRUNC(:MAIN.PERIODE,'MM') AND LAST_DAY(:MAIN.PERIODE);\n	--AND    TO_CHAR(TGL,'MM/YYYY') = TO_CHAR(:MAIN.PERIODE,'MM/YYYY');\n\n\n  --******** HAPUS DATA PENERIMAAN KAS BANK PADA RK AGEN *************\n  /*\n	DELETE FROM BI_ACC.ACC_RK_AGEN\n	WHERE  --TIPE='4'\n	DK='K'\n	AND   SUBSTR(NO_BUKTI,1,2) IN ('BM','KM','GM')\n	AND   TGL BETWEEN TRUNC(:MAIN.PERIODE,'MM') AND LAST_DAY(:MAIN.PERIODE);\n	--AND    TO_CHAR(TGL,'MM/YYYY') = TO_CHAR(:MAIN.PERIODE,'MM/YYYY');\n  */\n\n  --******** HAPUS DATA PENERIMAAN KAS BANK PADA KARTU HUTANG *************\n	DELETE FROM BI_ACC.ACC_KARTU_HUTANG\n	WHERE  --TIPE='4'\n	DK='D'\n	AND   SUBSTR(NO_BUKTI,1,2) IN ('BM','KM','GM')\n	AND   TGL BETWEEN TRUNC(:MAIN.PERIODE,'MM') AND LAST_DAY(:MAIN.PERIODE);\n\n\n	COMMIT;  \nEND;\n\n\n\n\n\n       SELECT A.LKS,\n              A.NO_BUKTI,\n              A.TGL_TERIMA,\n              NVL(A.TOTAL,0),\n              A.KETERANGAN\n       FROM   BI_KEU.FA_PENERIMAAN_MST A\n       WHERE  A.TGL_TERIMA BETWEEN TRUNC(:MAIN.PERIODE,'MM') AND LAST_DAY(:MAIN.PERIODE);\n",
-			"settings":
-			{
-				"buffer_size": 1958,
+				"buffer_size": 4953,
 				"line_ending": "Unix",
-				"name": "CANCEL_GL_AR;"
+				"name": "CREATE TEMPORARY TABLESPACE BI_ACC_TEMP TEMPFILE"
 			}
 		},
 		{
-			"file": "public/assets/ng/controllers/keu/transferNoBukti.min.js",
+			"contents": "/data01/oracle/oradata/bi/bi_acc21.dbf 1G\n/data01/oracle/oradata/bi/bi_acc_temp8.dbf 500MB\n\n/data01/oracle/oradata/bi/bi_dev07.dbf 1G\n\n/data01/oracle/oradata/bi/bi_ikl01.dbf 1G\n/data01/oracle/oradata/bi/bi_ikl_temp2.dbf 500MB\n\n/data01/oracle/oradata/bi/bi_keu01.dbf 1G\n/data01/oracle/oradata/bi/bi_keu_temp.dbf 500MB\n\n/data01/oracle/oradata/bi/bi_prm01.dbf 1G\n\n/data01/oracle/oradata/bi/bi_prv01.dbf 100MB\n\n/data01/oracle/oradata/bi/bi_sdm_04.dbf 1G\n\n/data01/oracle/oradata/bi/bi_sir_03.dbf 1G\n\n/data01/oracle/oradata/bi/bi_sir_temp.dbf 500MB\n\n/data01/oracle/oradata/bi/bi_umu01.dbf 1G",
 			"settings":
 			{
-				"buffer_size": 9584,
+				"buffer_size": 585,
+				"line_ending": "Unix",
+				"name": "/data01/oracle/oradata/bi/bi_acc21.dbf 1G"
+			}
+		},
+		{
+			"contents": "CREATE TEMPORARY TABLESPACE BI_ACC_TEMP TEMPFILE \n  '/u02/data/oracle/jag/bi_acc_temp1.dbf' SIZE 500M AUTOEXTEND OFF,\n  '/u02/data/oracle/jag/bi_acc_temp2.dbf' SIZE 500M AUTOEXTEND OFF,\n  '/u02/data/oracle/jag/bi_acc_temp3.dbf' SIZE 500M AUTOEXTEND OFF,\n  '/u02/data/oracle/jag/bi_acc_temp4.dbf' SIZE 500M AUTOEXTEND OFF,\n  '/u02/data/oracle/jag/bi_acc_temp5.dbf' SIZE 500M AUTOEXTEND OFF,\n  '/u02/data/oracle/jag/bi_acc_temp6.dbf' SIZE 500M AUTOEXTEND OFF,\n  '/u02/data/oracle/jag/bi_acc_temp7.dbf' SIZE 500M AUTOEXTEND OFF,\n  '/u02/data/oracle/jag/bi_acc_temp8.dbf' SIZE 500M AUTOEXTEND OFF\nTABLESPACE GROUP ''\nEXTENT MANAGEMENT LOCAL UNIFORM SIZE 16M;\n\nCREATE TEMPORARY TABLESPACE BI_IKL_TEMP TEMPFILE \n  '/u02/data/oracle/jag/bi_ikl_temp1.dbf' SIZE 500M AUTOEXTEND OFF,\n  '/u02/data/oracle/jag/bi_ikl_temp2.dbf' SIZE 500M AUTOEXTEND OFF\nTABLESPACE GROUP ''\nEXTENT MANAGEMENT LOCAL UNIFORM SIZE 16M;\n\nCREATE TEMPORARY TABLESPACE BI_KEU_TEMP TEMPFILE \n  '/u02/data/oracle/jag/bi_keu_temp1.dbf' SIZE 500M AUTOEXTEND OFF\nTABLESPACE GROUP ''\nEXTENT MANAGEMENT LOCAL UNIFORM SIZE 16M;\n\nCREATE TEMPORARY TABLESPACE BI_SIR_TEMP TEMPFILE \n  '/u02/data/oracle/jag/bi_sir_temp1.dbf' SIZE 500M AUTOEXTEND OFF\nTABLESPACE GROUP ''\nEXTENT MANAGEMENT LOCAL UNIFORM SIZE 16M;\n\n\n\n\n\nCREATE TABLESPACE BI_ACC DATAFILE \n  '/u02/data/oracle/jag/bi_acc02.dbf' SIZE 1020M AUTOEXTEND OFF,\n  '/u02/data/oracle/jag/bi_acc01.dbf' SIZE 1020M AUTOEXTEND OFF,\n  '/u02/data/oracle/jag/bi_acc03.dbf' SIZE 1020M AUTOEXTEND OFF,\n  '/u02/data/oracle/jag/bi_acc04.dbf' SIZE 1020M AUTOEXTEND OFF,\n  '/u02/data/oracle/jag/bi_acc05.dbf' SIZE 1020M AUTOEXTEND OFF,\n  '/u02/data/oracle/jag/bi_acc06.dbf' SIZE 1020M AUTOEXTEND OFF,\n  '/u02/data/oracle/jag/bi_acc07.dbf' SIZE 1020M AUTOEXTEND OFF,\n  '/u02/data/oracle/jag/bi_acc08.dbf' SIZE 1020M AUTOEXTEND OFF,\n  '/u02/data/oracle/jag/bi_acc09.dbf' SIZE 1020M AUTOEXTEND OFF,\n  '/u02/data/oracle/jag/bi_acc10.dbf' SIZE 1020M AUTOEXTEND OFF,\n  '/u02/data/oracle/jag/bi_acc11.dbf' SIZE 1020M AUTOEXTEND OFF,\n  '/u02/data/oracle/jag/bi_acc12.dbf' SIZE 1020M AUTOEXTEND OFF,\n  '/u02/data/oracle/jag/bi_acc13.dbf' SIZE 1020M AUTOEXTEND OFF,\n  '/u02/data/oracle/jag/bi_acc14.dbf' SIZE 1020M AUTOEXTEND OFF,\n  '/u02/data/oracle/jag/bi_acc15.dbf' SIZE 1020M AUTOEXTEND OFF,\n  '/u02/data/oracle/jag/bi_acc16.dbf' SIZE 1020M AUTOEXTEND OFF,\n  '/u02/data/oracle/jag/bi_acc17.dbf' SIZE 1020M AUTOEXTEND OFF,\n  '/u02/data/oracle/jag/bi_acc18.dbf' SIZE 1020M AUTOEXTEND OFF,\n  '/u02/data/oracle/jag/bi_acc19.dbf' SIZE 1020M AUTOEXTEND OFF,\n  '/u02/data/oracle/jag/bi_acc20.dbf' SIZE 1020M AUTOEXTEND OFF,\n  '/u02/data/oracle/jag/bi_acc21.dbf' SIZE 1020M AUTOEXTEND OFF\nLOGGING \nONLINE\nEXTENT MANAGEMENT LOCAL AUTOALLOCATE\nBLOCKSIZE 8K\nSEGMENT SPACE MANAGEMENT MANUAL\nFLASHBACK ON;\n\nCREATE TABLESPACE BI_DEV DATAFILE \n'/u02/data/oracle/jag/bi_dev07.dbf' SIZE 1020M AUTOEXTEND OFF,\n'/u02/data/oracle/jag/bi_dev06.dbf' SIZE 1020M AUTOEXTEND OFF,\n'/u02/data/oracle/jag/bi_dev05.dbf' SIZE 1020M AUTOEXTEND OFF,\n'/u02/data/oracle/jag/bi_dev04.dbf' SIZE 1020M AUTOEXTEND OFF,\n'/u02/data/oracle/jag/bi_dev03.dbf' SIZE 1020M AUTOEXTEND OFF,\n'/u02/data/oracle/jag/bi_dev02.dbf' SIZE 1020M AUTOEXTEND OFF,\n'/u02/data/oracle/jag/bi_dev01.dbf' SIZE 1020M AUTOEXTEND OFF\nLOGGING\nONLINE\nEXTENT MANAGEMENT LOCAL AUTOALLOCATE\nBLOCKSIZE 8K\nSEGMENT SPACE MANAGEMENT MANUAL\nFLASHBACK ON;\n\n\n\n\n\n\n\nCREATE TABLESPACE BI_IKL DATAFILE \n  '/u02/data/oracle/jag/bi_ikl01.dbf' SIZE 1020M AUTOEXTEND OFF\nLOGGING\nONLINE\nEXTENT MANAGEMENT LOCAL AUTOALLOCATE\nBLOCKSIZE 8K\nSEGMENT SPACE MANAGEMENT MANUAL\nFLASHBACK ON;\n\nCREATE TABLESPACE BI_KEU DATAFILE \n  '/u02/data/oracle/jag/bi_keu01.dbf' SIZE 1020M AUTOEXTEND OFF\nLOGGING\nONLINE\nEXTENT MANAGEMENT LOCAL AUTOALLOCATE\nBLOCKSIZE 8K\nSEGMENT SPACE MANAGEMENT MANUAL\nFLASHBACK ON;\n\nCREATE TABLESPACE BI_PRM DATAFILE \n  '/u02/data/oracle/jag/bi_prm01.dbf' SIZE 1020M AUTOEXTEND OFF\nLOGGING\nONLINE\nEXTENT MANAGEMENT LOCAL AUTOALLOCATE\nBLOCKSIZE 8K\nSEGMENT SPACE MANAGEMENT MANUAL\nFLASHBACK ON;\n\nCREATE TABLESPACE BI_PRV DATAFILE \n  '/u02/data/oracle/jag/bi_prv01.dbf' SIZE 100M AUTOEXTEND OFF\nLOGGING\nONLINE\nEXTENT MANAGEMENT LOCAL AUTOALLOCATE\nBLOCKSIZE 8K\nSEGMENT SPACE MANAGEMENT MANUAL\nFLASHBACK ON;\n\nCREATE TABLESPACE BI_SDM DATAFILE \n  '/u02/data/oracle/jag/bi_sdm01.dbf' SIZE 1020M AUTOEXTEND OFF,\n  '/u02/data/oracle/jag/bi_sdm02.dbf' SIZE 1020M AUTOEXTEND OFF,\n  '/u02/data/oracle/jag/bi_sdm03.dbf' SIZE 1020M AUTOEXTEND OFF,\n  '/u02/data/oracle/jag/bi_sdm04.dbf' SIZE 1020M AUTOEXTEND OFF\nLOGGING\nONLINE\nEXTENT MANAGEMENT LOCAL AUTOALLOCATE\nBLOCKSIZE 8K\nSEGMENT SPACE MANAGEMENT MANUAL\nFLASHBACK ON;\n\nCREATE TABLESPACE BI_SIR DATAFILE \n  '/u02/data/oracle/jag/bi_sir02.dbf' SIZE 1020M AUTOEXTEND OFF,\n  '/u02/data/oracle/jag/bi_sir01.dbf' SIZE 1020M AUTOEXTEND OFF\nLOGGING\nONLINE\nEXTENT MANAGEMENT LOCAL AUTOALLOCATE\nBLOCKSIZE 8K\nSEGMENT SPACE MANAGEMENT MANUAL\nFLASHBACK ON;\n\nCREATE TABLESPACE BI_UMUM DATAFILE \n  '/u02/data/oracle/jag/bi_umum01.dbf' SIZE 1024M AUTOEXTEND OFF\nLOGGING\nONLINE\nEXTENT MANAGEMENT LOCAL AUTOALLOCATE\nBLOCKSIZE 8K\nSEGMENT SPACE MANAGEMENT MANUAL\nFLASHBACK ON;\n\n\n\n\n\n\nimp bi_sdm/bi_sdm@ORCL10AS file=/source/rabu/bi_sdm.dmp full=y\nimp bi_acc/bi_acc@ORCL10AS file=/source/rabu/bi_acc.dmp full=y\nimp bi_keu/bi_keu@ORCL10AS file=/source/rabu/bi_keu.dmp full=y	> import_keu.log\nimp bi_dev/bi_dev@ORCL10AS file=/source/rabu/bi_dev-1.dmp full=y > import_dev.log\nimp bi_prv/bi_prv@ORCL10AS file=/source/rabu/bi_prv.dmp log=import_prv.log full=y \nimp bi_prm/bi_prm@ORCL10AS file=/source/rabu/bi_prm.dmp log=import_prm.log full=y\nimp bi_sir/bi_sir@ORCL10AS file=/source/rabu/bi_sir.dmp log=import_sir.log full=y\nimp bi_ikl/bi_ikl@ORCL10AS file=/source/rabu/bi_ikl.dmp log=import_ikl.log full=y\nimp bi_umum/bi_umum@ORCL10AS file=/source/rabu/bi_umum.dmp log=import_umum.log full=y",
+			"settings":
+			{
+				"buffer_size": 5818,
+				"line_ending": "Unix",
+				"name": "CREATE TEMPORARY TABLESPACE BI_ACC_TEMP TEMPFILE"
+			}
+		},
+		{
+			"file": "app/Http/Models/acc/acc_anggaran_mst.php",
+			"settings":
+			{
+				"buffer_size": 721,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "public/assets/ng/views/keu/form/formNomorFPajak.html",
+			"file": "app/Http/Models/keu/fa_bank_mst.php",
 			"settings":
 			{
-				"buffer_size": 7313,
+				"buffer_size": 543,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "resources/views/modules/keu/transferNoBukti.blade.php",
+			"file": "app/Http/Controllers/keu/penerimaanMstController.php",
 			"settings":
 			{
-				"buffer_size": 13240,
+				"buffer_size": 8167,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "resources/views/templates/gentalella/angularjs/head.blade.php",
+			"file": "resources/views/modules/acc/anggaran.blade.php",
 			"settings":
 			{
-				"buffer_size": 6018,
+				"buffer_size": 5574,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "public/assets/ng/views/keu/form/formPenerimaan.html",
+			"file": "public/assets/ng/controllers/acc/anggaran.min.js",
 			"settings":
 			{
-				"buffer_size": 60693,
+				"buffer_size": 10599,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "public/assets/ng/controllers/keu/penerimaanMst.min.js",
+			"settings":
+			{
+				"buffer_size": 21861,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "public/assets/ng/views/acc/forms/formAnggaran.html",
+			"settings":
+			{
+				"buffer_size": 15767,
 				"line_ending": "Unix"
 			}
 		},
@@ -639,17 +654,55 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/controllers",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/controllers/keu",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/images",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/vendor",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/vendor/lavary"
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/Auth",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PROD",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Middleware",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/hkm",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/keu",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/modules",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/modules/acc",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/gentalella",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/gentalella/angularjs"
 	],
 	"file_history":
 	[
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/gentalella/angularjs/head.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/controllers/keu/penerimaanMst.min.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/modules/keu/penerimaan.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/modules/keu/transferNoBukti.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/controllers/keu/transferNoBukti.min.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/keu/transferNoBuktiController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/keu/pembayaranMstController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/sdm/sdm_ou_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms/pms_customer_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms/pms_pnwr_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/hkm/hkm_spks_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/pnwrMstController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/acc/acc_anggaran_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/acc/acc_anggaran_det.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/sites/menuController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/keu/kwitansiController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/keu/kwitansi_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/keu/transferPembayaranController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/keu/penerimaanMstController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/pnwrMst.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/pnwrMst.min.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/views/pms/forms/formFPMst.html",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/hkm/spks/tblSpks.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/sdm/sdm_oiu_mst.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/keu/anggaranMstController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/routes.php",
+		"/home/rianday/.ssh/id_rsa.pub",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/config/database.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/customerController.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/customer.blade.php",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/controllers/pms/customer.min.js",
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/views/keu/form/formNomorFPajak.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/trash/customer.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/templates/gentelella/master/production/form_advanced.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/.ng-html/formPnwrMst.html",
@@ -657,12 +710,8 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/views/keu/form/formPenerimaan.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/modules/keu/nomorFPajak.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/gentalella/top.blade.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/controllers/keu/penerimaanMst.min.js",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/modules/keu/penerimaan.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Middleware/Menus.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/keu/nomorFPajakController.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/customerController.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/keu/penerimaanMstController.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/keu/setoranBankController.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/sites/profileController.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/keu/fa_fpajak_mst_nomor.php",
@@ -674,7 +723,6 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/templates/gentelella/master/production/general_elements.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/controllers/sites/profile.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/modules/sites/components/profile.blade.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/routes.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/vendor/phpoffice/phpexcel/unitTests/rawTestData/Shared/InchSizeToPixels.data",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/views/etc/messages.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/vendor/laravel/framework/src/Illuminate/Auth/AuthServiceProvider.php",
@@ -685,7 +733,6 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/vendor/laravel/framework/src/Illuminate/Support/Facades/Auth.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/vendor/laravel/framework/src/Illuminate/Contracts/Auth/Factory.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/controllers/pms/customer.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/others/app.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/templates/gentelella/master/production/css/bootstrap.min.css",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/Auth/TokenController.php",
@@ -693,7 +740,6 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/vendor/laravel/framework/src/Illuminate/Foundation/Auth/ResetsPasswords.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/produkController.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/views/pms/forms/formPnwrMst.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/pnwrMst.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/controllers/pms/pnwrMst.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/lovProduk.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/produk.min.js",
@@ -713,7 +759,6 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/acc/fakturHutangController.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/sys/sys_app_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/sys/sys_user_akses_det.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/sites/menuController.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/layouts/app-angularjs.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/layouts/backup/app-angularjs.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Middleware/backup/Menus.php",
@@ -723,13 +768,9 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/controllers/acc/lovFakturHutang.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/controllers/hkm/spks.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/PMS/fpMstController.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/pnwrMst.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/views/acc/lov/lovCoa.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/keu/penerimaanDetController.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/templates/gentalella/angularjs/head.blade.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/views/pms/forms/formFPMst.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/.env",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/config/database.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/umum/umum_supplier_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/umum/2016_05_10_135752_umum_supplier_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Requests/umum/reqUmumSupplierMst.php",
@@ -741,7 +782,6 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Controllers/acc/coasMstController.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/controllers/pms/lovCustomer_rev2.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/umum/2016_05_10_135752_umum_customer_mst.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/pms/pms_customer_mst.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/database/migrations/2016_05_10_135752_pms_customer_mst.php",
 		"/opt/lampp/etc/extra/httpd-vhosts.conf",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/views/hkm/lov/lovSpks.html",
@@ -749,35 +789,16 @@
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/others/rte-angular-master/src/rte/rte.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/others/rte-angular-master/src/rte/rte.css",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/views/hkm/form/formSpks.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/hkm/spks/tblSpks.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/User.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/app/Http/Models/keu/fa_penerimaan_ar_det.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/views/pms/forms/modalCustomer.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/customer.min.js",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/produk.blade.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/customer.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/views/pms/forms/modalLibur.html",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/libur.blade.php",
 		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/controllers/pms/lovCustomer.min.js",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/views/pms/lov/lovCustomer.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/lovSpks.min.js",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/views/pms/lov/lovProduk.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/views/pms/lov/lovPnwr.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/views/pms/forms/modalTarif.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/controllers/pms/libur.min.js",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/views/pms/forms/pnwrTayang.html",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/resources/views/pms/fpMst.blade.php",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/controllers/pms/lovPnwr.min.js",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/controllers/pms/lovProduk.min.js",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/vendor/phpoffice/phpexcel/unitTests/rawTestData/Style/NumberFormat.data",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/lovCustomer.min.js",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/controllers/pms/spks.min.js",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/spks.min.js",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/controllers/libur.min.js",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/controllers/pms/produk.min.js",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/app/helpers/myHelper.js",
-		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/ext/.ng-html/modalCustomer.html"
+		"/opt/lampp/htdocs/laravel/laravel-projects/radio/public/assets/ng/views/pms/lov/lovCustomer.html"
 	],
 	"find":
 	{
@@ -798,6 +819,102 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"jurnal_det",
+			"anggaran_det",
+			"push",
+			"backup_db/20151208",
+			"/data/oracle/oradata/orcl10AS/",
+			"create",
+			"create_by",
+			"create",
+			"delDetail",
+			"det",
+			"id_customer",
+			"jumlah",
+			"Jumlah",
+			"jumlah",
+			"keterangan",
+			"Keterangan",
+			"keterangan",
+			"Keterangan",
+			"keterangan",
+			"no_bank",
+			"det",
+			"jatuh_tempo",
+			"pms",
+			"show",
+			"formCustomer",
+			"cost_center_id",
+			"total",
+			"Total",
+			"total",
+			"date",
+			"cost_center_id",
+			"tgl_terima",
+			"no_bukti",
+			"id_customer",
+			"spks_apv",
+			"whereNotNull('coa_id')->",
+			"bankMstController",
+			"no_bukti",
+			"anggaran_det",
+			"coa_id",
+			"customer",
+			"tgl_terima",
+			"cSal",
+			"jenis_bukti",
+			"penerimaan",
+			"NoBukti",
+			"Pengeluaran",
+			"NoBukti",
+			"h3",
+			"strong",
+			"postingGlPenerimaan",
+			"acc_saldo_piutang",
+			"->k",
+			">k1",
+			"$k",
+			"case 'K",
+			"'K",
+			"'k",
+			"'K",
+			"k",
+			"K",
+			"k",
+			"K",
+			"k",
+			"K",
+			"k",
+			"K",
+			"k",
+			"K",
+			"k",
+			"K",
+			"k",
+			"K",
+			"k",
+			"K",
+			"k",
+			"K",
+			"k",
+			"K",
+			"k",
+			"K",
+			"k",
+			"K",
+			"k",
+			"K",
+			"salPiutang_temp",
+			"coa_customer",
+			"'k",
+			"penerimaan",
+			"cancelArGl",
+			"= !$scope.errorStatusTransfer",
+			"transfer",
+			"Dua",
+			"cancelArGl",
+			"$value->k",
+			"cancelArGl",
 			"$value->k",
 			": $value->k",
 			"value->k",
@@ -829,103 +946,7 @@
 			"K1",
 			"k1",
 			"K1",
-			"k1",
-			"K1",
-			"k1",
-			"K1",
-			"transfer_",
-			"        \n",
-			"transfer",
-			"Transfer",
-			"transfer",
-			"knob",
-			"jmlBukti",
-			"no_bukti",
-			"8",
-			"11",
-			"6",
-			"proses",
-			"hasil",
-			":UTAMA.PERIODE",
-			"request",
-			"cekBukti",
-			"public",
-			"'",
-			"4",
-			"10",
-			"9",
-			"col-md-6col-md-6",
-			"col-md-6",
-			"col-md-12",
-			"9",
-			"5",
-			"6",
-			"['param']",
-			"jenis_bukti",
-			"nomor_surat_pajak",
-			"no_bukti",
-			"tgl_cetak",
-			"kelompok",
-			"nomor_belakang",
-			"nomor_depan",
-			"to_periode",
-			"Surat",
-			"from_periode",
-			"no_bukti",
-			"sce",
-			"pajak",
-			"KEU\\",
-			"keu",
-			"KEU",
-			"keu",
-			"KEU",
-			"}}",
-			"password_confirmation",
-			"no_po_customer",
-			"frmMst.",
-			"frmMst",
-			"authenticated",
-			"intended",
-			"clearLoginAttempts",
-			"function authenticated",
-			"function authenticated(",
-			"authenticated(",
-			"loginUsername",
-			"AuthenticatesUsers(",
-			"function authenticated(",
-			"authenticated",
-			"handleUserWasAuthenticated",
-			"getCredentials",
-			"change_password",
-			"confirm_password",
-			"frmMst",
-			"controll",
-			"tayang",
-			"number",
-			"<ng-messages-include src=\"/ext/ng-html/messages.html\"></ng-messages-include>",
-			"ext/ng-html/messages.html",
-			"dura",
-			"durat",
-			"duratio",
-			"durasi",
-			"index",
-			"`",
-			"\n}",
-			"created",
-			"reset(",
-			"repeat_change_password",
-			"keu",
-			"KEU",
-			"keu",
-			"KEU",
-			"keu",
-			"KEU",
-			"9",
-			"change_password",
-			"current_password",
-			"12",
-			"no_bukti",
-			".table>tfoot>tr>td"
+			"k1"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -933,6 +954,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"/u02/data/oracle/jag/",
 			"<ng-messages-include src=\"/assets/ng/views/etc/messages.html\"></ng-messages-include>",
 			"",
 			"') !!}",
@@ -966,7 +988,7 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 7,
 			"sheets":
 			[
 				{
@@ -975,15 +997,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 28029,
+						"buffer_size": 8811,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								16635,
-								16635
+								8811,
+								8811
 							]
 						],
 						"settings":
@@ -1000,7 +1022,7 @@
 						"translation.y": 3458.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 17,
+					"stack_index": 15,
 					"type": "text"
 				},
 				{
@@ -1009,15 +1031,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5952,
+						"buffer_size": 6822,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4959,
-								4959
+								3592,
+								3592
 							]
 						],
 						"settings":
@@ -1029,27 +1051,27 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1277.0,
+						"translation.y": 854.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 14,
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "app/Http/Middleware/Authenticate.php",
-					"semi_transient": true,
+					"file": "app/Http/Controllers/acc/anggaranMstController.php",
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 676,
+						"buffer_size": 5365,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								2081,
+								2081
 							]
 						],
 						"settings":
@@ -1062,43 +1084,39 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 600.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
 					"buffer": 3,
-					"file": "app/Http/Controllers/keu/transferNoBuktiController.php",
+					"file": "/u02/backup_jag/listener.log",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 29961,
+						"buffer_size": 1103094,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								16892,
-								16892
+								1091342,
+								1091342
 							]
 						],
 						"settings":
 						{
 							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 4594.0,
+						"translation.y": 83369.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
@@ -1106,156 +1124,82 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 18387,
+						"buffer_size": 2860,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								16846,
-								16846
+								2274,
+								2274
 							]
 						],
 						"settings":
 						{
-							"auto_name": "BEGIN",
+							"auto_name": "./oracle/app/10.1.2.0.2/BI/opmn/logs/states",
+							"incomplete_sync": null,
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4953,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4517,
+								4517
+							]
+						],
+						"settings":
+						{
+							"auto_name": "CREATE TEMPORARY TABLESPACE BI_ACC_TEMP TEMPFILE",
 							"incomplete_sync": null,
 							"syntax": "Packages/Text/Plain text.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 5222.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "config/database.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4589,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								631,
-								631
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "app/Http/Controllers/PMS/customerController.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5271,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1338,
-								1338
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "resources/views/pms/customer.blade.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5603,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5508,
-								5508
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 711.0,
+						"translation.y": 1208.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 8,
 					"type": "text"
 				},
 				{
-					"buffer": 8,
-					"file": "public/assets/ng/controllers/pms/customer.min.js",
+					"buffer": 6,
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6066,
+						"buffer_size": 585,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								585,
+								585
 							]
 						],
 						"settings":
 						{
+							"auto_name": "/data01/oracle/oradata/bi/bi_acc21.dbf 1G",
 							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1265,45 +1209,73 @@
 					"type": "text"
 				},
 				{
-					"buffer": 9,
+					"buffer": 7,
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1958,
+						"buffer_size": 5818,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1958,
-								1958
+								5818,
+								5818
 							]
 						],
 						"settings":
 						{
-							"auto_name": "CANCEL_GL_AR;",
+							"auto_name": "CREATE TEMPORARY TABLESPACE BI_ACC_TEMP TEMPFILE",
 							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 339.0,
+						"translation.y": 1680.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 10,
-					"file": "public/assets/ng/controllers/keu/transferNoBukti.min.js",
+					"buffer": 8,
+					"file": "app/Http/Models/acc/acc_anggaran_mst.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 9584,
+						"buffer_size": 721,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								329,
+								329
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "app/Http/Models/keu/fa_bank_mst.php",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 543,
 						"regions":
 						{
 						},
@@ -1319,42 +1291,7 @@
 							"incomplete_sync": null,
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 10,
-					"type": "text"
-				},
-				{
-					"buffer": 11,
-					"file": "public/assets/ng/views/keu/form/formNomorFPajak.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 7313,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								7313,
-								7313
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/PHP/PHP.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1364,20 +1301,20 @@
 					"type": "text"
 				},
 				{
-					"buffer": 12,
-					"file": "resources/views/modules/keu/transferNoBukti.blade.php",
+					"buffer": 10,
+					"file": "app/Http/Controllers/keu/penerimaanMstController.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 13240,
+						"buffer_size": 8167,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								187,
-								187
+								7989,
+								7989
 							]
 						],
 						"settings":
@@ -1390,27 +1327,93 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 331.0,
+						"translation.y": 1114.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 11,
+					"stack_index": 13,
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "resources/views/modules/acc/anggaran.blade.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5574,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3340,
+								3340
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 58.0,
+						"translation.y": 358.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "public/assets/ng/controllers/acc/anggaran.min.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 10599,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5524,
+								5524
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1834.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
 					"buffer": 13,
-					"file": "resources/views/templates/gentalella/angularjs/head.blade.php",
+					"file": "public/assets/ng/controllers/keu/penerimaanMst.min.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6018,
+						"buffer_size": 21861,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5160,
-								5160
+								2030,
+								2030
 							]
 						],
 						"settings":
@@ -1418,32 +1421,32 @@
 							"incomplete_sync": null,
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"tab_size": 4,
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 859.0,
+						"translation.y": 670.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 16,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
 					"buffer": 14,
-					"file": "public/assets/ng/views/keu/form/formPenerimaan.html",
+					"file": "public/assets/ng/views/acc/forms/formAnggaran.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 60693,
+						"buffer_size": 15767,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5800,
-								5800
+								11558,
+								11558
 							]
 						],
 						"settings":
@@ -1455,11 +1458,11 @@
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
-						"translation.x": 37.0,
-						"translation.y": 630.0,
+						"translation.x": 405.0,
+						"translation.y": 1520.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 15,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
@@ -1475,8 +1478,8 @@
 						"selection":
 						[
 							[
-								514,
-								514
+								405,
+								405
 							]
 						],
 						"settings":
@@ -1490,7 +1493,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 14,
+					"stack_index": 11,
 					"type": "text"
 				},
 				{
@@ -1521,7 +1524,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 13,
+					"stack_index": 17,
 					"type": "text"
 				},
 				{
@@ -1554,7 +1557,7 @@
 						"translation.y": 1045.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 16,
 					"type": "text"
 				}
 			]
@@ -1613,12 +1616,128 @@
 		"selected_items":
 		[
 			[
-				"assets/ng/controllers/pms/customer.min.js",
-				"public/assets/ng/controllers/pms/customer.min.js"
+				"anggaran",
+				"public/assets/ng/views/acc/forms/formAnggaran.html"
+			],
+			[
+				"penerimaan.min",
+				"public/assets/ng/controllers/keu/penerimaanMst.min.js"
+			],
+			[
+				"anggaran.min",
+				"public/assets/ng/controllers/acc/anggaran.min.js"
+			],
+			[
+				"anggara",
+				"app/Http/Models/acc/acc_anggaran_mst.php"
+			],
+			[
+				"penerima",
+				"app/Http/Controllers/keu/penerimaanMstController.php"
+			],
+			[
+				"head.",
+				"resources/views/templates/gentalella/angularjs/head.blade.php"
+			],
+			[
+				"penerimaa",
+				"resources/views/modules/keu/penerimaan.blade.php"
+			],
+			[
+				"penerimaanmin",
+				"public/assets/ng/controllers/keu/penerimaanMst.min.js"
+			],
+			[
+				"pene",
+				"resources/views/modules/keu/penerimaan.blade.php"
+			],
+			[
+				"pnwr",
+				"public/app/controllers/pnwrMst.min.js"
+			],
+			[
+				"route",
+				"app/Http/routes.php"
+			],
+			[
+				"formanggaran",
+				"public/assets/ng/views/acc/forms/formAnggaran.html"
+			],
+			[
+				"angga",
+				"resources/views/modules/acc/anggaran.blade.php"
+			],
+			[
+				"pms_customer_mst",
+				"app/Http/Models/pms/pms_customer_mst.php"
+			],
+			[
+				"pnwr_mst",
+				"app/Http/Models/pms/pms_pnwr_mst.php"
+			],
+			[
+				"spks_",
+				"app/Http/Models/hkm/hkm_spks_mst.php"
+			],
+			[
+				"pnwrmstcon",
+				"app/Http/Controllers/PMS/pnwrMstController.php"
+			],
+			[
+				"formpenerim",
+				"public/assets/ng/views/keu/form/formPenerimaan.html"
+			],
+			[
+				"formfp",
+				"public/assets/ng/views/pms/forms/formFPMst.html"
+			],
+			[
+				"spks",
+				"resources/views/hkm/spks/tblSpks.blade.php"
 			],
 			[
 				"customer",
-				"resources/views/pms/customer.blade.php"
+				"public/assets/ng/controllers/pms/customer.min.js"
+			],
+			[
+				"menucontroller",
+				"app/Http/Controllers/sites/menuController.php"
+			],
+			[
+				"models/keu/kwitansi_mst",
+				"app/Http/Models/keu/kwitansi_mst.php"
+			],
+			[
+				"kwitansicontroller",
+				"app/Http/Controllers/keu/kwitansiController.php"
+			],
+			[
+				"pemba",
+				"app/Http/Controllers/keu/pembayaranMstController.php"
+			],
+			[
+				"peneriman",
+				"app/Http/Controllers/keu/penerimaanMstController.php"
+			],
+			[
+				"transfernobukti.min.js",
+				"public/assets/ng/controllers/keu/transferNoBukti.min.js"
+			],
+			[
+				"modules/keu/transfernobukti",
+				"resources/views/modules/keu/transferNoBukti.blade.php"
+			],
+			[
+				"transfer",
+				"app/Http/Controllers/keu/transferNoBuktiController.php"
+			],
+			[
+				"transfernobukti",
+				"resources/views/modules/keu/transferNoBukti.blade.php"
+			],
+			[
+				"assets/ng/controllers/pms/customer.min.js",
+				"public/assets/ng/controllers/pms/customer.min.js"
 			],
 			[
 				"custom",
@@ -1627,10 +1746,6 @@
 			[
 				"templates/layouts/ng-gentalella",
 				"resources/views/templates/layouts/ng-gentalella.blade.php"
-			],
-			[
-				"transfer",
-				"public/assets/ng/controllers/keu/transferNoBukti.min.js"
 			],
 			[
 				"frm",
@@ -1651,18 +1766,6 @@
 			[
 				"penerimaan",
 				"public/assets/ng/views/keu/form/formPenerimaan.html"
-			],
-			[
-				"penerimaanmin",
-				"public/assets/ng/controllers/keu/penerimaanMst.min.js"
-			],
-			[
-				"penerimaa",
-				"resources/views/modules/keu/penerimaan.blade.php"
-			],
-			[
-				"penerimaan.min",
-				"public/assets/ng/controllers/keu/penerimaanMst.min.js"
 			],
 			[
 				"fpajak",
@@ -1737,10 +1840,6 @@
 				"app/Http/Controllers/keu/setoranBankController.php"
 			],
 			[
-				"route",
-				"app/Http/routes.php"
-			],
-			[
 				"top",
 				"vendor/phpoffice/phpexcel/unitTests/rawTestData/Shared/InchSizeToPixels.data"
 			],
@@ -1813,10 +1912,6 @@
 				"public/assets/ng/views/keu/form/formPenerimaan.html"
 			],
 			[
-				"pnwr",
-				"resources/views/pms/pnwrMst.blade.php"
-			],
-			[
 				"pwnrmin",
 				"public/assets/ng/controllers/pms/pnwrMst.min.js"
 			],
@@ -1877,10 +1972,6 @@
 				"public/assets/ng/controllers/keu/penerimaanMst.min.js"
 			],
 			[
-				"menucontroller",
-				"app/Http/Controllers/sites/menuController.php"
-			],
-			[
 				"produkcontroller",
 				"app/Http/Controllers/PMS/produkController.php"
 			],
@@ -1902,14 +1993,6 @@
 			],
 			[
 				"penerim",
-				"public/assets/ng/controllers/keu/penerimaanMst.min.js"
-			],
-			[
-				"spks",
-				"app/Http/Controllers/HKM/spksController.php"
-			],
-			[
-				"penerima",
 				"public/assets/ng/controllers/keu/penerimaanMst.min.js"
 			],
 			[
@@ -1935,10 +2018,6 @@
 			[
 				"lovcoa",
 				"public/assets/ng/controllers/acc/lovCoa.min.js"
-			],
-			[
-				"pene",
-				"resources/views/modules/keu/penerimaan.blade.php"
 			],
 			[
 				"fpmstcon",
@@ -2005,10 +2084,6 @@
 				"public/assets/ng/controllers/pms/lovCustomer.min.js"
 			],
 			[
-				"formfp",
-				"public/assets/ng/views/pms/forms/formFPMst.html"
-			],
-			[
 				"formpener",
 				"public/assets/ng/views/keu/form/formPenerimaan.html"
 			],
@@ -2051,78 +2126,6 @@
 			[
 				"rte-angular-master/src/rte/rte.css",
 				"public/assets/ng/others/rte-angular-master/src/rte/rte.css"
-			],
-			[
-				"formpenerimaa",
-				"public/assets/ng/views/keu/form/formPenerimaan.html"
-			],
-			[
-				"head",
-				"resources/views/templates/gentalella/angularjs/head.blade.php"
-			],
-			[
-				"head.bla",
-				"resources/views/templates/gentalella/head.blade.php"
-			],
-			[
-				"fa_penerimaa",
-				"app/Http/Models/keu/fa_penerimaan_mst.php"
-			],
-			[
-				"production/form",
-				"public/assets/templates/gentelella/master/production/form.html"
-			],
-			[
-				"fpmst.min",
-				"public/assets/ng/controllers/pms/fpMst.min.js"
-			],
-			[
-				"ng/views/hkm/form/formspks.html",
-				"public/assets/ng/views/hkm/form/formSpks.html"
-			],
-			[
-				"ng/controllers/hkm/spks.min.js",
-				"public/assets/ng/controllers/hkm/spks.min.js"
-			],
-			[
-				"general",
-				"public/assets/templates/gentelella/master/production/general_elements.html"
-			],
-			[
-				"formfpmst",
-				"public/assets/ng/views/pms/forms/formFPMst.html"
-			],
-			[
-				"illuminate/database/eloquent/model",
-				"vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php"
-			],
-			[
-				"penerimaan_ms",
-				"app/Http/Models/keu/fa_penerimaan_mst.php"
-			],
-			[
-				"spks.bla",
-				"resources/views/hkm/spks/tblSpks.blade.php"
-			],
-			[
-				"pms/fpmst.min",
-				"public/assets/ng/controllers/pms/fpMst.min.js"
-			],
-			[
-				"lovpnwr",
-				"public/assets/ng/views/pms/lov/lovPnwr.html"
-			],
-			[
-				"ng/controllers/pms/lovpnwr.min.js",
-				"public/assets/ng/controllers/pms/lovPnwr.min.js"
-			],
-			[
-				"ng/controllers/pms/fpmst.min.js",
-				"public/assets/ng/controllers/pms/fpMst.min.js"
-			],
-			[
-				"fpblad",
-				"resources/views/pms/fpMst.blade.php"
 			]
 		],
 		"width": 0.0

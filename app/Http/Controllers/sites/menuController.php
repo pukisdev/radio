@@ -35,7 +35,7 @@ class menuController extends Controller
                         //->whereIn('id_app', akses_det::)
                         // ->where('f_user', Auth::user()->f_nip_sys)
                         ->get();
-
+        // dd($hasil['menu']);
         // dd(DB::getQueryLog());
         $varTemp = $hasil['menu']->all();
         
