@@ -58,6 +58,8 @@ Route::group(['prefix'=>'mst', 'middleware'=>['menus']], function(){ //show view
 
 	Route::get('acc/transAr', 'acc\transArMstController@_index');
 	Route::get('acc/coas', 'acc\coasMstController@_index');
+	Route::get('acc/perusahaan', 'acc\perusahaanMstController@_index');
+	Route::get('acc/tipe_jurnal', 'acc\tipeJurnalMstController@_index');
 });
 
 Route::group(['prefix'=>'trx', 'middleware'=>['menus']], function(){ //show view
@@ -144,6 +146,9 @@ Route::group(['prefix'=>'acc'], function(){
 	Route::resource('coas', 'acc\coasMstController');
 	Route::resource('transAr', 'acc\transArMstController');
 	Route::resource('anggaran', 'acc\anggaranMstController');
+	Route::resource('perusahaan', 'acc\perushahaanMstController');
+	Route::resource('tipe_jurnal', 'acc\tipeJurnalMstController');
+	
 	Route::get('coas/ap/cst','acc\coasMstController@_coas_ap');
 	Route::get('coas/ap/pms_cst','acc\coasMstController@coas_pms_customer');
 	Route::get('lovFakturPiutang','acc\fakturPiutangController@_lovFakturPiutang');
