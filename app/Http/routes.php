@@ -78,6 +78,9 @@ Route::group(['prefix'=>'rpt', 'middleware' => ['menus']], function(){ //show vi
 	Route::get('keu/pKwitansi/{no_kwitansi}', 'keu\kwitansiController@pKwitansi');
 	Route::get('keu/pFpajak/{no_kwitansi}', 'keu\kwitansiController@pFpajak');
 	Route::get('pms/rekapStatusOrder', 'PMS\rekapStatusOrderController@index');
+	
+	Route::get('keu/rptPembayaran', 'keu\pembayaranMstController@rptPembayaran');
+	Route::post('{fileType}/keu/notaPembayaran', 'keu\pembayaranMstController@rptNotaPembayaran');
 });
 
 
@@ -127,6 +130,7 @@ Route::group(['prefix'=>'keu'], function(){
 	Route::get('seri_sb','keu\penerimaanDetController@seriSetoranBank');
 	Route::get('fpajak', 'keu\kwitansiController@getFpajak');
 	Route::get('maxFpajak', 'keu\kwitansiController@getMaxFpajak');
+	Route::get('faPembayaran', 'keu\pembayaranMstController@pembayaranMstDet');
 	//Route::resource('bank', 'keu\bankMstController');
 
 	Route::post('nomor_fpajak/{nomor_fpajak}/edit', 'keu\nomorFPajakController@edit');

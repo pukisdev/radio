@@ -18,6 +18,7 @@ use App\Http\Models\keu\fa_pembayaran_jurnal_det as ModelJurnalDet;
 use Carbon;
 use DB;
 use Terbilang;
+use PDF;
 
 class pembayaranMstController extends Controller
 {
@@ -236,5 +237,62 @@ class pembayaranMstController extends Controller
         modelBankDet::where('no_bukti', $id)->delete();
         modelGiroDet::where('no_bukti', $id)->delete();
         modelJurnalDet::where('no_bukti', $id)->delete();
+    }
+
+    public function rptPembayaran(Request $request){
+        return view('modules/keu/form/frmRptPembayaran');
+    }
+
+    public function rptNotaPembayaran(Request $request){
+        //dd($request);
+        $query = DB::table("bi_keu.fa_pembayaran_mst_det_view a")
+                    ->select(
+                        "distinct a.no_bukti", 
+                        "tgl_cetak", 
+                        "DECODE(a.jenis_bukti,'B','X',' ') B",
+                        "DECODE(A.JENIS_BUKTI,'K','X',' ') K",
+                        "DECODE(A.JENIS_BUKTI,'CHEQUE/GIRO/TT','X',' ') C_G_TT",
+                        "A.NO_PPB",
+                        "INITCAP(A.TERBILANG) TERBILANG",
+                        "A.BAGIAN",
+                        "A.TOTAL total",
+                        "A.NOTA_DARI",
+                        "A.NO_NPUM",
+                        "A.NO_CUSTOMER",
+                        "'' CUST_NAME",
+                        "A.KETERANGAN",
+                        "A.JUMLAH",
+                        "A.MATA_UANG",
+                        "A.DI_CUSTOMER"
+                    );
+
+        if($request->berdasarkan == "true"){
+            $items = $query->whereBetween("a.no_bukti", [$request->bukti_awal, $request->bukti_akhir])->get();
+            //echo $request->bukti_awal;
+            //echo $request->bukti_akhir;
+        }
+        else {
+            $items = $query->whereBetween("a.tgl_cetak", [$request->tgl_awal, $request->tgl_akhir])->get();
+            //echo $request->tgl_awal;
+            //echo $request->tgl_akhir;
+        }
+        
+        $output = 'pdf';            
+        if($output == 'pdf'){
+            $pdf = PDF::loadView('modules.keu.report.notaPembayaran', ['vData' => $items])->setPaper('a4');//->setOrientation('landscape');
+            return $pdf->download('nota_pembayaran.pdf');
+        }
+        else{
+            Excel::create('Daftar Voucher', function($excel) use ($hasil) {
+            $excel->sheet('Excel sheet', function($sheet) use ($hasil) {
+                $sheet->loadView('modules.keu.report.nota_pembayaran')->with('vData', $hasil)->with('vDet', $det);
+            });
+            $excel->setTitle('Daftar Voucher');     
+            })->export('xls'); 
+        }
+    }
+
+    public function pembayaranMstDet(Request $request){
+
     }
 }
