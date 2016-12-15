@@ -12,10 +12,12 @@ use App\Http\Models\keu\fa_penerimaan_det as modelDet;
 use App\Http\Models\keu\fa_penerimaan_ar_det as arDet;
 use App\Http\Models\keu\fa_penerimaan_ap_det as apDet;
 use App\Http\Models\keu\fa_penerimaan_jurnal_det as jurnalDet;
+use App\Http\Models\keu\fa_relasi_mst as modelRelasi;
 // use App\Http\Requests\reqPmsFpMst as reqMst;
 use Carbon;
 use DB;
 use Terbilang;
+use PDF;
 
 class penerimaanMstController extends Controller
 {
@@ -242,6 +244,59 @@ class penerimaanMstController extends Controller
         jurnalDet::where('no_bukti', $id)->delete();
         arDet::where('no_bukti', $id)->delete();
         apDet::where('no_bukti', $id)->delete();
+    }
+
+    public function rptPenerimaan(Request $request){
+        return view('modules/keu/form/frmRptPenerimaan');
+    }
+
+    public function rptNotaPenerimaan(Request $request){
+        //dd($request);
+        $query = DB::table("bi_keu.fa_penerimaan_mst a")
+                    ->leftJoin("bi_keu.fa_penerimaan_det b", "a.no_bukti", "=", "b.no_bukti")
+                    ->leftJoin("bi_keu.fa_relasi_mst c", "a.kode_relasi", "=", "c.kode_relasi")
+                    ->select(
+                       "DECODE(SUBSTR(A.NO_BUKTI,1,2),'KM','SETORAN KAS MASUK','BM','BUKTI TRANSFER MASUK','GM','BUKTI GIRO MASUK') KODE", 
+                       "A.NO_BUKTI BUKTI",
+                       "A.TGL_TERIMA",
+                       "C.KODE_RELASI KODE_CUSTOMER",
+                       "C.NAMA CUSTOMER",
+                       "C.COA_ID ACCOUNT",
+                       "A.KETERANGAN",
+                       "B.JUMLAH",
+                       "B.NO_GIRO",
+                       "B.JATUH_TEMPO",
+                       "A.TERBILANG",
+                       "A.TOTAL",
+                       "A.TOTAL NILAI_BAYAR",
+                       "A.KETERANGAN NO_FAKTUR",
+                       "A.KETERANGAN KATEGORI"
+                    );
+
+        if($request->berdasarkan == "true"){
+            $items = $query->whereBetween("a.no_bukti", [$request->bukti_awal, $request->bukti_akhir])->get();
+            //echo $request->bukti_awal;
+            //echo $request->bukti_akhir;
+        }
+        else {
+            $items = $query->whereBetween("a.tgl_terima", [$request->tgl_awal, $request->tgl_akhir])->get();
+            //echo $request->tgl_awal;
+            //echo $request->tgl_akhir;
+        }
+        
+        $output = 'pdf';            
+        if($output == 'pdf'){
+            $pdf = PDF::loadView('modules.keu.report.notaPenerimaan', ['vData' => $items])->setPaper('a4');//->setOrientation('landscape');
+            return $pdf->download('nota_penerimaan.pdf');
+        }
+        else{
+            Excel::create('Daftar Voucher', function($excel) use ($hasil) {
+            $excel->sheet('Excel sheet', function($sheet) use ($hasil) {
+                $sheet->loadView('modules.keu.report.nota_pembayaran')->with('vData', $hasil)->with('vDet', $det);
+            });
+            $excel->setTitle('Daftar Voucher');     
+            })->export('xls'); 
+        }
     }
 
 }

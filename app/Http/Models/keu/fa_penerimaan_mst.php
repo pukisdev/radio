@@ -56,4 +56,14 @@ class fa_penerimaan_mst extends Model
 	{
 	    return $this->hasMany('App\Http\Models\keu\fa_penerimaan_jurnal_det','no_bukti','no_bukti');
 	}
+
+	/**
+	 * @function fa_relasi_mst dibuat dan dikembangkan oleh rianday.
+	 * @depok
+	 * @return true
+	 */
+	public function fa_relasi_mst()
+	{
+	    return $this->belongsTo('App\Http\Models\keu\fa_relasi_mst','kode_relasi','kode_relasi');
+	}
 }

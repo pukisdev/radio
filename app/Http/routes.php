@@ -81,6 +81,10 @@ Route::group(['prefix'=>'rpt', 'middleware' => ['menus']], function(){ //show vi
 	
 	Route::get('keu/rptPembayaran', 'keu\pembayaranMstController@rptPembayaran');
 	Route::post('{fileType}/keu/notaPembayaran', 'keu\pembayaranMstController@rptNotaPembayaran');
+	Route::get('keu/rptPenerimaan', 'keu\penerimaanMstController@rptPenerimaan');
+	Route::post('{fileType}/keu/notaPenerimaan', 'keu\penerimaanMstController@rptNotaPenerimaan');
+	Route::get('keu/rptSetoranBank', 'keu\setoranBankController@rptFormSetoranBank');
+	Route::post('{fileType}/keu/setoranBank', 'keu\setoranBankController@rptSetoranBank');
 });
 
 
