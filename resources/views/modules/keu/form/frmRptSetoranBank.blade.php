@@ -31,7 +31,7 @@
                                     <div class="col-md-12">
                                         <div class="xpanel">
                                             <div class="x_title">
-                                                <h2>Form Report Nota Pembayaran</h2>
+                                                <h2>Form Nota Setoran Bank</h2>
                                                 <div class="clearfix"></div>
                                             </div>
                                             <div class="col-md-12">
@@ -77,7 +77,7 @@
                                                         <div class="input-group col-sm-6">
                                                             <input type="text" class="form-control" name="bukti_awal" ng-model="dataForm.bukti_awal" readonly required>
                                                             <span class="input-group-btn">
-                                                                <button class="btn btn-default" type="button" ng-click="lovPembayaran(0)">...</button>
+                                                                <button class="btn btn-default" type="button" ng-click="lovSetoranBank(0)">...</button>
                                                             </span>
                                                         </div>
                                                     </div>
@@ -88,7 +88,7 @@
                                                         <div class="input-group col-sm-6">
                                                             <input type="text" class="form-control" name="bukti_akhir" ng-model="dataForm.bukti_akhir" readonly required>
                                                             <span class="input-group-btn">
-                                                                <button class="btn btn-default" type="button" ng-click="lovPembayaran(1)">...</button>
+                                                                <button class="btn btn-default" type="button" ng-click="lovSetoranBank(1)">...</button>
                                                             </span>
                                                         </div>
                                                     </div>
@@ -114,7 +114,7 @@
     </div>
 </div>
                     <!-- AngularJS Application Scripts -->
-{!! Html::script('assets/ng/controllers/keu/rptPembayaran.min.js') !!}
-{!! Html::script('assets/ng/controllers/keu/lovPembayaran.min.js') !!}
+{!! Html::script('assets/ng/controllers/keu/rptSetoranBank.min.js') !!}
+{!! Html::script('assets/ng/controllers/keu/lovSetoranBank.min.js') !!}
 
 @endsection

@@ -74,7 +74,7 @@ class pembayaranMstController extends Controller
     public function store(Request $request)
     {
         //
-        DB::enableQueryLog();
+        //DB::enableQueryLog();
         //Sat Dec 31 2016 00:00:00 GMT+0700 (SE Asia Standard Time)
         $tgl_cetak = \DateTime::createFromFormat('D M d Y H:i:s e+', $request->tgl_cetak);
 
@@ -123,7 +123,7 @@ class pembayaranMstController extends Controller
     public function edit($id)
     {
         //
-        DB::enableQueryLog();
+        //DB::enableQueryLog();
         $items = modelMst::with('fa_pembayaran_det','fa_pembayaran_bank_det.fa_bank_mst','fa_pembayaran_bank_det.fa_jenis_trans_mst','fa_pembayaran_giro_det','fa_pembayaran_jurnal_det.acc_coas_mst', 'fa_pembayaran_jurnal_det.acc_cost_center', 'fa_pembayaran_ap_det')->find($id);   
         //dd($items);
         //die(); 
@@ -140,7 +140,7 @@ class pembayaranMstController extends Controller
     public function update(Request $request, $id)
     {
         //
-        DB::enableQueryLog();
+        //DB::enableQueryLog();
         $tgl_cetak = \DateTime::createFromFormat('D M d Y H:i:s e+', $request->tgl_cetak);
 
         $request->offsetSet("jenis_bukti", $request->jenis_bukti);
@@ -151,6 +151,7 @@ class pembayaranMstController extends Controller
         $request->offsetSet("status", $request->status);
 
         modelMst::find($id)->update($request->except(['bpk','bpb_b', 'bpb_j', 'bpc', 'gl' ,'gl_a', 'gl_c', 'ap']));
+        
         // dd(DB::getQueryLog());
         
         $this->delDetail($id);
@@ -245,6 +246,7 @@ class pembayaranMstController extends Controller
 
     public function rptNotaPembayaran(Request $request){
         //dd($request);
+        //DB::enableQueryLog();
         $query = DB::table("bi_keu.fa_pembayaran_mst_det_view a")
                     ->select(
                         "distinct a.no_bukti", 
@@ -273,12 +275,14 @@ class pembayaranMstController extends Controller
         }
         else {
             $items = $query->whereBetween("a.tgl_cetak", [$request->tgl_awal, $request->tgl_akhir])->get();
+            //$items = $query->whereBetween("a.tgl_cetak", ['01-Dec-2016','01-Dec-2016'])->get();
             //echo $request->tgl_awal;
             //echo $request->tgl_akhir;
         }
-        
         $output = 'pdf';            
         if($output == 'pdf'){
+            //dd($items);
+            //dd(DB::getQueryLog());
             $pdf = PDF::loadView('modules.keu.report.notaPembayaran', ['vData' => $items])->setPaper('a4');//->setOrientation('landscape');
             return $pdf->download('nota_pembayaran.pdf');
         }

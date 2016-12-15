@@ -14,6 +14,7 @@ use App\Http\Models\keu\fa_setoran_bank_jurnal_det as ModelJurnalDet;
 use Carbon;
 use DB;
 use Terbilang;
+use PDF;
 
 class setoranBankController extends Controller
 {
@@ -200,4 +201,55 @@ class setoranBankController extends Controller
         modelDet::where('no_bukti', $id)->delete();
         modelJurnalDet::where('no_bukti', $id)->delete();
     }   
+
+    public function rptFormSetoranBank(Request $request){
+        return view('modules/keu/form/frmRptSetoranBank');
+    }
+
+    public function rptSetoranBank(Request $request){
+        //dd($request);
+        $query = DB::table("BI_KEU.FA_SETORAN_BANK_MST A")
+                    ->join("BI_KEU.FA_SETORAN_BANK_DET B", "a.no_bukti", "=", "b.no_bukti")
+                    ->leftJoin("SYS_RADIO.PMS_CUSTOMER_MST D", "B.ID_CUST", "=", "D.ID_CUSTOMER")
+                    ->join("BI_KEU.FA_BANK_MST E", "B.NO_BANK", "=", "E.NO")
+                    ->select(
+                       "A.NO_BUKTI",
+                       "A.TGL_CETAK",
+                       "TO_CHAR(A.TGL_CETAK,'DD/MM/YY HH:MM:SS') WAKTU_CETAK",
+                       "E.COA_ID_BANK",
+                       "E.NAMA_BANK",
+                       "INITCAP(A.TERBILANG) TERBILANG",
+                       "D.NAMA_CUSTOMER",
+                       "B.NO_BANK",
+                       "B.NO_SERI",
+                       "B.COA_ID", 
+                       "b.JATUH_TEMPO", 
+                       "b.jumlah kredit"
+                    );
+
+        if($request->berdasarkan == "true"){
+            $items = $query->whereBetween("a.no_bukti", [$request->bukti_awal, $request->bukti_akhir])->get();
+            //echo $request->bukti_awal;
+            //echo $request->bukti_akhir;
+        }
+        else {
+            $items = $query->whereBetween("a.tgl_cetak", [$request->tgl_awal, $request->tgl_akhir])->get();
+            //echo $request->tgl_awal;
+            //echo $request->tgl_akhir;
+        }
+        
+        $output = 'pdf';            
+        if($output == 'pdf'){
+            $pdf = PDF::loadView('modules.keu.report.notaSetoranBank', ['vData' => $items])->setPaper('a4');//->setOrientation('landscape');
+            return $pdf->download('nota_setoran_bank.pdf');
+        }
+        else{
+            Excel::create('Daftar Voucher', function($excel) use ($hasil) {
+            $excel->sheet('Excel sheet', function($sheet) use ($hasil) {
+                $sheet->loadView('modules.keu.report.nota_pembayaran')->with('vData', $hasil)->with('vDet', $det);
+            });
+            $excel->setTitle('Daftar Voucher');     
+            })->export('xls'); 
+        }
+    }
 }
